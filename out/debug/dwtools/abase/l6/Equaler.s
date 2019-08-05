@@ -579,6 +579,8 @@ function equalUp()
   _.assert( it.ascending === true );
   _.assert( arguments.length === 0 );
 
+  // console.log( 'equalUp', it.path ); debugger;
+
   /* if containing mode then src2 could even don't have such entry */
 
   if( it.containing )

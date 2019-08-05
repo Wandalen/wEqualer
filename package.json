@@ -4,7 +4,7 @@
   "description": "Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.",
   "author": "Kostiantyn Wandalen <wanalen@willbe.so>",
   "license": "MIT",
-  "main": "proto/dwtools/anase/l6/Equaler.s",
+  "main": "proto/dwtools/abase/l6/Equaler.s",
   "files": [
     "proto/dwtools/abase/l6",
     "proto/dwtools/Tools.s"
@@ -21,7 +21,9 @@
     "url": "https://github.com/Wandalen/wEqualer/issues"
   },
   "dependencies": {
-    "wTools": ""
+    "wTools": "",
+    "wlooker": "",
+    "wselector": ""
   },
   "devDependencies": {
     "wTesting": ""

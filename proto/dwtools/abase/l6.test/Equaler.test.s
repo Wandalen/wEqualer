@@ -21,6 +21,26 @@ var _ = _global_.wTools;
 // tests
 // --
 
+function trivial( test )
+{
+
+  var map1 = { a : 0, e : { c : 2, d : 3 } };
+  var map2 = { a : 0, e : { c : 2, d : 3 } };
+  var map3 = { a : 0, e : { d : 4 } };
+
+  debugger;
+  var got = _.entityIdentical( map1, map2 );
+  test.identical( got, true );
+
+  debugger;
+  var got = _.entityIdentical( map1, map3 );
+  test.identical( got, false );
+
+  debugger;
+}
+
+//
+
 function entityIdenticalSimple( test )
 {
 
@@ -3601,7 +3621,7 @@ function entityDiffExplanation( test )
 var Self =
 {
 
-  name : 'Tools/base/l6/Comparator',
+  name : 'Tools/base/l6/Equaler',
   silencing : 1,
   enabled : 1,
 
@@ -3612,6 +3632,7 @@ var Self =
   tests :
   {
 
+    trivial,
     entityIdenticalSimple,
     entityContainsSimple,
 
