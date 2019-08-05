@@ -8,3 +8,4 @@ Collection of routines to compare two complex structures. The module can answer 
 npm install
 node sample/Sample.s
 ```
+
