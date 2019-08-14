@@ -10,7 +10,7 @@
     "proto/dwtools/Tools.s"
   ],
   "scripts": {
-    "test": "wtest proto",
+    "test": "wtest .run proto",
     "docgen": "wdocgen proto"
   },
   "repository": {

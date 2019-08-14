@@ -48,6 +48,14 @@ function _equal_pre( routine, args )
 
   let o = args[ 2 ] || Object.create( null );
 
+  if( _.lookIterationIs( o ) )
+  {
+    let it = o;
+    _.assert( it.src === args[ 1 ] );
+    _.assert( it.src2 === args[ 0 ] );
+    return it;
+  }
+
   o = _.routineOptionsPreservingUndefines( routine, args[ 2 ] || Object.create( null ) );
 
   let accuracy = o.accuracy;
