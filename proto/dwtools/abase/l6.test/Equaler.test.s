@@ -1883,6 +1883,146 @@ function entityEqualBuffers( test )
 
 //
 
+function entityEqualSets( test )
+{
+  function Constructor1()
+  {
+    this.x = 1;
+    return this;
+  }
+  var obj = new Constructor1();
+
+  /* */
+
+  test.case = 'empty sets, sample, entityIdentical';
+  var src1 = new Set( [] );
+  var src2 = new Set( [] );
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'empty sets, sample, entityEquivalent';
+  var src1 = new Set( [] );
+  var src2 = new Set( [] );
+  var expected = true;
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'sets are the same, simple, entityIdentical';
+  var src1 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
+  var src2 = src1;
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'sets are the same, simple, entityEquivalent';
+  var src1 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
+  var src2 = src1;
+  var expected = true;
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'sets has duplicates, simple, entityIdentical';
+  var src1 = new Set( [ 1, 1, [ 2 ], { a : 3 }, 'str', '', null, null, false, undefined, NaN, obj ] );
+  var src2 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', 'str', '', null, false, undefined, NaN, obj ] );
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'sets has duplicates, simple, entityEquivalent';
+  var src1 = new Set( [ 1, 1, [ 2 ], { a : 3 }, 'str', '', null, null, false, undefined, NaN, obj ] );
+  var src2 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', 'str', '', null, false, undefined, NaN, obj ] );
+  var expected = true;
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'sets is not identical, simple, entityIdentical';
+  var src1 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
+  var src2 = new Set( [ 1, [ 2 ], { a : 4 }, 'str', '', null, false, undefined, NaN, obj ] );
+  var expected = false;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'sets is not identical, simple, entityEquivalent';
+  var src1 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
+  var src2 = new Set( [ 1, [ 2 ], { a : 4 }, 'str', '', null, false, undefined, NaN, obj ] );
+  var expected = false;
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'two maps with identical sets, entityIdentical';
+  var src1 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
+  };
+  var src1 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
+  };
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'two maps with identical sets, entityEquivalent';
+  var src1 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
+  };
+  var src1 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
+  };
+  var expected = true;
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'two maps with notIdentical sets, entityIdentical';
+  var src1 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
+  };
+  var src1 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, [ 1 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
+  };
+  var expected = false;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'two maps with notIdentical sets, entityEquivalent';
+  var src1 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
+  };
+  var src1 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, [ 1 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
+  };
+  var expected = false;
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+}
+
+//
+
 function entityIdenticalCycled( test )
 {
   var c = this;
