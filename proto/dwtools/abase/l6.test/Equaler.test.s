@@ -1771,34 +1771,58 @@ function entityContainsSimple( test )
 
 //
 
-function entityEqualArguments( test )
+function entityIdenticalArgumentsArray( test )
 {
-  var c = this;
+  test.case = 'src1 - empty arguments array, src2 - arguments array';
+  var src1 = _.argumentsArrayMake( [] );
+  var src2 = _.argumentsArrayMake( [] );
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, true );
 
-  test.case = 'entityIdentical empty arguments';
+  test.case = 'src1 - empty array, src2 - arguments array';
   var src1 = [];
-  var src2 = _.argumentsArrayMake([]);
+  var src2 = _.argumentsArrayMake( [] );
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, false );
 
-  test.case = 'entityIdentical arguments';
-  var src1 = [ 1,2,3 ];
-  var src2 = _.argumentsArrayMake([ 1,2,3 ]);
+  test.case = 'src1 - arguments array, src2 - arguments array';
+  var src1 = _.argumentsArrayMake( [ 1, 2, 3 ] );
+  var src2 = _.argumentsArrayMake( [ 1, 2, 3 ] );
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, true );
+
+  test.case = 'src1 - array, src2 - arguments array';
+  var src1 = [ 1, 2, 3 ];
+  var src2 = _.argumentsArrayMake( [ 1, 2, 3 ] );
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, false );
+}
 
-  test.case = 'entityEquivalent empty arguments';
+function entityEquivalentArgumentsArray( test )
+{
+  test.case = 'src1 - empty arguments array, src2 - arguments array';
+  var src1 = _.argumentsArrayMake( [] );
+  var src2 = _.argumentsArrayMake( [] );
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, true );
+
+  test.case = 'src1 - empty array, src2 - arguments array';
   var src1 = [];
-  var src2 = _.argumentsArrayMake([]);
+  var src2 = _.argumentsArrayMake( [] );
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, true );
 
-  test.case = 'entityEquivalent arguments';
-  var src1 = [ 1,2,3 ];
-  var src2 = _.argumentsArrayMake([ 1,2,3 ]);
+  test.case = 'src1 - arguments array, src2 - arguments array';
+  var src1 = _.argumentsArrayMake( [ 1, 2, 3 ] );
+  var src2 = _.argumentsArrayMake( [ 1, 2, 3 ] );
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, true );
 
+  test.case = 'src1 - array, src2 - arguments array';
+  var src1 = [ 1, 2, 3 ];
+  var src2 = _.argumentsArrayMake( [ 1, 2, 3 ] );
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, true );
 }
 
 //
@@ -4112,7 +4136,8 @@ var Self =
     entityIdenticalSimple,
     entityContainsSimple,
 
-    entityEqualArguments,
+    entityIdenticalArgumentsArray,
+    entityEquivalentArgumentsArray,
     entityIdenticalBuffers,
     entityEquivalentBuffers,
     // entityIdenticalSets,
