@@ -428,18 +428,27 @@ function entityDiffExplanation( o )
   o = _.routineOptions( entityDiffExplanation, arguments );
   _.assert( _.arrayIs( o.srcs ) );
   _.assert( o.srcs.length === 2 );
+  _.assert( arguments.length === 1 );
 
   if( o.path )
   {
 
-    let dir = _.strSplit( o.path, '/' ).slice( 0, -1 ).join( '' );
-    if( !dir )
-    dir = '/';
+    let src0 = _.select( o.srcs[ 0 ], o.path );
+    let src1 = _.select( o.srcs[ 1 ], o.path );
 
-    _.assert( arguments.length === 1 );
-
-    o.srcs[ 0 ] = _.select( o.srcs[ 0 ], dir );
-    o.srcs[ 1 ] = _.select( o.srcs[ 1 ], dir );
+    if( _.mapIs( src0 ) && _.mapIs( src1 ) )
+    {
+      o.srcs[ 0 ] = src0;
+      o.srcs[ 1 ] = src1;
+    }
+    else
+    {
+      let dir = _.strSplit( o.path, '/' ).slice( 0, -1 ).join( '' );
+      if( !dir )
+      dir = '/';
+      o.srcs[ 0 ] = _.select( o.srcs[ 0 ], dir );
+      o.srcs[ 1 ] = _.select( o.srcs[ 1 ], dir );
+    }
 
     if( o.path !== '/' )
     result += 'at ' + o.path + '\n';
@@ -869,7 +878,7 @@ let Proto =
   entityContains,
   diff : entityDiff,
   entityDiff,
-  diffExplanation : entityDiffExplanation,
+  diffExplanation : entityDiffExplanation, /* qqq : cover and extend */
   entityDiffExplanation,
 
 }
