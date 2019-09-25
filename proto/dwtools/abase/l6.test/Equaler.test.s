@@ -1803,87 +1803,277 @@ function entityEqualArguments( test )
 
 //
 
-function entityEqualBuffers( test )
+function entityIdenticalBuffers( test )
 {
-  var c = this;
-
-  test.case = 'entityIdentical of float buffers with NaNs, same type';
-
-  var src1 =
-  {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
-  }
-
-  var src2 =
-  {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
-  }
-
+  test.case = 'identical ArrayBuffer, simple';
+  var src1 = new ArrayBuffer( 10 );
+  var src2 = new ArrayBuffer( 10 );
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
-  test.case = 'entityEquivalent of float buffers with NaNs, same type';
-
-  var src1 =
-  {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
-  }
-
-  var src2 =
-  {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
-  }
-
+  test.case = 'src1 = src2, ArrayBuffer, simple';
+  var src1 = new ArrayBuffer( 10 );
+  var src2 = src1;
   var expected = true;
-  var got = _.entityEquivalent( src1, src2 );
+  var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
-  test.case = 'entityIdentical of float buffers with NaNs, different types';
-
-  var src1 =
-  {
-    min : new Float32Array([ NaN,NaN ]),
-    max : new Float32Array([ NaN,NaN ]),
-  }
-
-  var src2 =
-  {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
-  }
-
+  test.case = 'not identical ArrayBuffer, simple';
+  var src1 = new ArrayBuffer( 10 );
+  var src2 = new ArrayBuffer( 20 );
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
-  test.case = 'entityEquivalent of float buffers with NaNs, different types';
+  /* */
 
-  var src1 =
+  test.case = 'identical DataView, simple';
+  var buf = new ArrayBuffer( 10 );
+  var src1 = new DataView( buf );
+  var src2 = new DataView( buf );
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'src1 = src2, DataView, simple';
+  var src1 = new DataView( new ArrayBuffer( 10 ) );
+  var src2 = src1;
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'not identical DataView, simple';
+  var src1 = new DataView( new ArrayBuffer( 10 ) );
+  var src2 = new DataView( new ArrayBuffer( 20 ) );
+  var expected = false;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  /* */
+
+  if( Config.interpreter === 'njs' )
   {
-    min : new Float32Array([ NaN,NaN ]),
-    max : new Float32Array([ NaN,NaN ]),
+    test.case = 'identical Buffer, simple';
+    var src1 = Buffer.alloc( 10 );
+    var src2 = Buffer.alloc( 10 );
+    var expected = true;
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, expected );
+
+    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var expected = true;
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, expected );
+
+    test.case = 'src1 = src2, Buffer, simple';
+    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = src1;
+    var expected = true;
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, expected );
+
+    test.case = 'not identical Buffer, simple';
+    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = Buffer.from( [ 0, 2, 3, 4, 5 ] );
+    var expected = false;
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, expected );
   }
 
+  /* */
+
+  test.case = 'identical BufferTyped, simple';
+  var src1 = new Uint8Array( 10 );
+  var src2 = new Uint8Array( 10 );
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'src1 = src2, BufferTyped, simple';
+  var src1 = new Int16Array( [ 1, 2, 3, 4, 5 ] );
+  var src2 = src1;
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'not identical BufferTyped, simple';
+  var src1 = new Uint32Array( [ 1, 2, 3, 4, 5 ] );
+  var src2 = new Int32Array( [ 1, 2, 3, 4, 5 ] );
+  var expected = false;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'maps with identical BufferTyped';
+  var src1 =
+  {
+    min : new Float64Array([ NaN,NaN ]),
+    max : new Float64Array([ NaN,NaN ]),
+  };
   var src2 =
   {
     min : new Float64Array([ NaN,NaN ]),
     max : new Float64Array([ NaN,NaN ]),
-  }
-
+  };
   var expected = true;
-  var got = _.entityEquivalent( src1, src2 );
+  var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
+  test.case = 'map with different BufferTyped';
+  var src1 =
+  {
+    min : new Float32Array([ NaN,NaN ]),
+    max : new Float32Array([ NaN,NaN ]),
+  };
+  var src2 =
+  {
+    min : new Float64Array([ NaN,NaN ]),
+    max : new Float64Array([ NaN,NaN ]),
+  };
+  var expected = false;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
 }
 
 //
 
-function entityIdenticalOnlySets( test )
+function entityEquivalentBuffers( test )
+{
+  test.case = 'identical ArrayBuffer, simple';
+  var src1 = new ArrayBuffer( 10 );
+  var src2 = new ArrayBuffer( 10 );
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'src1 = src2, ArrayBuffer, simple';
+  var src1 = new ArrayBuffer( 10 );
+  var src2 = src1;
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'not identical ArrayBuffer, simple';
+  var src1 = new ArrayBuffer( 10 );
+  var src2 = new ArrayBuffer( 20 );
+  var expected = false;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'identical DataView, simple';
+  var buf = new ArrayBuffer( 10 );
+  var src1 = new DataView( buf );
+  var src2 = new DataView( buf );
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'src1 = src2, DataView, simple';
+  var src1 = new DataView( new ArrayBuffer( 10 ) );
+  var src2 = src1;
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'not identical DataView, simple';
+  var src1 = new DataView( new ArrayBuffer( 10 ) );
+  var src2 = new DataView( new ArrayBuffer( 20 ) );
+  var expected = false;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  /* */
+
+  if( Config.interpreter === 'njs' )
+  {
+    test.case = 'identical Buffer, simple';
+    var src1 = Buffer.alloc( 10 );
+    var src2 = Buffer.alloc( 10 );
+    var expected = true;
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, expected );
+
+    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var expected = true;
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, expected );
+
+    test.case = 'src1 = src2, Buffer, simple';
+    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = src1;
+    var expected = true;
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, expected );
+
+    test.case = 'not identical Buffer, simple';
+    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = Buffer.from( [ 0, 2, 3, 4, 5 ] );
+    var expected = false;
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, expected );
+  }
+
+  /* */
+
+  test.case = 'identical BufferTyped, simple';
+  var src1 = new Uint8Array( 10 );
+  var src2 = new Uint8Array( 10 );
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'src1 = src2, BufferTyped, simple';
+  var src1 = new Int16Array( [ 1, 2, 3, 4, 5 ] );
+  var src2 = src1;
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'not identical BufferTyped, simple';
+  var src1 = new Uint32Array( [ 1, 2, 3, 4, 5 ] );
+  var src2 = new Int32Array( [ 1, 2, 3, 4, 5 ] );
+  var expected = false;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'map with identical BufferTyped';
+  var src1 =
+  {
+    min : new Float64Array([ NaN,NaN ]),
+    max : new Float64Array([ NaN,NaN ]),
+  };
+  var src2 =
+  {
+    min : new Float64Array([ NaN,NaN ]),
+    max : new Float64Array([ NaN,NaN ]),
+  };
+  var expected = true;
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'map with different BufferTyped';
+  var src1 =
+  {
+    min : new Float32Array([ NaN,NaN ]),
+    max : new Float32Array([ NaN,NaN ]),
+  };
+  var src2 =
+  {
+    min : new Float64Array([ NaN,NaN ]),
+    max : new Float64Array([ NaN,NaN ]),
+  };
+  var expected = true;
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+}
+
+//
+
+function entityIdenticalSets( test )
 {
   function Constructor1()
   {
@@ -1955,7 +2145,7 @@ function entityIdenticalOnlySets( test )
 
 //
 
-function entityEquivalentOnlySets( test )
+function entityEquivalentSets( test )
 {
   function Constructor1()
   {
@@ -2027,7 +2217,7 @@ function entityEquivalentOnlySets( test )
 
 //
 
-function entityIdenticalOnlyHashMaps( test )
+function entityIdenticalHashMaps( test )
 {
   function Constructor1()
   {
@@ -2099,7 +2289,7 @@ function entityIdenticalOnlyHashMaps( test )
 
 //
 
-function entityEquivalentOnlyHashMaps( test )
+function entityEquivalentHashMaps( test )
 {
   function Constructor1()
   {
@@ -3923,11 +4113,12 @@ var Self =
     entityContainsSimple,
 
     entityEqualArguments,
-    entityEqualBuffers,
-    // entityIdenticalOnlySets,
-    // entityEquivalentOnlyHashMaps,
-    // entityIdenticalOnlyHashMaps,
-    // entityEquivalentOnlyHashMaps,
+    entityIdenticalBuffers,
+    entityEquivalentBuffers,
+    // entityIdenticalSets,
+    // entityEquivalentHashMaps,
+    // entityIdenticalHashMaps,
+    // entityEquivalentHashMaps,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
