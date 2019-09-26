@@ -139,7 +139,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( 3, new Float32Array( 3 ) );
+  var got = _.entityIdentical( 3, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -219,7 +219,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( '', new Float32Array( 3 ) );
+  var got = _.entityIdentical( '', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -279,7 +279,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( 'abc', new Float32Array( 3 ) );
+  var got = _.entityIdentical( 'abc', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -379,7 +379,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), new Float32Array( 3 ) );
+  var got = _.entityIdentical( new RegExp( '' ), new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -427,7 +427,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( /abc/, new Float32Array( 3 ) );
+  var got = _.entityIdentical( /abc/, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -494,7 +494,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( func1, new Float32Array( 3 ) );
+  var got = _.entityIdentical( func1, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -565,7 +565,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new Date(), new Float32Array( 3 ) );
+  var got = _.entityIdentical( new Date(), new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -661,7 +661,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [], new Float32Array( 3 ) );
+  var got = _.entityIdentical( [], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -707,7 +707,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ new Float32Array( 3 ) ], new Float32Array( 3 ) );
+  var got = _.entityIdentical( [ new F32x( 3 ) ], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -831,7 +831,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( {}, new Float32Array( 3 ) );
+  var got = _.entityIdentical( {}, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -877,7 +877,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( { a : new Float32Array( 3 ) }, new Float32Array( 3 ) );
+  var got = _.entityIdentical( { a : new F32x( 3 ) }, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1008,7 +1008,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, new Float32Array( 3 ) );
+  var got = _.entityContains( 3, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1088,7 +1088,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', new Float32Array( 3 ) );
+  var got = _.entityContains( '', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1148,7 +1148,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', new Float32Array( 3 ) );
+  var got = _.entityContains( 'abc', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1252,7 +1252,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), new Float32Array( 3 ) );
+  var got = _.entityContains( new RegExp( '' ), new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1300,7 +1300,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, new Float32Array( 3 ) );
+  var got = _.entityContains( /abc/, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1367,7 +1367,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, new Float32Array( 3 ) );
+  var got = _.entityContains( func1, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1438,7 +1438,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), new Float32Array( 3 ) );
+  var got = _.entityContains( new Date(), new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1546,7 +1546,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], new Float32Array( 3 ) );
+  var got = _.entityContains( [], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1592,7 +1592,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ new Float32Array( 3 ) ], new Float32Array( 3 ) );
+  var got = _.entityContains( [ new F32x( 3 ) ], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1708,7 +1708,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, new Float32Array( 3 ) );
+  var got = _.entityContains( {}, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1754,7 +1754,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : new Float32Array( 3 ) }, new Float32Array( 3 ) );
+  var got = _.entityContains( { a : new F32x( 3 ) }, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1830,22 +1830,22 @@ function entityEquivalentArgumentsArray( test )
 function entityIdenticalBuffers( test )
 {
   test.case = 'identical ArrayBuffer, simple';
-  var src1 = new ArrayBuffer( 10 );
-  var src2 = new ArrayBuffer( 10 );
+  var src1 = new BufferRaw( 10 );
+  var src2 = new BufferRaw( 10 );
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'src1 = src2, ArrayBuffer, simple';
-  var src1 = new ArrayBuffer( 10 );
+  var src1 = new BufferRaw( 10 );
   var src2 = src1;
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'not identical ArrayBuffer, simple';
-  var src1 = new ArrayBuffer( 10 );
-  var src2 = new ArrayBuffer( 20 );
+  var src1 = new BufferRaw( 10 );
+  var src2 = new BufferRaw( 20 );
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
@@ -1853,23 +1853,23 @@ function entityIdenticalBuffers( test )
   /* */
 
   test.case = 'identical DataView, simple';
-  var buf = new ArrayBuffer( 10 );
-  var src1 = new DataView( buf );
-  var src2 = new DataView( buf );
+  var buf = new BufferRaw( 10 );
+  var src1 = new BufferView( buf );
+  var src2 = new BufferView( buf );
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'src1 = src2, DataView, simple';
-  var src1 = new DataView( new ArrayBuffer( 10 ) );
+  var src1 = new BufferView( new BufferRaw( 10 ) );
   var src2 = src1;
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'not identical DataView, simple';
-  var src1 = new DataView( new ArrayBuffer( 10 ) );
-  var src2 = new DataView( new ArrayBuffer( 20 ) );
+  var src1 = new BufferView( new BufferRaw( 10 ) );
+  var src2 = new BufferView( new BufferRaw( 20 ) );
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
@@ -1909,22 +1909,22 @@ function entityIdenticalBuffers( test )
   /* */
 
   test.case = 'identical BufferTyped, simple';
-  var src1 = new Uint8Array( 10 );
-  var src2 = new Uint8Array( 10 );
+  var src1 = new U8x( 10 );
+  var src2 = new U8x( 10 );
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'src1 = src2, BufferTyped, simple';
-  var src1 = new Int16Array( [ 1, 2, 3, 4, 5 ] );
+  var src1 = new I16x( [ 1, 2, 3, 4, 5 ] );
   var src2 = src1;
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'not identical BufferTyped, simple';
-  var src1 = new Uint32Array( [ 1, 2, 3, 4, 5 ] );
-  var src2 = new Int32Array( [ 1, 2, 3, 4, 5 ] );
+  var src1 = new U32x( [ 1, 2, 3, 4, 5 ] );
+  var src2 = new I32x( [ 1, 2, 3, 4, 5 ] );
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
@@ -1932,13 +1932,13 @@ function entityIdenticalBuffers( test )
   test.case = 'maps with identical BufferTyped';
   var src1 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   };
   var src2 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   };
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
@@ -1947,13 +1947,13 @@ function entityIdenticalBuffers( test )
   test.case = 'map with different BufferTyped';
   var src1 =
   {
-    min : new Float32Array([ NaN,NaN ]),
-    max : new Float32Array([ NaN,NaN ]),
+    min : new F32x([ NaN,NaN ]),
+    max : new F32x([ NaN,NaN ]),
   };
   var src2 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   };
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
@@ -1965,22 +1965,22 @@ function entityIdenticalBuffers( test )
 function entityEquivalentBuffers( test )
 {
   test.case = 'identical ArrayBuffer, simple';
-  var src1 = new ArrayBuffer( 10 );
-  var src2 = new ArrayBuffer( 10 );
+  var src1 = new BufferRaw( 10 );
+  var src2 = new BufferRaw( 10 );
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'src1 = src2, ArrayBuffer, simple';
-  var src1 = new ArrayBuffer( 10 );
+  var src1 = new BufferRaw( 10 );
   var src2 = src1;
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'not identical ArrayBuffer, simple';
-  var src1 = new ArrayBuffer( 10 );
-  var src2 = new ArrayBuffer( 20 );
+  var src1 = new BufferRaw( 10 );
+  var src2 = new BufferRaw( 20 );
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
@@ -1988,23 +1988,23 @@ function entityEquivalentBuffers( test )
   /* */
 
   test.case = 'identical DataView, simple';
-  var buf = new ArrayBuffer( 10 );
-  var src1 = new DataView( buf );
-  var src2 = new DataView( buf );
+  var buf = new BufferRaw( 10 );
+  var src1 = new BufferView( buf );
+  var src2 = new BufferView( buf );
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'src1 = src2, DataView, simple';
-  var src1 = new DataView( new ArrayBuffer( 10 ) );
+  var src1 = new BufferView( new BufferRaw( 10 ) );
   var src2 = src1;
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'not identical DataView, simple';
-  var src1 = new DataView( new ArrayBuffer( 10 ) );
-  var src2 = new DataView( new ArrayBuffer( 20 ) );
+  var src1 = new BufferView( new BufferRaw( 10 ) );
+  var src2 = new BufferView( new BufferRaw( 20 ) );
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
@@ -2044,22 +2044,22 @@ function entityEquivalentBuffers( test )
   /* */
 
   test.case = 'identical BufferTyped, simple';
-  var src1 = new Uint8Array( 10 );
-  var src2 = new Uint8Array( 10 );
+  var src1 = new U8x( 10 );
+  var src2 = new U8x( 10 );
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'src1 = src2, BufferTyped, simple';
-  var src1 = new Int16Array( [ 1, 2, 3, 4, 5 ] );
+  var src1 = new I16x( [ 1, 2, 3, 4, 5 ] );
   var src2 = src1;
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'not identical BufferTyped, simple';
-  var src1 = new Uint32Array( [ 1, 2, 3, 4, 5 ] );
-  var src2 = new Int32Array( [ 1, 2, 3, 4, 5 ] );
+  var src1 = new U32x( [ 1, 2, 3, 4, 5 ] );
+  var src2 = new I32x( [ 1, 2, 3, 4, 5 ] );
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
@@ -2067,13 +2067,13 @@ function entityEquivalentBuffers( test )
   test.case = 'map with identical BufferTyped';
   var src1 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   };
   var src2 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   };
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
@@ -2082,13 +2082,13 @@ function entityEquivalentBuffers( test )
   test.case = 'map with different BufferTyped';
   var src1 =
   {
-    min : new Float32Array([ NaN,NaN ]),
-    max : new Float32Array([ NaN,NaN ]),
+    min : new F32x([ NaN,NaN ]),
+    max : new F32x([ NaN,NaN ]),
   };
   var src2 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   };
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
