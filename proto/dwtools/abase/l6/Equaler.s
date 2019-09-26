@@ -428,18 +428,27 @@ function entityDiffExplanation( o )
   o = _.routineOptions( entityDiffExplanation, arguments );
   _.assert( _.arrayIs( o.srcs ) );
   _.assert( o.srcs.length === 2 );
+  _.assert( arguments.length === 1 );
 
   if( o.path )
   {
 
-    let dir = _.strSplit( o.path, '/' ).slice( 0, -1 ).join( '' );
-    if( !dir )
-    dir = '/';
+    let src0 = _.select( o.srcs[ 0 ], o.path );
+    let src1 = _.select( o.srcs[ 1 ], o.path );
 
-    _.assert( arguments.length === 1 );
-
-    o.srcs[ 0 ] = _.select( o.srcs[ 0 ], dir );
-    o.srcs[ 1 ] = _.select( o.srcs[ 1 ], dir );
+    if( _.mapIs( src0 ) && _.mapIs( src1 ) )
+    {
+      o.srcs[ 0 ] = src0;
+      o.srcs[ 1 ] = src1;
+    }
+    else
+    {
+      let dir = _.strSplit( o.path, '/' ).slice( 0, -1 ).join( '' );
+      if( !dir )
+      dir = '/';
+      o.srcs[ 0 ] = _.select( o.srcs[ 0 ], dir );
+      o.srcs[ 1 ] = _.select( o.srcs[ 1 ], dir );
+    }
 
     if( o.path !== '/' )
     result += 'at ' + o.path + '\n';
@@ -647,15 +656,41 @@ function equalUp()
     else
     return clearEnd( _.buffersAreEquivalent( it.src, it.src2, it.accuracy ) );
   }
-  else if( _.longIs( it.src ) )
+  else if( _.setLike( it.src ) || it.iterable === 'set-like' )
   {
 
-    it._ = 'longIs';
+    debugger;
+    // it._ = 'setLike'; debugger;
+    _.assert( it.iterable === 'set-like' || !it.iterable );
 
     if( !it.src2 )
     return clearEnd( false );
 
-    if( !_.longIs( it.src2 ) )
+    if( !_.setLike( it.src2 ) )
+    return clearEnd( false );
+
+    if( !it.containing )
+    {
+      if( it.src.size !== it.src2.size )
+      return clearEnd( false );
+    }
+    else
+    {
+      if( it.src.size > it.src2.size )
+      return clearEnd( false );
+    }
+
+  }
+  else if( _.longLike( it.src ) )
+  {
+
+    // it._ = 'longLike';
+    _.assert( it.iterable === 'array-like' || !it.iterable ); debugger;
+
+    if( !it.src2 )
+    return clearEnd( false );
+
+    if( !_.longLike( it.src2 ) )
     return clearEnd( false );
 
     if( !it.containing )
@@ -673,11 +708,11 @@ function equalUp()
   else if( _.objectLike( it.src ) )
   {
 
-    it._ = 'objectLike';
+    // it._ = 'objectLike';
 
     if( _.routineIs( it.src._equalAre ) )
     {
-      // _.assert( it.src._equalAre.length === 1 ); // does not applicable to VectorImage
+      // _.assert( it.src._equalAre.length === 1 ); // does not applicable to VectorAdapter
       if( !it.src._equalAre( it ) )
       return clearEnd( false );
     }
@@ -869,7 +904,7 @@ let Proto =
   entityContains,
   diff : entityDiff,
   entityDiff,
-  diffExplanation : entityDiffExplanation,
+  diffExplanation : entityDiffExplanation, /* qqq : cover and extend */
   entityDiffExplanation,
 
 }

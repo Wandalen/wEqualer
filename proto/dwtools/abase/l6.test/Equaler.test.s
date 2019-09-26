@@ -1879,28 +1879,28 @@ function entityIdenticalBuffers( test )
   if( Config.interpreter === 'njs' )
   {
     test.case = 'identical Buffer, simple';
-    var src1 = Buffer.alloc( 10 );
-    var src2 = Buffer.alloc( 10 );
+    var src1 = BufferNode.alloc( 10 );
+    var src2 = BufferNode.alloc( 10 );
     var expected = true;
     var got = _.entityIdentical( src1, src2 );
     test.identical( got, expected );
 
-    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
     var expected = true;
     var got = _.entityIdentical( src1, src2 );
     test.identical( got, expected );
 
     test.case = 'src1 = src2, Buffer, simple';
-    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
     var src2 = src1;
     var expected = true;
     var got = _.entityIdentical( src1, src2 );
     test.identical( got, expected );
 
     test.case = 'not identical Buffer, simple';
-    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = Buffer.from( [ 0, 2, 3, 4, 5 ] );
+    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = BufferNode.from( [ 0, 2, 3, 4, 5 ] );
     var expected = false;
     var got = _.entityIdentical( src1, src2 );
     test.identical( got, expected );
@@ -2014,28 +2014,28 @@ function entityEquivalentBuffers( test )
   if( Config.interpreter === 'njs' )
   {
     test.case = 'identical Buffer, simple';
-    var src1 = Buffer.alloc( 10 );
-    var src2 = Buffer.alloc( 10 );
+    var src1 = BufferNode.alloc( 10 );
+    var src2 = BufferNode.alloc( 10 );
     var expected = true;
     var got = _.entityIdentical( src1, src2 );
     test.identical( got, expected );
 
-    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
     var expected = true;
     var got = _.entityIdentical( src1, src2 );
     test.identical( got, expected );
 
     test.case = 'src1 = src2, Buffer, simple';
-    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
+    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
     var src2 = src1;
     var expected = true;
     var got = _.entityIdentical( src1, src2 );
     test.identical( got, expected );
 
     test.case = 'not identical Buffer, simple';
-    var src1 = Buffer.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = Buffer.from( [ 0, 2, 3, 4, 5 ] );
+    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src2 = BufferNode.from( [ 0, 2, 3, 4, 5 ] );
     var expected = false;
     var got = _.entityIdentical( src1, src2 );
     test.identical( got, expected );
@@ -3515,19 +3515,19 @@ function _entityEqualLoose( test )
   return;
 
   test.case = 'argument missed';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _._equal( );
   });
 
   test.case = 'options is not a Object';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _._equal( 1, 2, 3 );
   });
 
   test.case = 'extendet options';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _._equal( 1, 2, { fixed : 1 } );
   });
@@ -3634,13 +3634,13 @@ function entityIdenticalLoose( test )
   return;
 
   test.case = 'missed arguments';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _.entityIdentical();
   });
 
   test.case = 'extra argument';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _.entityIdentical( strX3, strY3, {}, '' );
   });
@@ -3685,13 +3685,13 @@ function entityEquivalentLoose( test )
   return;
 
   test.case = 'missed arguments';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _.entityEquivalent();
   });
 
   test.case = 'extra argument';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _.entityEquivalent( strX3, strY3, options, '');
   });
@@ -3787,13 +3787,13 @@ function entityContainLoose( test )
   return;
 
   test.case = 'missed arguments';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _.entityContains();
   });
 
   test.case = 'extra argument';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _.entityContains( strX3, strY3, options, '');
   });
@@ -4057,13 +4057,13 @@ function entityDiffLoose( test )
   return;
 
   test.case = 'argument missed'; /* */
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _.entityDiff( );
   });
 
   test.case = 'invalid options type'; /* */
-  test.shouldThrowError( function()
+  test.shouldThrowErrorSync( function()
   {
     _.entityDiff( 1, 2, 3 );
   });
@@ -4121,7 +4121,7 @@ function entityDiffExplanation( test )
 var Self =
 {
 
-  name : 'Tools/base/l6/Equaler',
+  name : 'Tools.base.l6.Equaler',
   silencing : 1,
   enabled : 1,
 

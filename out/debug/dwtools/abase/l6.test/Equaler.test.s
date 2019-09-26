@@ -139,7 +139,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( 3, new Float32Array( 3 ) );
+  var got = _.entityIdentical( 3, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -219,7 +219,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( '', new Float32Array( 3 ) );
+  var got = _.entityIdentical( '', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -279,7 +279,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( 'abc', new Float32Array( 3 ) );
+  var got = _.entityIdentical( 'abc', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -379,7 +379,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), new Float32Array( 3 ) );
+  var got = _.entityIdentical( new RegExp( '' ), new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -427,7 +427,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( /abc/, new Float32Array( 3 ) );
+  var got = _.entityIdentical( /abc/, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -494,7 +494,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( func1, new Float32Array( 3 ) );
+  var got = _.entityIdentical( func1, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -565,7 +565,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new Date(), new Float32Array( 3 ) );
+  var got = _.entityIdentical( new Date(), new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -661,7 +661,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [], new Float32Array( 3 ) );
+  var got = _.entityIdentical( [], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -707,7 +707,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ new Float32Array( 3 ) ], new Float32Array( 3 ) );
+  var got = _.entityIdentical( [ new F32x( 3 ) ], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -831,7 +831,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( {}, new Float32Array( 3 ) );
+  var got = _.entityIdentical( {}, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -877,7 +877,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( { a : new Float32Array( 3 ) }, new Float32Array( 3 ) );
+  var got = _.entityIdentical( { a : new F32x( 3 ) }, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1008,7 +1008,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, new Float32Array( 3 ) );
+  var got = _.entityContains( 3, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1088,7 +1088,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', new Float32Array( 3 ) );
+  var got = _.entityContains( '', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1148,7 +1148,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', new Float32Array( 3 ) );
+  var got = _.entityContains( 'abc', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1252,7 +1252,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), new Float32Array( 3 ) );
+  var got = _.entityContains( new RegExp( '' ), new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1300,7 +1300,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, new Float32Array( 3 ) );
+  var got = _.entityContains( /abc/, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1367,7 +1367,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, new Float32Array( 3 ) );
+  var got = _.entityContains( func1, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1438,7 +1438,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), new Float32Array( 3 ) );
+  var got = _.entityContains( new Date(), new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1546,7 +1546,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], new Float32Array( 3 ) );
+  var got = _.entityContains( [], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1592,7 +1592,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ new Float32Array( 3 ) ], new Float32Array( 3 ) );
+  var got = _.entityContains( [ new F32x( 3 ) ], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1708,7 +1708,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, new Float32Array( 3 ) );
+  var got = _.entityContains( {}, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1754,7 +1754,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : new Float32Array( 3 ) }, new Float32Array( 3 ) );
+  var got = _.entityContains( { a : new F32x( 3 ) }, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
@@ -1811,14 +1811,14 @@ function entityEqualBuffers( test )
 
   var src1 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   }
 
   var src2 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   }
 
   var expected = true;
@@ -1829,14 +1829,14 @@ function entityEqualBuffers( test )
 
   var src1 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   }
 
   var src2 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   }
 
   var expected = true;
@@ -1847,14 +1847,14 @@ function entityEqualBuffers( test )
 
   var src1 =
   {
-    min : new Float32Array([ NaN,NaN ]),
-    max : new Float32Array([ NaN,NaN ]),
+    min : new F32x([ NaN,NaN ]),
+    max : new F32x([ NaN,NaN ]),
   }
 
   var src2 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   }
 
   var expected = false;
@@ -1865,14 +1865,14 @@ function entityEqualBuffers( test )
 
   var src1 =
   {
-    min : new Float32Array([ NaN,NaN ]),
-    max : new Float32Array([ NaN,NaN ]),
+    min : new F32x([ NaN,NaN ]),
+    max : new F32x([ NaN,NaN ]),
   }
 
   var src2 =
   {
-    min : new Float64Array([ NaN,NaN ]),
-    max : new Float64Array([ NaN,NaN ]),
+    min : new F64x([ NaN,NaN ]),
+    max : new F64x([ NaN,NaN ]),
   }
 
   var expected = true;
@@ -3015,19 +3015,19 @@ function _entityEqualLoose( test )
   return;
 
   test.case = 'argument missed';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _._equal( );
   });
 
   test.case = 'options is not a Object';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _._equal( 1, 2, 3 );
   });
 
   test.case = 'extendet options';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _._equal( 1, 2, { fixed : 1 } );
   });
@@ -3134,13 +3134,13 @@ function entityIdenticalLoose( test )
   return;
 
   test.case = 'missed arguments';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _.entityIdentical();
   });
 
   test.case = 'extra argument';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _.entityIdentical( strX3, strY3, {}, '' );
   });
@@ -3185,13 +3185,13 @@ function entityEquivalentLoose( test )
   return;
 
   test.case = 'missed arguments';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _.entityEquivalent();
   });
 
   test.case = 'extra argument';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _.entityEquivalent( strX3, strY3, options, '');
   });
@@ -3287,13 +3287,13 @@ function entityContainLoose( test )
   return;
 
   test.case = 'missed arguments';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _.entityContains();
   });
 
   test.case = 'extra argument';
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _.entityContains( strX3, strY3, options, '');
   });
@@ -3557,13 +3557,13 @@ function entityDiffLoose( test )
   return;
 
   test.case = 'argument missed'; /* */
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _.entityDiff( );
   });
 
   test.case = 'invalid options type'; /* */
-  test.shouldThrowError( function()
+  test.shouldThrowErrorOfAnyKind( function()
   {
     _.entityDiff( 1, 2, 3 );
   });
@@ -3621,7 +3621,7 @@ function entityDiffExplanation( test )
 var Self =
 {
 
-  name : 'Tools/base/l6/Equaler',
+  name : 'Tools.base.l6.Equaler',
   silencing : 1,
   enabled : 1,
 
