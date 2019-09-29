@@ -685,7 +685,7 @@ function equalUp()
   {
 
     // it._ = 'longLike';
-    _.assert( it.iterable === 'array-like' || !it.iterable ); debugger;
+    _.assert( it.iterable === 'array-like' || !it.iterable );
 
     if( !it.src2 )
     return clearEnd( false );
