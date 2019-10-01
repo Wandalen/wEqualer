@@ -2097,7 +2097,7 @@ function entityEquivalentBuffers( test )
 
 //
 
-function entityIdenticalSets( test )
+function entityIdenticalSet( test )
 {
   function Constructor1()
   {
@@ -2122,12 +2122,20 @@ function entityIdenticalSets( test )
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
-  test.case = 'sets has duplicates, simple';
-  var src1 = new Set( [ 1, 1, [ 2 ], { a : 3 }, 'str', '', null, null, false, undefined, NaN, obj ] );
-  var src2 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', 'str', '', null, false, undefined, NaN, obj ] );
+  test.case = 'identical sets without containers';
+  var src1 = new Set( [ null, 1, '', undefined, 'str', NaN, false, obj ] );
+  var src2 = new Set( [ 1, 'str', '', null, false, undefined, NaN, obj ] );
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
+
+  // /* xxx : implement */
+  // test.case = 'identical sets with containers';
+  // var src1 = new Set( [ undefined, [ 2 ], [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, false, 'str', 1, '', null, NaN, obj ] );
+  // var src2 = new Set( [ 1, [ 3, 4 ], [ 2 ], { b : 4, c : 5 }, { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
+  // var expected = true;
+  // var got = _.entityIdentical( src1, src2 );
+  // test.identical( got, expected );
 
   test.case = 'sets is not identical, simple';
   var src1 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
@@ -2136,20 +2144,28 @@ function entityIdenticalSets( test )
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
-  test.case = 'two maps with identical sets';
-  var src1 =
-  {
-    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
-    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
-  };
-  var src1 =
-  {
-    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
-    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
-  };
-  var expected = true;
+  test.case = 'array of sets';
+  var src1 = [ new Set([ 1, 2, 3 ]), new Set([ '1', '2', '3' ]) ];
+  var src2 = [ new Set([ '1', '2', '3' ]), new Set([ 1, 2, 3 ]) ];
+  var expected = false;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
+
+  // /* xxx : implement */
+  // test.case = 'two maps with identical sets';
+  // var src1 =
+  // {
+  //   set1 : new Set( [ undefined, [ 2 ], [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, false, 'str', 1, '', null, NaN, obj ] ),
+  //   set2 : new Set( [ undefined, [ 2 ], [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, false, 'str', 1, '', null, NaN, obj ] ),
+  // };
+  // var src2 =
+  // {
+  //   set1 : new Set( [ 1, [ 3, 4 ], [ 2 ], { b : 4, c : 5 }, { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
+  //   set2 : new Set( [ 1, [ 3, 4 ], [ 2 ], { b : 4, c : 5 }, { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+  // };
+  // var expected = true;
+  // var got = _.entityIdentical( src1, src2 );
+  // test.identical( got, expected );
 
   test.case = 'two maps with notIdentical sets';
   var src1 =
@@ -2169,7 +2185,7 @@ function entityIdenticalSets( test )
 
 //
 
-function entityEquivalentSets( test )
+function entityEquivalentSet( test )
 {
   function Constructor1()
   {
@@ -2241,7 +2257,7 @@ function entityEquivalentSets( test )
 
 //
 
-function entityIdenticalHashMaps( test )
+function entityIdenticalHashMap( test )
 {
   function Constructor1()
   {
@@ -2313,7 +2329,7 @@ function entityIdenticalHashMaps( test )
 
 //
 
-function entityEquivalentHashMaps( test )
+function entityEquivalentHashMap( test )
 {
   function Constructor1()
   {
@@ -4140,10 +4156,10 @@ var Self =
     entityEquivalentArgumentsArray,
     entityIdenticalBuffers,
     entityEquivalentBuffers,
-    // entityIdenticalSets,
-    // entityEquivalentHashMaps,
-    // entityIdenticalHashMaps,
-    // entityEquivalentHashMaps,
+    entityIdenticalSet,
+    // entityEquivalentSet,
+    // entityIdenticalHashMap,
+    // entityEquivalentHashMap,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,

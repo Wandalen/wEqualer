@@ -406,7 +406,6 @@ function entityDiff( src, src2, opts )
   if( equal )
   return false;
 
-  debugger;
   _.assert( !!opts.it );
   _.assert( opts.it.lastPath !== undefined );
 
@@ -501,20 +500,40 @@ defaults.levels = 3;
 // looker routines
 // --
 
-function select( key )
+function select( e, k )
 {
   let it = this;
 
   Parent.select.apply( it, arguments );
 
-  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( arguments.length === 2 );
   _.assert( it.level >= 0 );
   _.assert( _.objectIs( it.down ) );
 
   if( it.src2 )
-  it.src2 = it.src2[ it.key ];
+  {
+    if( _.hashMapLike( it.src2 ) )
+    {
+      it.src2 = it.src2.get( it.key );
+    }
+    else if( _.setIs( it.src2 ) )
+    {
+      if( it.src2.has( it.src ) )
+      it.src2 = it.src;
+      else if( _.containerIs( it.src ) )
+      it.src2 = undefined;
+      else
+      it.src2 = undefined;
+    }
+    else
+    {
+      it.src2 = it.src2[ it.key ];
+    }
+  }
   else
-  it.src2 = undefined;
+  {
+    it.src2 = undefined;
+  }
 
   return it;
 }
