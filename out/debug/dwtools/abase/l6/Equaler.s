@@ -678,8 +678,6 @@ function equalUp()
   else if( _.setLike( it.src ) || it.iterable === 'set-like' )
   {
 
-    debugger;
-    // it._ = 'setLike'; debugger;
     _.assert( it.iterable === 'set-like' || !it.iterable );
 
     if( !it.src2 )
