@@ -23,7 +23,7 @@ about :
 path :
 
   repository : git+https:///github.com/Wandalen/wEqualer.git
-  remotes :
+  origins :
    - git+https:///github.com/Wandalen/wEqualer.git
    - npm:///wequaler
   bugtracker : https:///github.com/Wandalen/wEqualer/issues
