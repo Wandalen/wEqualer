@@ -3,18 +3,19 @@ root:
   - wEqualer.out
 consistency:
   wEqualer.out.will.yml: &ref_0
-    hash: b69c6b2b21515c8d095698783ac23258
-    size: 38662
+    hash: 3da2c72ae38e8aeef7f16d4ca29eb9ce
+    size: 38691
   ../.ex.will.yml: &ref_1
     hash: 65b3f206d56cc615ff071fdd28963695
     size: 1884
   ../.im.will.yml: &ref_2
-    hash: d32e1d66cd9fa631267ea2e80b1097cc
-    size: 4995
+    hash: d8405a5f60fdcb2ef92507cdfb609f7c
+    size: 5069
 module:
   wEqualer.out:
     about:
       name: wEqualer
+      org: noorg
       description: >-
         Collection of routines to compare two complex structures. The module can
         answer questions: are two structures equivalent? are them identical?
@@ -64,9 +65,6 @@ module:
       download:
         criterion:
           predefined: 1
-      remote:
-        criterion:
-          predefined: 1
       repository:
         path: 'git+https:///github.com/Wandalen/wEqualer.git'
       origins:
@@ -76,15 +74,15 @@ module:
       bugtracker:
         path: 'https:///github.com/Wandalen/wEqualer/issues'
       in:
-        criterion:
-          predefined: 0
         path: .
       out:
-        criterion:
-          predefined: 0
         path: .
       temp:
-        path: 'path::out'
+        path:
+          - 'path::out'
+          - ../package-lock.json
+          - ../package.json
+          - ../node_modules
       proto:
         path: ../proto
       export:
@@ -149,11 +147,13 @@ module:
         path: '{path::out.*=}/source/Index.s'
       exported.dir.proto.export:
         criterion:
+          generated: 1
           content: proto
           export: 1
         path: ../proto
       exported.files.proto.export:
         criterion:
+          generated: 1
           content: proto
           export: 1
         path:
@@ -340,6 +340,7 @@ module:
           prefixPath: ../proto
         mandatory: 1
         criterion:
+          generated: 1
           content: proto
           export: 1
       exported.files.proto.export:
@@ -352,6 +353,7 @@ module:
         recursive: 0
         mandatory: 1
         criterion:
+          generated: 1
           content: proto
           export: 1
     step:
@@ -709,6 +711,7 @@ module:
         opts:
           reflector: 'reflector::exported.proto.export*'
         criterion:
+          generated: 1
           content: proto
           export: 1
         inherit:
@@ -717,6 +720,7 @@ module:
         opts:
           reflector: 'reflector::exported.files.proto.export*'
         criterion:
+          generated: 1
           content: proto
           export: 1
         inherit:
@@ -815,6 +819,7 @@ module:
   ../:
     about:
       name: wEqualer
+      org: noorg
       description: >-
         Collection of routines to compare two complex structures. The module can
         answer questions: are two structures equivalent? are them identical?
@@ -864,9 +869,6 @@ module:
       download:
         criterion:
           predefined: 1
-      remote:
-        criterion:
-          predefined: 1
       repository:
         path: 'git+https:///github.com/Wandalen/wEqualer.git'
       origins:
@@ -876,21 +878,21 @@ module:
       bugtracker:
         path: 'https:///github.com/Wandalen/wEqualer/issues'
       in:
-        criterion:
-          predefined: 0
         path: .
       out:
-        criterion:
-          predefined: 0
         path: out
       temp:
-        path: 'path::out'
+        path:
+          - 'path::out'
+          - package-lock.json
+          - package.json
+          - node_modules
       proto:
-        path: ./proto
+        path: proto
       export:
         path: '{path::proto}/**'
       doc:
-        path: ./doc
+        path: doc
       out.raw.debug:
         criterion:
           debug: debug
@@ -1516,6 +1518,6 @@ module:
         hash: 65b3f206d56cc615ff071fdd28963695
         size: 1884
       ../.im.will.yml:
-        hash: d32e1d66cd9fa631267ea2e80b1097cc
-        size: 4995
+        hash: d8405a5f60fdcb2ef92507cdfb609f7c
+        size: 5069
       wEqualer.out.will.yml: *ref_0

@@ -184,8 +184,6 @@ defaults.accuracy = 1e-7;
 defaults.recursive = Infinity;
 defaults.onNumbersAreEqual = null;
 defaults.onStringsAreEqual = null;
-// defaults.onUp = null;
-// defaults.onDown = null;
 
 let _equalIt = _.routineFromPreAndBody( _equal_pre, _equalIt_body );
 
@@ -615,8 +613,6 @@ function equalUp()
   _.assert( it.ascending === true );
   _.assert( arguments.length === 0 );
 
-  // console.log( 'equalUp', it.path ); debugger;
-
   /* if containing mode then src2 could even don't have such entry */
 
   if( it.containing )
@@ -677,31 +673,12 @@ function equalUp()
   }
   else if( _.setLike( it.src ) || it.iterable === 'set-like' )
   {
-
     _.assert( it.iterable === 'set-like' || !it.iterable );
-
-    if( !it.src2 )
-    return clearEnd( false );
-
-    if( !_.setLike( it.src2 ) )
-    return clearEnd( false );
-
-    if( !it.containing )
-    {
-      if( it.src.size !== it.src2.size )
-      return clearEnd( false );
-    }
-    else
-    {
-      if( it.src.size > it.src2.size )
-      return clearEnd( false );
-    }
-
+    return clearEnd( it.equalSets() );
   }
   else if( _.longLike( it.src ) )
   {
 
-    // it._ = 'longLike';
     _.assert( it.iterable === 'array-like' || !it.iterable );
 
     if( !it.src2 )
@@ -725,11 +702,10 @@ function equalUp()
   else if( _.objectLike( it.src ) )
   {
 
-    // it._ = 'objectLike';
+    _.assert( it.iterable === 'map-like' || !it.iterable );
 
     if( _.routineIs( it.src._equalAre ) )
     {
-      // _.assert( it.src._equalAre.length === 1 ); // does not applicable to VectorAdapter
       if( !it.src._equalAre( it ) )
       return clearEnd( false );
     }
@@ -762,6 +738,11 @@ function equalUp()
       }
     }
 
+  }
+  else if( it.iterable === 'hash-map-like' )
+  {
+    _.assert( it.iterable === 'hash-map-like' || !it.iterable );
+    return clearEnd( it.equalHashes() );
   }
   else
   {
@@ -868,13 +849,193 @@ function equalCycle()
   {
     if( it.level >= it.recursive )
     {
-      let o2 = _.mapOnly( _._equal.defaults, it );
-      o2.recursive = 0;
-      _.assert( o2.it === undefined );
-      it.result = _._equal( it.src2, it.src, o2 );
+      debugger;
+      it.result = it.equalReiterate( it.src2, it.src, { recursive : 0 } ) && it.result;
+      // // let o2 = _.mapOnly( _._equal.defaults, it );
+      // let o2 = _.mapOnly( it, _._equal.defaults );
+      // o2.recursive = 0;
+      // _.assert( o2.it === undefined );
+      // it.result = _._equal( it.src2, it.src, o2 );
     }
   }
 
+}
+
+//
+
+function equalSets()
+{
+  let it = this;
+  let unpaired1 = new Set();
+  let unpaired2 = new Set();
+
+  _.assert( arguments.length === 0 );
+
+  if( !_.setLike( it.src2 ) )
+  return false;
+
+  if( !it.containing )
+  {
+    if( it.src.size !== it.src2.size )
+    return false;
+  }
+  else
+  {
+    if( it.src.size > it.src2.size )
+    return false;
+  }
+
+  _.assert( _.setLike( it.src ) );
+  _.assert( _.setLike( it.src2 ) );
+  _.assert( !it.containing, 'not implemented' );
+
+  for( let e of it.src )
+  unpaired1.add( e );
+  for( let e of it.src2 )
+  unpaired2.add( e );
+
+  for( let e of unpaired1 )
+  {
+    if( unpaired2.has( e ) )
+    pairFound( e, e );
+  }
+
+  for( let e1 of unpaired1 )
+  {
+    let found = false;
+    for( let e2 of unpaired2 )
+    {
+      if( equal( e1, e2 ) )
+      {
+        pairFound( e1, e2 );
+        found = true;
+        break;
+      }
+    }
+    if( !found )
+    return false;
+  }
+
+  if( unpaired1.size || unpaired2.size )
+  return false;
+
+  return true;
+
+  /* */
+
+  function pairFound( e1, e2 )
+  {
+    unpaired1.delete( e1 );
+    unpaired2.delete( e2 );
+  }
+
+  function equal( e1, e2 )
+  {
+    return it.equalReiterate( e1, e2, {} );
+  }
+
+}
+
+//
+
+function equalHashes()
+{
+  let it = this;
+  let unpaired1 = new HashMap();
+  let unpaired2 = new HashMap();
+
+  _.assert( arguments.length === 0 ); debugger;
+
+  if( !_.hashMapLike( it.src2 ) )
+  return false;
+
+  if( !it.containing )
+  {
+    if( it.src.size !== it.src2.size )
+    return false;
+  }
+  else
+  {
+    if( it.src.size > it.src2.size )
+    return false;
+  }
+
+  _.assert( _.hashMapLike( it.src ) );
+  _.assert( _.hashMapLike( it.src2 ) );
+  _.assert( !it.containing, 'not implemented' );
+
+  for( let [ k, e ] of it.src )
+  unpaired1.set( k, e );
+  for( let [ k, e ] of it.src2 )
+  unpaired2.set( k, e );
+
+  for( let [ k1, e1 ] of unpaired1 )
+  {
+    if( !unpaired2.has( k1 ) )
+    continue;
+    let e2 = unpaired2.get( k1 );
+    if( !equal( e1, e2 ) )
+    return false;
+    pairFound( k1, k1 );
+  }
+
+  debugger;
+
+  for( let [ k1, e1 ] of unpaired1 )
+  {
+    let found = false;
+    for( let [ k2, e2 ] of unpaired1 )
+    {
+      if( !equal( k1, k2 ) )
+      continue;
+      if( !equal( e1, e2 ) )
+      continue;
+      pairFound( k1, k2 );
+    }
+    if( !found )
+    return false;
+  }
+
+  debugger;
+  if( unpaired1.size || unpaired2.size )
+  return false;
+
+  return true;
+
+  /* */
+
+  function pairFound( k1, k2 )
+  {
+    unpaired1.delete( k1 );
+    unpaired2.delete( k2 );
+  }
+
+  /* */
+
+  function equal( e1, e2 )
+  {
+    return it.equalReiterate( e1, e2, {} );
+  }
+
+}
+
+
+//
+
+function equalReiterate( src1, src2, o )
+{
+  let it = this;
+
+  _.assert( arguments.length === 3 );
+  _.assert( _.mapIs( o ) );
+
+  let o2 = _.mapOnly( it, _._equal.defaults );
+  _.assert( o2.it === undefined );
+  _.assert( o2.level === it.level );
+
+  _.mapExtend( o2, o );
+
+  return _._equal( src1, src2, o2 );
 }
 
 // --
@@ -892,6 +1053,9 @@ Equaler.visitDown = visitDown;
 Equaler.equalUp = equalUp;
 Equaler.equalDown = equalDown;
 Equaler.equalCycle = equalCycle;
+Equaler.equalSets = equalSets;
+Equaler.equalHashes = equalHashes;
+Equaler.equalReiterate = equalReiterate;
 
 let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
 Iterator.visited2 = null;

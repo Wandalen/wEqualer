@@ -1798,6 +1798,8 @@ function entityIdenticalArgumentsArray( test )
   test.identical( got, false );
 }
 
+//
+
 function entityEquivalentArgumentsArray( test )
 {
   test.case = 'src1 - empty arguments array, src2 - arguments array';
@@ -1823,6 +1825,130 @@ function entityEquivalentArgumentsArray( test )
   var src2 = _.argumentsArrayMake( [ 1, 2, 3 ] );
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, true );
+}
+
+//
+
+function entityIdenticalProto( test )
+{
+
+  test.case = 'maps';
+  var expected = true;
+  var src1 = { a : 1 };
+  var src2 = { a : 1 };
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'map and proto';
+  var expected = false;
+  var src1 = { a : 1 };
+  var src2 = { a : 1 };
+  src2 = Object.setPrototypeOf( {}, src2 );
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'proto and map';
+  var expected = false;
+  var src1 = { a : 1 };
+  var src2 = { a : 1 };
+  src1 = Object.setPrototypeOf( {}, src1 );
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'pure map and proto';
+  var expected = false;
+  var src1 = _.mapExtend( null, { a : 1 } );
+  var src2 = { a : 1 };
+  src2 = Object.setPrototypeOf( {}, src2 );
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'proto and pure map';
+  var expected = false;
+  var src1 = { a : 1 };
+  var src2 = _.mapExtend( null, { a : 1 } );
+  src1 = Object.setPrototypeOf( {}, src1 );
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'map and pure proto';
+  var expected = false;
+  var src1 = { a : 1 };
+  var src2 = _.mapExtend( null, { a : 1 } );
+  src2 = Object.setPrototypeOf( {}, src2 );
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'pure proto and map';
+  var expected = false;
+  var src1 = _.mapExtend( null, { a : 1 } );
+  var src2 = { a : 1 };
+  src1 = Object.setPrototypeOf( {}, src1 );
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
+
+}
+
+//
+
+function entityEquivalentProto( test )
+{
+
+  test.case = 'maps';
+  var expected = true;
+  var src1 = { a : 1 };
+  var src2 = { a : 1 };
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'map and proto';
+  var expected = true;
+  var src1 = { a : 1 };
+  var src2 = { a : 1 };
+  src2 = Object.setPrototypeOf( {}, src2 );
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'proto and map';
+  var expected = true;
+  var src1 = { a : 1 };
+  var src2 = { a : 1 };
+  src1 = Object.setPrototypeOf( {}, src1 );
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'pure map and proto';
+  var expected = true;
+  var src1 = _.mapExtend( null, { a : 1 } );
+  var src2 = { a : 1 };
+  src2 = Object.setPrototypeOf( {}, src2 );
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'proto and pure map';
+  var expected = true;
+  var src1 = { a : 1 };
+  var src2 = _.mapExtend( null, { a : 1 } );
+  src1 = Object.setPrototypeOf( {}, src1 );
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'map and pure proto';
+  var expected = true;
+  var src1 = { a : 1 };
+  var src2 = _.mapExtend( null, { a : 1 } );
+  src2 = Object.setPrototypeOf( {}, src2 );
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
+  test.case = 'pure proto and map';
+  var expected = true;
+  var src1 = _.mapExtend( null, { a : 1 } );
+  var src2 = { a : 1 };
+  src1 = Object.setPrototypeOf( {}, src1 );
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, expected );
+
 }
 
 //
@@ -2129,13 +2255,12 @@ function entityIdenticalSet( test )
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
-  // /* xxx : implement */
-  // test.case = 'identical sets with containers';
-  // var src1 = new Set( [ undefined, [ 2 ], [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, false, 'str', 1, '', null, NaN, obj ] );
-  // var src2 = new Set( [ 1, [ 3, 4 ], [ 2 ], { b : 4, c : 5 }, { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
-  // var expected = true;
-  // var got = _.entityIdentical( src1, src2 );
-  // test.identical( got, expected );
+  test.case = 'identical sets with containers';
+  var src1 = new Set( [ undefined, [ 2 ], [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, false, 'str', 1, '', null, NaN, obj ] );
+  var src2 = new Set( [ 1, [ 3, 4 ], [ 2 ], { b : 4, c : 5 }, { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
 
   test.case = 'sets is not identical, simple';
   var src1 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
@@ -2151,21 +2276,20 @@ function entityIdenticalSet( test )
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
-  // /* xxx : implement */
-  // test.case = 'two maps with identical sets';
-  // var src1 =
-  // {
-  //   set1 : new Set( [ undefined, [ 2 ], [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, false, 'str', 1, '', null, NaN, obj ] ),
-  //   set2 : new Set( [ undefined, [ 2 ], [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, false, 'str', 1, '', null, NaN, obj ] ),
-  // };
-  // var src2 =
-  // {
-  //   set1 : new Set( [ 1, [ 3, 4 ], [ 2 ], { b : 4, c : 5 }, { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
-  //   set2 : new Set( [ 1, [ 3, 4 ], [ 2 ], { b : 4, c : 5 }, { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
-  // };
-  // var expected = true;
-  // var got = _.entityIdentical( src1, src2 );
-  // test.identical( got, expected );
+  test.case = 'two maps with identical sets';
+  var src1 =
+  {
+    set1 : new Set( [ undefined, { a : 3 }, { b : 4, c : 5 }, [ 2 ], [ 3, 4 ], false, 'str', 1, '', null, NaN, obj ] ),
+    set2 : new Set( [ undefined, [ 2 ], false, 'str', 1, [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, , '', null, NaN, obj ] ),
+  };
+  var src2 =
+  {
+    set1 : new Set( [ 1, { a : 3 }, 'str', '', null, false, undefined, NaN, obj, [ 3, 4 ], [ 2 ], { b : 4, c : 5 } ] ),
+    set2 : new Set( [ 1, [ 3, 4 ], [ 2 ], { b : 4, c : 5 }, { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+  };
+  var expected = true;
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, expected );
 
   test.case = 'two maps with notIdentical sets';
   var src1 =
@@ -2211,8 +2335,8 @@ function entityEquivalentSet( test )
   test.identical( got, expected );
 
   test.case = 'sets has duplicates, simple';
-  var src1 = new Set( [ 1, 1, [ 2 ], { a : 3 }, 'str', '', null, null, false, undefined, NaN, obj ] );
-  var src2 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', 'str', '', null, false, undefined, NaN, obj ] );
+  var src1 = new Set( [ 1, { a : 3 }, 'str', '', null, null, [ 2 ], false, undefined, NaN, obj ] );
+  var src2 = new Set( [ 1, [ 2 ], 'str', 'str', '', null, false, { a : 3 }, undefined, NaN, obj ] );
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, expected );
@@ -2225,32 +2349,32 @@ function entityEquivalentSet( test )
   test.identical( got, expected );
 
   test.case = 'two maps with identical sets';
-  var src1 =
-  {
-    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
-    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
-  };
-  var src1 =
-  {
-    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
-    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
-  };
   var expected = true;
+  var src1 =
+  {
+    set1 : new Set( [ '', null, false, undefined, NaN, obj, 1, [ 2 ], { a : 3 }, 'str',  ] ),
+    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, 1, [ 2 ], undefined, NaN, obj ] )
+  };
+  var src2 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, '', null, [ 2 ], false, [ 2 ], { a : 3 }, 'str', undefined, NaN, obj ] )
+  };
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'two maps with notIdentical sets';
-  var src1 =
-  {
-    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
-    set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
-  };
-  var src1 =
-  {
-    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
-    set2 : new Set( [ 1, [ 1 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] )
-  };
   var expected = false;
+  var src1 =
+  {
+    set1 : new Set( [ '', null, false, undefined, NaN, obj, 1, [ 2 ], { a : 3 }, 'str',  ] ),
+    set2 : new Set( [ 1, [ 2 ], { a : 2 }, 'str', '', null, false, 1, [ 2 ], undefined, NaN, obj ] )
+  };
+  var src2 =
+  {
+    set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
+    set2 : new Set( [ 1, '', null, [ 2 ], false, [ 2 ], { a : 3 }, 'str', undefined, NaN, obj ] )
+  };
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, expected );
 }
@@ -2269,8 +2393,8 @@ function entityIdenticalHashMap( test )
   /* */
 
   test.case = 'empty maps, sample';
-  var src1 = new Map( [] );
-  var src2 = new Map( [] );
+  var src1 = new Map();
+  var src2 = new Map();
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
@@ -2299,13 +2423,13 @@ function entityIdenticalHashMap( test )
   test.case = 'two maps with identical maps';
   var src1 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
+    map1 : new Map( [ [ 'one', 1 ], [ 'str', 'str' ], [ 'empty', '' ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new Map( [ [ 'one', 1 ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
   };
-  var src1 =
+  var src2 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
+    map1 : new Map( [ [ 'one', 1 ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new Map( [ [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ], [ 'one', 1 ], [ 'array', [ 2 ] ] ] )
   };
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
@@ -2370,12 +2494,12 @@ function entityEquivalentHashMap( test )
   var src1 =
   {
     map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
+    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
   };
-  var src1 =
+  var src2 =
   {
     map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
+    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
   };
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
@@ -4154,12 +4278,14 @@ var Self =
 
     entityIdenticalArgumentsArray,
     entityEquivalentArgumentsArray,
+    entityIdenticalProto,
+    entityEquivalentProto,
     entityIdenticalBuffers,
     entityEquivalentBuffers,
     entityIdenticalSet,
-    // entityEquivalentSet,
-    // entityIdenticalHashMap,
-    // entityEquivalentHashMap,
+    entityEquivalentSet,
+    entityIdenticalHashMap,
+    entityEquivalentHashMap,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
