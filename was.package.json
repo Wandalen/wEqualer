@@ -1,6 +1,6 @@
 {
   "name" : "wequaler", 
-  "version" : "0.5.15", 
+  "version" : "0.5.16", 
   "description" : "Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.", 
   "author" : "Kostiantyn Wandalen <wanalen@willbe.so>", 
   "license" : "MIT", 
