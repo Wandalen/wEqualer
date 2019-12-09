@@ -57,6 +57,7 @@ function _equal_pre( routine, args )
   }
 
   o = _.routineOptionsPreservingUndefines( routine, args[ 2 ] || Object.create( null ) );
+  _.assert( 0 <= o.revisiting && o.revisiting <= 2 );
 
   let accuracy = o.accuracy;
 
@@ -92,9 +93,10 @@ function _equal_pre( routine, args )
 
   let it = _.look.pre( _._equal, [ optionsFor( o ) ] );
 
-  _.assert( it.iterator.visited2 === null );
+  _.assert( it.iterator.visitedContainer2 === null );
 
-  it.iterator.visited2 = [];
+  if( o.revisiting < 2 )
+  it.iterator.visitedContainer2 = [];
 
   _.assert( Object.is( it.src2, o.src2 ) );
   _.assert( Object.is( it.src, o.src ) );
@@ -542,9 +544,9 @@ function visitPush()
 {
   let it = this;
 
-  if( it.iterator.trackingVisits )
+  if( it.iterator.revisiting < 2 )
   {
-    it.visited2.push( it.src2 );
+    it.iterator.visitedContainer2.push( it.src2 );
   }
 
   Parent.visitPush.apply( it, arguments );
@@ -557,10 +559,10 @@ function visitPop()
 {
   let it = this;
 
-  if( it.iterator.trackingVisits )
+  if( it.iterator.revisiting < 2 )
   {
-    _.assert( Object.is( it.visited2[ it.visited2.length-1 ], it.src2 ), () => 'Top-most visit does not match ' + it.path );
-    it.visited2.pop();
+    _.assert( Object.is( it.iterator.visitedContainer2[ it.iterator.visitedContainer2.length-1 ], it.src2 ), () => 'Top-most visit does not match ' + it.path );
+    it.iterator.visitedContainer2.pop();
   }
 
   Parent.visitPop.apply( it, arguments );
@@ -679,7 +681,7 @@ function equalUp()
   else if( _.longLike( it.src ) )
   {
 
-    _.assert( it.iterable === 'array-like' || !it.iterable );
+    _.assert( it.iterable === 'long-like' || !it.iterable );
 
     if( !it.src2 )
     return clearEnd( false );
@@ -825,7 +827,7 @@ function equalCycle()
 
   _.assert( arguments.length === 0 );
 
-  if( !it.visitedManyTimes )
+  if( !it.revisited )
   return;
   if( !it.result )
   return;
@@ -836,26 +838,20 @@ function equalCycle()
     /* if opposite branch was cycled earlier */
     if( it.down.src2 !== undefined )
     {
-      let i = it.visited2.indexOf( it.down.src2 );
-      if( 0 <= i && i <= it.visited2.length-2 )
+      let i = it.iterator.visitedContainer2.indexOf( it.down.src2 );
+      if( 0 <= i && i <= it.iterator.visitedContainer2.length-2 )
       it.result = false;
     }
     /* or not yet cycled */
     if( it.result )
-    it.result = it.visited2[ it.visited.indexOf( it.src ) ] === it.src2;
+    it.result = it.iterator.visitedContainer2[ it.visitedContainer.indexOf( it.src ) ] === it.src2;
     /* then not equal otherwise equal */
   }
   else
   {
     if( it.level >= it.recursive )
     {
-      debugger;
       it.result = it.equalReiterate( it.src2, it.src, { recursive : 0 } ) && it.result;
-      // // let o2 = _.mapOnly( _._equal.defaults, it );
-      // let o2 = _.mapOnly( it, _._equal.defaults );
-      // o2.recursive = 0;
-      // _.assert( o2.it === undefined );
-      // it.result = _._equal( it.src2, it.src, o2 );
     }
   }
 
@@ -1058,7 +1054,7 @@ Equaler.equalHashes = equalHashes;
 Equaler.equalReiterate = equalReiterate;
 
 let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
-Iterator.visited2 = null;
+Iterator.visitedContainer2 = null;
 
 let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
 Iteration.result = true;
