@@ -95,8 +95,16 @@ function _equal_pre( routine, args )
 
   _.assert( it.iterator.visitedContainer2 === null );
 
-  if( o.revisiting < 2 )
-  it.iterator.visitedContainer2 = [];
+  // if( o.revisiting < 2 )
+  // it.iterator.visitedContainer2 = [];
+
+  if( it.iterator.revisiting < 2 )
+  {
+    if( it.iterator.revisiting === 0 )
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
+    else
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
+  }
 
   _.assert( Object.is( it.src2, o.src2 ) );
   _.assert( Object.is( it.src, o.src ) );
@@ -178,6 +186,7 @@ defaults.src = null;
 defaults.src2 = null;
 defaults.containing = 0;
 defaults.strict = 1;
+defaults.revisiting = 1;
 defaults.strictTyping = null;
 defaults.strictNumbering = null;
 defaults.strictCycling = null;
@@ -544,13 +553,19 @@ function visitPush()
 {
   let it = this;
 
-  if( it.iterator.revisiting < 2 )
+  if( it.iterator.visitedContainer2 )
+  if( it.visitCounting && it.iterable )
   {
     it.iterator.visitedContainer2.push( it.src2 );
+    // it.visitCounting = true;
   }
 
-  Parent.visitPush.apply( it, arguments );
+  // if( it.iterator.revisiting < 2 )
+  // {
+  //   it.iterator.visitedContainer2.push( it.src2 );
+  // }
 
+  Parent.visitPush.apply( it, arguments );
 }
 
 //
@@ -559,14 +574,26 @@ function visitPop()
 {
   let it = this;
 
-  if( it.iterator.revisiting < 2 )
+  // if( it.iterator.revisiting < 2 )
+  // {
+  //   _.assert( Object.is( it.iterator.visitedContainer2[ it.iterator.visitedContainer2.length-1 ], it.src2 ), () => 'Top-most visit does not match ' + it.path );
+  //   it.iterator.visitedContainer2.pop();
+  // }
+
+  if( it.iterator.visitedContainer2 && it.iterator.revisiting !== 0 )
+  if( it.visitCounting && it.iterable )
+  if( _.arrayIs( it.iterator.visitedContainer2.original ) || !it.revisited )
   {
-    _.assert( Object.is( it.iterator.visitedContainer2[ it.iterator.visitedContainer2.length-1 ], it.src2 ), () => 'Top-most visit does not match ' + it.path );
-    it.iterator.visitedContainer2.pop();
+    if( _.arrayIs( it.iterator.visitedContainer2.original ) )
+    _.assert
+    (
+      Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.src2 ),
+      () => `Top-most visit ${it.path} does not match ${_.strShort( it.src2 )} <> ${_.strShort( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ] )}`
+    );
+    it.iterator.visitedContainer2.pop( it.src2 );
   }
 
   Parent.visitPop.apply( it, arguments );
-
 }
 
 //
@@ -837,14 +864,29 @@ function equalCycle()
   {
     /* if opposite branch was cycled earlier */
     if( it.down.src2 !== undefined )
+    if( it.iterator.visitedContainer2 )
     {
-      let i = it.iterator.visitedContainer2.indexOf( it.down.src2 );
-      if( 0 <= i && i <= it.iterator.visitedContainer2.length-2 )
-      it.result = false;
+      if( _.arrayIs( it.iterator.visitedContainer2.original ) )
+      {
+        let i = it.iterator.visitedContainer2.original.indexOf( it.down.src2 );
+        if( 0 <= i && i <= it.iterator.visitedContainer2.original.length-2 )
+        it.result = false;
+      }
+      else
+      {
+        /* zzz qqq : cover revisiting : 0, ask how */
+        if( it.iterator.visitedContainer2 && it.iterator.visitedContainer2.has( it.down.src2 ) )
+        it.result = false;
+      }
     }
     /* or not yet cycled */
     if( it.result )
-    it.result = it.iterator.visitedContainer2[ it.visitedContainer.indexOf( it.src ) ] === it.src2;
+    {
+      debugger;
+      if( it.iterator.visitedContainer2 && _.arrayIs( it.iterator.visitedContainer2.original ) )
+      it.result = it.iterator.visitedContainer2.original[ it.visitedContainer.original.indexOf( it.src ) ] === it.src2;
+      // it.result = it.iterator.visitedContainer2[ it.visitedContainer.indexOf( it.src ) ] === it.src2;
+    }
     /* then not equal otherwise equal */
   }
   else
