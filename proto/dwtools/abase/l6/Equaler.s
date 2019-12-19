@@ -509,11 +509,11 @@ defaults.levels = 3;
 // looker routines
 // --
 
-function select( e, k )
+function choose( e, k )
 {
   let it = this;
 
-  Parent.select.apply( it, arguments );
+  Parent.choose.apply( it, arguments );
 
   _.assert( arguments.length === 2 );
   _.assert( it.level >= 0 );
@@ -1083,7 +1083,7 @@ function equalReiterate( src1, src2, o )
 let Equaler = Object.create( Parent );
 Equaler.constructor = function Equaler(){};
 Equaler.Looker = Equaler;
-Equaler.select = select;
+Equaler.choose = choose;
 Equaler.visitPush = visitPush;
 Equaler.visitPop = visitPop;
 Equaler.visitUp = visitUp;
