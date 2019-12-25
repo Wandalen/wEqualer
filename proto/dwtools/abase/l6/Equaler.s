@@ -476,7 +476,7 @@ function entityDiffExplanation( o )
   o.srcs[ 0 ] = '  ' + _.strIndentation( o.srcs[ 0 ], '  ' );
   o.srcs[ 1 ] = '  ' + _.strIndentation( o.srcs[ 1 ], '  ' );
 
-  result += _.str( o.name1 + ' :\n' + o.srcs[ 0 ] + '\n' + o.name2 + ' :\n' + o.srcs[ 1 ] );
+  result += _.toStrSimple( o.name1 + ' :\n' + o.srcs[ 0 ] + '\n' + o.name2 + ' :\n' + o.srcs[ 1 ] );
 
   /* */
 

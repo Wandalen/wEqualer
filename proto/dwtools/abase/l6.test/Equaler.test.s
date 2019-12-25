@@ -4216,6 +4216,10 @@ function entityDiffLoose( test )
 function entityDiffExplanation( test )
 {
 
+  /* */
+
+  test.case = 'basic';
+
   var expected =
 `at /MultipleExports/in
 - got :
@@ -4251,6 +4255,32 @@ function entityDiffExplanation( test )
     accuracy : null,
   });
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'empty str - str';
+
+  var expected =
+`- got :
+''
+- expected :
+'str'
+- difference :
+'*
+`
+
+  var srcs = [ '', 'str' ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/',
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
 
 }
 
