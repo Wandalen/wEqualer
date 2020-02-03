@@ -473,8 +473,8 @@ function entityDiffExplanation( o )
   o.srcs[ 0 ] = _.toStr( o.srcs[ 0 ], { levels : o.levels, keyWrapper : '\'' } );
   o.srcs[ 1 ] = _.toStr( o.srcs[ 1 ], { levels : o.levels, keyWrapper : '\'' } );
 
-  o.srcs[ 0 ] = '  ' + _.strIndentation( o.srcs[ 0 ], '  ' );
-  o.srcs[ 1 ] = '  ' + _.strIndentation( o.srcs[ 1 ], '  ' );
+  o.srcs[ 0 ] = '  ' + _.strLinesIndentation( o.srcs[ 0 ], '  ' );
+  o.srcs[ 1 ] = '  ' + _.strLinesIndentation( o.srcs[ 1 ], '  ' );
 
   result += _.toStrSimple( o.name1 + ' :\n' + o.srcs[ 0 ] + '\n' + o.name2 + ' :\n' + o.srcs[ 1 ] );
 
@@ -640,7 +640,7 @@ function equalUp()
   let it = this;
 
   _.assert( it.ascending === true );
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
   /* if containing mode then src2 could even don't have such entry */
 
@@ -815,7 +815,7 @@ function equalUp()
       it.continue = false;
     }
 
-    _.assert( arguments.length === 0 );
+    _.assert( arguments.length === 0, 'Expects no arguments' );
 
   }
 
@@ -828,7 +828,7 @@ function equalDown()
   let it = this;
 
   _.assert( it.ascending === false );
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
   /* if element is not equal then descend it down */
 
@@ -852,7 +852,7 @@ function equalCycle()
 {
   let it = this;
 
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
   if( !it.revisited )
   return;
@@ -907,7 +907,7 @@ function equalSets()
   let unpaired1 = new Set();
   let unpaired2 = new Set();
 
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
   if( !_.setLike( it.src2 ) )
   return false;
@@ -982,7 +982,7 @@ function equalHashes()
   let unpaired1 = new HashMap();
   let unpaired2 = new HashMap();
 
-  _.assert( arguments.length === 0 ); debugger;
+  _.assert( arguments.length === 0, 'Expects no arguments' ); debugger;
 
   if( !_.hashMapLike( it.src2 ) )
   return false;
