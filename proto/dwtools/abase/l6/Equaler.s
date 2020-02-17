@@ -700,15 +700,17 @@ function equalUp()
     else
     return clearEnd( _.buffersAreEquivalent( it.src, it.src2, it.accuracy ) );
   }
-  else if( _.setLike( it.src ) || it.iterable === 'set-like' )
+  // else if( _.setLike( it.src ) || it.iterable === 'set-like' )
+  else if( it.iterable === _.looker.containerNameToIdMap.set )
   {
-    _.assert( it.iterable === 'set-like' || !it.iterable );
+    // _.assert( it.iterable === 'set-like' || !it.iterable );
     return clearEnd( it.equalSets() );
   }
-  else if( _.longLike( it.src ) )
+  // else if( _.longLike( it.src ) )
+  else if( it.iterable === _.looker.containerNameToIdMap.long )
   {
 
-    _.assert( it.iterable === 'long-like' || !it.iterable );
+    // _.assert( it.iterable === 'long-like' || !it.iterable );
 
     if( !it.src2 )
     return clearEnd( false );
@@ -729,9 +731,11 @@ function equalUp()
 
   }
   else if( _.objectLike( it.src ) )
+  // else if( it.iterable === _.looker.containerNameToIdMap.set )
   {
 
-    _.assert( it.iterable === 'map-like' || !it.iterable );
+    // _.assert( it.iterable === 'map-like' || !it.iterable );
+    _.assert( it.iterable === _.looker.containerNameToIdMap.map || !it.iterable );
 
     if( _.routineIs( it.src._equalAre ) )
     {
@@ -768,9 +772,10 @@ function equalUp()
     }
 
   }
-  else if( it.iterable === 'hash-map-like' )
+  // else if( it.iterable === 'hash-map-like' )
+  else if( it.iterable === _.looker.containerNameToIdMap.hashMap )
   {
-    _.assert( it.iterable === 'hash-map-like' || !it.iterable );
+    // _.assert( it.iterable === 'hash-map-like' || !it.iterable );
     return clearEnd( it.equalHashes() );
   }
   else
