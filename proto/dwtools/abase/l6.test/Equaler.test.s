@@ -28,15 +28,12 @@ function trivial( test )
   var map2 = { a : 0, e : { c : 2, d : 3 } };
   var map3 = { a : 0, e : { d : 4 } };
 
-  debugger;
   var got = _.entityIdentical( map1, map2 );
   test.identical( got, true );
 
-  debugger;
   var got = _.entityIdentical( map1, map3 );
   test.identical( got, false );
 
-  debugger;
 }
 
 //
@@ -1624,6 +1621,7 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
+  _global_.debugger = true;
   var got = _.entityContains( { a : 1 }, { a : 1, b : 1 } );
   test.identical( got, expected );
 
@@ -1716,7 +1714,15 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
+  var got = _.entityContains( function(){}, function(){} );
+  test.identical( got, expected );
+
+  var expected = true;
   var got = _.entityContains( {}, function(){} );
+  test.identical( got, expected );
+
+  var expected = true;
+  var got = _.entityContains( function(){}, {} );
   test.identical( got, expected );
 
   /* */
@@ -1761,8 +1767,35 @@ function entityContainsSimple( test )
   var got = _.entityContains( { a : new RegExp( '' ) }, new RegExp( '' ) );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( { a : function(){} }, function(){} );
+  test.identical( got, expected );
+
+  var expected = true;
+  var src = { a : function(){} };
+  var src2 = function(){};
+  var got = _.entityContains( src, src2 );
+  test.identical( got, expected );
+
+  var expected = true;
+  var src = { a : function(){} };
+  var src2 = function(){};
+  src2.a = src.a;
+  var got = _.entityContains( src, src2 );
+  test.identical( got, expected );
+
+  var expected = true;
+  var src = function(){};
+  src.a = '13';
+  var src2 = {};
+  var got = _.entityContains( src, src2 );
+  test.identical( got, expected );
+
+  var expected = true;
+  var src = function(){};
+  src.a = '13';
+  var src2 = { a : '13' };
+  var got = _.entityContains( src, src2 );
   test.identical( got, expected );
 
   /* qqq : add typed / raw / node / view buffers tests */
@@ -2523,6 +2556,89 @@ function entityEquivalentHashMap( test )
 
 //
 
+function entityEqualContainerType( test )
+{
+  try
+  {
+
+    let type = Object.create( null );
+    type.name = 'ContainerForTest';
+    type._while = _while;
+    type._elementGet = _elementGet;
+    type._elementSet = _elementSet;
+    type._is = _is;
+
+    _.container.typeDeclare( type );
+
+    test.description = 'entityEquivalent';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+    var got = _.entityEquivalent( src1, src2 );
+    test.identical( got, true );
+
+    test.description = 'entityIdentical';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, true );
+
+    _.container.typeUndeclare( 'ContainerForTest' );
+
+    test.description = 'entityEquivalent';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+    var got = _.entityEquivalent( src1, src2 );
+    test.identical( got, false );
+
+    test.description = 'entityIdentical';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+    var got = _.entityIdentical( src1, src2 );
+    test.identical( got, false );
+
+  }
+  catch( err )
+  {
+    _.container.typeUndeclare( 'ContainerForTest' );
+    throw err;
+  }
+
+  function _is( src )
+  {
+    return !!src.eGet;
+  }
+
+  function _elementSet( container, key, val )
+  {
+    return container.eSet( key, val );
+  }
+
+  function _elementGet( container, key )
+  {
+    return container.eGet( key );
+  }
+
+  function _while( container, onEach )
+  {
+    for( let k = 0 ; k < container.elements.length ; k++ )
+    onEach( container.elements[ k ], k, container );
+  }
+
+  function eSet( k, v )
+  {
+    this.elements[ k ] = v;
+  }
+
+  function eGet( k )
+  {
+    debugger;
+    return this.elements[ k ];
+  }
+
+}
+
+//
+
 function entityIdenticalCycled( test )
 {
   var c = this;
@@ -2721,8 +2837,6 @@ function entityIdenticalCycledWithOptions( test )
   function onUp( e, k, it )
   {
     onUpPaths.push( it.path );
-    // debugger;
-    // return !it.result ? _.dont : it.result;
     if( !it.result )
     it.continue = false;
   }
@@ -2733,9 +2847,6 @@ function entityIdenticalCycledWithOptions( test )
   function onDown( e, k, it )
   {
     onDownPaths.push( it.path );
-    // if( !it.result )
-    // it.continue = false;
-    // return !it.result ? _.dont : it.result;
   }
 
   /* */
@@ -3945,11 +4056,17 @@ function entityContainLoose( test )
 function entityEqualMaps( test )
 {
 
-  let m1 = { a : 1 };
-  let m2 = Object.create({ a : 1 });
-  debugger;
+  test.case = 'descendant has no fields';
+  var m1 = { a : 1 };
+  var m2 = Object.create({ a : 1 });
   test.is( !_.entityIdentical( m1, m2 ) );
-  debugger;
+  test.is( _.entityEquivalent( m1, m2 ) );
+
+  test.case = 'descendant has field';
+  var m1 = { a : 1, b : 2 };
+  var m2 = Object.create({ a : 1 });
+  m2.b = 2;
+  test.is( !_.entityIdentical( m1, m2 ) );
   test.is( _.entityEquivalent( m1, m2 ) );
 
 }
@@ -4316,23 +4433,25 @@ var Self =
     entityEquivalentSet,
     entityIdenticalHashMap,
     entityEquivalentHashMap,
+    entityEqualContainerType,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
     entityEquivalentCycled,
     entityContainsCycled,
-
     entityEqualNonRecursive,
 
     _entityEqualLoose,
     entityIdenticalLoose,
     entityEquivalentLoose,
     entityContainLoose,
-    entityEqualMaps,
+    entityEqualMaps, /* qqq : extend tests */
     entityEqualStrings,
 
     entityDiffLoose,
     entityDiffExplanation,
+
+    /* qqq : research: what should be covered in the first place */
 
   }
 
