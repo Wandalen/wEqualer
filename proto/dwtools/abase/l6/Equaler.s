@@ -501,7 +501,7 @@ defaults.accuracyName = 'with accuracy';
 defaults.srcs = null;
 defaults.path = null;
 defaults.accuracy = null;
-defaults.levels = 3;
+defaults.levels = 3; /* xxx */
 
 // --
 // looker routines
@@ -653,8 +653,12 @@ function equalUp()
   _.assert( it.ascending === true );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  if( _global_.debugger )
-  debugger;
+  // if( it.iterable === _.looker.containerNameToIdMap.custom )
+  // debugger;
+  // if( _global_.debugger )
+  // debugger;
+  // if( _.objectIs( it.src ) && !_.mapIs( it.src ) )
+  // debugger;
 
   /* if containing mode then src2 could even don't have such entry */
 
@@ -675,8 +679,14 @@ function equalUp()
 
   if( it.strictTyping )
   {
+
     if( _ObjectToString.call( it.src ) !== _ObjectToString.call( it.src2 ) )
     return endStoping( false );
+
+    if( it.type && it.type._identicalTypes )
+    if( !it.type._identicalTypes( it.src, it.src2 ) )
+    return endStoping( false );
+
   }
   else
   {
