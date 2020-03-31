@@ -13,7 +13,7 @@
 
 /**
  *@summary Collection of routines to compare two complex structures.
-  @namespace Tools( module::Equaler )
+  @namespace Tools.Equaler 
   @memberof module:Tools/base/Equaler
 */
 
