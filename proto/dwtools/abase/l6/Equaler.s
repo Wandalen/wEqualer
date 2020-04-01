@@ -5,6 +5,7 @@
 /**
  * Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
   @module Tools/base/Equaler
+  @extends Tools
 */
 
 /**
@@ -12,9 +13,7 @@
  */
 
 /**
- *@summary Collection of routines to compare two complex structures.
-  @namespace Tools.Equaler 
-  @memberof module:Tools/base/Equaler
+  Collection of routines to compare two complex structures.
 */
 
 if( typeof module !== 'undefined' )
@@ -232,7 +231,7 @@ let _equalIt = _.routineFromPreAndBody( _equal_pre, _equalIt_body );
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( o ) is not a Object.
  * @throws {exception} If( o ) is extended by unknown property.
- * @memberof module:Tools/base/Equaler.Tools( module::Equaler )
+ * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
  */
 
 function _equal_body( it )
@@ -272,7 +271,7 @@ let _equal = _.routineFromPreAndBody( _equal_pre, _equal_body );
  * @function entityIdentical
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( options ) is extended by unknown property.
- * @memberof module:Tools/base/Equaler.Tools( module::Equaler )
+ * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
 */
 
 let entityIdentical = _.routineFromPreAndBody( _equal_pre, _equal_body );
@@ -307,7 +306,7 @@ defaults.strict = 1;
  * @function entityEquivalent
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( options ) is extended by unknown property.
- * @memberof module:Tools/base/Equaler.Tools( module::Equaler )
+ * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
 */
 
 let entityEquivalent = _.routineFromPreAndBody( _equal_pre, _equal_body );
@@ -344,7 +343,7 @@ defaults.strict = 0;
  * @function entityContains
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( opts ) is extended by unknown property.
- * @memberof module:Tools/base/Equaler.Tools( module::Equaler )
+ * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
 */
 
 function entityContains( src, src2, opts )
@@ -400,7 +399,7 @@ defaults.strictContainer = 0; /* xxx qqq : make sure it works properly. cover. a
   * @throws {exception} If( arguments.length ) is not equal 2 or 3.
   * @throws {exception} If( o ) is not a Object.
   * @throws {exception} If( o ) is extended by unknown property.
-  * @memberof module:Tools/base/Equaler.Tools( module::Equaler )
+  * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
   */
 
 function entityDiff( src, src2, opts )
