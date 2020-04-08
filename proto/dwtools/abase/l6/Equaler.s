@@ -231,7 +231,8 @@ let _equalIt = _.routineFromPreAndBody( _equal_pre, _equalIt_body );
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( o ) is not a Object.
  * @throws {exception} If( o ) is extended by unknown property.
- * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
+ * @namespace Tools
+ * @module Tools/base/Equaler
  */
 
 function _equal_body( it )
@@ -271,7 +272,8 @@ let _equal = _.routineFromPreAndBody( _equal_pre, _equal_body );
  * @function entityIdentical
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( options ) is extended by unknown property.
- * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
+ * @namespace Tools
+ * @module Tools/base/Equaler
 */
 
 let entityIdentical = _.routineFromPreAndBody( _equal_pre, _equal_body );
@@ -306,7 +308,8 @@ defaults.strict = 1;
  * @function entityEquivalent
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( options ) is extended by unknown property.
- * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
+ * @namespace Tools
+ * @module Tools/base/Equaler
 */
 
 let entityEquivalent = _.routineFromPreAndBody( _equal_pre, _equal_body );
@@ -343,7 +346,8 @@ defaults.strict = 0;
  * @function entityContains
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( opts ) is extended by unknown property.
- * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
+ * @namespace Tools
+ * @module Tools/base/Equaler
 */
 
 function entityContains( src, src2, opts )
@@ -399,7 +403,8 @@ defaults.strictContainer = 0; /* xxx qqq : make sure it works properly. cover. a
   * @throws {exception} If( arguments.length ) is not equal 2 or 3.
   * @throws {exception} If( o ) is not a Object.
   * @throws {exception} If( o ) is extended by unknown property.
-  * @memberofs "module:Tools/base/Equaler","module:Tools/base/Fundamental.wTools"
+  * @namespace Tools
+ * @module Tools/base/Equaler
   */
 
 function entityDiff( src, src2, opts )
