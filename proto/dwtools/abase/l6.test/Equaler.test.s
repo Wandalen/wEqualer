@@ -2681,16 +2681,16 @@ function entityIdenticalCycled( test )
 
   test.case = 'trivial mixed with routine';
 
-  var onAtom = function(){};
+  var onScalar = function(){};
   var src1 =
   {
-    onAtom,
+    onScalar,
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
   var src2 =
   {
-    onAtom,
+    onScalar,
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
@@ -2699,16 +2699,16 @@ function entityIdenticalCycled( test )
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
-  var onAtom = function(){};
+  var onScalar = function(){};
   var src1 =
   {
-    onAtom : function(){},
+    onScalar : function(){},
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
   var src2 =
   {
-    onAtom : function(){},
+    onScalar : function(){},
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
@@ -2924,16 +2924,16 @@ function entityIdenticalCycledWithOptions( test )
 
   test.case = 'trivial mixed with routine'; /* */
 
-  var onAtom = function(){};
+  var onScalar = function(){};
   var src1 =
   {
-    onAtom,
+    onScalar,
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
   var src2 =
   {
-    onAtom,
+    onScalar,
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
@@ -2942,19 +2942,19 @@ function entityIdenticalCycledWithOptions( test )
   var expected = true;
   var got = _.entityIdentical( src1, src2, opt  );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/onAtom', '/name', '/takingArguments', '/takingArguments/0', '/takingArguments/1' ] );
-  test.identical( onDownPaths, [ '/onAtom', '/name', '/takingArguments/0', '/takingArguments/1', '/takingArguments', '/' ] );
+  test.identical( onUpPaths, [ '/', '/onScalar', '/name', '/takingArguments', '/takingArguments/0', '/takingArguments/1' ] );
+  test.identical( onDownPaths, [ '/onScalar', '/name', '/takingArguments/0', '/takingArguments/1', '/takingArguments', '/' ] );
 
-  var onAtom = function(){};
+  var onScalar = function(){};
   var src1 =
   {
-    onAtom : function(){},
+    onScalar : function(){},
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
   var src2 =
   {
-    onAtom : function(){},
+    onScalar : function(){},
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
@@ -2963,8 +2963,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = false;
   var got = _.entityIdentical( src1, src2, opt  );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/onAtom' ] );
-  test.identical( onDownPaths, [ '/onAtom', '/' ] );
+  test.identical( onUpPaths, [ '/', '/onScalar' ] );
+  test.identical( onDownPaths, [ '/onScalar', '/' ] );
 
   test.case = 'trivial mixed'; /* */
 
@@ -3170,16 +3170,16 @@ function entityEquivalentCycled( test )
 
   test.case = 'trivial mixed with routine';
 
-  var onAtom = function(){};
+  var onScalar = function(){};
   var src1 =
   {
-    onAtom,
+    onScalar,
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
   var src2 =
   {
-    onAtom,
+    onScalar,
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
@@ -3188,16 +3188,16 @@ function entityEquivalentCycled( test )
   var got = _.entityEquivalent( src1, src2 );
 
   test.identical( got, expected );
-  var onAtom = function(){};
+  var onScalar = function(){};
   var src1 =
   {
-    onAtom : function(){},
+    onScalar : function(){},
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
   var src2 =
   {
-    onAtom : function(){},
+    onScalar : function(){},
     name : 'reduceToMagSqr',
     takingArguments : [ 1,3 ],
   }
