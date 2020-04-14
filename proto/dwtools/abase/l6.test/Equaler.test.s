@@ -2572,28 +2572,28 @@ function entityEqualContainerType( test )
     test.description = 'entityEquivalent';
     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
     var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    var got = _.entityEquivalent( src1, src2 );
-    test.identical( got, true );
+    test.identical( _.entityEquivalent( src1, src2 ), true );
+    test.identical( _.entityEquivalent( src2, src1 ), true );
 
     test.description = 'entityIdentical';
     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
     var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, true );
+    test.identical( _.entityIdentical( src1, src2 ), true );
+    test.identical( _.entityIdentical( src2, src1 ), true );
 
     _.container.typeUndeclare( 'ContainerForTest' );
 
     test.description = 'entityEquivalent';
     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
     var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    var got = _.entityEquivalent( src1, src2 );
-    test.identical( got, false );
+    test.identical( _.entityEquivalent( src1, src2 ), false );
+    test.identical( _.entityEquivalent( src2, src1 ), false );
 
     test.description = 'entityIdentical';
     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
     var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, false );
+    test.identical( _.entityIdentical( src1, src2 ), false );
+    test.identical( _.entityIdentical( src2, src1 ), false );
 
   }
   catch( err )

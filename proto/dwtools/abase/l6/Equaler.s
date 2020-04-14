@@ -526,22 +526,29 @@ function _iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
+  let type1 = _.container.typeOf( it.src );
+  let type2 = _.container.typeOf( it.src2 );
+  if( type1 || type2 )
+  {
+    it.iterable = _.looker.containerNameToIdMap.custom;
+    it.type = type1 || type2;
+  }
+  else if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
   {
     it.iterable = _.looker.containerNameToIdMap.map;
   }
   else if( _.objectIs( it.src ) || _.objectIs( it.src2 ) )
   {
-    let type = _.container.typeOf( it.src );
-    if( type )
-    {
-      it.iterable = _.looker.containerNameToIdMap.custom;
-      it.type = type;
-    }
-    else
-    {
+    // let type = _.container.typeOf( it.src );
+    // if( type )
+    // {
+    //   it.iterable = _.looker.containerNameToIdMap.custom;
+    //   it.type = type;
+    // }
+    // else
+    // {
       it.iterable = _.equaler.containerNameToIdMap.object;
-    }
+    // }
   }
   else if( _.longLike( it.src ) )
   {
@@ -558,16 +565,16 @@ function _iterableEval()
   else
   {
 
-    let type = _.container.typeOf( it.src );
-    if( type )
-    {
-      it.iterable = _.looker.containerNameToIdMap.custom;
-      it.type = type;
-    }
-    else
-    {
+    // let type = _.container.typeOf( it.src );
+    // if( type )
+    // {
+    //   it.iterable = _.looker.containerNameToIdMap.custom;
+    //   it.type = type;
+    // }
+    // else
+    // {
       it.iterable = 0;
-    }
+    // }
 
   }
 
@@ -945,6 +952,9 @@ function secondCoerce()
 {
   let it = this;
 
+  if( _global_.debugger )
+  debugger;
+
   if( _.objectIs( it.src ) && _.routineIs( it.src._secondCoerce ) )
   {
     it.src._secondCoerce( it );
@@ -954,6 +964,12 @@ function secondCoerce()
   if( _.objectIs( it.src2 ) && _.routineIs( it.src2._secondCoerce ) )
   {
     it.src2._secondCoerce( it );
+    return true;
+  }
+
+  if( it.type && it.type._coerce )
+  {
+    if( it.type._coerce( it ) )
     return true;
   }
 
