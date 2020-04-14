@@ -1180,11 +1180,11 @@ function entityContainsSimple( test )
   var got = _.entityContains( new RegExp( 'abc','i' ), /abc/i );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( /abc/i, /abc/ );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( /abc/i, /abc/yi );
   test.identical( got, expected );
 
@@ -1621,7 +1621,6 @@ function entityContainsSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  _global_.debugger = true;
   var got = _.entityContains( { a : 1 }, { a : 1, b : 1 } );
   test.identical( got, expected );
 
@@ -1717,7 +1716,7 @@ function entityContainsSimple( test )
   var got = _.entityContains( function(){}, function(){} );
   test.identical( got, expected );
 
-  var expected = true;
+  var expected = false;
   var got = _.entityContains( {}, function(){} );
   test.identical( got, expected );
 
@@ -1767,17 +1766,17 @@ function entityContainsSimple( test )
   var got = _.entityContains( { a : new RegExp( '' ) }, new RegExp( '' ) );
   test.identical( got, expected );
 
-  var expected = true;
+  var expected = false;
   var got = _.entityContains( { a : function(){} }, function(){} );
   test.identical( got, expected );
 
-  var expected = true;
+  var expected = false;
   var src = { a : function(){} };
   var src2 = function(){};
   var got = _.entityContains( src, src2 );
   test.identical( got, expected );
 
-  var expected = true;
+  var expected = false;
   var src = { a : function(){} };
   var src2 = function(){};
   src2.a = src.a;
@@ -2631,9 +2630,91 @@ function entityEqualContainerType( test )
 
   function eGet( k )
   {
-    debugger;
     return this.elements[ k ];
   }
+
+}
+
+//
+
+function compareDate( test )
+{
+
+  /* */
+
+  test.case = 'same dates'
+  var expected = true;
+  var ins1 = new Date( 1995, 11, 17, 3, 24, 0 );
+  var ins2 = new Date( 1995, 11, 17, 3, 24, 0 );
+  test.identical( _.entityIdentical( ins1, ins2 ), true );
+  test.identical( _.entityIdentical( ins2, ins1 ), true );
+  test.identical( _.entityEquivalent( ins1, ins2 ), true );
+  test.identical( _.entityEquivalent( ins2, ins1 ), true );
+  test.identical( _.entityContains( ins1, ins2 ), true );
+  test.identical( _.entityContains( ins2, ins1 ), true );
+
+  /* */
+
+  test.case = 'different dates'
+  var expected = true;
+  var ins1 = new Date( 1995, 11, 17, 3, 24, 0 );
+  var ins2 = new Date( 1995, 11, 17, 3, 24, 1 );
+  test.identical( _.entityIdentical( ins1, ins2 ), false );
+  test.identical( _.entityIdentical( ins2, ins1 ), false );
+  test.identical( _.entityEquivalent( ins1, ins2 ), false );
+  test.identical( _.entityEquivalent( ins2, ins1 ), false );
+  test.identical( _.entityContains( ins1, ins2 ), false );
+  test.identical( _.entityContains( ins2, ins1 ), false );
+
+  /* */
+
+}
+
+//
+
+function compareRegexp( test )
+{
+
+  /* */
+
+  test.case = 'same regexps'
+  var expected = true;
+  var ins1 = /some \n regexp/;
+  var ins2 = /some \n regexp/;
+  test.identical( _.entityIdentical( ins1, ins2 ), true );
+  test.identical( _.entityIdentical( ins2, ins1 ), true );
+  test.identical( _.entityEquivalent( ins1, ins2 ), true );
+  test.identical( _.entityEquivalent( ins2, ins1 ), true );
+  test.identical( _.entityContains( ins1, ins2 ), true );
+  test.identical( _.entityContains( ins2, ins1 ), true );
+
+  /* */
+
+  test.case = 'different regexps'
+  var expected = true;
+  var ins1 = /some \n regexp/;
+  var ins2 = /some \n regexp2/;
+  test.identical( _.entityIdentical( ins1, ins2 ), false );
+  test.identical( _.entityIdentical( ins2, ins1 ), false );
+  test.identical( _.entityEquivalent( ins1, ins2 ), false );
+  test.identical( _.entityEquivalent( ins2, ins1 ), false );
+  test.identical( _.entityContains( ins1, ins2 ), false );
+  test.identical( _.entityContains( ins2, ins1 ), false );
+
+  /* */
+
+  test.case = 'different flags'
+  var expected = true;
+  var ins1 = /some \n regexp/i;
+  var ins2 = /some \n regexp/;
+  test.identical( _.entityIdentical( ins1, ins2 ), false );
+  test.identical( _.entityIdentical( ins2, ins1 ), false );
+  test.identical( _.entityEquivalent( ins1, ins2 ), true );
+  test.identical( _.entityEquivalent( ins2, ins1 ), true );
+  test.identical( _.entityContains( ins1, ins2 ), true );
+  test.identical( _.entityContains( ins2, ins1 ), true );
+
+  /* */
 
 }
 
@@ -3657,108 +3738,108 @@ function _entityEqualLoose( test )
   /* default options */
 
   test.case = 'default options, number';
-  var got = _._equal( 1, 1 );
+  var got = _.equaler._equal( 1, 1 );
   var expected = true ;
   test.identical( got, expected );
 
   test.case = 'default options, string';
-  var got = _._equal( '123', '123' );
+  var got = _.equaler._equal( '123', '123' );
   var expected = true ;
   test.identical( got, expected );
 
   test.case = 'default options, boolean';
-  var got = _._equal( 0, false );
+  var got = _.equaler._equal( 0, false );
   var expected = false;
   test.identical( got, expected );
 
   test.case = 'default options, array';
-  var got = _._equal( [ 1, 2 ,'3'], [ 1, 2, 3 ] );
+  var got = _.equaler._equal( [ 1, 2 ,'3'], [ 1, 2, 3 ] );
   var expected = false ;
   test.identical( got, expected );
 
   test.case = 'default options, object';
   var src1 = { a : 1, b : 2 , c : { d : 3  }  };
   var src2 = { a : 1, b : 2 , c : { d : 3  }  };
-  var got = _._equal( src1, src2 );
+  var got = _.equaler._equal( src1, src2 );
   var expected = true ;
   test.identical( got, expected );
 
   /* strict string - number */
 
   test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
-  var got = _._equal( '123', 123, { strictNumbering : 0, strictTyping : 0 } );
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 0 } );
   var expected = true ;
   test.identical( got, expected );
 
   test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
-  var got = _._equal( '123', 123, { strictNumbering : 1, strictTyping : 0 } );
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 0 } );
   var expected = false ;
   test.identical( got, expected );
 
   test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
-  var got = _._equal( '123', 123, { strictNumbering : 0, strictTyping : 1 } );
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 1 } );
   var expected = false ;
   test.identical( got, expected );
 
   test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
-  var got = _._equal( '123', 123, { strictNumbering : 1, strictTyping : 1 } );
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 1 } );
   var expected = false ;
   test.identical( got, expected );
 
   /* */
 
   test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
-  var got = _._equal( 123, '123', { strictNumbering : 0, strictTyping : 0 } );
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 0 } );
   var expected = true ;
   test.identical( got, expected );
 
   test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
-  var got = _._equal( 123, '123', { strictNumbering : 1, strictTyping : 0 } );
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 0 } );
   var expected = false ;
   test.identical( got, expected );
 
   test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
-  var got = _._equal( 123, '123', { strictNumbering : 0, strictTyping : 1 } );
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 1 } );
   var expected = false ;
   test.identical( got, expected );
 
   test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
-  var got = _._equal( 123, '123', { strictNumbering : 1, strictTyping : 1 } );
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 1 } );
   var expected = false ;
   test.identical( got, expected );
 
   /* strict bool - number */
 
   test.case = 'number & boolean, strictNumbering : 0, strictTyping : 0';
-  var got = _._equal( false, 0, { strictNumbering : 0, strictTyping : 0 } );
+  var got = _.equaler._equal( false, 0, { strictNumbering : 0, strictTyping : 0 } );
   var expected = true ;
   test.identical( got, expected );
 
   test.case = 'number & boolean, strictNumbering : 0, strictTyping : 1';
-  var got = _._equal( false, 0, { strictNumbering : 0, strictTyping : 1 } );
+  var got = _.equaler._equal( false, 0, { strictNumbering : 0, strictTyping : 1 } );
   var expected = false ;
   test.identical( got, expected );
 
   test.case = 'number & boolean, strictNumbering : 1, strictTyping : 0';
-  var got = _._equal( false, 0, { strictNumbering : 1, strictTyping : 0 } );
+  var got = _.equaler._equal( false, 0, { strictNumbering : 1, strictTyping : 0 } );
   var expected = false ;
   test.identical( got, expected );
 
   test.case = 'number & boolean, strictNumbering : 1, strictTyping : 1';
-  var got = _._equal( false, 0, { strictNumbering : 1, strictTyping : 1 } );
+  var got = _.equaler._equal( false, 0, { strictNumbering : 1, strictTyping : 1 } );
   var expected = false ;
   test.identical( got, expected );
 
   /* */
 
   test.case = 'src1 constains elem from src2 ';
-  var got = _._equal( { a : 1, b : 2 }, { b : 2 }, { containing : 1 } );
+  var got = _.equaler._equal( { a : 1, b : 2 }, { b : 2 }, { containing : 1 } );
   var expected = true ;
   test.identical( got, expected );
 
   test.case = 'onNumbersAreEqual';
   function onNumbersAreEqual( a, b ){ return _.entityEquivalent( a, b, { accuracy : 1 } ) };
-  var got = _._equal( { a : 1, b : 2 }, { a : 2, b : 2 }, { onNumbersAreEqual } );
+  var got = _.equaler._equal( { a : 1, b : 2 }, { a : 2, b : 2 }, { onNumbersAreEqual } );
   var expected = true ;
   test.identical( got, expected );
 
@@ -3768,19 +3849,19 @@ function _entityEqualLoose( test )
   test.case = 'argument missed';
   test.shouldThrowErrorSync( function()
   {
-    _._equal( );
+    _.equaler._equal( );
   });
 
   test.case = 'options is not a Object';
   test.shouldThrowErrorSync( function()
   {
-    _._equal( 1, 2, 3 );
+    _.equaler._equal( 1, 2, 3 );
   });
 
   test.case = 'extendet options';
   test.shouldThrowErrorSync( function()
   {
-    _._equal( 1, 2, { fixed : 1 } );
+    _.equaler._equal( 1, 2, { fixed : 1 } );
   });
 
 }
@@ -4325,7 +4406,6 @@ function entityDiffLoose( test )
     _.entityDiff( 1, 2, 3 );
   });
 
-  debugger;
 }
 
 //
@@ -4434,6 +4514,9 @@ var Self =
     entityIdenticalHashMap,
     entityEquivalentHashMap,
     entityEqualContainerType,
+
+    compareDate,
+    compareRegexp,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,

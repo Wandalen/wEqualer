@@ -9,12 +9,16 @@
 */
 
 /**
- * @file l6/Equaler.s.
+ * Collection of light-weight routines to traverse complex data structure.
+ * @namespace Tools.Equaler
+ * @module Tools/base/Looker
  */
 
 /**
-  Collection of routines to compare two complex structures.
-*/
+ * Collection of light-weight routines to traverse complex data structure.
+ * @namespace Tools.equaler
+ * @module Tools/base/Looker
+ */
 
 if( typeof module !== 'undefined' )
 {
@@ -30,6 +34,8 @@ let _global = _global_;
 let _ = _global_.wTools;
 let Parent = _.Looker;
 let _ObjectToString = Object.prototype.toString;
+
+_.equaler = _.equaler || Object.create( null );
 
 _.assert( !!_realGlobal_ );
 _.assert( !!_.look );
@@ -92,7 +98,7 @@ function _equal_pre( routine, args )
   else
   o.onStringsAreEqual = stringsAreEquivalent;
 
-  let it = _.look.pre( _._equal, [ optionsFor( o ) ] );
+  let it = _.look.pre( _.equaler._equal, [ optionsFor( o ) ] );
 
   _.assert( it.iterator.visitedContainer2 === null );
 
@@ -199,45 +205,9 @@ let _equalIt = _.routineFromPreAndBody( _equal_pre, _equalIt_body );
 
 //
 
-/**
- * Deep comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
- * Returns false if finds difference in two entities, else returns true. By default routine uses it own
- * ( onNumbersAreEqual ) routine to compare numbers.
- *
- * @param {*} src - Entity for comparison.
- * @param {*} src2 - Entity for comparison.
- * @param {wTools~entityEqualOptions} o - comparsion options {@link wTools~entityEqualOptions}.
- * @returns {boolean} result - Returns true for same entities.
- *
- * @example
- * //returns false
- * _._equal( '1', 1 );
- *
- * @example
- * //returns true
- * _._equal( '1', 1, { strictTyping : 0 } );
- *
- * @example
- * //returns true
- * _._equal( { a : { b : 1 }, b : 1 } , { a : { b : 1 } }, { containing : 1 } );
- *
- * @example
- * //returns ".a.b"
- * let o = { containing : 1 };
- * _._equal( { a : { b : 1 }, b : 1 } , { a : { b : 1 } }, o );
- * console.log( o.lastPath );
- *
- * @function _equal
- * @throws {exception} If( arguments.length ) is not equal 2 or 3.
- * @throws {exception} If( o ) is not a Object.
- * @throws {exception} If( o ) is extended by unknown property.
- * @namespace Tools
- * @module Tools/base/Equaler
- */
-
 function _equal_body( it )
 {
-  it = _._equalIt.body( it );
+  it = _.equaler._equalIt.body( it );
   return it.result === _.dont ? false : it.result;
 }
 
@@ -270,6 +240,7 @@ let _equal = _.routineFromPreAndBody( _equal_pre, _equal_body );
  * _.entityIdentical( src1, src2 ) ;
  *
  * @function entityIdentical
+ * @function identical
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( options ) is extended by unknown property.
  * @namespace Tools
@@ -366,7 +337,7 @@ defaults.strict = 1;
 defaults.strictTyping = 0;
 defaults.strictNumbering = 1;
 defaults.strictCycling = 1;
-defaults.strictContainer = 0; /* xxx qqq : make sure it works properly. cover. ask */
+defaults.strictContainer = 0; /* qqq : make sure it works properly. cover. ask */
 
 //
 
@@ -412,7 +383,7 @@ function entityDiff( src, src2, opts )
 
   opts = opts || Object.create( null );
   _.assert( arguments.length === 2 || arguments.length === 3, 'Expects two or three arguments' );
-  let equal = _._equal( src, src2, opts );
+  let equal = _.equaler._equal( src, src2, opts );
 
   if( equal )
   return false;
@@ -505,7 +476,7 @@ defaults.accuracyName = 'with accuracy';
 defaults.srcs = null;
 defaults.path = null;
 defaults.accuracy = null;
-defaults.levels = 3; /* xxx */
+defaults.levels = 3;
 
 // --
 // looker routines
@@ -521,36 +492,7 @@ function choose( e, k )
   _.assert( it.level >= 0 );
   _.assert( _.objectIs( it.down ) );
 
-  if( _global_.debugger )
-  debugger;
-
   it.src2 = _.container.elementGet( it.src2, it.key );
-
-  // if( it.src2 )
-  // {
-  //   if( _.hashMapLike( it.src2 ) )
-  //   {
-  //     it.src2 = it.src2.get( it.key );
-  //   }
-  //   // else if( _.setIs( it.src2 ) )
-  //   // {
-  //   //   debugger; xxx
-  //   //   if( it.src2.has( it.src ) )
-  //   //   it.src2 = it.src;
-  //   //   else if( _.containerIs( it.src ) )
-  //   //   it.src2 = undefined;
-  //   //   else
-  //   //   it.src2 = undefined;
-  //   // }
-  //   else
-  //   {
-  //     it.src2 = it.src2[ it.key ];
-  //   }
-  // }
-  // else
-  // {
-  //   it.src2 = undefined;
-  // }
 
   return it;
 }
@@ -560,17 +502,79 @@ function choose( e, k )
 function iterableEval()
 {
   let it = this;
-
-  Parent.iterableEval.call( this );
+  it.iterable = null;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  // let type = _.container.typeOf( it.src2 );
+  let type = _.container.typeOf( it.src );
+  if( type )
+  {
+    it.iterable = _.looker.containerNameToIdMap.custom;
+    it.type = type;
+  }
+  else if( _.arrayLike( it.src ) )
+  {
+    it.iterable = _.looker.containerNameToIdMap.long;
+  }
+  else if( _.hashMapLike( it.src ) )
+  {
+    it.iterable = _.looker.containerNameToIdMap.hashMap;
+  }
+  else if( _.setLike( it.src ) )
+  {
+    it.iterable = _.looker.containerNameToIdMap.set;
+  }
+  // else if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
+  else if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
+  {
+    it.iterable = _.looker.containerNameToIdMap.map;
+  }
+  // else if( ( _.objectIs( it.src ) && !_.mapLike( it.src ) ) || ( _.objectIs( it.src2 ) && !_.mapLike( it.src2 ) ) )
+  else if( _.objectIs( it.src ) || _.objectIs( it.src2 ) )
+  {
+    it.iterable = _.equaler.containerNameToIdMap.object;
+  }
+  else
+  {
+    it.iterable = 0;
+  }
+
+  _.assert( it.iterable >= 0 );
+
+  // _.assert( arguments.length === 0, 'Expects no arguments' );
+  //
+  // let type = _.container.typeOf( it.src );
   // if( type )
   // {
-  //   it.iterable = _.looker.containerNameToIdMap.custom;
+  //   it.iterable = _.equaler.containerNameToIdMap.custom;
   //   it.type = type;
   // }
+  // else
+  // {
+  //   if( _.objectIs( it.src ) || _.objectIs( it.src2 ) )
+  //   it.iterable = _.equaler.containerNameToIdMap.object;
+  // }
+  //
+  // if( it.iterable === _.equaler.containerNameToIdMap.custom || it.iterable === _.equaler.containerNameToIdMap.object )
+  // if( !it.strictContainer )
+  // it.secondCoerce();
+  //
+  // if( !it.iterable )
+  // Parent.iterableEval.call( this );
+
+}
+
+//
+
+function ascendEval()
+{
+  let it = this;
+
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+
+  it.ascendAct = _.equaler.containerIdToAscendMap[ it.iterable ];
+
+  _.assert( _.routineIs( it.ascendAct ) );
 
 }
 
@@ -657,13 +661,6 @@ function equalUp()
   _.assert( it.ascending === true );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  // if( it.iterable === _.looker.containerNameToIdMap.custom )
-  // debugger;
-  // if( _global_.debugger )
-  // debugger;
-  // if( _.objectIs( it.src ) && !_.mapIs( it.src ) )
-  // debugger;
-
   /* if containing mode then src2 could even don't have such entry */
 
   if( it.containing )
@@ -705,65 +702,48 @@ function equalUp()
 
   /* */
 
-  if( it.iterable === _.looker.containerNameToIdMap.custom )
+  if( _global_.debugger )
+  debugger;
+
+  /* */
+
+  if( it.iterable === _.equaler.containerNameToIdMap.custom )
   {
   }
-  else if( _.numberIs( it.src ) )
-  {
-    return endStoping( it.onNumbersAreEqual( it.src, it.src2 ) );
-  }
-  else if( _.strIs( it.src ) )
-  {
-    return endStoping( it.onStringsAreEqual( it.src, it.src2 ) );
-  }
-  else if( _.regexpIs( it.src ) )
-  {
-    return endStoping( _.regexpIdentical( it.src, it.src2 ) );
-  }
-  else if( _.dateIs( it.src ) )
-  {
-    return endStoping( _.datesAreIdentical( it.src, it.src2 ) );
-  }
-  else if( it.iterable === _.looker.containerNameToIdMap.set )
+  else if( it.iterable === _.equaler.containerNameToIdMap.set )
   {
     return endStoping( it.equalSets() );
   }
-  else if( it.iterable === _.looker.containerNameToIdMap.long )
+  else if( it.iterable === _.equaler.containerNameToIdMap.long )
   {
-
-    if( it.strictContainer && _.bufferAnyIs( it.src ) )
-    {
-      // if( it.strictTyping )
-      return endStoping( _.buffersAreIdentical( it.src, it.src2 ) );
-      // else
-      // return endStoping( _.buffersAreEquivalent( it.src, it.src2, it.accuracy ) );
-    }
-    else
-    {
-      it.equalLongs();
-      if( !it.continue )
-      return end();
-    }
-
+    it.equalLongs();
+    if( !it.continue )
+    return end();
   }
-  else if( it.iterable === _.looker.containerNameToIdMap.hashMap )
+  else if( it.iterable === _.equaler.containerNameToIdMap.hashMap )
   {
     it.equalHashes();
     if( !it.continue )
     return end();
   }
+  else if( it.iterable === _.equaler.containerNameToIdMap.map )
+  {
+    // debugger;
+    it.equalMaps();
+    if( !it.continue )
+    return end();
+  }
   else if( _.bufferAnyIs( it.src ) )
   {
+    // debugger;
     if( it.strictContainer )
     {
-      if( !it.src2 || it.src2.constructor !== it.src.constructor )
-      return endStoping( false );
-      if( it.strictNumbering )
-      return endStoping( _.buffersAreIdentical( it.src, it.src2 ) );
-      else
-      return endStoping( _.buffersAreEquivalent( it.src, it.src2, it.accuracy ) );
+      // yyy
+      // if( !it.src2 || it.src2.constructor !== it.src.constructor )
+      // return endStoping( false );
+      return it.equalBuffers();
     }
-    let type = _.container.typeOf( it.src2 );
+    let type = _.container.typeOf( it.src2 ); // xxx
     if( type )
     {
       debugger;
@@ -773,17 +753,64 @@ function equalUp()
     }
     else
     {
-      return endStoping( _.buffersAreEquivalent( it.src, it.src2, it.accuracy ) );
+      return it.equalBuffers();
     }
   }
-  else if( _.objectLike( it.src ) || _.objectLike( it.src2 ) )
+  // else if( _.objectLike( it.src ) || _.objectLike( it.src2 ) )
+  else if( it.iterable === _.equaler.containerNameToIdMap.object )
   {
-    it.equalObjects();
-    if( !it.continue )
-    return end();
+
+    // if( _.regexpIs( it.src ) )
+    // {
+    //   debugger; /* xxx : check */
+    //   return endStoping( _.regexpIdentical( it.src, it.src2 ) );
+    // }
+    // else if( _.dateIs( it.src ) )
+    // {
+    //   debugger; /* xxx : check */
+    //   return endStoping( _.datesAreIdentical( it.src, it.src2 ) );
+    // }
+    // else
+    {
+      it.equalObjects();
+      if( !it.continue )
+      return end();
+    }
+
+  }
+  else if( !it.iterable )
+  {
+    if( _.numberIs( it.src ) )
+    {
+      return endStoping( it.onNumbersAreEqual( it.src, it.src2 ) );
+    }
+    else if( _.strIs( it.src ) )
+    {
+      return endStoping( it.onStringsAreEqual( it.src, it.src2 ) );
+    }
+    else if( _.regexpIs( it.src ) )
+    {
+      if( it.strictTyping )
+      return endStoping( _.regexpIdentical( it.src, it.src2 ) );
+      else
+      return endStoping( _.regexpEquivalent( it.src, it.src2 ) );
+    }
+    else if( _.dateIs( it.src ) )
+    {
+      return endStoping( _.datesAreIdentical( it.src, it.src2 ) );
+    }
+    else
+    {
+      // debugger;
+      if( it.strictTyping )
+      return endStoping( it.src === it.src2 );
+      else
+      return endStoping( it.src == it.src2 );
+    }
   }
   else
   {
+    debugger; /* xxx : check */
     if( it.strictTyping )
     {
       if( it.src !== it.src2 )
@@ -899,6 +926,24 @@ function equalCycle()
     {
       it.result = it.equalReiterate( it.src2, it.src, { recursive : 0 } ) && it.result;
     }
+  }
+
+}
+
+//
+
+function secondCoerce()
+{
+  let it = this;
+
+  if( _.objectIs( it.src ) && _.routineIs( it.src._secondCoerce ) )
+  {
+    it.src._secondCoerce( it );
+  }
+
+  if( _.objectIs( it.src2 ) && _.routineIs( it.src2._secondCoerce ) )
+  {
+    it.src2._secondCoerce( it );
   }
 
 }
@@ -1075,6 +1120,30 @@ function equalHashes()
 
 //
 
+function equalBuffers()
+{
+  let it = this;
+
+  if( it.strictNumbering && it.strictTyping )
+  return endStoping( _.buffersAreIdentical( it.src, it.src2 ) );
+  else
+  return endStoping( _.buffersAreEquivalent( it.src, it.src2, it.strictNumbering ? 0 : it.accuracy ) );
+
+  /* */
+
+  function endStoping( result )
+  {
+    it.result = it.result && result;
+    if( !it.result )
+    it.iterator.continue = false;
+    it.continue = false;
+    _.assert( arguments.length === 1 );
+  }
+
+}
+
+//
+
 function equalLongs()
 {
   let it = this;
@@ -1092,6 +1161,10 @@ function equalLongs()
     if( !_.vectorLike( it.src2 ) )
     return endStoping( false );
   }
+
+  if( it.strictContainer )
+  if( _.bufferAnyIs( it.src ) || _.bufferAnyIs( it.src2 ) )
+  return it.equalBuffers();
 
   if( !it.containing )
   {
@@ -1119,11 +1192,74 @@ function equalLongs()
 
 //
 
+function equalMaps()
+{
+  let it = this;
+
+  // debugger;
+  // _.assert( it.iterable === _.equaler.containerNameToIdMap.map || it.iterable === _.equaler.containerNameToIdMap.custom || !it.iterable );
+  _.assert
+  (
+    it.iterable === _.equaler.containerNameToIdMap.map ||
+    it.iterable === _.equaler.containerNameToIdMap.custom ||
+    it.iterable === _.equaler.containerNameToIdMap.object
+  );
+
+  if( !it.containing )
+  {
+    if( it.strictTyping )
+    {
+      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
+      return endStoping( false );
+      if( _.mapOwnKeys( it.src ).length !== _.mapOwnKeys( it.src2 ).length )
+      return endStoping( false );
+    }
+    else
+    {
+      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
+      return endStoping( false );
+    }
+  }
+
+  if( it.containing )
+  {
+    if( !_.mapIs( it.src ) && _.mapIs( it.src2 ) )
+    return endStoping( false );
+  }
+  else
+  {
+    if( it.strictTyping )
+    if( _.mapIs( it.src ) ^ _.mapIs( it.src2 ) )
+    return endStoping( false );
+  }
+
+  /* */
+
+  function endStoping( result )
+  {
+    it.result = it.result && result;
+    if( !it.result )
+    it.iterator.continue = false;
+    it.continue = false;
+    _.assert( arguments.length === 1 );
+  }
+
+}
+
+//
+
 function equalObjects()
 {
   let it = this;
 
-  _.assert( it.iterable === _.looker.containerNameToIdMap.map || it.iterable === _.looker.containerNameToIdMap.custom || !it.iterable );
+  // debugger;
+  // _.assert( it.iterable === _.equaler.containerNameToIdMap.map || it.iterable === _.equaler.containerNameToIdMap.custom || !it.iterable );
+  _.assert
+  (
+    // it.iterable === _.equaler.containerNameToIdMap.map ||
+    it.iterable === _.equaler.containerNameToIdMap.custom ||
+    it.iterable === _.equaler.containerNameToIdMap.object
+  );
 
   if( it.src && _.routineIs( it.src._equalAre ) )
   {
@@ -1131,51 +1267,30 @@ function equalObjects()
     if( !it.src._equalAre( it ) )
     return endStoping( false );
   }
-  // else if( _.routineIs( it.src.equalWith ) )
-  // {
-  //   _.assert( it.src.equalWith.length <= 2 );
-  //   if( !it.src.equalWith( it.src2, it ) )
-  //   return endStoping( false );
-  // }
   else if( it.src2 && _.routineIs( it.src2._equalAre ) )
   {
     _.assert( it.src2._equalAre.length <= 1 );
     if( !it.src2._equalAre( it ) )
     return endStoping( false );
   }
-  // else if( _.routineIs( it.src2.equalWith ) )
-  // {
-  //   _.assert( it.src2.equalWith.length <= 2 );
-  //   if( !it.src2.equalWith( it.src, it ) )
-  //   return endStoping( false );
-  // }
   else
   {
-    if( !it.containing )
-    {
-      if( it.strictTyping )
-      {
-        // debugger;
-        // _.assert( 0, 'not tested' );
-        if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
-        return endStoping( false );
-        if( _.mapOwnKeys( it.src ).length !== _.mapOwnKeys( it.src2 ).length )
-        return endStoping( false );
-      }
-      else
-      {
-        // debugger;
-        // _.assert( 0, 'not tested' );
-        if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
-        return endStoping( false );
-        // if( _.mapOwnKeys( it.src ).length !== _.mapOwnKeys( it.src2 ).length )
-        // return endStoping( false );
-        // if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
-        // return endStoping( false );
-        // if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length && _.mapOwnKeys( it.src ).length !== _.mapOwnKeys( it.src2 ).length )
-        // return endStoping( false );
-      }
-    }
+    return it.equalMaps();
+    // if( !it.containing )
+    // {
+    //   if( it.strictTyping )
+    //   {
+    //     if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
+    //     return endStoping( false );
+    //     if( _.mapOwnKeys( it.src ).length !== _.mapOwnKeys( it.src2 ).length )
+    //     return endStoping( false );
+    //   }
+    //   else
+    //   {
+    //     if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
+    //     return endStoping( false );
+    //   }
+    // }
   }
 
   /* */
@@ -1200,13 +1315,23 @@ function equalReiterate( src1, src2, o )
   _.assert( arguments.length === 3 );
   _.assert( _.mapIs( o ) );
 
-  let o2 = _.mapOnly( it, _._equal.defaults );
+  let o2 = _.mapOnly( it, _.equaler._equal.defaults );
   _.assert( o2.it === undefined );
   _.assert( o2.level === it.level );
 
   _.mapExtend( o2, o );
 
-  return _._equal( src1, src2, o2 );
+  return _.equaler._equal( src1, src2, o2 );
+}
+
+//
+
+function _objectAscend( src )
+{
+  let it = this;
+
+  _.assert( arguments.length === 1 );
+
 }
 
 // --
@@ -1218,6 +1343,7 @@ Equaler.constructor = function Equaler(){};
 Equaler.Looker = Equaler;
 Equaler.choose = choose;
 Equaler.iterableEval = iterableEval;
+Equaler.ascendEval = ascendEval;
 Equaler.visitPush = visitPush;
 Equaler.visitPop = visitPop;
 Equaler.visitUp = visitUp;
@@ -1225,11 +1351,15 @@ Equaler.visitDown = visitDown;
 Equaler.equalUp = equalUp;
 Equaler.equalDown = equalDown;
 Equaler.equalCycle = equalCycle;
+Equaler.secondCoerce = secondCoerce;
 Equaler.equalSets = equalSets;
 Equaler.equalHashes = equalHashes;
+Equaler.equalMaps = equalMaps;
 Equaler.equalObjects = equalObjects;
 Equaler.equalLongs = equalLongs;
+Equaler.equalBuffers = equalBuffers;
 Equaler.equalReiterate = equalReiterate;
+Equaler._objectAscend = _objectAscend;
 
 let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
 Iterator.visitedContainer2 = null;
@@ -1245,11 +1375,37 @@ IterationPreserve.src2 = null;
 // declare
 // --
 
-let Proto =
+_.assert( !!_.looker.containerIdToNameMap[ 5 ] );
+_.assert( !_.looker.containerIdToNameMap[ 6 ] );
+
+let containerNameToIdMap =
+{
+  ... _.looker.containerNameToIdMap,
+  'object' : 6,
+  'last' : 6,
+}
+
+let containerIdToNameMap =
+{
+  ... _.looker.containerIdToNameMap,
+  6 : 'object',
+}
+
+let containerIdToAscendMap =
+{
+  ... _.looker.containerIdToAscendMap,
+  6 : _objectAscend,
+}
+
+let EqualerExtension =
 {
 
   _equalIt,
   _equal,
+
+  containerNameToIdMap,
+  containerIdToNameMap,
+  containerIdToAscendMap,
 
   identical : entityIdentical,
   entityIdentical,
@@ -1264,8 +1420,25 @@ let Proto =
 
 }
 
-_.mapSupplement( _, Proto );
+let ToolsExtension =
+{
+
+  identical : entityIdentical,
+  entityIdentical,
+  equivalent : entityEquivalent,
+  entityEquivalent,
+  contains : entityContains,
+  entityContains,
+  diff : entityDiff,
+  entityDiff,
+  diffExplanation : entityDiffExplanation,
+  entityDiffExplanation,
+
+}
+
 let Self = Equaler;
+_.mapSupplement( _.equaler, EqualerExtension );
+_.mapSupplement( _, ToolsExtension );
 
 // --
 // export
