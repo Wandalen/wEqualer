@@ -506,15 +506,44 @@ function iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  it.secondCoerce(); /* xxx : move */
+  it._iterableEval();
 
-  let type = _.container.typeOf( it.src );
-  if( type )
+  if( it.iterable === _.equaler.containerNameToIdMap.object || it.iterable === _.equaler.containerNameToIdMap.custom )
   {
-    it.iterable = _.looker.containerNameToIdMap.custom;
-    it.type = type;
+    if( it.secondCoerce() )
+    it._iterableEval();
   }
-  else if( _.arrayLike( it.src ) )
+
+  _.assert( it.iterable >= 0 );
+}
+
+//
+
+function _iterableEval()
+{
+  let it = this;
+  it.iterable = null;
+
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+
+  if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
+  {
+    it.iterable = _.looker.containerNameToIdMap.map;
+  }
+  else if( _.objectIs( it.src ) || _.objectIs( it.src2 ) )
+  {
+    let type = _.container.typeOf( it.src );
+    if( type )
+    {
+      it.iterable = _.looker.containerNameToIdMap.custom;
+      it.type = type;
+    }
+    else
+    {
+      it.iterable = _.equaler.containerNameToIdMap.object;
+    }
+  }
+  else if( _.longLike( it.src ) )
   {
     it.iterable = _.looker.containerNameToIdMap.long;
   }
@@ -526,43 +555,21 @@ function iterableEval()
   {
     it.iterable = _.looker.containerNameToIdMap.set;
   }
-  // else if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
-  else if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
-  {
-    it.iterable = _.looker.containerNameToIdMap.map;
-  }
-  // else if( ( _.objectIs( it.src ) && !_.mapLike( it.src ) ) || ( _.objectIs( it.src2 ) && !_.mapLike( it.src2 ) ) )
-  else if( _.objectIs( it.src ) || _.objectIs( it.src2 ) )
-  {
-    it.iterable = _.equaler.containerNameToIdMap.object;
-  }
   else
   {
-    it.iterable = 0;
+
+    let type = _.container.typeOf( it.src );
+    if( type )
+    {
+      it.iterable = _.looker.containerNameToIdMap.custom;
+      it.type = type;
+    }
+    else
+    {
+      it.iterable = 0;
+    }
+
   }
-
-  _.assert( it.iterable >= 0 );
-
-  // _.assert( arguments.length === 0, 'Expects no arguments' );
-  //
-  // let type = _.container.typeOf( it.src );
-  // if( type )
-  // {
-  //   it.iterable = _.equaler.containerNameToIdMap.custom;
-  //   it.type = type;
-  // }
-  // else
-  // {
-  //   if( _.objectIs( it.src ) || _.objectIs( it.src2 ) )
-  //   it.iterable = _.equaler.containerNameToIdMap.object;
-  // }
-  //
-  // if( it.iterable === _.equaler.containerNameToIdMap.custom || it.iterable === _.equaler.containerNameToIdMap.object )
-  // if( !it.strictContainer )
-  // it.secondCoerce();
-  //
-  // if( !it.iterable )
-  // Parent.iterableEval.call( this );
 
 }
 
@@ -941,13 +948,16 @@ function secondCoerce()
   if( _.objectIs( it.src ) && _.routineIs( it.src._secondCoerce ) )
   {
     it.src._secondCoerce( it );
+    return true;
   }
 
   if( _.objectIs( it.src2 ) && _.routineIs( it.src2._secondCoerce ) )
   {
     it.src2._secondCoerce( it );
+    return true;
   }
 
+  return false;
 }
 
 //
@@ -1345,6 +1355,7 @@ Equaler.constructor = function Equaler(){};
 Equaler.Looker = Equaler;
 Equaler.choose = choose;
 Equaler.iterableEval = iterableEval;
+Equaler._iterableEval = _iterableEval;
 Equaler.ascendEval = ascendEval;
 Equaler.visitPush = visitPush;
 Equaler.visitPop = visitPop;
