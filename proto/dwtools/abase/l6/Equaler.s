@@ -744,36 +744,20 @@ function equalUp()
   }
   else if( it.iterable === _.equaler.containerNameToIdMap.map )
   {
-    // debugger;
     it.equalMaps();
     if( !it.continue )
     return end();
   }
-  // else if( _.objectLike( it.src ) || _.objectLike( it.src2 ) )
   else if( it.iterable === _.equaler.containerNameToIdMap.object )
   {
 
-    // if( _.regexpIs( it.src ) )
-    // {
-    //   debugger; /* xxx : check */
-    //   return endStoping( _.regexpIdentical( it.src, it.src2 ) );
-    // }
-    // else if( _.dateIs( it.src ) )
-    // {
-    //   debugger; /* xxx : check */
-    //   return endStoping( _.datesAreIdentical( it.src, it.src2 ) );
-    // }
-    // else
-    {
-      it.equalObjects();
-      if( !it.continue )
-      return end();
-    }
+    it.equalObjects();
+    if( !it.continue )
+    return end();
 
   }
   else if( _.bufferAnyIs( it.src ) )
   {
-    // debugger;
     if( it.strictContainer )
     {
       // yyy
@@ -817,7 +801,6 @@ function equalUp()
     }
     else
     {
-      // debugger;
       if( it.strictTyping )
       return endStoping( it.src === it.src2 );
       else
@@ -826,7 +809,7 @@ function equalUp()
   }
   else
   {
-    debugger; /* xxx : check */
+    debugger;
     if( it.strictTyping )
     {
       if( it.src !== it.src2 )
