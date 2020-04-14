@@ -506,6 +506,8 @@ function iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
+  it.secondCoerce(); /* xxx : move */
+
   let type = _.container.typeOf( it.src );
   if( type )
   {
@@ -733,6 +735,28 @@ function equalUp()
     if( !it.continue )
     return end();
   }
+  // else if( _.objectLike( it.src ) || _.objectLike( it.src2 ) )
+  else if( it.iterable === _.equaler.containerNameToIdMap.object )
+  {
+
+    // if( _.regexpIs( it.src ) )
+    // {
+    //   debugger; /* xxx : check */
+    //   return endStoping( _.regexpIdentical( it.src, it.src2 ) );
+    // }
+    // else if( _.dateIs( it.src ) )
+    // {
+    //   debugger; /* xxx : check */
+    //   return endStoping( _.datesAreIdentical( it.src, it.src2 ) );
+    // }
+    // else
+    {
+      it.equalObjects();
+      if( !it.continue )
+      return end();
+    }
+
+  }
   else if( _.bufferAnyIs( it.src ) )
   {
     // debugger;
@@ -755,28 +779,6 @@ function equalUp()
     {
       return it.equalBuffers();
     }
-  }
-  // else if( _.objectLike( it.src ) || _.objectLike( it.src2 ) )
-  else if( it.iterable === _.equaler.containerNameToIdMap.object )
-  {
-
-    // if( _.regexpIs( it.src ) )
-    // {
-    //   debugger; /* xxx : check */
-    //   return endStoping( _.regexpIdentical( it.src, it.src2 ) );
-    // }
-    // else if( _.dateIs( it.src ) )
-    // {
-    //   debugger; /* xxx : check */
-    //   return endStoping( _.datesAreIdentical( it.src, it.src2 ) );
-    // }
-    // else
-    {
-      it.equalObjects();
-      if( !it.continue )
-      return end();
-    }
-
   }
   else if( !it.iterable )
   {
