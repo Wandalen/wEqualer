@@ -718,8 +718,8 @@ function equalUp()
 
   /* */
 
-  if( _global_.debugger )
-  debugger;
+  // if( _global_.debugger )
+  // debugger;
 
   /* */
 
@@ -935,8 +935,8 @@ function secondCoerce()
 {
   let it = this;
 
-  if( _global_.debugger )
-  debugger;
+  // if( _global_.debugger )
+  // debugger;
 
   if( _.objectIs( it.src ) && _.routineIs( it.src._secondCoerce ) )
   {
