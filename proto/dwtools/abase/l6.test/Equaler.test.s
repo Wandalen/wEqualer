@@ -2973,7 +2973,9 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onUpPaths, [ '/', '/0' ] );
   test.identical( onDownPaths, [ '/0', '/' ] );
 
-  test.case = 'trivial map'; /* */
+  /* */
+
+  test.case = 'trivial map';
 
   clean();
   var expected = true;
@@ -3003,7 +3005,9 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onUpPaths, [ '/', '/a' ] );
   test.identical( onDownPaths, [ '/a', '/' ] );
 
-  test.case = 'trivial mixed with routine'; /* */
+  /* */
+
+  test.case = 'trivial mixed with routine';
 
   var onScalar = function(){};
   var src1 =
@@ -3047,7 +3051,9 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onUpPaths, [ '/', '/onScalar' ] );
   test.identical( onDownPaths, [ '/onScalar', '/' ] );
 
-  test.case = 'trivial mixed'; /* */
+  /* */
+
+  test.case = 'trivial mixed';
 
   clean();
   var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
@@ -3085,7 +3091,9 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onUpPaths, [ '/', '/a', '/a/0', '/b', '/b/c', '/b/c/0', '/b/c/0/d', '/b/c/0/e', '/b/c/0/e/0', '/b/c/0/e/1' ] );
   test.identical( onDownPaths, [ '/a/0', '/a', '/b/c/0/d', '/b/c/0/e/0', '/b/c/0/e/1', '/b/c/0/e', '/b/c/0', '/b/c', '/b', '/' ] );
 
-  test.case = 'cycle'; /* */
+  /* */
+
+  test.case = 'cycle';
 
   clean();
   var a = { x : 1, y : null }
@@ -3142,7 +3150,9 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onUpPaths, [ '/', '/x', '/y', '/y/x', '/y/y' ] );
   test.identical( onDownPaths, [ '/x', '/y/x', '/y/y', '/y', '/' ] );
 
-  test.case = 'mixed cycle - equal'; /* */
+  /* */
+
+  test.case = 'mixed cycle - equal';
 
   clean();
   var af1 = [];
@@ -3163,7 +3173,9 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onUpPaths, [ '/', '/f1', '/instances', '/instances/0', '/instances/0/f1', '/instances/0/instances' ] );
   test.identical( onDownPaths, [ '/f1', '/instances/0/f1', '/instances/0/instances', '/instances/0', '/instances', '/' ] );
 
-  test.case = 'mixed cycle - different cycle a'; /* */
+  /* */
+
+  test.case = 'mixed cycle - different cycle a';
 
   clean();
   var af1 = [];
@@ -3183,7 +3195,9 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onUpPaths, [ '/', '/f1', '/instances', '/instances/0', '/instances/0/f1', '/instances/0/instances' ] );
   test.identical( onDownPaths, [ '/f1', '/instances/0/f1', '/instances/0/instances', '/instances/0', '/instances', '/' ] );
 
-  test.case = 'mixed cycle - different cycle b'; /* */
+  /* */
+
+  test.case = 'mixed cycle - different cycle b';
 
   clean();
   var af1 = [];
@@ -4226,7 +4240,9 @@ function entityDiffLoose( test )
 
   // test.identical( got, {} );
 
-  test.case = 'undefined - null'; /* */
+  /* */
+
+  test.case = 'undefined - null';
 
   var got = _.entityDiff( undefined, null );
   var expected =
@@ -4240,7 +4256,9 @@ function entityDiffLoose( test )
 `
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
-  test.case = 'null - undefined'; /* */
+  /* */
+
+  test.case = 'null - undefined';
 
   var got = _.entityDiff( null, undefined );
   var expected =
@@ -4254,25 +4272,33 @@ function entityDiffLoose( test )
 `
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
-  test.case = 'undefined - undefined'; /* */
+  /* */
+
+  test.case = 'undefined - undefined';
 
   var got = _.entityDiff( undefined, undefined );
   var expected = false;
   test.identical( got, expected );
 
-  test.case = 'null - null'; /* */
+  /* */
+
+  test.case = 'null - null';
 
   var got = _.entityDiff( null, null );
   var expected = false;
   test.identical( got, expected );
 
-  test.case = 'number'; /* */
+  /* */
+
+  test.case = 'number';
 
   var got = _.entityDiff( 1, 1 );
   var expected = false ;
   test.identical( got, expected );
 
-  test.case = 'strings'; /* */
+  /* */
+
+  test.case = 'strings';
 
   var got = _.entityDiff( 'abc', 'abd' );
   var expected =
@@ -4287,7 +4313,9 @@ function entityDiffLoose( test )
 
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
-  test.case = 'arrays'; /* */
+  /* */
+
+  test.case = 'arrays';
 
   var got = _.entityDiff( [ 1, 2, 3 ], [ 1, 2, 4 ] );
   var expected =
@@ -4300,7 +4328,9 @@ function entityDiffLoose( test )
   [ 1, 2, *`;
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
-  test.case = 'objects,custom path'; /* */
+  /* */
+
+  test.case = 'objects,custom path';
 
   var src1 = { a : { a : 1, b : '2' }, b : [ 1,2 ] };
   var src2 = { a : { a : 1, b : '2' } };
@@ -4394,13 +4424,17 @@ function entityDiffLoose( test )
   if( !Config.debug )
   return;
 
-  test.case = 'argument missed'; /* */
+  /* */
+
+  test.case = 'argument missed';
   test.shouldThrowErrorSync( function()
   {
     _.entityDiff( );
   });
 
-  test.case = 'invalid options type'; /* */
+  /* */
+
+  test.case = 'invalid options type';
   test.shouldThrowErrorSync( function()
   {
     _.entityDiff( 1, 2, 3 );
