@@ -1,6 +1,6 @@
 {
   "name" : "wequaler", 
-  "version" : "0.5.100", 
+  "version" : "0.5.101", 
   "description" : "Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.", 
   "author" : "Kostiantyn Wandalen <wanalen@willbe.so>", 
   "license" : "MIT", 
@@ -12,7 +12,7 @@
   {
     "url" : "https://github.com/Wandalen/wEqualer/issues"
   }, 
-  "dependencies" : { "wTools" : "gamma", "wlooker" : "gamma", "wselector" : "gamma" }, 
-  "devDependencies" : { "wTesting" : "gamma" }, 
+  "dependencies" : { "wTools" : "alpha", "wlooker" : "alpha", "wselector" : "alpha" }, 
+  "devDependencies" : { "wTesting" : "alpha" }, 
   "keywords" : [ "wTools" ]
 }
