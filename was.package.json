@@ -1,18 +1,18 @@
 {
-  "name" : "wequaler", 
-  "version" : "0.5.103", 
-  "description" : "Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.", 
-  "author" : "Kostiantyn Wandalen <wanalen@willbe.so>", 
-  "license" : "MIT", 
-  "main" : "proto/dwtools/abase/l6/Equaler.s", 
-  "files" : [ "proto/dwtools/abase/l6", "proto/dwtools/Tools.s" ], 
-  "scripts" : { "test" : "wtest .run proto", "docgen" : "wdocgen proto" }, 
-  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wEqualer.git" }, 
-  "bugs" : 
+  "name" : "wequaler",
+  "version" : "0.5.104",
+  "description" : "Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.",
+  "author" : "Kostiantyn Wandalen <wanalen@willbe.so>",
+  "license" : "MIT",
+  "main" : "proto/dwtools/abase/l6/Equaler.s",
+  "files" : [ "proto/dwtools/abase/l6", "proto/dwtools/Tools.s" ],
+  "scripts" : { "test" : "wtest .run proto", "docgen" : "wdocgen proto" },
+  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wEqualer.git" },
+  "bugs" :
   {
     "url" : "https://github.com/Wandalen/wEqualer/issues"
-  }, 
-  "dependencies" : { "wTools" : "", "wlooker" : "", "wselector" : "" }, 
-  "devDependencies" : { "wTesting" : "" }, 
+  },
+  "dependencies" : { "wTools" : "", "wlooker" : "", "wselector" : "" },
+  "devDependencies" : { "wTesting" : "" },
   "keywords" : [ "wTools" ]
 }
