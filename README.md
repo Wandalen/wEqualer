@@ -6,7 +6,7 @@ Collection of routines to compare two complex structures. The module can answer 
 ## Sample
 ```js
 
-var _ = require( '..' /* 'wequaler' */ );
+var _ = require( 'wequaler' );
 
 var map1 = { a : 0, e : { c : 2, d : 3 } };
 var map2 = { a : 0, e : { c : 2, d : 3 } };
