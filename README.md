@@ -4,7 +4,7 @@
 Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
 
 ## Sample
-```JavScript
+```js
 
 var _ = require( '..' /* 'wequaler' */ );
 
