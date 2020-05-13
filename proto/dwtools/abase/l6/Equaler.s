@@ -938,15 +938,15 @@ function secondCoerce()
   // if( _global_.debugger )
   // debugger;
 
-  if( _.objectIs( it.src ) && _.routineIs( it.src._secondCoerce ) )
+  if( _.objectIs( it.src ) && _.routineIs( it.src._equalSecondCoerce ) )
   {
-    it.src._secondCoerce( it );
+    it.src._equalSecondCoerce( it );
     return true;
   }
 
-  if( _.objectIs( it.src2 ) && _.routineIs( it.src2._secondCoerce ) )
+  if( _.objectIs( it.src2 ) && _.routineIs( it.src2._equalSecondCoerce ) )
   {
-    it.src2._secondCoerce( it );
+    it.src2._equalSecondCoerce( it );
     return true;
   }
 
