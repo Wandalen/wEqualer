@@ -989,15 +989,27 @@ function secondCoerce()
   // if( _global_.debugger )
   // debugger;
 
-  if( !_.primitiveIs( it.src ) && _.routineIs( it.src._equalSecondCoerce ) )
+  // if( !_.primitiveIs( it.src ) && _.routineIs( it.src._equalSecondCoerce ) )
+  // {
+  //   it.src._equalSecondCoerce( it );
+  //   return true;
+  // }
+  //
+  // if( !_.primitiveIs( it.src2 ) && _.routineIs( it.src2._equalSecondCoerce ) )
+  // {
+  //   it.src2._equalSecondCoerce( it );
+  //   return true;
+  // }
+
+  if( !_.primitiveIs( it.src ) && _.routineIs( it.src[ equalSecondCoerceSymbol ] ) )
   {
-    it.src._equalSecondCoerce( it );
+    it.src[ equalSecondCoerceSymbol ]( it );
     return true;
   }
 
-  if( !_.primitiveIs( it.src2 ) && _.routineIs( it.src2._equalSecondCoerce ) )
+  if( !_.primitiveIs( it.src2 ) && _.routineIs( it.src2[ equalSecondCoerceSymbol ] ) )
   {
-    it.src2._equalSecondCoerce( it );
+    it.src2[ equalSecondCoerceSymbol ]( it );
     return true;
   }
 
@@ -1529,6 +1541,7 @@ _.assert( !!_.looker.containerIdToNameMap[ 5 ] );
 _.assert( !_.looker.containerIdToNameMap[ 6 ] );
 
 let equalAreSymbol = Symbol.for( 'equalAre' );
+let equalSecondCoerceSymbol = Symbol.for( 'equalSecondCoerce' );
 
 let containerNameToIdMap =
 {

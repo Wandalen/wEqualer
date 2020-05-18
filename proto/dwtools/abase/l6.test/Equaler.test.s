@@ -4285,7 +4285,7 @@ function compareObjectsWithSecondCoerce( test )
     return this;
   }
   FromNumber.prototype[ Symbol.for( 'equalAre' ) ] = _equalAre;
-  FromNumber.prototype._equalSecondCoerce = _equalSecondCoerceFromNumber;
+  FromNumber.prototype[ Symbol.for( 'equalSecondCoerce' ) ] = _equalSecondCoerceFromNumber;
 
   var src1 = new FromNumber( 1, 0 );
   var src2 = 1;
@@ -4312,7 +4312,7 @@ function compareObjectsWithSecondCoerce( test )
     return this;
   }
   FromArray.prototype[ Symbol.for( 'equalAre' ) ] = _equalAre;
-  FromArray.prototype._equalSecondCoerce = _equalSecondCoerceFromArray;
+  FromArray.prototype[ Symbol.for( 'equalSecondCoerce' ) ] = _equalSecondCoerceFromArray;
 
   var src1 = new FromArray( 1, 0 );
   var src2 = [ 1 ];
