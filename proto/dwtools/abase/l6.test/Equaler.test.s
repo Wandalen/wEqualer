@@ -38,8 +38,501 @@ function trivial( test )
 
 //
 
+function _entityEqualLoose( test )
+{
+
+  /* default options */
+
+  test.case = 'default options, number';
+  var got = _.equaler._equal( 1, 1 );
+  var expected = true ;
+  test.identical( got, expected );
+
+  test.case = 'default options, string';
+  var got = _.equaler._equal( '123', '123' );
+  var expected = true ;
+  test.identical( got, expected );
+
+  test.case = 'default options, boolean';
+  var got = _.equaler._equal( 0, false );
+  var expected = false;
+  test.identical( got, expected );
+
+  test.case = 'default options, array';
+  var got = _.equaler._equal( [ 1, 2 ,'3'], [ 1, 2, 3 ] );
+  var expected = false ;
+  test.identical( got, expected );
+
+  test.case = 'default options, object';
+  var src1 = { a : 1, b : 2 , c : { d : 3  }  };
+  var src2 = { a : 1, b : 2 , c : { d : 3  }  };
+  var got = _.equaler._equal( src1, src2 );
+  var expected = true ;
+  test.identical( got, expected );
+
+  /* strict string - number */
+
+  test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 0 } );
+  var expected = true ;
+  test.identical( got, expected );
+
+  test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 0 } );
+  var expected = false ;
+  test.identical( got, expected );
+
+  test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 1 } );
+  var expected = false ;
+  test.identical( got, expected );
+
+  test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 1 } );
+  var expected = false ;
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 0 } );
+  var expected = true ;
+  test.identical( got, expected );
+
+  test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 0 } );
+  var expected = false ;
+  test.identical( got, expected );
+
+  test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 1 } );
+  var expected = false ;
+  test.identical( got, expected );
+
+  test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 1 } );
+  var expected = false ;
+  test.identical( got, expected );
+
+  /* strict bool - number */
+
+  test.case = 'number & boolean, strictNumbering : 0, strictTyping : 0';
+  var got = _.equaler._equal( false, 0, { strictNumbering : 0, strictTyping : 0 } );
+  var expected = true ;
+  test.identical( got, expected );
+
+  test.case = 'number & boolean, strictNumbering : 0, strictTyping : 1';
+  var got = _.equaler._equal( false, 0, { strictNumbering : 0, strictTyping : 1 } );
+  var expected = false ;
+  test.identical( got, expected );
+
+  test.case = 'number & boolean, strictNumbering : 1, strictTyping : 0';
+  var got = _.equaler._equal( false, 0, { strictNumbering : 1, strictTyping : 0 } );
+  var expected = false ;
+  test.identical( got, expected );
+
+  test.case = 'number & boolean, strictNumbering : 1, strictTyping : 1';
+  var got = _.equaler._equal( false, 0, { strictNumbering : 1, strictTyping : 1 } );
+  var expected = false ;
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'src1 constains elem from src2 ';
+  var got = _.equaler._equal( { a : 1, b : 2 }, { b : 2 }, { containing : 1 } );
+  var expected = true ;
+  test.identical( got, expected );
+
+  test.case = 'onNumbersAreEqual';
+  function onNumbersAreEqual( a, b ){ return _.entityEquivalent( a, b, { accuracy : 1 } ) };
+  var got = _.equaler._equal( { a : 1, b : 2 }, { a : 2, b : 2 }, { onNumbersAreEqual } );
+  var expected = true ;
+  test.identical( got, expected );
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'argument missed';
+  test.shouldThrowErrorSync( function()
+  {
+    _.equaler._equal( );
+  });
+
+  test.case = 'options is not a Object';
+  test.shouldThrowErrorSync( function()
+  {
+    _.equaler._equal( 1, 2, 3 );
+  });
+
+  test.case = 'extendet options';
+  test.shouldThrowErrorSync( function()
+  {
+    _.equaler._equal( 1, 2, { fixed : 1 } );
+  });
+
+}
+
+//
+
+function entityIdenticalLoose( test )
+{
+
+  var options =
+  {
+    strictTyping : 0,
+  };
+
+  /* numbers */
+
+  var x1 = 44;
+  var y1 = 44;
+  var x2 = 44;
+  var y2 = 34;
+
+  /* strings */
+
+  var strX1 = '4';
+  var strY1 = 4;
+  var strX2 = '0';
+  var strY2 = '0';
+  // var strX3 = '0';
+  // var strY3 = new String( '0' );
+
+  /* array values */
+
+  var arrX1 = [ 0, 1, 3 ];
+  var arrY1 = [ 0, 1, 3 ];
+  var arrX2 = [ 0, 1, 3 ];
+  var arrY2 = [ 0, 1, 2 ];
+
+  /* object values */
+
+  var objX1 = { a : 0, b : 1, c : 3 };
+  var objY1 = { a : 0, b : 1, c : 3 };
+  var objX2 = { a : 0, b : 1, c : 3 };
+  var objY2 = { a : 0, b : 1, c : 2 };
+  var objX3 = { a : 0, b : 1, e : { c : 2, d : 3 } };
+  var objY3 = { a : 0, b : 1, e : { c : 2, d : 3 } };
+
+  /* numbers test */
+
+  test.case = 'identical numbers';
+  var got = _.entityIdentical( x1, y1 );
+  test.identical( got, true );
+
+  test.case = 'not identical numbers';
+  var got = _.entityIdentical( x2, y2 );
+  test.identical( got, false );
+
+  // strings test
+
+  test.case = 'same string';
+  var got = _.entityIdentical( strX1, strX1 );
+  test.identical( got, true );
+
+  test.case = 'mismatch types : no strict';
+  var got = _.entityIdentical( strX1, strX1, _.mapExtend( null, options ) );
+  test.identical( got, true );
+
+  test.case = 'entities is two non empty same strings';
+  var got = _.entityIdentical( strX2, strY2 );
+  test.identical( got, true );
+
+  test.case = 'string and object';
+  var strX3 = '0';
+  var strY3 = new String( '0' );
+  var got = _.entityIdentical( strX3, strY3, _.mapExtend( null, options ) );
+  test.identical( got, false );
+
+  // array tests
+
+  test.case = 'tests two non empty arrays';
+  var got = _.entityIdentical( arrX1, arrY1 );
+  test.identical( got, true );
+
+  test.case = 'tests two non empty different arrays';
+  var got = _.entityIdentical( arrX2, arrY2 );
+  test.identical( got, false );
+
+  // object tests
+
+  test.case = 'tests two non empty objects';
+  var got = _.entityIdentical( objX1, objY1 );
+  test.identical( got, true );
+
+  test.case = 'tests two different objects';
+  var got = _.entityIdentical( objX2, objY2 );
+  test.identical( got, false );
+
+  test.case = 'tests nested objects';
+  var got = _.entityIdentical( objX3, objY3 );
+  test.identical( got, true );
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'missed arguments';
+  test.shouldThrowErrorSync( function()
+  {
+    _.entityIdentical();
+  });
+
+  test.case = 'extra argument';
+  test.shouldThrowErrorSync( function()
+  {
+    _.entityIdentical( strX3, strY3, {}, '' );
+  });
+
+};
+
+//
+
+function entityEquivalentLoose( test )
+{
+  var accuracy = 1e-7;
+
+  var options =
+  {
+    accuracy
+  }
+
+  /* numbers */
+
+  var x1 = 44;
+  var y1 = 44;
+  var x2 = 44;
+  var y2 = 44 + accuracy / 2;
+  var x3 = 44;
+  var y3 = 44 + 2 * accuracy;
+
+  /* numbers test */
+
+  test.case = 'identical numbers';
+  var got = _.entityEquivalent( x1, y1, _.mapExtend( null, options ) );
+  test.identical( got, true );
+
+  test.case = ' practically equivalent numbers';
+  var got = _.entityEquivalent( x2, y2, _.mapExtend( null, options ) );
+  test.identical( got, true );
+
+  test.case = ' not equivalent numbers';
+  var got = _.entityEquivalent( x3, y3, _.mapExtend( null, options ) );
+  test.identical( got, false );
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'missed arguments';
+  test.shouldThrowErrorSync( function()
+  {
+    _.entityEquivalent();
+  });
+
+  test.case = 'extra argument';
+  test.shouldThrowErrorSync( function()
+  {
+    _.entityEquivalent( strX3, strY3, options, '');
+  });
+
+};
+
+//
+
+function entityContainLoose( test )
+{
+
+  /* numbers */
+
+  var x1 = 44;
+  var y1 = 44;
+  var x2 = 44;
+  var y2 = 34;
+
+  /* strings */
+
+  var strX1 = '4';
+  var strY1 = 4;
+  var strX2 = '0';
+  var strY2 = '0';
+  var strX3 = '0';
+  var strY3 = new String( '0' );
+
+  /* array values */
+
+  var arrX1 = [ 0, 1, 3 ];
+  var arrY1 = [ 0, 1, 3 ];
+  var arrX2 = [ 0, 1, 3 ];
+  var arrY2 = [ 0, 1, 2 ];
+  var arrX3 = [ 0, 1, 3 ];
+  var arrY3 = [ 0, 1 ];
+  var arrX4 = [ [ 0, 1 ] ];
+  var arrY4 = [ 0, 1 ];
+  var arrX5 = [ [ 0, 1 ], [ 3, 4 ] ];
+  var arrY5 = [ [ 0 ], [ 3 ] ];
+
+  /* object values */
+
+  var objX1 = { a : 0, b : 1, c : 3 };
+  var objY1 = { a : 0, b : 1, c : 3 };
+  var objX2 = { a : 0, b : 1, c : 3 };
+  var objY2 = { a : 0, b : 1, c : 2 };
+  var objX3 = { a : 0, b : 1, e : { c : 2, d : 3 } };
+  var objY3 = { a : 0, b : 1, e : { c : 2, d : 3 } };
+  var objX4 = { a : 0, b : 1, e : { c : 2, d : 3 } };
+  var objY4 = { a : 0, e : { d : 3 } };
+
+  /* array tests */
+
+  test.case = 'tests two non empty arrays : same length';
+  var got = _.entityContains( arrX1, arrY1 );
+  test.identical( got, true );
+
+  test.case = 'tests two non empty different arrays';
+  var got = _.entityContains( arrX2, arrY2 );
+  test.identical( got, false );
+
+  test.case = 'one array contains other`s elements';
+  var got = _.entityContains( arrX3, arrY3 );
+  test.identical( got, true );
+
+  test.case = 'one array contains other as element';
+  var got = _.entityContains( arrX4, arrY4 );
+  test.identical( got, false );
+
+  test.case = 'nested arrays';
+  var got = _.entityContains( arrX5, arrY5 );
+  test.identical( got, true );
+
+  /* object tests */
+
+  test.case = 'tests two non empty objects : identical keys';
+  var got = _.entityContains( objX1, objY1 );
+  test.identical( got, true );
+
+  test.case = 'tests two different objects : identical keys';
+  var got = _.entityContains( objX2, objY2 );
+  test.identical( got, false );
+
+  test.case = 'tests nested objects : identical';
+  var got = _.entityContains( objX3, objY3 );
+  test.identical( got, true );
+
+  test.case = 'one object contains elements of another';
+  var got = _.entityContains( objX4, objY4 );
+  test.identical( got, true );
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'missed arguments';
+  test.shouldThrowErrorSync( function()
+  {
+    _.entityContains();
+  });
+
+  test.case = 'extra argument';
+  test.shouldThrowErrorSync( function()
+  {
+    _.entityContains( strX3, strY3, options, '');
+  });
+
+}
+
+//
+
+function entityEqualMaps( test )
+{
+
+  test.case = 'descendant has no fields';
+  var m1 = { a : 1 };
+  var m2 = Object.create({ a : 1 });
+  test.is( !_.entityIdentical( m1, m2 ) );
+  test.is( _.entityEquivalent( m1, m2 ) );
+
+  test.case = 'descendant has field';
+  var m1 = { a : 1, b : 2 };
+  var m2 = Object.create({ a : 1 });
+  m2.b = 2;
+  test.is( !_.entityIdentical( m1, m2 ) );
+  test.is( _.entityEquivalent( m1, m2 ) );
+
+}
+
+//
+
+function entityEqualStrings( test )
+{
+
+  test.case = 'entityIdentical string and object string';
+  var a = '0';
+  var b = new String( '0' );
+  var got = _.entityIdentical( a, b );
+  test.identical( got, false );
+  var got = _.entityIdentical( b, a );
+  test.identical( got, false );
+
+  test.case = 'entityEquivalent string and object string';
+  var a = '0';
+  var b = new String( '0' );
+  var got = _.entityEquivalent( a, b );
+  test.identical( got, true );
+  var got = _.entityEquivalent( b, a );
+  test.identical( got, true );
+
+  test.case = 'entityIdentical lines with different spacing on ends';
+  var a =
+`
+ some
+text ` +
+`
+
+this is
+`
+;
+  var b =
+`some
+text
+this is
+
+
+`
+  var got = _.entityIdentical( a, b );
+  test.identical( got, false );
+  var got = _.entityIdentical( b, a );
+  test.identical( got, false );
+
+  test.case = 'entityEquivalent lines with different spacing on ends';
+  var a =
+`
+ some
+text ` +
+`
+
+this is
+`
+;
+  var b =
+`some
+text
+this is
+
+
+`
+  var got = _.entityEquivalent( a, b );
+  test.identical( got, true );
+  var got = _.entityEquivalent( b, a );
+  test.identical( got, true );
+
+}
+
+// --
+//
+// --
+
 function entityIdenticalSimple( test )
 {
+
+  /* */
 
   test.case = 'null - undefined';
 
@@ -920,7 +1413,7 @@ function entityContainsSimple( test )
   var got = _.entityContains( 1, 1 );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( 1, 1 + 1e-15 );
   test.identical( got, expected );
 
@@ -940,15 +1433,15 @@ function entityContainsSimple( test )
 
   test.case = 'number - not number';
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( 1, '1' );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( 0, '0' );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( 0, '' );
   test.identical( got, expected );
 
@@ -1060,7 +1553,7 @@ function entityContainsSimple( test )
   var got = _.entityContains( '', NaN );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( '', 0 );
   test.identical( got, expected );
 
@@ -1120,11 +1613,11 @@ function entityContainsSimple( test )
   var got = _.entityContains( 'abc', 1 );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( '0', 0 );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.entityContains( '1', 1 );
   test.identical( got, expected );
 
@@ -1286,6 +1779,14 @@ function entityContainsSimple( test )
 
   var expected = true;
   var got = _.entityContains( /abc/, {} );
+  test.identical( got, expected );
+
+  var expected = false;
+  var got = _.entityContains( /abc/, { x : 1 } );
+  test.identical( got, expected );
+
+  var expected = true;
+  var got = _.entityContains( /abc/, { ignoreCase : false, lastIndex : 0 } );
   test.identical( got, expected );
 
   var expected = false;
@@ -1987,6 +2488,7 @@ function entityEquivalentProto( test )
 
 function entityIdenticalBuffers( test )
 {
+
   test.case = 'identical ArrayBuffer, simple';
   var src1 = new BufferRaw( 10 );
   var src2 = new BufferRaw( 10 );
@@ -2635,6 +3137,318 @@ function entityEqualContainerType( test )
 
 }
 
+// --
+//
+// --
+
+function comparePrimitiveAndNon( test )
+{
+
+  test.case = 'basic';
+  var expected = true;
+  var ins1 = 3;
+  var ins2 = Object.create( null );
+  test.identical( _.entityIdentical( ins1, ins2 ), false );
+  test.identical( _.entityIdentical( ins2, ins1 ), false );
+  test.identical( _.entityEquivalent( ins1, ins2 ), false );
+  test.identical( _.entityEquivalent( ins2, ins1 ), false );
+  test.identical( _.entityContains( ins1, ins2 ), false );
+  test.identical( _.entityContains( ins2, ins1 ), false );
+
+}
+
+//
+
+function compareNull( test )
+{
+
+  /* */
+
+  test.case = 'null';
+  var src1 = null;
+  var src2 = null;
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'undefined';
+  var src1 = null;
+  var src2 = undefined;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'zero';
+  var src1 = null;
+  var src2 = 0;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'empty str';
+  var src1 = null;
+  var src2 = '';
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+}
+
+//
+
+function compareUndefined( test )
+{
+
+  /* */
+
+  test.case = 'undefined';
+  var src1 = undefined;
+  var src2 = undefined;
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'null';
+  var src1 = undefined;
+  var src2 = null;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'zero';
+  var src1 = undefined;
+  var src2 = 0;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'empty str';
+  var src1 = undefined;
+  var src2 = '';
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+}
+
+//
+
+function compareEmptyString( test )
+{
+
+  /* */
+
+  test.case = 'empty string';
+  var src1 = '';
+  var src2 = '';
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'undefined';
+  var src1 = '';
+  var src2 = undefined;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'null';
+  var src1 = '';
+  var src2 = null;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'zero';
+  var src1 = '';
+  var src2 = 0;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+}
+
+//
+
+function compareZero( test )
+{
+
+  /* */
+
+  test.case = 'zero';
+  var src1 = 0;
+  var src2 = 0;
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'undefined';
+  var src1 = 0;
+  var src2 = undefined;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'null';
+  var src1 = 0;
+  var src2 = null;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'empty string';
+  var src1 = 0;
+  var src2 = '';
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+}
+
 //
 
 function compareDate( test )
@@ -2715,6 +3529,835 @@ function compareRegexp( test )
   test.identical( _.entityContains( ins2, ins1 ), true );
 
   /* */
+
+}
+
+//
+
+function compareString( test )
+{
+
+  /* */
+
+  test.case = 'identical';
+
+  var src1 =
+`
+  abc\x20\x20
+
+`
+  var src2 =
+`
+  abc\x20\x20
+
+`
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+
+  /* */
+
+  test.case = 'not identical';
+
+  var src1 =
+`
+  abc\x20\x20
+
+`
+  var src2 = `abc`;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+
+  /* */
+
+  test.case = 'not equivalent';
+
+  var src1 = `ab cd`;
+  var src2 = `ab  cd`;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+}
+
+//
+
+function compareObjectsWithoutEqualAre( test )
+{
+
+  /* */
+
+  test.case = 'map.standard, not equal field';
+
+  var src1 = { val : 1 };
+  var src2 = { val : 2 };
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.standard, equal field';
+
+  var src1 = { val : 3 };
+  var src2 = { val : 3 };
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'map.pure, not equal field';
+
+  var src1 = Object.create( null );
+  src1.val = 1;
+  var src2 = Object.create( null );
+  src2.val = 2;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.pure, equal field';
+
+  var src1 = Object.create( null );
+  src1.val = 3;
+  var src2 = Object.create( null );
+  src2.val = 3;
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, not equal field';
+
+  var src1 = Object.create( Object.create( null ) );
+  src1.val = 1;
+  var src2 = Object.create( Object.create( null ) );
+  src2.val = 2;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, equal field';
+
+  var src1 = Object.create( Object.create( null ) );
+  src1.val = 3;
+  var src2 = Object.create( Object.create( null ) );
+  src2.val = 3;
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, prototype has equal field, not equal field';
+
+  var proto1 = Object.create( null );
+  proto1.protoVal = 3;
+  var src1 = Object.create( proto1 );
+  src1.val = 1;
+  var proto2 = Object.create( null );
+  proto2.protoVal = 3;
+  var src2 = Object.create( proto2 );
+  src2.val = 2;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, prototype has equal field, equal field';
+
+  var proto1 = Object.create( null );
+  proto1.protoVal = 3;
+  var src1 = Object.create( proto1 );
+  src1.val = 3;
+  var proto2 = Object.create( null );
+  proto2.protoVal = 3;
+  var src2 = Object.create( proto2 );
+  src2.val = 3;
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, prototype has not equal field, equal field';
+
+  var proto1 = Object.create( null );
+  proto1.protoVal = 1;
+  var src1 = Object.create( proto1 );
+  src1.val = 3;
+  var proto2 = Object.create( null );
+  proto2.protoVal = 2;
+  var src2 = Object.create( proto2 );
+  src2.val = 3;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'object, not equal field';
+
+  function Constructor2( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    return this;
+  }
+
+  var src1 = new Constructor2( 3, 0 );
+  var src2 = new Constructor2( 4, 1 );
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'object, equal field';
+
+  function Constructor2( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    return this;
+  }
+
+  var src1 = new Constructor2( 0, 0 );
+  var src2 = new Constructor2( 0, 0 );
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+}
+
+//
+
+function compareObjectsWithEqualAre( test )
+{
+
+  /* */
+
+  test.case = 'map.standard, not equal field';
+
+  var src1 = { val : 1 };
+  src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
+  var src2 = { val : 2 };
+  src2[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.standard, equal field';
+
+  var src1 = { val : 3, val2 : 1 };
+  src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
+  var src2 = { val : 3, val2 : 2 };
+  src2[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.pure, not equal field';
+
+  var src1 = Object.create( null );
+  src1.val = 1;
+  src1.val2 = 1;
+  src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
+  var src2 = Object.create( null );
+  src2.val = 2;
+  src2.val2 = 2;
+  src2[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.pure, equal field';
+
+  var src1 = Object.create( null );
+  src1.val = 3;
+  src1.val2 = 1;
+  src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
+  var src2 = Object.create( null );
+  src2.val = 3;
+  src2.val2 = 2;
+  src2[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, not equal field';
+
+  var src1 = Object.create( Object.create( null ) );
+  src1.val = 1;
+  src1.val2 = 1;
+  src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
+  var src2 = Object.create( Object.create( null ) );
+  src2.val = 2;
+  src2.val2 = 2;
+  src2[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, equal field';
+
+  var src1 = Object.create( Object.create( null ) );
+  src1.val = 3;
+  src1.val2 = 1;
+  src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
+  var src2 = Object.create( Object.create( null ) );
+  src2.val = 3;
+  src2.val2 = 2;
+  src2[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, prototype has equal field, not equal field';
+
+  var proto1 = Object.create( null );
+  proto1.protoVal = 3;
+  var src1 = Object.create( proto1 );
+  src1.val = 1;
+  src1.val2 = 1;
+  src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  var proto2 = Object.create( null );
+  proto2.protoVal = 3;
+  var src2 = Object.create( proto2 );
+  src2.val = 2;
+  src2.val2 = 2;
+  src2[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, prototype has equal field, equal field';
+
+  var proto1 = Object.create( null );
+  proto1.protoVal = 3;
+  var src1 = Object.create( proto1 );
+  src1.val = 3;
+  src1.val2 = 1;
+  src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  var proto2 = Object.create( null );
+  proto2.protoVal = 3;
+  var src2 = Object.create( proto2 );
+  src2.val = 3;
+  src2.val2 = 2;
+  src2[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'map.prototyped, prototype has not equal field, equal field';
+
+  var proto1 = Object.create( null );
+  proto1.protoVal = 1;
+  var src1 = Object.create( proto1 );
+  src1.val = 3;
+  src1.val2 = 1;
+  src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  var proto2 = Object.create( null );
+  proto2.protoVal = 2;
+  var src2 = Object.create( proto2 );
+  src2.val = 3;
+  src2.val2 = 1;
+  src2[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'object, not equal field, prototype has _equalAre';
+
+  function ProtoWith( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    return this;
+  }
+  ProtoWith.prototype[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  var src1 = new ProtoWith( 3, 0 );
+  var src2 = new ProtoWith( 4, 1 );
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'object, equal field, bad name';
+
+  function ProtoWithout( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    return this;
+  }
+  ProtoWithout.prototype._equalAre2 = _equalAre;
+
+  var src1 = new ProtoWithout( 0, 0 );
+  var src2 = new ProtoWithout( 0, 0 );
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'object, equal field, prototype has _equalAre';
+
+  function ProtoWith( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    return this;
+  }
+  ProtoWith.prototype[ Symbol.for( 'equalAre' ) ] = _equalAre;
+
+  var src1 = new ProtoWith( 3, 1 );
+  var src2 = new ProtoWith( 3, 2 );
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'object, equal field, instance has _equalAre';
+
+  function InstanceWith( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    this[ Symbol.for( 'equalAre' ) ] = _equalAre;
+    return this;
+  }
+
+  var src1 = new InstanceWith( 3, 1 );
+  var src2 = new InstanceWith( 3, 2 );
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'object, equal field, prototype has _equalAre, with toPrimitive';
+
+  function ProtoWithStringTag( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    return this;
+  }
+  ProtoWithStringTag.prototype[ Symbol.for( 'equalAre' ) ] = _equalAre;
+  Object.defineProperty( ProtoWithStringTag.prototype, Symbol.toStringTag,
+  {
+    enumerable : false,
+    configurable : false,
+    get : function(){ return 'ProtoWithStringTag1' }
+  });
+
+  var src1 = new ProtoWithStringTag( 3, 1 );
+  var src2 = new ProtoWithStringTag( 3, 2 );
+
+  test.identical( Object.prototype.toString.call( ProtoWithStringTag ), '[object Function]' );
+  test.identical( Object.prototype.toString.call( src1 ), '[object ProtoWithStringTag1]' );
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'object, equal field, instance has _equalAre, with toPrimitive';
+
+  function InstanceWithStringTag( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    this[ Symbol.for( 'equalAre' ) ] = _equalAre;
+    return this;
+  }
+  Object.defineProperty( InstanceWithStringTag.prototype, Symbol.toStringTag,
+  {
+    enumerable : false,
+    configurable : false,
+    get : function(){ return 'InstanceWithStringTag1' }
+  });
+
+  var src1 = new InstanceWithStringTag( 3, 1 );
+  var src2 = new InstanceWithStringTag( 3, 2 );
+
+  test.identical( Object.prototype.toString.call( InstanceWithStringTag ), '[object Function]' );
+  test.identical( Object.prototype.toString.call( src1 ), '[object InstanceWithStringTag1]' );
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  function _equalAre( it )
+  {
+    // console.log( `_equalAre ${it.src.val} ${it.src2.val}` );
+    return it.src.val === it.src2.val;
+  }
+
+}
+
+//
+
+function compareObjectsWithSecondCoerce( test )
+{
+
+  /* */
+
+  test.case = 'from number';
+
+  function FromNumber( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    return this;
+  }
+  FromNumber.prototype[ Symbol.for( 'equalAre' ) ] = _equalAre;
+  FromNumber.prototype._equalSecondCoerce = _equalSecondCoerceFromNumber;
+
+  var src1 = new FromNumber( 1, 0 );
+  var src2 = 1;
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'from array';
+
+  function FromArray( val, val2 )
+  {
+    this.val = val;
+    this.val2 = val2;
+    return this;
+  }
+  FromArray.prototype[ Symbol.for( 'equalAre' ) ] = _equalAre;
+  FromArray.prototype._equalSecondCoerce = _equalSecondCoerceFromArray;
+
+  var src1 = new FromArray( 1, 0 );
+  var src2 = [ 1 ];
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  function _equalAre( it )
+  {
+    return it.src.val === it.src2.val;
+  }
+
+  /* */
+
+  function _equalSecondCoerceFromNumber( it )
+  {
+    debugger;
+    if( _.numberIs( it.src ) )
+    it.src = new FromArray( it.src, 0 );
+    if( _.numberIs( it.src2 ) )
+    it.src2 = new FromArray( it.src2, 0 );
+    return true;
+  }
+
+  /* */
+
+  function _equalSecondCoerceFromArray( it )
+  {
+    debugger;
+    if( _.longIs( it.src ) )
+    it.src = new FromArray( it.src[ 0 ], 0 );
+    if( _.longIs( it.src2 ) )
+    it.src2 = new FromArray( it.src2[ 0 ], 0 );
+    return true;
+  }
 
 }
 
@@ -3746,495 +5389,6 @@ function entityEqualNonRecursive( test )
 
 //
 
-function _entityEqualLoose( test )
-{
-
-  /* default options */
-
-  test.case = 'default options, number';
-  var got = _.equaler._equal( 1, 1 );
-  var expected = true ;
-  test.identical( got, expected );
-
-  test.case = 'default options, string';
-  var got = _.equaler._equal( '123', '123' );
-  var expected = true ;
-  test.identical( got, expected );
-
-  test.case = 'default options, boolean';
-  var got = _.equaler._equal( 0, false );
-  var expected = false;
-  test.identical( got, expected );
-
-  test.case = 'default options, array';
-  var got = _.equaler._equal( [ 1, 2 ,'3'], [ 1, 2, 3 ] );
-  var expected = false ;
-  test.identical( got, expected );
-
-  test.case = 'default options, object';
-  var src1 = { a : 1, b : 2 , c : { d : 3  }  };
-  var src2 = { a : 1, b : 2 , c : { d : 3  }  };
-  var got = _.equaler._equal( src1, src2 );
-  var expected = true ;
-  test.identical( got, expected );
-
-  /* strict string - number */
-
-  test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
-  var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 0 } );
-  var expected = true ;
-  test.identical( got, expected );
-
-  test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
-  var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 0 } );
-  var expected = false ;
-  test.identical( got, expected );
-
-  test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
-  var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 1 } );
-  var expected = false ;
-  test.identical( got, expected );
-
-  test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
-  var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 1 } );
-  var expected = false ;
-  test.identical( got, expected );
-
-  /* */
-
-  test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
-  var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 0 } );
-  var expected = true ;
-  test.identical( got, expected );
-
-  test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
-  var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 0 } );
-  var expected = false ;
-  test.identical( got, expected );
-
-  test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
-  var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 1 } );
-  var expected = false ;
-  test.identical( got, expected );
-
-  test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
-  var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 1 } );
-  var expected = false ;
-  test.identical( got, expected );
-
-  /* strict bool - number */
-
-  test.case = 'number & boolean, strictNumbering : 0, strictTyping : 0';
-  var got = _.equaler._equal( false, 0, { strictNumbering : 0, strictTyping : 0 } );
-  var expected = true ;
-  test.identical( got, expected );
-
-  test.case = 'number & boolean, strictNumbering : 0, strictTyping : 1';
-  var got = _.equaler._equal( false, 0, { strictNumbering : 0, strictTyping : 1 } );
-  var expected = false ;
-  test.identical( got, expected );
-
-  test.case = 'number & boolean, strictNumbering : 1, strictTyping : 0';
-  var got = _.equaler._equal( false, 0, { strictNumbering : 1, strictTyping : 0 } );
-  var expected = false ;
-  test.identical( got, expected );
-
-  test.case = 'number & boolean, strictNumbering : 1, strictTyping : 1';
-  var got = _.equaler._equal( false, 0, { strictNumbering : 1, strictTyping : 1 } );
-  var expected = false ;
-  test.identical( got, expected );
-
-  /* */
-
-  test.case = 'src1 constains elem from src2 ';
-  var got = _.equaler._equal( { a : 1, b : 2 }, { b : 2 }, { containing : 1 } );
-  var expected = true ;
-  test.identical( got, expected );
-
-  test.case = 'onNumbersAreEqual';
-  function onNumbersAreEqual( a, b ){ return _.entityEquivalent( a, b, { accuracy : 1 } ) };
-  var got = _.equaler._equal( { a : 1, b : 2 }, { a : 2, b : 2 }, { onNumbersAreEqual } );
-  var expected = true ;
-  test.identical( got, expected );
-
-  if( !Config.debug )
-  return;
-
-  test.case = 'argument missed';
-  test.shouldThrowErrorSync( function()
-  {
-    _.equaler._equal( );
-  });
-
-  test.case = 'options is not a Object';
-  test.shouldThrowErrorSync( function()
-  {
-    _.equaler._equal( 1, 2, 3 );
-  });
-
-  test.case = 'extendet options';
-  test.shouldThrowErrorSync( function()
-  {
-    _.equaler._equal( 1, 2, { fixed : 1 } );
-  });
-
-}
-
-//
-
-function entityIdenticalLoose( test )
-{
-
-  var options =
-  {
-    strictTyping : 0,
-  };
-
-  /* numbers */
-
-  var x1 = 44;
-  var y1 = 44;
-  var x2 = 44;
-  var y2 = 34;
-
-  /* strings */
-
-  var strX1 = '4';
-  var strY1 = 4;
-  var strX2 = '0';
-  var strY2 = '0';
-  // var strX3 = '0';
-  // var strY3 = new String( '0' );
-
-  /* array values */
-
-  var arrX1 = [ 0, 1, 3 ];
-  var arrY1 = [ 0, 1, 3 ];
-  var arrX2 = [ 0, 1, 3 ];
-  var arrY2 = [ 0, 1, 2 ];
-
-  /* object values */
-
-  var objX1 = { a : 0, b : 1, c : 3 };
-  var objY1 = { a : 0, b : 1, c : 3 };
-  var objX2 = { a : 0, b : 1, c : 3 };
-  var objY2 = { a : 0, b : 1, c : 2 };
-  var objX3 = { a : 0, b : 1, e : { c : 2, d : 3 } };
-  var objY3 = { a : 0, b : 1, e : { c : 2, d : 3 } };
-
-  /* numbers test */
-
-  test.case = 'identical numbers';
-  var got = _.entityIdentical( x1, y1 );
-  test.identical( got, true );
-
-  test.case = 'not identical numbers';
-  var got = _.entityIdentical( x2, y2 );
-  test.identical( got, false );
-
-  // strings test
-
-  test.case = 'same string';
-  var got = _.entityIdentical( strX1, strX1 );
-  test.identical( got, true );
-
-  test.case = 'mismatch types : no strict';
-  var got = _.entityIdentical( strX1, strX1, _.mapExtend( null, options ) );
-  test.identical( got, true );
-
-  test.case = 'entities is two non empty same strings';
-  var got = _.entityIdentical( strX2, strY2 );
-  test.identical( got, true );
-
-  test.case = 'string and object';
-  var strX3 = '0';
-  var strY3 = new String( '0' );
-  var got = _.entityIdentical( strX3, strY3, _.mapExtend( null, options ) );
-  test.identical( got, false );
-
-  // array tests
-
-  test.case = 'tests two non empty arrays';
-  var got = _.entityIdentical( arrX1, arrY1 );
-  test.identical( got, true );
-
-  test.case = 'tests two non empty different arrays';
-  var got = _.entityIdentical( arrX2, arrY2 );
-  test.identical( got, false );
-
-  // object tests
-
-  test.case = 'tests two non empty objects';
-  var got = _.entityIdentical( objX1, objY1 );
-  test.identical( got, true );
-
-  test.case = 'tests two different objects';
-  var got = _.entityIdentical( objX2, objY2 );
-  test.identical( got, false );
-
-  test.case = 'tests nested objects';
-  var got = _.entityIdentical( objX3, objY3 );
-  test.identical( got, true );
-
-  if( !Config.debug )
-  return;
-
-  test.case = 'missed arguments';
-  test.shouldThrowErrorSync( function()
-  {
-    _.entityIdentical();
-  });
-
-  test.case = 'extra argument';
-  test.shouldThrowErrorSync( function()
-  {
-    _.entityIdentical( strX3, strY3, {}, '' );
-  });
-
-};
-
-//
-
-function entityEquivalentLoose( test )
-{
-  var accuracy = 1e-7;
-
-  var options =
-  {
-    accuracy
-  }
-
-  /* numbers */
-
-  var x1 = 44;
-  var y1 = 44;
-  var x2 = 44;
-  var y2 = 44 + accuracy / 2;
-  var x3 = 44;
-  var y3 = 44 + 2 * accuracy;
-
-  /* numbers test */
-
-  test.case = 'identical numbers';
-  var got = _.entityEquivalent( x1, y1, _.mapExtend( null, options ) );
-  test.identical( got, true );
-
-  test.case = ' practically equivalent numbers';
-  var got = _.entityEquivalent( x2, y2, _.mapExtend( null, options ) );
-  test.identical( got, true );
-
-  test.case = ' not equivalent numbers';
-  var got = _.entityEquivalent( x3, y3, _.mapExtend( null, options ) );
-  test.identical( got, false );
-
-  if( !Config.debug )
-  return;
-
-  test.case = 'missed arguments';
-  test.shouldThrowErrorSync( function()
-  {
-    _.entityEquivalent();
-  });
-
-  test.case = 'extra argument';
-  test.shouldThrowErrorSync( function()
-  {
-    _.entityEquivalent( strX3, strY3, options, '');
-  });
-
-};
-
-//
-
-function entityContainLoose( test )
-{
-
-  /* numbers */
-
-  var x1 = 44;
-  var y1 = 44;
-  var x2 = 44;
-  var y2 = 34;
-
-  /* strings */
-
-  var strX1 = '4';
-  var strY1 = 4;
-  var strX2 = '0';
-  var strY2 = '0';
-  var strX3 = '0';
-  var strY3 = new String( '0' );
-
-  /* array values */
-
-  var arrX1 = [ 0, 1, 3 ];
-  var arrY1 = [ 0, 1, 3 ];
-  var arrX2 = [ 0, 1, 3 ];
-  var arrY2 = [ 0, 1, 2 ];
-  var arrX3 = [ 0, 1, 3 ];
-  var arrY3 = [ 0, 1 ];
-  var arrX4 = [ [ 0, 1 ] ];
-  var arrY4 = [ 0, 1 ];
-  var arrX5 = [ [ 0, 1 ], [ 3, 4 ] ];
-  var arrY5 = [ [ 0 ], [ 3 ] ];
-
-  /* object values */
-
-  var objX1 = { a : 0, b : 1, c : 3 };
-  var objY1 = { a : 0, b : 1, c : 3 };
-  var objX2 = { a : 0, b : 1, c : 3 };
-  var objY2 = { a : 0, b : 1, c : 2 };
-  var objX3 = { a : 0, b : 1, e : { c : 2, d : 3 } };
-  var objY3 = { a : 0, b : 1, e : { c : 2, d : 3 } };
-  var objX4 = { a : 0, b : 1, e : { c : 2, d : 3 } };
-  var objY4 = { a : 0, e : { d : 3 } };
-
-  /* array tests */
-
-  test.case = 'tests two non empty arrays : same length';
-  var got = _.entityContains( arrX1, arrY1 );
-  test.identical( got, true );
-
-  test.case = 'tests two non empty different arrays';
-  var got = _.entityContains( arrX2, arrY2 );
-  test.identical( got, false );
-
-  test.case = 'one array contains other`s elements';
-  var got = _.entityContains( arrX3, arrY3 );
-  test.identical( got, true );
-
-  test.case = 'one array contains other as element';
-  var got = _.entityContains( arrX4, arrY4 );
-  test.identical( got, false );
-
-  test.case = 'nested arrays';
-  var got = _.entityContains( arrX5, arrY5 );
-  test.identical( got, true );
-
-  /* object tests */
-
-  test.case = 'tests two non empty objects : identical keys';
-  var got = _.entityContains( objX1, objY1 );
-  test.identical( got, true );
-
-  test.case = 'tests two different objects : identical keys';
-  var got = _.entityContains( objX2, objY2 );
-  test.identical( got, false );
-
-  test.case = 'tests nested objects : identical';
-  var got = _.entityContains( objX3, objY3 );
-  test.identical( got, true );
-
-  test.case = 'one object contains elements of another';
-  var got = _.entityContains( objX4, objY4 );
-  test.identical( got, true );
-
-  if( !Config.debug )
-  return;
-
-  test.case = 'missed arguments';
-  test.shouldThrowErrorSync( function()
-  {
-    _.entityContains();
-  });
-
-  test.case = 'extra argument';
-  test.shouldThrowErrorSync( function()
-  {
-    _.entityContains( strX3, strY3, options, '');
-  });
-
-}
-
-//
-
-function entityEqualMaps( test )
-{
-
-  test.case = 'descendant has no fields';
-  var m1 = { a : 1 };
-  var m2 = Object.create({ a : 1 });
-  test.is( !_.entityIdentical( m1, m2 ) );
-  test.is( _.entityEquivalent( m1, m2 ) );
-
-  test.case = 'descendant has field';
-  var m1 = { a : 1, b : 2 };
-  var m2 = Object.create({ a : 1 });
-  m2.b = 2;
-  test.is( !_.entityIdentical( m1, m2 ) );
-  test.is( _.entityEquivalent( m1, m2 ) );
-
-}
-
-//
-
-function entityEqualStrings( test )
-{
-
-  test.case = 'entityIdentical string and object string';
-  var a = '0';
-  var b = new String( '0' );
-  var got = _.entityIdentical( a, b );
-  test.identical( got, false );
-  var got = _.entityIdentical( b, a );
-  test.identical( got, false );
-
-  test.case = 'entityEquivalent string and object string';
-  var a = '0';
-  var b = new String( '0' );
-  var got = _.entityEquivalent( a, b );
-  test.identical( got, true );
-  var got = _.entityEquivalent( b, a );
-  test.identical( got, true );
-
-  test.case = 'entityIdentical lines with different spacing on ends';
-  var a =
-`
- some
-text ` +
-`
-
-this is
-`
-;
-  var b =
-`some
-text
-this is
-
-
-`
-  var got = _.entityIdentical( a, b );
-  test.identical( got, false );
-  var got = _.entityIdentical( b, a );
-  test.identical( got, false );
-
-  test.case = 'entityEquivalent lines with different spacing on ends';
-  var a =
-`
- some
-text ` +
-`
-
-this is
-`
-;
-  var b =
-`some
-text
-this is
-
-
-`
-  var got = _.entityEquivalent( a, b );
-  test.identical( got, true );
-  var got = _.entityEquivalent( b, a );
-  test.identical( got, true );
-
-}
-
-//
-
 function entityDiffLoose( test )
 {
 
@@ -4444,7 +5598,7 @@ function entityDiffLoose( test )
 
 //
 
-function entityDiffExplanation( test )
+function entityDiffExplanationBasic( test )
 {
 
   /* */
@@ -4515,6 +5669,165 @@ function entityDiffExplanation( test )
 
 }
 
+//
+
+function entityDiffExplanationString( test )
+{
+
+  /* */
+
+  test.case = 'diff single line end, strictString:0';
+
+  var expected =
+`
+- got :
+  'str1'
+- expected :
+  'str2'
+- difference :
+  'str*
+`
+
+  var srcs = [ 'str1', 'str2' ]
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/',
+    strictString : 0,
+  });
+  test.equivalent( got, expected );
+
+  /* */
+
+  test.case = 'diff single line mid, strictString:0';
+
+  var expected =
+`
+- got :
+  'ab cd'
+- expected :
+  'ab  cd'
+- difference :
+  'ab *
+`
+
+  var srcs = [ 'ab cd', 'ab  cd' ]
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/',
+    strictString : 0,
+  });
+  test.equivalent( got, expected );
+
+  /* */
+
+  test.case = 'same several, strictString:0';
+
+  var expected =
+`
+- got :
+  'ab\ncd'
+- expected :
+  'ab\ncd'
+`
+
+  var srcs = [ 'ab \n cd', 'ab\ncd' ]
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/',
+    strictString : 0,
+  });
+  test.equivalent( got, expected );
+
+  /* */
+
+  test.case = 'diff single line end, strictString:1';
+
+  var expected =
+`
+- got :
+  'str1'
+- expected :
+  'str2'
+- difference :
+  'str*
+`
+
+  var srcs = [ 'str1', 'str2' ]
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/',
+    strictString : 1,
+  });
+  test.equivalent( got, expected );
+
+  /* */
+
+  test.case = 'diff single line mid, strictString:1';
+
+  var expected =
+`
+- got :
+  'ab cd'
+- expected :
+  'ab  cd'
+- difference :
+  'ab *
+`
+
+  var srcs = [ 'ab cd', 'ab  cd' ]
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/',
+    strictString : 1,
+  });
+  test.equivalent( got, expected );
+
+  /* */
+
+  test.case = 'same several, strictString:1';
+
+  var expected =
+`
+- got :
+'ab
+cd'
+- expected :
+'ab
+cd'
+- difference :
+'ab*
+`
+
+  var srcs = [ 'ab \n cd', 'ab\ncd' ]
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/',
+    strictString : 1,
+  });
+  test.equivalent( got, expected );
+
+  /* */
+
+}
+
 // --
 // declare
 // --
@@ -4534,9 +5847,15 @@ var Self =
   {
 
     trivial,
+    _entityEqualLoose,
+    entityIdenticalLoose,
+    entityEquivalentLoose,
+    entityContainLoose,
+    entityEqualMaps, /* qqq : extend tests */
+    entityEqualStrings,
+
     entityIdenticalSimple,
     entityContainsSimple,
-
     entityIdenticalArgumentsArray,
     entityEquivalentArgumentsArray,
     entityIdenticalProto,
@@ -4549,8 +5868,17 @@ var Self =
     entityEquivalentHashMap,
     entityEqualContainerType,
 
+    comparePrimitiveAndNon,
+    compareNull,
+    compareUndefined,
+    compareEmptyString,
+    compareZero,
     compareDate,
     compareRegexp,
+    compareString,
+    compareObjectsWithoutEqualAre,
+    compareObjectsWithEqualAre,
+    compareObjectsWithSecondCoerce,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
@@ -4558,15 +5886,9 @@ var Self =
     entityContainsCycled,
     entityEqualNonRecursive,
 
-    _entityEqualLoose,
-    entityIdenticalLoose,
-    entityEquivalentLoose,
-    entityContainLoose,
-    entityEqualMaps, /* qqq : extend tests */
-    entityEqualStrings,
-
     entityDiffLoose,
-    entityDiffExplanation,
+    entityDiffExplanationBasic,
+    entityDiffExplanationString,
 
     /* qqq : research: what should be covered in the first place */
 
