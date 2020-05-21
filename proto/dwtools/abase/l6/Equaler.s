@@ -144,19 +144,6 @@ function _equal_pre( routine, args )
     return str;
   }
 
-  // /* */
-  //
-  // function stringsAreEquivalent( a, b )
-  // {
-  //   if( !_.strIs( a ) )
-  //   return false;
-  //   if( !_.strIs( b ) )
-  //   return false;
-  //   a = _.strLinesStrip( a );
-  //   b = _.strLinesStrip( b );
-  //   return a === b;
-  // }
-
   /* */
 
   function numbersAreIdentical( a, b )
@@ -544,6 +531,9 @@ function choose( e, k )
   _.assert( it.level >= 0 );
   _.assert( _.objectIs( it.down ) );
 
+  if( _global_.debugger )
+  debugger;
+
   it.src2 = _.container.elementGet( it.src2, it.key );
 
   return it;
@@ -554,20 +544,13 @@ function choose( e, k )
 function iterableEval()
 {
   let it = this;
-  it.iterable = null;
+  // it.iterable = null;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
   it._iterableEval();
-
-  // if( _global_.debugger )
-  // debugger;
-
-  // if( it.iterable === _.equaler.containerNameToIdMap.object || it.iterable === _.equaler.containerNameToIdMap.custom ) /* yyy */
-  {
-    if( it.secondCoerce() )
-    it._iterableEval();
-  }
+  if( it.secondCoerce() )
+  it._iterableEval();
 
   _.assert( it.iterable >= 0 );
 }
@@ -581,37 +564,85 @@ function _iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  let type1 = _.container.typeOf( it.src );
-  let type2 = _.container.typeOf( it.src2 );
-  if( type1 || type2 )
+  let containerType1 = _.container.typeOf( it.src );
+  // let containerType2 = _.container.typeOf( it.src2 );
+  // if( containerType1 || containerType2 )
+  // {
+  //   it.iterable = _.equaler.containerNameToIdMap.custom;
+  //   it.containerType = containerType1 || containerType2;
+  // }
+  if( containerType1 )
   {
-    it.iterable = _.looker.containerNameToIdMap.custom;
-    it.type = type1 || type2;
+    it.type1 = _.equaler.containerNameToIdMap.custom;
+    it.containerType = containerType1;
+    it.iterable = _.equaler.containerNameToIdMap.custom;
   }
-  else if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
+  // else if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
+  else if( _.mapLike( it.src ) )
   {
-    it.iterable = _.looker.containerNameToIdMap.map;
+    it.type1 = _.equaler.containerNameToIdMap.map;
+    it.iterable = _.equaler.containerNameToIdMap.map;
   }
   else if( _.longLike( it.src ) )
   {
-    it.iterable = _.looker.containerNameToIdMap.long;
+    it.type1 = _.equaler.containerNameToIdMap.long;
+    it.iterable = _.equaler.containerNameToIdMap.long;
   }
   else if( _.hashMapLike( it.src ) )
   {
-    it.iterable = _.looker.containerNameToIdMap.hashMap;
+    it.type1 = _.equaler.containerNameToIdMap.hashMap;
+    it.iterable = _.equaler.containerNameToIdMap.hashMap
   }
   else if( _.setLike( it.src ) )
   {
-    it.iterable = _.looker.containerNameToIdMap.set;
+    it.type1 = _.equaler.containerNameToIdMap.set;
+    it.iterable = _.equaler.containerNameToIdMap.set;
   }
-  // else if( _.objectIs( it.src ) || _.objectIs( it.src2 ) )
-  else if( !_.primitiveIs( it.src ) || !_.primitiveIs( it.src2 ) )
+  // else if( !_.primitiveIs( it.src ) || !_.primitiveIs( it.src2 ) )
+  else if( !_.primitiveIs( it.src ) )
   {
+    it.type1 = _.equaler.containerNameToIdMap.object;
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
   else
   {
+    it.type1 = 0;
     it.iterable = 0;
+  }
+
+  let containerType2 = _.container.typeOf( it.src2 );
+  if( containerType2 )
+  {
+    it.containerType = it.containerType || containerType2;
+    it.type2 = _.equaler.containerNameToIdMap.custom;
+    it.iterable = _.equaler.containerNameToIdMap.custom;
+  }
+  else if( _.mapLike( it.src2 ) )
+  {
+    it.type2 = _.equaler.containerNameToIdMap.map;
+  }
+  else if( _.longLike( it.src2 ) )
+  {
+    it.type2 = _.equaler.containerNameToIdMap.long;
+  }
+  else if( _.hashMapLike( it.src2 ) )
+  {
+    it.type2 = _.equaler.containerNameToIdMap.hashMap;
+  }
+  else if( _.setLike( it.src2 ) )
+  {
+    it.type2 = _.equaler.containerNameToIdMap.set;
+  }
+  else if( !_.primitiveIs( it.src2 ) )
+  {
+    it.type2 = _.equaler.containerNameToIdMap.object;
+    if( it.iterable !== _.equaler.containerNameToIdMap.custom )
+    if( !it.containing )
+    it.iterable = _.equaler.containerNameToIdMap.object;
+  }
+  else
+  {
+    it.type2 = 0;
   }
 
 }
@@ -637,7 +668,7 @@ function visitPush()
   let it = this;
 
   if( it.iterator.visitedContainer2 )
-  if( it.visitCounting && it.iterable )
+  if( it.visitCounting && it.type2 )
   {
     it.iterator.visitedContainer2.push( it.src2 );
   }
@@ -652,7 +683,7 @@ function visitPop()
   let it = this;
 
   if( it.iterator.visitedContainer2 && it.iterator.revisiting !== 0 )
-  if( it.visitCounting && it.iterable )
+  if( it.visitCounting && it.type2 )
   if( _.arrayIs( it.iterator.visitedContainer2.original ) || !it.revisited )
   {
     if( _.arrayIs( it.iterator.visitedContainer2.original ) )
@@ -730,22 +761,21 @@ function equalUp()
   _.assert( it.ascending === true );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  // if( _global_.debugger )
-  // debugger;
+  if( _global_.debugger )
+  debugger;
 
   /* if containing mode then src2 could even don't have such entry */
 
   if( it.containing )
-  {
-    if( it.down && !( it.key in it.down.src2 ) )
-    return it.stop( false ); // return endStoping( false );
-  }
+  if( it.down && it.down.iterable === _.equaler.containerNameToIdMap.map )
+  if( !( it.key in it.down.src2 ) )
+  return it.stop( false );
 
   /* */
 
   if( Object.is( it.src, it.src2 ) )
   {
-    return it.stop( true ); // return endStoping( true );
+    return it.stop( true );
   }
 
   /* fast comparison if possible */
@@ -754,134 +784,76 @@ function equalUp()
   {
 
     if( _ObjectToString.call( it.src ) !== _ObjectToString.call( it.src2 ) )
-    return it.stop( false ); // return endStoping( false );
+    return it.stop( false );
 
-    if( it.type && it.type._identicalTypes )
-    if( !it.type._identicalTypes( it.src, it.src2 ) )
-    return it.stop( false ); // return endStoping( false );
+    if( it.containerType && it.containerType._identicalTypes )
+    if( !it.containerType._identicalTypes( it.src, it.src2 ) )
+    return it.stop( false );
 
   }
   else
   {
-    if( _.primitiveIs( it.src ) || _.primitiveIs( it.src2 ) )
+    // if( _.primitiveIs( it.src ) || _.primitiveIs( it.src2 ) )
+    if( !it.type1 || !it.type2 )
     if( _ObjectToString.call( it.src ) !== _ObjectToString.call( it.src2 ) )
     {
       if( it.src === null || it.src === undefined || it.src2 === null || it.src2 === undefined )
       return it.stop( it.src === it.src2 );
-      if( it.strictNumbering )
-      if( _.numberIs( it.src ) || _.numberIs( it.src2 ) )
-      return it.stop( false ); // return endStoping( false );
-      if( !_.primitiveIs( it.src ) || !_.primitiveIs( it.src2 ) )
-      return it.stop( false ); // return endStoping( false );
-      return it.stop( it.src == it.src2 );
+      // if( it.strictNumbering )
+      // if( _.numberIs( it.src ) || _.numberIs( it.src2 ) )
+      // return it.stop( false );
+      // if( !_.primitiveIs( it.src ) || !_.primitiveIs( it.src2 ) )
+      // return it.stop( false );
+      // return it.stop( it.src == it.src2 );
+      // if( !it.type1 && !it.type2 )
+      // return it.stop( it.src == it.src2 );
     }
   }
 
   /* */
 
-  if( _global_.debugger )
-  debugger;
+  // if( _global_.debugger )
+  // debugger;
 
   /* */
 
-  if( it.iterable === _.equaler.containerNameToIdMap.custom )
-  {
-  }
-  else if( it.iterable === _.equaler.containerNameToIdMap.set )
-  {
-    // return it.stop( it.equalSets() );
-    it.equalSets();
-  }
-  else if( it.iterable === _.equaler.containerNameToIdMap.long )
-  {
-    it.equalLongs();
-    // if( !it.continue ) /* yyy */
-    // return end();
-  }
-  else if( it.iterable === _.equaler.containerNameToIdMap.hashMap )
-  {
-    it.equalHashes();
-    // if( !it.continue )
-    // return end();
-  }
-  else if( it.iterable === _.equaler.containerNameToIdMap.map )
-  {
-    it.equalMaps();
-    // if( !it.continue )
-    // return end();
-  }
-  else if( _.bufferAnyIs( it.src ) )
-  {
-    // if( it.strictContainer )
-    // {
-    //   return it.equalBuffers();
-    // }
-    // let type = _.container.typeOf( it.src2 ); // yyy
-    // if( type )
-    // {
-    //   debugger;
-    //   it.equalLongs();
-    //   if( !it.continue )
-    //   return end();
-    // }
-    // else
-    // {
-      return it.equalBuffers();
-    // }
-  }
-  else if( it.iterable === _.equaler.containerNameToIdMap.object )
-  {
-    it.equalObjects();
-    // if( !it.continue )
-    // return end();
-  }
-  else if( !it.iterable )
-  {
-    return it.equalTerminals();
-  }
-  else
-  {
-    debugger;
-    return it.stop( false ); // return endStoping( false );
-    // if( it.strictTyping )
-    // {
-    //   if( it.src !== it.src2 )
-    //   return it.stop( false ); // return endStoping( false );
-    // }
-    // else
-    // {
-    //   if( it.src != it.src2 )
-    //   return it.stop( false ); // return endStoping( false );
-    // }
-  }
+  _.equaler.containerIdToEqual[ it.iterable ].call( it );
+
+  // if( it.iterable === _.equaler.containerNameToIdMap.custom )
+  // {
+  //   it.equalCustoms();
+  // }
+  // else if( it.iterable === _.equaler.containerNameToIdMap.set )
+  // {
+  //   it.equalSets();
+  // }
+  // else if( it.iterable === _.equaler.containerNameToIdMap.long )
+  // {
+  //   it.equalLongs();
+  // }
+  // else if( it.iterable === _.equaler.containerNameToIdMap.hashMap )
+  // {
+  //   it.equalHashes();
+  // }
+  // else if( it.iterable === _.equaler.containerNameToIdMap.map )
+  // {
+  //   it.equalMaps();
+  // }
+  // else if( it.iterable === _.equaler.containerNameToIdMap.object )
+  // {
+  //   it.equalObjects();
+  // }
+  // else if( !it.iterable )
+  // {
+  //   return it.equalTerminals();
+  // }
+  // else
+  // {
+  //   debugger;
+  //   return it.stop( false );
+  // }
 
   it.equalCycle();
-
-  // return end();
-
-  /* */
-
-  // function endStoping( result )
-  // {
-  //   it.result = it.result && result;
-  //   if( !it.result )
-  //   it.iterator.continue = false;
-  //   it.continue = false;
-  //   _.assert( arguments.length === 1 );
-  // }
-
-  /* */
-
-  // function end()
-  // {
-  //   if( !it.result )
-  //   {
-  //     it.iterator.continue = false;
-  //     it.continue = false;
-  //   }
-  // }
-
-  /* */
 
 }
 
@@ -894,16 +866,12 @@ function equalDown()
   _.assert( it.ascending === false );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  /* if element is not equal then descend it down */
+  /* if element is not equal then descend result down */
 
   if( !it.result )
-  if( it.down )
   {
+    if( it.down )
     it.down.result = it.result;
-  }
-
-  if( it.result === false )
-  {
     it.iterator.continue = false;
     it.continue = false;
   }
@@ -938,7 +906,7 @@ function equalCycle()
       }
       else
       {
-        /* zzz qqq : cover revisiting : 0, ask how */
+        /* qqq : cover revisiting : 0, ask how */
         if( it.iterator.visitedContainer2 && it.iterator.visitedContainer2.has( it.down.src2 ) )
         it.result = false;
       }
@@ -946,7 +914,6 @@ function equalCycle()
     /* or not yet cycled */
     if( it.result )
     {
-      debugger;
       if( it.iterator.visitedContainer2 && _.arrayIs( it.iterator.visitedContainer2.original ) )
       it.result = it.iterator.visitedContainer2.original[ it.visitedContainer.original.indexOf( it.src ) ] === it.src2;
     }
@@ -986,21 +953,6 @@ function secondCoerce()
 {
   let it = this;
 
-  // if( _global_.debugger )
-  // debugger;
-
-  // if( !_.primitiveIs( it.src ) && _.routineIs( it.src._equalSecondCoerce ) )
-  // {
-  //   it.src._equalSecondCoerce( it );
-  //   return true;
-  // }
-  //
-  // if( !_.primitiveIs( it.src2 ) && _.routineIs( it.src2._equalSecondCoerce ) )
-  // {
-  //   it.src2._equalSecondCoerce( it );
-  //   return true;
-  // }
-
   if( !_.primitiveIs( it.src ) && _.routineIs( it.src[ equalSecondCoerceSymbol ] ) )
   {
     it.src[ equalSecondCoerceSymbol ]( it );
@@ -1013,9 +965,9 @@ function secondCoerce()
     return true;
   }
 
-  if( it.type && it.type._coerce )
+  if( it.containerType && it.containerType._coerce )
   {
-    if( it.type._coerce( it ) )
+    if( it.containerType._coerce( it ) )
     return true;
   }
 
@@ -1024,74 +976,11 @@ function secondCoerce()
 
 //
 
-function equalBuffers()
+function equalCustoms()
 {
   let it = this;
-
-  if( it.strictNumbering && it.strictTyping )
-  return it.stop( _.buffersAreIdentical( it.src, it.src2 ) );
-  else
-  return it.stop( _.buffersAreEquivalent( it.src, it.src2, it.strictNumbering ? 0 : it.accuracy ) );
-
-  /* */
-
-  // function endStoping( result )
-  // {
-  //   it.result = it.result && result;
-  //   if( !it.result )
-  //   it.iterator.continue = false;
-  //   it.continue = false;
-  //   _.assert( arguments.length === 1 );
-  // }
-
-}
-
-//
-
-function equalLongs()
-{
-  let it = this;
-
-  if( !it.src2 )
-  return it.stop( false ); // return endStoping( false );
-
-  if( it.strictContainer )
-  {
-    if( !_.longLike( it.src2 ) )
-    return it.stop( false ); // return endStoping( false );
-  }
-  else
-  {
-    if( !_.vectorLike( it.src2 ) )
-    return it.stop( false ); // return endStoping( false );
-  }
-
-  if( it.strictContainer )
-  if( _.bufferAnyIs( it.src ) || _.bufferAnyIs( it.src2 ) )
-  return it.equalBuffers();
-
-  if( !it.containing )
-  {
-    if( it.src.length !== it.src2.length )
-    return it.stop( false ); // return endStoping( false );
-  }
-  else
-  {
-    if( it.src.length > it.src2.length )
-    return it.stop( false ); // return endStoping( false );
-  }
-
-  /* */
-
-  // function endStoping( result )
-  // {
-  //   it.result = it.result && result;
-  //   if( !it.result )
-  //   it.iterator.continue = false;
-  //   it.continue = false;
-  //   _.assert( arguments.length === 1 );
-  // }
-
+  if( _.container.lengthOf( it.src ) !== _.container.lengthOf( it.src2 ) )
+  return it.stop( false );
 }
 
 //
@@ -1170,78 +1059,52 @@ function equalSets()
 
 }
 
-// function equalSets()
-// {
-//   let it = this;
-//   let unpaired1 = new Set();
-//   let unpaired2 = new Set();
 //
-//   _.assert( arguments.length === 0, 'Expects no arguments' );
-//
-//   if( !_.setLike( it.src2 ) )
-//   return false;
-//
-//   if( !it.containing )
-//   {
-//     if( it.src.size !== it.src2.size )
-//     return false;
-//   }
-//   else
-//   {
-//     if( it.src.size > it.src2.size )
-//     return false;
-//   }
-//
-//   _.assert( _.setLike( it.src ) );
-//   _.assert( _.setLike( it.src2 ) );
-//   _.assert( !it.containing, 'not implemented' );
-//
-//   for( let e of it.src )
-//   unpaired1.add( e );
-//   for( let e of it.src2 )
-//   unpaired2.add( e );
-//
-//   for( let e of unpaired1 )
-//   {
-//     if( unpaired2.has( e ) )
-//     pairFound( e, e );
-//   }
-//
-//   for( let e1 of unpaired1 )
-//   {
-//     let found = false;
-//     for( let e2 of unpaired2 )
-//     {
-//       if( equal( e1, e2 ) )
-//       {
-//         pairFound( e1, e2 );
-//         found = true;
-//         break;
-//       }
-//     }
-//     if( !found )
-//     return false;
-//   }
-//
-//   if( unpaired1.size || unpaired2.size )
-//   return false;
-//
-//   return true;
-//
-//   /* */
-//
-//   function pairFound( e1, e2 )
-//   {
-//     unpaired1.delete( e1 );
-//     unpaired2.delete( e2 );
-//   }
-//
-//   function equal( e1, e2 )
-//   {
-//     return it.equalReiterate( e1, e2, {} );
-//   }
-//
-// }
+
+function equalLongs()
+{
+  let it = this;
+
+  if( !it.src2 )
+  return it.stop( false );
+
+  if( it.strictContainer )
+  {
+
+    if( _.bufferAnyIs( it.src ) || _.bufferAnyIs( it.src2 ) )
+    return it.equalBuffers();
+
+    if( !_.longLike( it.src2 ) )
+    return it.stop( false );
+
+  }
+  else
+  {
+
+    if( !it.type1 || !it.type2 )
+    return it.stop( false );
+
+    if( !_.vectorLike( it.src2 ) && !_.hasCustomIterator( it.src2 ) )
+    return it.stop( false );
+
+  }
+
+  // if( it.strictContainer )
+  // if( _.bufferAnyIs( it.src ) || _.bufferAnyIs( it.src2 ) )
+  // return it.equalBuffers();
+
+  if( it.containing )
+  {
+    if( _.container.lengthOf( it.src ) > _.container.lengthOf( it.src2 ) )
+    return it.stop( false );
+  }
+  else
+  {
+    if( _.container.lengthOf( it.src ) !== _.container.lengthOf( it.src2 ) )
+    return it.stop( false );
+  }
+
+}
 
 //
 
@@ -1251,7 +1114,7 @@ function equalHashes()
   let unpaired1 = new HashMap();
   let unpaired2 = new HashMap();
 
-  _.assert( arguments.length === 0, 'Expects no arguments' ); debugger;
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
   if( !_.hashMapLike( it.src2 ) )
   return false;
@@ -1282,11 +1145,9 @@ function equalHashes()
     continue;
     let e2 = unpaired2.get( k1 );
     if( !equal( e1, e2 ) )
-    return it.stop( false ); // return endStoping( false );
+    return it.stop( false );
     pairFound( k1, k1 );
   }
-
-  debugger;
 
   for( let [ k1, e1 ] of unpaired1 )
   {
@@ -1300,13 +1161,11 @@ function equalHashes()
       pairFound( k1, k2 );
     }
     if( !found )
-    return it.stop( false ); // return endStoping( false );
+    return it.stop( false );
   }
 
-  debugger;
-
   if( unpaired1.size || unpaired2.size )
-  return it.stop( false ); // return endStoping( false );
+  return it.stop( false );
 
   return true;
 
@@ -1325,17 +1184,6 @@ function equalHashes()
     return it.equalReiterate( e1, e2, {} );
   }
 
-  /* */
-
-  // function endStoping( result )
-  // {
-  //   it.result = it.result && result;
-  //   if( !it.result )
-  //   it.iterator.continue = false;
-  //   it.continue = false;
-  //   _.assert( arguments.length === 1 );
-  // }
-
 }
 
 //
@@ -1344,8 +1192,6 @@ function equalMaps()
 {
   let it = this;
 
-  // debugger;
-  // _.assert( it.iterable === _.equaler.containerNameToIdMap.map || it.iterable === _.equaler.containerNameToIdMap.custom || !it.iterable );
   _.assert
   (
     it.iterable === _.equaler.containerNameToIdMap.map ||
@@ -1353,44 +1199,42 @@ function equalMaps()
     it.iterable === _.equaler.containerNameToIdMap.object
   );
 
-  if( !it.containing )
-  {
-    if( it.strictTyping )
-    {
-      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
-      return it.stop( false ); // return endStoping( false );
-      if( _.mapOwnKeys( it.src ).length !== _.mapOwnKeys( it.src2 ).length )
-      return it.stop( false ); // return endStoping( false );
-    }
-    else
-    {
-      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
-      return it.stop( false ); // return endStoping( false );
-    }
-  }
-
   if( it.containing )
   {
+
+    if( !it.type1 || !it.type2 )
+    return it.stop( false );
+
     if( !_.mapIs( it.src ) && _.mapIs( it.src2 ) )
-    return it.stop( false ); // return endStoping( false );
+    return it.stop( false );
+
+  // /* if containing mode then src2 could even don't have such entry */
+  //
+  //   if( it.down && !( it.key in it.down.src2 ) )
+  //   return it.stop( false );
+
   }
   else
   {
+
     if( it.strictTyping )
-    if( _.mapIs( it.src ) ^ _.mapIs( it.src2 ) )
-    return it.stop( false ); // return endStoping( false );
+    {
+      if( _.mapIs( it.src ) ^ _.mapIs( it.src2 ) )
+      return it.stop( false );
+      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
+      return it.stop( false );
+      if( _.mapOwnKeys( it.src ).length !== _.mapOwnKeys( it.src2 ).length )
+      return it.stop( false );
+    }
+    else
+    {
+      if( !it.type1 || !it.type2 )
+      return it.stop( false );
+      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
+      return it.stop( false );
+    }
+
   }
-
-  /* */
-
-  // function endStoping( result )
-  // {
-  //   it.result = it.result && result;
-  //   if( !it.result )
-  //   it.iterator.continue = false;
-  //   it.continue = false;
-  //   _.assert( arguments.length === 1 );
-  // }
 
 }
 
@@ -1410,41 +1254,35 @@ function equalObjects()
   {
     _.assert( it.src[ equalAreSymbol ].length <= 1 );
     if( !it.src[ equalAreSymbol ]( it ) )
-    return it.stop( false ); // return endStoping( false );
+    return it.stop( false );
   }
   else if( it.src2 && _.routineIs( it.src2[ equalAreSymbol ] ) )
   {
     _.assert( it.src2[ equalAreSymbol ].length <= 1 );
     if( !it.src2[ equalAreSymbol ]( it ) )
-    return it.stop( false ); // return endStoping( false );
+    return it.stop( false );
   }
+  // else if( it.src && _.hasCustomIterator( it.src ) )
+  // {
+  //   xxx
+  // }
   else if( _.regexpIs( it.src ) )
   {
-    if( it.strictTyping )
-    return it.stop( _.regexpIdentical( it.src, it.src2 ) );
-    else
-    return it.stop( _.regexpEquivalent( it.src, it.src2 ) );
+    return it.equalRegexps();
   }
   else if( _.dateIs( it.src ) )
   {
-    return it.stop( _.datesAreIdentical( it.src, it.src2 ) );
+    return it.equalDates();
+  }
+  else if( _.bufferAnyIs( it.src ) )
+  {
+    return it.equalBuffers();
   }
   else
   {
-    return it.stop( false ); // return endStoping( false );
-    // return it.equalMaps(); /* yyy */
+    if( !_.hasCustomIterator( it.src ) )
+    return it.stop( false );
   }
-
-  /* */
-
-  // function endStoping( result )
-  // {
-  //   it.result = it.result && result;
-  //   if( !it.result )
-  //   it.iterator.continue = false;
-  //   it.continue = false;
-  //   _.assert( arguments.length === 1 );
-  // }
 
 }
 
@@ -1454,13 +1292,31 @@ function equalTerminals()
 {
   let it = this;
 
-  if( _.numberIs( it.src ) )
+  if( it.type1 || it.type2 )
+  return it.stop( false );
+
+  if( _.strIs( it.src ) )
   {
-    return it.stop( it.onNumbersAreEqual( it.src, it.src2 ) );
-  }
-  else if( _.strIs( it.src ) )
-  {
+    if( !_.strIs( it.src2 ) )
+    return it.stop( false );
     return it.stop( it.onStringsAreEqual( it.onStringPreprocess( it.src ), it.onStringPreprocess( it.src2 ) ) );
+  }
+  else if( it.strictTyping && ( _.boolIs( it.src ) || _.boolIs( it.src2 ) ) )
+  {
+    it.stop( it.src === it.src2 );
+  }
+  else if( !it.strictTyping && ( _.boolIs( it.src ) || _.boolIs( it.src2 ) ) )
+  {
+    if( !_.boolLike( it.src ) || !_.boolLike( it.src2 ) )
+    it.stop( false );
+    else
+    it.stop( it.src == it.src2 );
+  }
+  else if( _.numberIs( it.src ) )
+  {
+    if( !_.numberIs( it.src2 ) )
+    return it.stop( false );
+    return it.stop( it.onNumbersAreEqual( it.src, it.src2 ) );
   }
   else
   {
@@ -1470,16 +1326,56 @@ function equalTerminals()
     return it.stop( it.src == it.src2 );
   }
 
-  /* */
+}
 
-  // function endStoping( result )
-  // {
-  //   it.result = it.result && result;
-  //   if( !it.result )
-  //   it.iterator.continue = false;
-  //   it.continue = false;
-  //   _.assert( arguments.length === 1 );
-  // }
+//
+
+function equalRegexps()
+{
+  let it = this;
+  if( it.strictTyping )
+  return it.stop( _.regexpIdentical( it.src, it.src2 ) );
+  else
+  return it.stop( _.regexpEquivalent( it.src, it.src2 ) );
+}
+
+//
+
+function equalDates()
+{
+  let it = this;
+  it.stop( _.datesAreIdentical( it.src, it.src2 ) );
+}
+
+//
+
+function equalBuffers()
+{
+  let it = this;
+
+  if( it.strictNumbering && it.strictTyping )
+  {
+    return it.stop( _.buffersAreIdentical( it.src, it.src2 ) );
+  }
+  else
+  {
+
+    if( it.strictTyping )
+    {
+      return it.stop( _.buffersAreEquivalent( it.src, it.src2, it.strictNumbering ? 0 : it.accuracy ) );
+    }
+    else
+    {
+      let src1 = it.src;
+      let src2 = it.src2;
+      if( !_.longIs( src1 ) && _.hasCustomIterator( src1 ) )
+      src1 = [ ... src1 ];
+      if( !_.longIs( src2 ) && _.hasCustomIterator( src2 ) )
+      src2 = [ ... src2 ];
+      return it.stop( _.buffersAreEquivalent( src1, src2, it.strictNumbering ? 0 : it.accuracy ) );
+    }
+
+  }
 
 }
 
@@ -1489,7 +1385,26 @@ function _objectAscend( src )
 {
   let it = this;
 
+  _.assert( it.iterator.continue === true );
+  _.assert( it.continue === true );
   _.assert( arguments.length === 1 );
+
+  if( _.hasCustomIterator( src ) )
+  if( !it.src || !_.routineIs( it.src[ equalAreSymbol ] ) )
+  if( !it.src2 || !_.routineIs( it.src2[ equalAreSymbol ] ) )
+  {
+
+    let index = 0;
+    for( let e of src )
+    {
+      let eit = it.iterationMake().choose( e, index );
+      eit.look();
+      index += 1;
+      if( !it.canSibling() )
+      break;
+    }
+
+  }
 
 }
 
@@ -1499,29 +1414,38 @@ function _objectAscend( src )
 
 let Equaler = Object.create( Parent );
 Equaler.constructor = function Equaler(){};
-Equaler.Looker = Equaler;
-Equaler.choose = choose;
-Equaler.iterableEval = iterableEval;
-Equaler._iterableEval = _iterableEval;
-Equaler.ascendEval = ascendEval;
-Equaler.visitPush = visitPush;
-Equaler.visitPop = visitPop;
-Equaler.visitUp = visitUp;
-Equaler.visitDown = visitDown;
-Equaler.stop = stop;
-Equaler.equalUp = equalUp;
-Equaler.equalDown = equalDown;
-Equaler.equalCycle = equalCycle;
-Equaler.equalReiterate = equalReiterate;
-Equaler.secondCoerce = secondCoerce;
-Equaler.equalBuffers = equalBuffers;
-Equaler.equalLongs = equalLongs;
-Equaler.equalSets = equalSets;
-Equaler.equalHashes = equalHashes;
-Equaler.equalMaps = equalMaps;
-Equaler.equalObjects = equalObjects;
-Equaler.equalTerminals = equalTerminals;
-Equaler._objectAscend = _objectAscend;
+
+let LookerExtension =
+{
+  Looker : Equaler,
+  choose,
+  iterableEval,
+  _iterableEval,
+  ascendEval,
+  visitPush,
+  visitPop,
+  visitUp,
+  visitDown,
+  stop,
+  equalUp,
+  equalDown,
+  equalCycle,
+  equalReiterate,
+  secondCoerce,
+  equalCustoms,
+  equalSets,
+  equalLongs,
+  equalHashes,
+  equalMaps,
+  equalObjects,
+  equalTerminals,
+  equalRegexps,
+  equalDates,
+  equalBuffers,
+  _objectAscend,
+}
+
+_.mapExtend( Equaler, LookerExtension );
 
 let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
 Iterator.visitedContainer2 = null;
@@ -1529,6 +1453,8 @@ Iterator.visitedContainer2 = null;
 let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
 Iteration.result = true;
 Iteration.src2 = null;
+Iteration.type1 = null;
+Iteration.type2 = null;
 
 let IterationPreserve = Equaler.IterationPreserve = _.mapExtend( null, Equaler.IterationPreserve );
 IterationPreserve.src2 = null;
@@ -1550,6 +1476,8 @@ let containerNameToIdMap =
   'last' : 6,
 }
 
+_.assert( containerNameToIdMap.hashMap >= 0 );
+
 let containerIdToNameMap =
 {
   ... _.looker.containerIdToNameMap,
@@ -1562,6 +1490,17 @@ let containerIdToAscendMap =
   6 : _objectAscend,
 }
 
+let containerIdToEqual =
+{
+  [ containerNameToIdMap.terminal ] : equalTerminals,
+  [ containerNameToIdMap.long ] : equalLongs,
+  [ containerNameToIdMap.map ] : equalMaps,
+  [ containerNameToIdMap.hashMap ] : equalHashes,
+  [ containerNameToIdMap.set ] : equalSets,
+  [ containerNameToIdMap.custom ] : equalCustoms,
+  [ containerNameToIdMap.object ] : equalObjects,
+}
+
 let EqualerExtension =
 {
 
@@ -1571,6 +1510,7 @@ let EqualerExtension =
   containerNameToIdMap,
   containerIdToNameMap,
   containerIdToAscendMap,
+  containerIdToEqual,
 
   identical : entityIdentical,
   entityIdentical,
@@ -1609,7 +1549,7 @@ _.mapSupplement( _, ToolsExtension );
 // export
 // --
 
-if( typeof module !== 'undefined' && module !== null )
+if( typeof module !== 'undefined' )
 module[ 'exports' ] = _;
 
 })();
