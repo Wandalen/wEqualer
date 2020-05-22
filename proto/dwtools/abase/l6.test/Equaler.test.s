@@ -5226,6 +5226,75 @@ function compareObjectsWithIterator( test )
 
 }
 
+//
+
+function compareObjectPrototyped1( test )
+{
+
+  // test.case = 'all keys in srcMap exists in screenMap - map';
+  // var srcMap = Object.create( { d : 'name', c : 33 } );
+  // srcMap.a = 'abc';
+  // srcMap.b = undefined;
+  // var screenMap = { a : 13, b : 77, c : 3, d : 'name' };
+  // var got = _.mapOnlyComplementing_( srcMap, screenMap );
+  // var expected = Object.create( { d : 'name', c : 33 } );
+  // expected.a = 'abc';
+  // expected.b = undefined;
+  // expected.c = 33;
+  // expected.d = 'name';
+  // test.identical( got, expected );
+  // test.is( got === srcMap );
+  // test.identical( srcMap, { a : 'abc', b : undefined, c : 33, d : 'name' } );
+  // test.identical( screenMap, { a : 13, b : 77, c : 3, d : 'name' } );
+
+  /* */
+
+  test.case = 'object ~ object, identical';
+
+  var src1 = Object.create( { d : 'name', c : 33 } );
+  src1.a = 'abc';
+  src1.b = undefined;
+  var src2 = Object.create( { d : 'name', c : 33 } );
+  src2.a = 'abc';
+  src2.b = undefined;
+
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'object ~ object, identical';
+
+  var src1 = Object.create( { d : 'name', c : 31 } );
+  src1.a = 'abc';
+  src1.b = undefined;
+  var src2 = Object.create( { d : 'name', c : 32 } );
+  src2.a = 'abc';
+  src2.b = undefined;
+
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+}
+
 // --
 //
 // --
@@ -6751,6 +6820,7 @@ var Self =
     compareObjectsWithEqualAre,
     compareObjectsWithSecondCoerce,
     compareObjectsWithIterator,
+    compareObjectPrototyped1,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
