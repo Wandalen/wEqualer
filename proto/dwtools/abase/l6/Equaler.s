@@ -565,19 +565,12 @@ function _iterableEval()
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
   let containerType1 = _.container.typeOf( it.src );
-  // let containerType2 = _.container.typeOf( it.src2 );
-  // if( containerType1 || containerType2 )
-  // {
-  //   it.iterable = _.equaler.containerNameToIdMap.custom;
-  //   it.containerType = containerType1 || containerType2;
-  // }
   if( containerType1 )
   {
     it.type1 = _.equaler.containerNameToIdMap.custom;
     it.containerType = containerType1;
     it.iterable = _.equaler.containerNameToIdMap.custom;
   }
-  // else if( _.mapLike( it.src ) || _.mapLike( it.src2 ) )
   else if( _.mapLike( it.src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.map;
@@ -793,65 +786,17 @@ function equalUp()
   }
   else
   {
-    // if( _.primitiveIs( it.src ) || _.primitiveIs( it.src2 ) )
     if( !it.type1 || !it.type2 )
     if( _ObjectToString.call( it.src ) !== _ObjectToString.call( it.src2 ) )
     {
       if( it.src === null || it.src === undefined || it.src2 === null || it.src2 === undefined )
       return it.stop( it.src === it.src2 );
-      // if( it.strictNumbering )
-      // if( _.numberIs( it.src ) || _.numberIs( it.src2 ) )
-      // return it.stop( false );
-      // if( !_.primitiveIs( it.src ) || !_.primitiveIs( it.src2 ) )
-      // return it.stop( false );
-      // return it.stop( it.src == it.src2 );
-      // if( !it.type1 && !it.type2 )
-      // return it.stop( it.src == it.src2 );
     }
   }
 
   /* */
 
-  // if( _global_.debugger )
-  // debugger;
-
-  /* */
-
   _.equaler.containerIdToEqual[ it.iterable ].call( it );
-
-  // if( it.iterable === _.equaler.containerNameToIdMap.custom )
-  // {
-  //   it.equalCustoms();
-  // }
-  // else if( it.iterable === _.equaler.containerNameToIdMap.set )
-  // {
-  //   it.equalSets();
-  // }
-  // else if( it.iterable === _.equaler.containerNameToIdMap.long )
-  // {
-  //   it.equalLongs();
-  // }
-  // else if( it.iterable === _.equaler.containerNameToIdMap.hashMap )
-  // {
-  //   it.equalHashes();
-  // }
-  // else if( it.iterable === _.equaler.containerNameToIdMap.map )
-  // {
-  //   it.equalMaps();
-  // }
-  // else if( it.iterable === _.equaler.containerNameToIdMap.object )
-  // {
-  //   it.equalObjects();
-  // }
-  // else if( !it.iterable )
-  // {
-  //   return it.equalTerminals();
-  // }
-  // else
-  // {
-  //   debugger;
-  //   return it.stop( false );
-  // }
 
   it.equalCycle();
 
@@ -923,7 +868,7 @@ function equalCycle()
   {
     if( it.level >= it.recursive )
     {
-      it.result = it.equalReiterate( it.src2, it.src, { recursive : 0 } ) && it.result;
+      it.result = it.equal( it.src2, it.src, { recursive : 0 } ) && it.result;
     }
   }
 
@@ -931,17 +876,18 @@ function equalCycle()
 
 //
 
-function equalReiterate( src1, src2, o )
+function equal( src1, src2, o )
 {
   let it = this;
 
-  _.assert( arguments.length === 3 );
-  _.assert( _.mapIs( o ) );
+  _.assert( arguments.length === 2 || arguments.length === 3 );
+  _.assert( o === undefined || _.mapIs( o ) );
 
   let o2 = _.mapOnly( it, _.equaler._equal.defaults );
   _.assert( o2.it === undefined );
   _.assert( o2.level === it.level );
 
+  if( o )
   _.mapExtend( o2, o );
 
   return _.equaler._equal( src1, src2, o2 );
@@ -1054,7 +1000,7 @@ function equalSets()
 
   function equal( e1, e2 )
   {
-    return it.equalReiterate( e1, e2, {} );
+    return it.equal( e1, e2, {} );
   }
 
 }
@@ -1088,10 +1034,6 @@ function equalLongs()
     return it.stop( false );
 
   }
-
-  // if( it.strictContainer )
-  // if( _.bufferAnyIs( it.src ) || _.bufferAnyIs( it.src2 ) )
-  // return it.equalBuffers();
 
   if( it.containing )
   {
@@ -1181,7 +1123,7 @@ function equalHashes()
 
   function equal( e1, e2 )
   {
-    return it.equalReiterate( e1, e2, {} );
+    return it.equal( e1, e2, {} );
   }
 
 }
@@ -1207,11 +1149,6 @@ function equalMaps()
 
     if( !_.mapIs( it.src ) && _.mapIs( it.src2 ) )
     return it.stop( false );
-
-  // /* if containing mode then src2 could even don't have such entry */
-  //
-  //   if( it.down && !( it.key in it.down.src2 ) )
-  //   return it.stop( false );
 
   }
   else
@@ -1262,10 +1199,6 @@ function equalObjects()
     if( !it.src2[ equalAreSymbol ]( it ) )
     return it.stop( false );
   }
-  // else if( it.src && _.hasCustomIterator( it.src ) )
-  // {
-  //   xxx
-  // }
   else if( _.regexpIs( it.src ) )
   {
     return it.equalRegexps();
@@ -1430,7 +1363,7 @@ let LookerExtension =
   equalUp,
   equalDown,
   equalCycle,
-  equalReiterate,
+  equal,
   secondCoerce,
   equalCustoms,
   equalSets,
