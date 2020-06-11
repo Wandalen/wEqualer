@@ -6735,7 +6735,7 @@ function entityDiffExplanationString( test )
 
   /* */
 
-  test.case = 'same several, strictString:1';
+  test.case = 'same several, strictString:1'; /* qqq : move option strictString into separate test routine */
 
   var expected =
 `

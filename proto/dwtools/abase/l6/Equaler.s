@@ -348,7 +348,7 @@ defaults.strictNumbering = 0;
 defaults.strictString = 0;
 // defaults.strictNumbering = 1;
 defaults.strictCycling = 1;
-defaults.strictContainer = 0; /* qqq : make sure it works properly. cover. ask */
+defaults.strictContainer = 0; /* qqq : cover option strictContainer */
 
 //
 
@@ -514,7 +514,7 @@ defaults.srcs = null;
 defaults.path = null;
 defaults.accuracy = null;
 defaults.levels = 3;
-defaults.strictString = 1;
+defaults.strictString = 1; /* qqq : cover option strictString */
 defaults.onStringPreprocess = null
 
 // --
