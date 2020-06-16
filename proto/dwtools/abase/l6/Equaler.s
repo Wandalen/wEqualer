@@ -531,9 +531,6 @@ function choose( e, k )
   _.assert( it.level >= 0 );
   _.assert( _.objectIs( it.down ) );
 
-  if( _global_.debugger )
-  debugger;
-
   it.src2 = _.container.elementGet( it.src2, it.key );
 
   return it;
@@ -753,9 +750,6 @@ function equalUp()
 
   _.assert( it.ascending === true );
   _.assert( arguments.length === 0, 'Expects no arguments' );
-
-  if( _global_.debugger )
-  debugger;
 
   /* if containing mode then src2 could even don't have such entry */
 
