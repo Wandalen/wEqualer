@@ -86,11 +86,14 @@ function _equal_pre( routine, args )
 
   if( o.onNumbersAreEqual === null )
   if( o.strictNumbering && o.strictTyping )
-  o.onNumbersAreEqual = numbersAreIdentical;
+  o.onNumbersAreEqual = _.numbersAreIdentical;
   else if( o.strictNumbering && !o.strictTyping )
-  o.onNumbersAreEqual = numbersAreIdenticalNotStrictly;
+  o.onNumbersAreEqual = _.numbersAreIdenticalNotStrictly;
   else
-  o.onNumbersAreEqual = numbersAreEquivalent;
+  o.onNumbersAreEqual = ( a, b, acc ) =>
+  {
+    return _.numbersAreEquivalent( a, b, ( acc === undefined || acc === null ) ? accuracy : acc );
+  }
 
   if( o.onStringsAreEqual === null )
   o.onStringsAreEqual = stringsAreIdentical;
@@ -146,25 +149,25 @@ function _equal_pre( routine, args )
 
   /* */
 
-  function numbersAreIdentical( a, b )
-  {
-    return Object.is( a, b );
-  }
-
-  function numbersAreIdenticalNotStrictly( a, b )
-  {
-    /*
-    it takes into account -0 === +0 case
-    */
-    return Object.is( a, b ) || a === b;
-  }
-
-  function numbersAreEquivalent( a, b )
-  {
-    if( Object.is( a, b ) )
-    return true;
-    return Math.abs( a-b ) <= accuracy;
-  }
+  // function numbersAreIdentical( a, b )
+  // {
+  //   return Object.is( a, b );
+  // }
+  //
+  // function numbersAreIdenticalNotStrictly( a, b )
+  // {
+  //   /*
+  //   it takes into account -0 === +0 case
+  //   */
+  //   return Object.is( a, b ) || a === b;
+  // }
+  //
+  // function numbersAreEquivalent( a, b )
+  // {
+  //   if( Object.is( a, b ) )
+  //   return true;
+  //   return Math.abs( a-b ) <= accuracy;
+  // }
 
   /* */
 
@@ -1239,10 +1242,10 @@ function equalTerminals()
     else
     it.stop( it.src == it.src2 );
   }
-  else if( _.numberIs( it.src ) )
+  else if( _.numberIs( it.src ) || _.bigIntIs( it.src ) ) /* yyy */
   {
-    if( !_.numberIs( it.src2 ) )
-    return it.stop( false );
+    // if( !_.numberIs( it.src2 ) )
+    // return it.stop( false );
     return it.stop( it.onNumbersAreEqual( it.src, it.src2 ) );
   }
   else

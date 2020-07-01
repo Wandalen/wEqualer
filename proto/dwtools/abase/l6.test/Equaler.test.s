@@ -3822,6 +3822,22 @@ function compareNumber( test )
 
   /* */
 
+  test.case = 'number ~ big int';
+  var src1 = 3;
+  var src2 = 3n;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.et( src1, src2 );
+  test.et( src2, src1 );
+
+  /* */
+
 }
 
 //
