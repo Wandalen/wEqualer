@@ -6,7 +6,7 @@
   "license" : "MIT",
   "main" : "proto/dwtools/abase/l6/Equaler.s",
   "files" : [ "proto/dwtools/abase/l6", "proto/dwtools/Tools.s" ],
-  "scripts" : { "test" : "wtest .run proto rapidity:-3", "docgen" : "wdocgen proto" },
+  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wEqualer.git" },
   "bugs" :
   {
