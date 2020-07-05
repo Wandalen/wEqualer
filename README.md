@@ -1,5 +1,5 @@
 
-# wEqualer [![Build Status](https://travis-ci.org/Wandalen/wEqualer.svg?branch=master)](https://travis-ci.org/Wandalen/wEqualer)
+# module::Equaler [![Status](https://github.com/Wandalen/wEqualer/workflows/Test/badge.svg)](https://github.com/Wandalen/wEqualer}/actions?query=workflow%3ATest)
 
 Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
 
