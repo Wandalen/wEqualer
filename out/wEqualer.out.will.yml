@@ -1504,6 +1504,4 @@ module:
       ../.im.will.yml:
         hash: 539d7cc0e09f882a8e99e2d8bbc5e93c
         size: 5066
-      wEqualer.out.will.yml:
-        hash: 7ccbb4d4975c72d13fae7ba6fb5bd779
-        size: 38515
+      wEqualer.out.will.yml: *ref_0
