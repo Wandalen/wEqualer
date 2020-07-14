@@ -6110,7 +6110,10 @@ function entityIdenticalCycled( test )
   var a = { e : [ 1,3,4 ] }
   var b = { e : [ 1,4,4 ] }
   var expected = false;
+  _global_.debugger = 1;
+  debugger;
   var got = _.entityIdentical( a, b );
+  debugger;
   test.identical( got, expected );
 
   var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }

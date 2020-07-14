@@ -869,12 +869,14 @@ function stop( result )
   _.assert( arguments.length === 1 );
   _.assert( _.boolIs( result ) );
 
+  if( _global_.debugger )
+  debugger;
+
   if( it.containing )
   {
 
     if( it.containing === 'any' )
     {
-
       let any = [ _.equaler.containerNameToIdMap.map, containerNameToIdMap.hashMap, containerNameToIdMap.set, containerNameToIdMap.object ];
       if( it.down && _.longHasAny( any, it.down.iterable ) )
       {
@@ -885,14 +887,13 @@ function stop( result )
           it.continue = false;
           if( it.down )
           {
-            it.down.result = it.result; /* xxx : replace by routine */
+            // it.down.result = it.result; /* xxx : replace by routine */
             it.down.continue = false;
+            it.downUpdate();
           }
         }
-
         return result;
       }
-
     }
     else if( it.containing === 'none' )
     {
@@ -905,6 +906,7 @@ function stop( result )
         {
           it.iterator.continue = false;
           it.continue = false;
+          it.downUpdate();
         }
         return result;
       }
@@ -916,8 +918,23 @@ function stop( result )
   if( !it.result )
   it.iterator.continue = false;
   it.continue = false;
+  it.downUpdate();
 
   return result;
+}
+
+//
+
+function downUpdate()
+{
+  let it = this;
+
+  if( _global_.debugger )
+  debugger;
+
+  if( it.down )
+  it.down.result = it.result; /* xxx : replace by routine */
+
 }
 
 //
@@ -995,16 +1012,19 @@ function equalDown()
 
   if( it.containing === 'any' )
   {
-    if( it.down )
-    it.down.result = it.result; /* xxx : replace by routine */
+    // if( it.down )
+    // it.down.result = it.result; /* xxx : replace by routine */
+    it.downUpdate();
   }
-  else if( !it.result ) /* xxx : remove the branch? */
-  {
-    if( it.down )
-    it.down.result = it.result; /* xxx : replace by routine */
-    it.iterator.continue = false;
-    it.continue = false;
-  }
+  // else
+  // if( !it.result ) /* xxx : remove the branch? */
+  // {
+  //   it.downUpdate();
+  //   // if( it.down )
+  //   // it.down.result = it.result; /* xxx : replace by routine */
+  //   it.iterator.continue = false;
+  //   it.continue = false;
+  // }
 
 }
 
@@ -1579,6 +1599,7 @@ let LookerExtension =
   visitUp,
   visitDown,
   stop,
+  downUpdate,
   equalUp,
   equalDown,
   equalCycle,
