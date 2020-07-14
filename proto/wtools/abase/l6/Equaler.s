@@ -887,9 +887,9 @@ function stop( result )
           it.continue = false;
           if( it.down )
           {
-            // it.down.result = it.result; /* xxx : replace by routine */
+            it.down.result = it.result;
             it.down.continue = false;
-            it.downUpdate();
+            // it.downUpdate();
           }
         }
         return result;
@@ -906,7 +906,7 @@ function stop( result )
         {
           it.iterator.continue = false;
           it.continue = false;
-          it.downUpdate();
+          // it.downUpdate();
         }
         return result;
       }
@@ -918,7 +918,7 @@ function stop( result )
   if( !it.result )
   it.iterator.continue = false;
   it.continue = false;
-  it.downUpdate();
+  // it.downUpdate();
 
   return result;
 }
@@ -933,7 +933,7 @@ function downUpdate()
   debugger;
 
   if( it.down )
-  it.down.result = it.result; /* xxx : replace by routine */
+  it.down.result = it.down.result && it.result;
 
 }
 
@@ -1010,21 +1010,23 @@ function equalDown()
 
   /* if element is not equal then descend result down */
 
-  if( it.containing === 'any' )
-  {
-    // if( it.down )
-    // it.down.result = it.result; /* xxx : replace by routine */
-    it.downUpdate();
-  }
-  // else
-  // if( !it.result ) /* xxx : remove the branch? */
+  // if( it.containing === 'any' )
   // {
-  //   it.downUpdate();
   //   // if( it.down )
-  //   // it.down.result = it.result; /* xxx : replace by routine */
-  //   it.iterator.continue = false;
-  //   it.continue = false;
+  //   // it.down.result = it.result;
+  //   it.downUpdate();
   // }
+  // // else
+  // // if( !it.result )
+  // // {
+  // //   it.downUpdate();
+  // //   // if( it.down )
+  // //   // it.down.result = it.result; 
+  // //   it.iterator.continue = false;
+  // //   it.continue = false;
+  // // }
+
+  it.downUpdate();
 
 }
 
@@ -1052,13 +1054,21 @@ function equalCycle()
       {
         let i = it.iterator.visitedContainer2.original.indexOf( it.down.srcEffective2 );
         if( 0 <= i && i <= it.iterator.visitedContainer2.original.length-2 )
-        it.result = false;
+        {
+          it.result = false;
+          it.iterator.continue = false;
+          it.continue = false;
+        }
       }
       else
       {
         /* qqq : cover revisiting : 0, ask how */
         if( it.iterator.visitedContainer2 && it.iterator.visitedContainer2.has( it.down.srcEffective2 ) )
-        it.result = false;
+        {
+          it.result = false;
+          it.iterator.continue = false;
+          it.continue = false;
+        }
       }
     }
     /* or not yet cycled */
@@ -1066,6 +1076,11 @@ function equalCycle()
     {
       if( it.iterator.visitedContainer2 && _.arrayIs( it.iterator.visitedContainer2.original ) )
       it.result = it.iterator.visitedContainer2.original[ it.visitedContainer.original.indexOf( it.srcEffective ) ] === it.srcEffective2;
+      if( !it.result )
+      {
+        it.iterator.continue = false;
+        it.continue = false;
+      }
     }
     /* then not equal otherwise equal */
   }
@@ -1080,6 +1095,13 @@ function equalCycle()
         containing = 'all';
       }
       it.result = it.equal( it.srcEffective2, it.srcEffective, { recursive : 0, containing } ) && it.result;
+      if( !it.result )
+      {
+        it.iterator.continue = false;
+        it.continue = false;
+      }
+      if( _global_.debugger )
+      debugger;
     }
   }
 
@@ -1386,7 +1408,7 @@ function equalMaps()
     {
       if( it.type1 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.srcEffective[ equalAreSymbol ] ) || 'length' in it.srcEffective )
       if( it.type2 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.srcEffective2[ equalAreSymbol ] ) || 'length' in it.srcEffective2 )
-      if( _.lengthOf( it.srcEffective ) > _.lengthOf( it.srcEffective2 ) ) /* xxx : check lengthOf on iterable */
+      if( _.lengthOf( it.srcEffective ) > _.lengthOf( it.srcEffective2 ) )
       return it.stop( false );
     }
 
