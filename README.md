@@ -27,7 +27,7 @@ map1 ~ map3 : false
 ## Try out
 ```
 npm install
-node sample/Sample.js
+node sample/Sample.s
 ```
 
 
