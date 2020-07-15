@@ -6157,14 +6157,14 @@ function entityIdenticalCycled( test )
 
   var af1 = [];
   var ainstances = [];
-  var a = { f1 : af1, instances : ainstances };
-  var ac1 = { f1 : af1, instances : ainstances };
+  var a = { f1 : af1, Instances : ainstances };
+  var ac1 = { f1 : af1, Instances : ainstances };
   ainstances.push( ac1 );
 
   var bf1 = [];
   var binstances = [];
-  var b = { f1 : bf1, instances : binstances };
-  var bc1 = { f1 : bf1, instances : binstances };
+  var b = { f1 : bf1, Instances : binstances };
+  var bc1 = { f1 : bf1, Instances : binstances };
   binstances.push( bc1 );
 
   var expected = true;
@@ -6175,13 +6175,13 @@ function entityIdenticalCycled( test )
 
   var af1 = [];
   var ainstances = [];
-  var a = { f1 : af1, instances : ainstances };
+  var a = { f1 : af1, Instances : ainstances };
   ainstances.push( a );
 
   var bf1 = [];
   var binstances = [];
-  var b = { f1 : bf1, instances : binstances };
-  var bc1 = { f1 : bf1, instances : binstances };
+  var b = { f1 : bf1, Instances : binstances };
+  var bc1 = { f1 : bf1, Instances : binstances };
   binstances.push( bc1 );
 
   var expected = false;
@@ -6192,13 +6192,13 @@ function entityIdenticalCycled( test )
 
   var af1 = [];
   var ainstances = [];
-  var a = { f1 : af1, instances : ainstances };
-  var ac1 = { f1 : af1, instances : ainstances };
+  var a = { f1 : af1, Instances : ainstances };
+  var ac1 = { f1 : af1, Instances : ainstances };
   ainstances.push( ac1 );
 
   var bf1 = [];
   var binstances = [];
-  var b = { f1 : bf1, instances : binstances };
+  var b = { f1 : bf1, Instances : binstances };
   binstances.push( b );
 
   var expected = false;
@@ -6461,21 +6461,21 @@ function entityIdenticalCycledWithOptions( test )
   clean();
   var af1 = [];
   var ainstances = [];
-  var a = { f1 : af1, instances : ainstances };
-  var ac1 = { f1 : af1, instances : ainstances };
+  var a = { f1 : af1, Instances : ainstances };
+  var ac1 = { f1 : af1, Instances : ainstances };
   ainstances.push( ac1 );
 
   var bf1 = [];
   var binstances = [];
-  var b = { f1 : bf1, instances : binstances };
-  var bc1 = { f1 : bf1, instances : binstances };
+  var b = { f1 : bf1, Instances : binstances };
+  var bc1 = { f1 : bf1, Instances : binstances };
   binstances.push( bc1 );
 
   var expected = true;
   var got = _.entityIdentical( a, b, opt  );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/f1', '/instances', '/instances/0', '/instances/0/f1', '/instances/0/instances' ] );
-  test.identical( onDownPaths, [ '/f1', '/instances/0/f1', '/instances/0/instances', '/instances/0', '/instances', '/' ] );
+  test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/0', '/Instances/0/f1', '/Instances/0/Instances' ] );
+  test.identical( onDownPaths, [ '/f1', '/Instances/0/f1', '/Instances/0/Instances', '/Instances/0', '/Instances', '/' ] );
 
   /* */
 
@@ -6484,20 +6484,20 @@ function entityIdenticalCycledWithOptions( test )
   clean();
   var af1 = [];
   var ainstances = [];
-  var a = { f1 : af1, instances : ainstances };
+  var a = { f1 : af1, Instances : ainstances };
   ainstances.push( a );
 
   var bf1 = [];
   var binstances = [];
-  var b = { f1 : bf1, instances : binstances };
-  var bc1 = { f1 : bf1, instances : binstances };
+  var b = { f1 : bf1, Instances : binstances };
+  var bc1 = { f1 : bf1, Instances : binstances };
   binstances.push( bc1 );
 
   var expected = false;
   var got = _.entityIdentical( a, b, opt  );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/f1', '/instances', '/instances/0', '/instances/0/f1', '/instances/0/instances' ] );
-  test.identical( onDownPaths, [ '/f1', '/instances/0/f1', '/instances/0/instances', '/instances/0', '/instances', '/' ] );
+  test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/0', '/Instances/0/f1', '/Instances/0/Instances' ] );
+  test.identical( onDownPaths, [ '/f1', '/Instances/0/f1', '/Instances/0/Instances', '/Instances/0', '/Instances', '/' ] );
 
   /* */
 
@@ -6506,20 +6506,20 @@ function entityIdenticalCycledWithOptions( test )
   clean();
   var af1 = [];
   var ainstances = [];
-  var a = { f1 : af1, instances : ainstances };
-  var ac1 = { f1 : af1, instances : ainstances };
+  var a = { f1 : af1, Instances : ainstances };
+  var ac1 = { f1 : af1, Instances : ainstances };
   ainstances.push( ac1 );
 
   var bf1 = [];
   var binstances = [];
-  var b = { f1 : bf1, instances : binstances };
+  var b = { f1 : bf1, Instances : binstances };
   binstances.push( b );
 
   var expected = false;
   var got = _.entityIdentical( a, b, opt  );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/f1', '/instances', '/instances/0' ] );
-  test.identical( onDownPaths, [ '/f1', '/instances/0', '/instances', '/' ] );
+  test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/0' ] );
+  test.identical( onDownPaths, [ '/f1', '/Instances/0', '/Instances', '/' ] );
 
 }
 
@@ -6667,14 +6667,14 @@ function entityEquivalentCycled( test )
 
   var af1 = [];
   var ainstances = [];
-  var a = { f1 : af1, instances : ainstances };
-  var ac1 = { f1 : af1, instances : ainstances };
+  var a = { f1 : af1, Instances : ainstances };
+  var ac1 = { f1 : af1, Instances : ainstances };
   ainstances.push( ac1 );
 
   var bf1 = [];
   var binstances = [];
-  var b = { f1 : bf1, instances : binstances };
-  var bc1 = { f1 : bf1, instances : binstances };
+  var b = { f1 : bf1, Instances : binstances };
+  var bc1 = { f1 : bf1, Instances : binstances };
   binstances.push( bc1 );
 
   var expected = true;
@@ -6687,13 +6687,13 @@ function entityEquivalentCycled( test )
 
   var af1 = [];
   var ainstances = [];
-  var a = { f1 : af1, instances : ainstances };
+  var a = { f1 : af1, Instances : ainstances };
   ainstances.push( a );
 
   var bf1 = [];
   var binstances = [];
-  var b = { f1 : bf1, instances : binstances };
-  var bc1 = { f1 : bf1, instances : binstances };
+  var b = { f1 : bf1, Instances : binstances };
+  var bc1 = { f1 : bf1, Instances : binstances };
   binstances.push( bc1 );
 
   var expected = true;
@@ -6706,13 +6706,13 @@ function entityEquivalentCycled( test )
 
   var af1 = [];
   var ainstances = [];
-  var a = { f1 : af1, instances : ainstances };
-  var ac1 = { f1 : af1, instances : ainstances };
+  var a = { f1 : af1, Instances : ainstances };
+  var ac1 = { f1 : af1, Instances : ainstances };
   ainstances.push( ac1 );
 
   var bf1 = [];
   var binstances = [];
-  var b = { f1 : bf1, instances : binstances };
+  var b = { f1 : bf1, Instances : binstances };
   binstances.push( b );
 
   var expected = true;
