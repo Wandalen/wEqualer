@@ -4,7 +4,7 @@
 
 if( typeof module !== 'undefined' )
 {
-  var _ = require( '../../../wtools/Tools.s' );
+  let _ = require( '../../../wtools/Tools.s' );
 
   _.include( 'wTesting' );
   _.include( 'wStringer' );
@@ -12,8 +12,8 @@ if( typeof module !== 'undefined' )
   require( '../l6/Equaler.s' );
 }
 
-var _global = _global_;
-var _ = _global_.wTools;
+let _global = _global_;
+let _ = _global_.wTools;
 
 // --
 // tests
@@ -7493,7 +7493,7 @@ cd'
 // declare
 // --
 
-var Self =
+let Self =
 {
 
   name : 'Tools.base.l6.Equaler',

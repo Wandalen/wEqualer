@@ -1,5 +1,5 @@
 
-var _ = require( '..' /* 'wequaler' */ );
+let _ = require( '..' /* 'wequaler' */ );
 
 var map1 = { a : 0, e : { c : 2, d : 3 } };
 var map2 = { a : 0, e : { c : 2, d : 3 } };
