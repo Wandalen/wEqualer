@@ -7496,7 +7496,7 @@ cd'
 let Self =
 {
 
-  name : 'Tools.base.l6.Equaler',
+  name : 'Tools.l6.Equaler',
   silencing : 1,
   enabled : 1,
 
