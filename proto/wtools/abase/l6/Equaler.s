@@ -650,8 +650,8 @@ function _iterableEval()
   let it = this;
   it.iterable = null;
 
-  if( _global_.debugger )
-  debugger;
+  // if( _global_.debugger )
+  // debugger;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
@@ -869,8 +869,8 @@ function stop( result )
   _.assert( arguments.length === 1 );
   _.assert( _.boolIs( result ) );
 
-  if( _global_.debugger )
-  debugger;
+  // if( _global_.debugger )
+  // debugger;
 
   if( it.containing )
   {
@@ -929,8 +929,8 @@ function downUpdate()
 {
   let it = this;
 
-  if( _global_.debugger )
-  debugger;
+  // if( _global_.debugger )
+  // debugger;
 
   if( it.down )
   it.down.result = it.down.result && it.result;
@@ -990,8 +990,8 @@ function equalUp()
 
   /* */
 
-  if( _global_.debugger )
-  debugger;
+  // if( _global_.debugger )
+  // debugger;
 
   _.equaler.containerIdToEqual[ it.iterable ].call( it );
 
@@ -1021,7 +1021,7 @@ function equalDown()
   // // {
   // //   it.downUpdate();
   // //   // if( it.down )
-  // //   // it.down.result = it.result; 
+  // //   // it.down.result = it.result;
   // //   it.iterator.continue = false;
   // //   it.continue = false;
   // // }
