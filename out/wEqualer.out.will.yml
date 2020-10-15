@@ -2,13 +2,10 @@ format: outwillfile-2.0
 root:
   - wEqualer.out
 consistency:
-  wEqualer.out.will.yml: &ref_0
-    hash: 7ccbb4d4975c72d13fae7ba6fb5bd779
-    size: 38515
-  ../.ex.will.yml: &ref_1
-    hash: a89a5ad26d1054538dbe1b459817bb67
-    size: 1885
-  ../.im.will.yml: &ref_2
+  ../.ex.will.yml: &ref_0
+    hash: 5a350403a4d139a420a57eaec7c3ce80
+    size: 1900
+  ../.im.will.yml: &ref_1
     hash: 539d7cc0e09f882a8e99e2d8bbc5e93c
     size: 5066
 module:
@@ -17,24 +14,24 @@ module:
       name: wEqualer
       org: noorg
       description: >-
-        Collection of cross-platform routines to compare two complex structures. The module can
-        answer questions: are two structures equivalent? are them identical?
-        what is the difference between each other? Use the module avoid manually
-        work and cherry picking.
+        Collection of cross-platform routines to compare two complex structures.
+        The module can answer questions: are two structures equivalent? are them
+        identical? what is the difference between each other? Use the module
+        avoid manually work and cherry picking.
       enabled: 1
       version: 0.6.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wequaler
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -700,24 +697,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          filePath: 'reflector::exported.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          filePath: 'reflector::exported.files.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -806,34 +785,26 @@ module:
           content: proto
           export: 1
     consistency:
-      wEqualer.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wEqualer
       org: noorg
       description: >-
-        Collection of cross-platform routines to compare two complex structures. The module can
-        answer questions: are two structures equivalent? are them identical?
-        what is the difference between each other? Use the module avoid manually
-        work and cherry picking.
+        Collection of cross-platform routines to compare two complex structures.
+        The module can answer questions: are two structures equivalent? are them
+        identical? what is the difference between each other? Use the module
+        avoid manually work and cherry picking.
       enabled: 1
       version: 0.6.0
-      interpreters:
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
+      contributors: *ref_4
       npm.name: wequaler
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -1499,9 +1470,8 @@ module:
           - 'build::npm'
     consistency:
       ../.ex.will.yml:
-        hash: a89a5ad26d1054538dbe1b459817bb67
-        size: 1885
+        hash: 5a350403a4d139a420a57eaec7c3ce80
+        size: 1900
       ../.im.will.yml:
         hash: 539d7cc0e09f882a8e99e2d8bbc5e93c
         size: 5066
-      wEqualer.out.will.yml: *ref_0
