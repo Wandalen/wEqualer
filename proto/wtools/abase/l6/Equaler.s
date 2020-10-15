@@ -3,7 +3,7 @@
 'use strict';
 
 /**
- * Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
+ * Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
   @module Tools/base/Equaler
   @extends Tools
 */
@@ -45,7 +45,7 @@ _.assert( !!_.select );
 // routines
 // --
 
-function _equal_pre( routine, args )
+function _equal_head( routine, args )
 {
 
 
@@ -110,7 +110,7 @@ function _equal_pre( routine, args )
   else
   o.onStringPreprocess = stringsPreprocessLose;
 
-  let it = _.look.pre( _.equaler._equal, [ optionsFor( o ) ] );
+  let it = _.look.head( _.equaler._equal, [ optionsFor( o ) ] );
 
   _.assert( it.iterator.visitedContainer2 === null );
 
@@ -199,7 +199,7 @@ defaults.onNumbersAreEqual = null;
 defaults.onStringsAreEqual = null;
 defaults.onStringPreprocess = null;
 
-let _equalIt = _.routineFromPreAndBody( _equal_pre, _equalIt_body );
+let _equalIt = _.routineUnite( _equal_head, _equalIt_body );
 
 //
 
@@ -211,7 +211,7 @@ function _equal_body( it )
 
 _.routineExtend( _equal_body, _equalIt.body );
 
-let _equal = _.routineFromPreAndBody( _equal_pre, _equal_body );
+let _equal = _.routineUnite( _equal_head, _equal_body );
 
 //
 
@@ -245,7 +245,7 @@ let _equal = _.routineFromPreAndBody( _equal_pre, _equal_body );
  * @module Tools/base/Equaler
 */
 
-let entityIdentical = _.routineFromPreAndBody( _equal_pre, _equal_body );
+let entityIdentical = _.routineUnite( _equal_head, _equal_body );
 
 var defaults = entityIdentical.defaults;
 
@@ -281,7 +281,7 @@ defaults.strict = 1;
  * @module Tools/base/Equaler
 */
 
-let entityEquivalent = _.routineFromPreAndBody( _equal_pre, _equal_body );
+let entityEquivalent = _.routineUnite( _equal_head, _equal_body );
 
 var defaults = entityEquivalent.defaults;
 
@@ -321,7 +321,7 @@ defaults.strict = 0;
 
 function entityContains( src, src2, opts )
 {
-  let it = _equal.pre.call( this, entityContains, arguments );
+  let it = _equal.head.call( this, entityContains, arguments );
   let result = _equal.body.call( this, it );
   return result;
 }
@@ -342,7 +342,7 @@ defaults.strictContainer = 0; /* qqq : cover option strictContainer */
 
 function entityContainsAll( src, src2, opts )
 {
-  let it = _equal.pre.call( this, entityContainsAll, arguments );
+  let it = _equal.head.call( this, entityContainsAll, arguments );
   let result = _equal.body.call( this, it );
   return result;
 }
@@ -363,7 +363,7 @@ defaults.strictContainer = 0;
 
 function entityContainsAny( src, src2, opts )
 {
-  let it = _equal.pre.call( this, entityContainsAny, arguments );
+  let it = _equal.head.call( this, entityContainsAny, arguments );
   let result = _equal.body.call( this, it );
   return result;
 }
@@ -384,7 +384,7 @@ defaults.strictContainer = 0;
 
 function entityContainsOnly( src, src2, opts )
 {
-  let it = _equal.pre.call( this, entityContainsOnly, arguments );
+  let it = _equal.head.call( this, entityContainsOnly, arguments );
   let result = _equal.body.call( this, it );
   return result;
 }
@@ -405,7 +405,7 @@ defaults.strictContainer = 0;
 
 function entityContainsNone( src, src2, opts )
 {
-  let it = _equal.pre.call( this, entityContainsNone, arguments );
+  let it = _equal.head.call( this, entityContainsNone, arguments );
   let result = _equal.body.call( this, it );
   return result;
 }

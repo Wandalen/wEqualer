@@ -1,7 +1,7 @@
 
 # module::Equaler [![status](https://github.com/Wandalen/wEqualer/workflows/publish/badge.svg)](https://github.com/Wandalen/wEqualer/actions?query=workflow%3Apublish) [![experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
 
-Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
+Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
 
 ## Sample
 ```js

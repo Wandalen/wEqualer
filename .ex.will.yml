@@ -2,7 +2,7 @@
 about :
 
   name : 'wEqualer'
-  description : 'Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.'
+  description : 'Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.'
   version : '0.6.0'
   enabled : 1
   interpreters :

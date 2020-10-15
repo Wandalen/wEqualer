@@ -17,7 +17,7 @@ module:
       name: wEqualer
       org: noorg
       description: >-
-        Collection of routines to compare two complex structures. The module can
+        Collection of cross-platform routines to compare two complex structures. The module can
         answer questions: are two structures equivalent? are them identical?
         what is the difference between each other? Use the module avoid manually
         work and cherry picking.
@@ -814,7 +814,7 @@ module:
       name: wEqualer
       org: noorg
       description: >-
-        Collection of routines to compare two complex structures. The module can
+        Collection of cross-platform routines to compare two complex structures. The module can
         answer questions: are two structures equivalent? are them identical?
         what is the difference between each other? Use the module avoid manually
         work and cherry picking.
