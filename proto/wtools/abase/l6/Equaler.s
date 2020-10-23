@@ -1487,6 +1487,9 @@ function equalTerminals()
 {
   let it = this;
 
+  // if( _.bigIntIs( it.srcEffective ) )
+  // debugger;
+
   if( it.type1 || it.type2 )
   return it.stop( false );
 
