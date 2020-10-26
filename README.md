@@ -1,5 +1,5 @@
 
-# module::Equaler [![status](https://github.com/Wandalen/wEqualer/workflows/publish/badge.svg)](https://github.com/Wandalen/wEqualer/actions?query=workflow%3Apublish) [![experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
+# module::Equaler [![status](https://github.com/Wandalen/wEqualer/workflows/publish/badge.svg)](https://github.com/Wandalen/wEqualer/actions?query=workflow%3Apublish) [![stable](https://img.shields.io/badge/stability-stable-green.svg)](https://github.com/emersion/stability-badges#stable)
 
 Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
 
@@ -36,8 +36,3 @@ node sample/Sample.s
 ```
 npm add 'wequaler@alpha'
 ```
-
-
-
-
-
