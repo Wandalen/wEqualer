@@ -1,5 +1,5 @@
 
-# module::Equaler [![status](https://github.com/Wandalen/wEqualer/workflows/publish/badge.svg)](https://github.com/Wandalen/wEqualer/actions?query=workflow%3Apublish) [![stable](https://img.shields.io/badge/stability-stable-green.svg)](https://github.com/emersion/stability-badges#stable)
+# module::Equaler [![status](https://github.com/Wandalen/wEqualer/workflows/publish/badge.svg)](https://github.com/Wandalen/wEqualer/actions?query=workflow%3Apublish) [![stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)](https://github.com/emersion/stability-badges#stable)
 
 Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
 
