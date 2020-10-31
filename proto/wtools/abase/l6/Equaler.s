@@ -814,7 +814,7 @@ function visitPop()
     _.assert
     (
       Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.src2 ),
-      () => `Top-most visit ${it.path} does not match ${_.strShort( it.src2 )} <> ${_.strShort( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ] )}`
+      () => `Top-most visit ${it.path} does not match ${_.strEntityShort( it.src2 )} <> ${_.strEntityShort( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ] )}`
     );
     it.iterator.visitedContainer2.pop( it.src2 );
   }
