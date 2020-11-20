@@ -444,15 +444,15 @@ function entityEqualMaps( test )
   test.case = 'descendant has no fields';
   var m1 = { a : 1 };
   var m2 = Object.create({ a : 1 });
-  test.is( !_.entityIdentical( m1, m2 ) );
-  test.is( _.entityEquivalent( m1, m2 ) );
+  test.true( !_.entityIdentical( m1, m2 ) );
+  test.true( _.entityEquivalent( m1, m2 ) );
 
   test.case = 'descendant has field';
   var m1 = { a : 1, b : 2 };
   var m2 = Object.create({ a : 1 });
   m2.b = 2;
-  test.is( !_.entityIdentical( m1, m2 ) );
-  test.is( _.entityEquivalent( m1, m2 ) );
+  test.true( !_.entityIdentical( m1, m2 ) );
+  test.true( _.entityEquivalent( m1, m2 ) );
 
 }
 
@@ -5969,7 +5969,7 @@ function compareObjectPrototyped1( test )
   // expected.c = 33;
   // expected.d = 'name';
   // test.identical( got, expected );
-  // test.is( got === srcMap );
+  // test.true( got === srcMap );
   // test.identical( srcMap, { a : 'abc', b : undefined, c : 33, d : 'name' } );
   // test.identical( screenMap, { a : 13, b : 77, c : 3, d : 'name' } );
 
