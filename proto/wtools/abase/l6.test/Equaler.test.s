@@ -7622,7 +7622,7 @@ function entityDiffExplanationMap( test )
 
   /* */
 
-  test.case = '1 el in got, 2 el in exp, got[0] = expected[0],';
+  test.case = '5 el in got, 3 el in exp, got[0] = expected[0], got[2] = expected[2], got[4] = expected[4]';
 
   var expected =
 `at /MultipleExports/in
