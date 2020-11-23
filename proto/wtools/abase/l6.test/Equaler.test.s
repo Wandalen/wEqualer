@@ -7702,10 +7702,52 @@ function entityDiffExplanationMap( test )
     srcs : srcs,
     accuracy : null,
   });
-  console.log( 'GG: ', got )
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
   /* */
+
+  test.case = 'maps with > 1 el, big difference , without path';
+
+  var expected =
+`- got :
+  { 'b' : 2, 'd' : 4, 'f' : 6 }
+- expected :
+  { 'g' : 7, 'i' : 9 }
+- difference :
+  { '*
+`
+
+  var srcs =
+  [
+    {
+      a : 1,
+      b : 2,
+      c : 3,
+      d : 4,
+      e : 5,
+      f : 6,
+      h : 8,
+    },
+    {
+      a : 1,
+      c : 3,
+      e : 5,
+      g : 7,
+      h : 8,
+      i : 9
+    }
+  ]
+
+  debugger
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    accuracy : null,
+  });
+  console.log( 'GG: ', got )
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
 //   test.case = 'from wProcess';
 
