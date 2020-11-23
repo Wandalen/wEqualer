@@ -7654,7 +7654,6 @@ function entityDiffExplanationMap( test )
       }
     }
   ]
-  debugger
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',
@@ -7694,7 +7693,6 @@ function entityDiffExplanationMap( test )
     }
   ]
 
-  debugger
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',
@@ -7738,6 +7736,44 @@ function entityDiffExplanationMap( test )
     }
   ]
 
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'maps with > 1 el, 2 identical funcs, without path';
+
+  var expected =
+`- got :
+  { 'a' : 'reducing1' }
+- expected :
+  { 'a' : 'reducing2' }
+- difference :
+  { 'a' : 'reducing*
+`
+
+  var srcs =
+  [
+    {
+      f : function b(){},
+      a : 'reducing1',
+      b : [ 1,3 ],
+      c : true,
+    },
+    {
+      f : function b(){},
+      a : 'reducing2',
+      b : [ 1,3 ],
+      c : true,
+    },
+  ]
+
   debugger
   var got = _.entityDiffExplanation
   ({
@@ -7746,49 +7782,94 @@ function entityDiffExplanationMap( test )
     srcs : srcs,
     accuracy : null,
   });
-  console.log( 'GG: ', got )
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
-//   test.case = 'from wProcess';
+  /* */
 
-//   var expected =
-// `- got :
-//   { 'ready' : 'Consequence:: 1 / 2', 'onStart' : 'Consequence:: 0 / 1', 'handleProcedureTerminationBegin' : true }
-// - expected :
-//   { 'onStart' : 'Consequence:: 0 / 0', 'ready' : 'Consequence:: 0 / 2', 'terminationBeginEnabled' : false } 
-// - difference :
-//   { '*
-// `
+  test.case = 'maps with > 1 el, 1 identical func and 1 different, without path';
 
-//   var srcs =
-//   [
-//     {
-//       'ready' : 'Consequence:: 1 / 2',
-//       'onStart' : 'Consequence:: 0 / 1',
-//       'onTerminate' : 'Consequence:: 0 / 1',
-//       'onDisconnect' : 'Consequence:: 0 / 0',
-//       'disconnect' : '[ routine disconnect ]',
-//       'handleProcedureTerminationBegin' : true
-//     },
-//     {
-//       'onStart' : 'Consequence:: 0 / 0',
-//       'onTerminate' : 'Consequence:: 0 / 1',
-//       'onDisconnect' : 'Consequence:: 0 / 0',
-//       'ready' : 'Consequence:: 0 / 2',
-//       'disconnect' : '[ routine disconnect ]',
-//       'terminationBeginEnabled' : false
-//     }
-//   ]
+  var expected =
+`- got :
+  { 'f1' : [ routine a ], 'a' : 'reducing1' }
+- expected :
+  { 'f1' : [ routine c ], 'a' : 'reducing2' }
+- difference :
+  { 'f1' : [ routine *
+`
 
-//   var got = _.entityDiffExplanation
-//   ({
-//     name1 : '- got',
-//     name2 : '- expected',
-//     srcs : srcs,
-//     accuracy : null,
-//   });
-//   console.log( 'GG: ', got )
-//   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  var srcs =
+  [
+    {
+      f1 : function a(){},
+      f2 : function b(){},
+      a : 'reducing1',
+      b : [ 1,3 ],
+      c : true,
+    },
+    {
+      f1 : function c(){},
+      f2 : function b(){},
+      a : 'reducing2',
+      b : [ 1,3 ],
+      c : true,
+    },
+  ]
+
+  debugger
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'maps with > 1 el, 3 identical func and 1 different, with cons & async, without path';
+
+  var expected =
+`- got :
+  { 'f1' : [ routine a ], 'a' : 'reducing1' }
+- expected :
+  { 'f1' : [ routine c ], 'a' : 'reducing2' }
+- difference :
+  { 'f1' : [ routine *
+`
+
+  var srcs =
+  [
+    {
+      f1 : function a(){},
+      f2 : function b(){},
+      f3 : new Promise( ( res, rej ) => {} ).then,
+      f4 : async () => {},
+      a : 'reducing1',
+      b : [ 1,3 ],
+      c : true,
+    },
+    {
+      f1 : function c(){},
+      f2 : function b(){},
+      f3 : new Promise( ( res, rej ) => {} ).then,
+      f4 : async () => {},
+      a : 'reducing2',
+      b : [ 1,3 ],
+      c : true,
+    },
+  ]
+
+  debugger
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
 }
 
 // --

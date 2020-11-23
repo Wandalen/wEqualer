@@ -532,7 +532,21 @@ function entityDiffExplanation( o )
 
   if( _.mapIs( o.srcs[ 0 ] ) && _.mapIs( o.srcs[ 1 ] ) )
   {
-    let common = _.filter( _.mapFields( o.srcs[ 0 ] ), ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
+    // let common = _.filter( _.mapFields( o.srcs[ 0 ] ), ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
+    let common = _.filter
+    (
+      /* 
+        mapFields -> mapOwnProperties, to loop through methods too.
+        If === equality for the routines is preferred :
+        let common = _.filter( _.mapOwnProperties( o.srcs[ 0 ] ), ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
+      */
+      _.mapOwnProperties( o.srcs[ 0 ] ), ( e, k ) =>
+      {
+        let first = _.routineIs( e ) ? e.toString() : e;
+        let second = _.routineIs( o.srcs[ 1 ][ k ] ) ? o.srcs[ 1 ][ k ].toString() : o.srcs[ 1 ][ k ];
+        return _.entityIdentical( first, second ) ? e : undefined 
+      }
+    );
     o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
     o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
   }
