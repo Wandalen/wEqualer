@@ -7617,7 +7617,6 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  console.log( 'GG: ', got )
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
   /* */
@@ -7655,7 +7654,7 @@ function entityDiffExplanationMap( test )
       }
     }
   ]
-
+  debugger
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',
@@ -7664,10 +7663,90 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'maps with > 1 el, without path';
+
+  var expected =
+`- got :
+  { 'b' : 2, 'd' : 4 }
+- expected :
+  {}
+- difference :
+  {*
+`
+
+  var srcs =
+  [
+    {
+      a : 1,
+      b : 2,
+      c : 3,
+      d : 4,
+      e : 5
+    },
+    {
+      a : 1,
+      c : 3,
+      e : 5
+    }
+  ]
+
+  debugger
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    accuracy : null,
+  });
   console.log( 'GG: ', got )
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
   /* */
+
+//   test.case = 'from wProcess';
+
+//   var expected =
+// `- got :
+//   { 'ready' : 'Consequence:: 1 / 2', 'onStart' : 'Consequence:: 0 / 1', 'handleProcedureTerminationBegin' : true }
+// - expected :
+//   { 'onStart' : 'Consequence:: 0 / 0', 'ready' : 'Consequence:: 0 / 2', 'terminationBeginEnabled' : false } 
+// - difference :
+//   { '*
+// `
+
+//   var srcs =
+//   [
+//     {
+//       'ready' : 'Consequence:: 1 / 2',
+//       'onStart' : 'Consequence:: 0 / 1',
+//       'onTerminate' : 'Consequence:: 0 / 1',
+//       'onDisconnect' : 'Consequence:: 0 / 0',
+//       'disconnect' : '[ routine disconnect ]',
+//       'handleProcedureTerminationBegin' : true
+//     },
+//     {
+//       'onStart' : 'Consequence:: 0 / 0',
+//       'onTerminate' : 'Consequence:: 0 / 1',
+//       'onDisconnect' : 'Consequence:: 0 / 0',
+//       'ready' : 'Consequence:: 0 / 2',
+//       'disconnect' : '[ routine disconnect ]',
+//       'terminationBeginEnabled' : false
+//     }
+//   ]
+
+//   var got = _.entityDiffExplanation
+//   ({
+//     name1 : '- got',
+//     name2 : '- expected',
+//     srcs : srcs,
+//     accuracy : null,
+//   });
+//   console.log( 'GG: ', got )
+//   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 }
 
 // --
