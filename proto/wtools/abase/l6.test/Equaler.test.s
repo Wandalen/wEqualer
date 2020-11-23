@@ -7530,7 +7530,7 @@ function entityDiffExplanationMap( test )
   ({
     name1 : '- got',
     name2 : '- expected',
-    srcs : srcs,
+    srcs,
     path : '/MultipleExports/in',
     accuracy : null,
   });
@@ -7571,7 +7571,7 @@ function entityDiffExplanationMap( test )
   ({
     name1 : '- got',
     name2 : '- expected',
-    srcs : srcs,
+    srcs,
     path : '/MultipleExports/in',
     accuracy : null,
   });
@@ -7613,7 +7613,7 @@ function entityDiffExplanationMap( test )
   ({
     name1 : '- got',
     name2 : '- expected',
-    srcs : srcs,
+    srcs,
     path : '/MultipleExports/in',
     accuracy : null,
   });
@@ -7658,7 +7658,7 @@ function entityDiffExplanationMap( test )
   ({
     name1 : '- got',
     name2 : '- expected',
-    srcs : srcs,
+    srcs,
     path : '/MultipleExports/in',
     accuracy : null,
   });
@@ -7697,14 +7697,14 @@ function entityDiffExplanationMap( test )
   ({
     name1 : '- got',
     name2 : '- expected',
-    srcs : srcs,
+    srcs,
     accuracy : null,
   });
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
   /* */
 
-  test.case = 'maps with > 1 el, big difference , without path';
+  test.case = 'maps with > 1 el, big difference, without path';
 
   var expected =
 `- got :
@@ -7740,7 +7740,7 @@ function entityDiffExplanationMap( test )
   ({
     name1 : '- got',
     name2 : '- expected',
-    srcs : srcs,
+    srcs,
     accuracy : null,
   });
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
@@ -7774,12 +7774,11 @@ function entityDiffExplanationMap( test )
     },
   ]
 
-  debugger
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',
     name2 : '- expected',
-    srcs : srcs,
+    srcs,
     accuracy : null,
   });
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
@@ -7815,19 +7814,18 @@ function entityDiffExplanationMap( test )
     },
   ]
 
-  debugger
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',
     name2 : '- expected',
-    srcs : srcs,
+    srcs,
     accuracy : null,
   });
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
   /* */
 
-  test.case = 'maps with > 1 el, 3 identical func and 1 different, with cons & async, without path';
+  test.case = 'maps with > 1 el, 3 identical func and 1 different, with promises & async, without path';
 
   var expected =
 `- got :
@@ -7860,12 +7858,11 @@ function entityDiffExplanationMap( test )
     },
   ]
 
-  debugger
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',
     name2 : '- expected',
-    srcs : srcs,
+    srcs,
     accuracy : null,
   });
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
