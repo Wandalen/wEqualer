@@ -7493,6 +7493,183 @@ cd'
 
 }
 
+//
+
+function entityDiffExplanationMap( test )
+{
+  test.case = '1 el in got, 2 el in exp, got[0] = expected[0],';
+
+  var expected =
+`at /MultipleExports/in
+- got :
+  {}
+- expected :
+  { 'b' : 2 }
+- difference :
+  {*
+`
+
+  var srcs =
+  [
+    {
+      MultipleExports :
+      {
+        a : 1,
+      }
+    },
+    {
+      MultipleExports :
+      {
+        a : 1,
+        b : 2,
+      }
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    path : '/MultipleExports/in',
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = '2 el in got, 1 el in exp, got[0] == expected[0],';
+
+  var expected =
+`at /MultipleExports/in
+- got :
+  { 'b' : 2 }
+- expected :
+  {}
+- difference :
+  {*
+`
+
+  var srcs =
+  [
+    {
+      MultipleExports :
+      {
+        a : 1,
+        b : 2,
+      }
+    },
+    {
+      MultipleExports :
+      {
+        a : 1,
+      }
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    path : '/MultipleExports/in',
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = '2 el in got, 2 el in exp, got[1] != expected[1],';
+
+  var expected =
+`at /MultipleExports/in
+- got :
+  { 'b' : 2 }
+- expected :
+  { 'c' : 3 }
+- difference :
+  { '*
+`
+
+  var srcs =
+  [
+    {
+      MultipleExports :
+      {
+        a : 1,
+        b : 2,
+      }
+    },
+    {
+      MultipleExports :
+      {
+        a : 1,
+        c : 3,
+      }
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    path : '/MultipleExports/in',
+    accuracy : null,
+  });
+  console.log( 'GG: ', got )
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = '1 el in got, 2 el in exp, got[0] = expected[0],';
+
+  var expected =
+`at /MultipleExports/in
+- got :
+  { 'b' : 2, 'd' : 4 }
+- expected :
+  {}
+- difference :
+  {*
+`
+
+  var srcs =
+  [
+    {
+      MultipleExports :
+      {
+        a : 1,
+        b : 2,
+        c : 3,
+        d : 4,
+        e : 5
+      }
+    },
+    {
+      MultipleExports :
+      {
+        a : 1,
+        c : 3,
+        e : 5
+      }
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    path : '/MultipleExports/in',
+    accuracy : null,
+  });
+  console.log( 'GG: ', got )
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+}
+
 // --
 // declare
 // --
@@ -7567,6 +7744,7 @@ let Self =
     entityDiffLoose,
     entityDiffExplanationBasic,
     entityDiffExplanationString,
+    entityDiffExplanationMap
 
     /* qqq : research: what should be covered in the first place */
 
