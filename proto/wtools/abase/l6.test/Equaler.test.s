@@ -7186,13 +7186,20 @@ function entityDiffLoose( test )
   }
 
   var got = _.entityDiff( src1, src2 );
+  // var expected =
+  // `
+  // at /f
+  // - src1 :
+  // { 'f' : [ routine f ] }
+  // - src2 :
+  // { 'f' : [ routine f ] }`
   var expected =
   `
   at /f
   - src1 :
-  { 'f' : [ routine f ] }
+  {}
   - src2 :
-  { 'f' : [ routine f ] }`
+  {}`
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
   /* */
