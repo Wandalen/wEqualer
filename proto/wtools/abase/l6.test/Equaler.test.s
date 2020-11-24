@@ -7763,13 +7763,13 @@ function entityDiffExplanationMap( test )
     {
       f : func1,
       a : 'reducing1',
-      b : [ 1,3 ],
+      b : [ 1, 3 ],
       c : true,
     },
     {
       f : func1,
       a : 'reducing2',
-      b : [ 1,3 ],
+      b : [ 1, 3 ],
       c : true,
     },
   ]
@@ -7802,14 +7802,14 @@ function entityDiffExplanationMap( test )
       f1 : func1,
       f2 : function b(){},
       a : 'reducing1',
-      b : [ 1,3 ],
+      b : [ 1, 3 ],
       c : true,
     },
     {
       f1 : func1,
       f2 : function b(){},
       a : 'reducing2',
-      b : [ 1,3 ],
+      b : [ 1, 3 ],
       c : true,
     },
   ]
@@ -7844,7 +7844,7 @@ function entityDiffExplanationMap( test )
       f3 : func3a,
       f4 : function a(){},
       a : 'reducing1',
-      b : [ 1,3 ],
+      b : [ 1, 3 ],
       c : true,
     },
     {
@@ -7853,7 +7853,7 @@ function entityDiffExplanationMap( test )
       f3 : func3a,
       f4 : function a(){},
       a : 'reducing2',
-      b : [ 1,3 ],
+      b : [ 1, 3 ],
       c : true,
     },
   ]
