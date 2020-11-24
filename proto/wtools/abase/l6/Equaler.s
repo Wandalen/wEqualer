@@ -532,6 +532,7 @@ function entityDiffExplanation( o )
 
   if( _.mapIs( o.srcs[ 0 ] ) && _.mapIs( o.srcs[ 1 ] ) )
   {
+    /* ORIGINAL */
     // let common = _.filter( _.mapFields( o.srcs[ 0 ] ), ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
     let common = _.filter
     (
