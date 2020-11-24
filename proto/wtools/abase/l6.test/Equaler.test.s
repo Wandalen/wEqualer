@@ -7186,20 +7186,13 @@ function entityDiffLoose( test )
   }
 
   var got = _.entityDiff( src1, src2 );
-  // var expected =
-  // `
-  // at /f
-  // - src1 :
-  // { 'f' : [ routine f ] }
-  // - src2 :
-  // { 'f' : [ routine f ] }`
   var expected =
   `
   at /f
   - src1 :
-  {}
+  { 'f' : [ routine f ] }
   - src2 :
-  {}`
+  { 'f' : [ routine f ] }`
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
 
   /* */
@@ -7768,13 +7761,13 @@ function entityDiffExplanationMap( test )
   var srcs =
   [
     {
-      f : function b(){},
+      f : func1,
       a : 'reducing1',
       b : [ 1,3 ],
       c : true,
     },
     {
-      f : function b(){},
+      f : func1,
       a : 'reducing2',
       b : [ 1,3 ],
       c : true,
@@ -7796,24 +7789,24 @@ function entityDiffExplanationMap( test )
 
   var expected =
 `- got :
-  { 'f1' : [ routine a ], 'a' : 'reducing1' }
+  { 'f2' : [ routine b ], 'a' : 'reducing1' }
 - expected :
-  { 'f1' : [ routine c ], 'a' : 'reducing2' }
+  { 'f2' : [ routine b ], 'a' : 'reducing2' }
 - difference :
-  { 'f1' : [ routine *
+  { 'f2' : [ routine b ], 'a' : 'reducing*
 `
 
   var srcs =
   [
     {
-      f1 : function a(){},
+      f1 : func1,
       f2 : function b(){},
       a : 'reducing1',
       b : [ 1,3 ],
       c : true,
     },
     {
-      f1 : function c(){},
+      f1 : func1,
       f2 : function b(){},
       a : 'reducing2',
       b : [ 1,3 ],
@@ -7832,33 +7825,33 @@ function entityDiffExplanationMap( test )
 
   /* */
 
-  test.case = 'maps with > 1 el, 3 identical func and 1 different, with promises & async, without path';
+  test.case = 'maps with > 1 el, 3 identical func and 1 different, with async, without path';
 
   var expected =
 `- got :
-  { 'f1' : [ routine a ], 'a' : 'reducing1' }
+  { 'f4' : [ routine a ], 'a' : 'reducing1' }
 - expected :
-  { 'f1' : [ routine c ], 'a' : 'reducing2' }
+  { 'f4' : [ routine a ], 'a' : 'reducing2' }
 - difference :
-  { 'f1' : [ routine *
+  { 'f4' : [ routine a ], 'a' : 'reducing*
 `
 
   var srcs =
   [
     {
-      f1 : function a(){},
-      f2 : function b(){},
-      f3 : new Promise( ( res, rej ) => {} ).then,
-      f4 : async () => {},
+      f1 : func1,
+      f2 : func2,
+      f3 : func3a,
+      f4 : function a(){},
       a : 'reducing1',
       b : [ 1,3 ],
       c : true,
     },
     {
-      f1 : function c(){},
-      f2 : function b(){},
-      f3 : new Promise( ( res, rej ) => {} ).then,
-      f4 : async () => {},
+      f1 : func1,
+      f2 : func2,
+      f3 : func3a,
+      f4 : function a(){},
       a : 'reducing2',
       b : [ 1,3 ],
       c : true,
@@ -7873,6 +7866,14 @@ function entityDiffExplanationMap( test )
     accuracy : null,
   });
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* - */
+
+  function func1(){};
+
+  function func2(){};
+
+  async function func3a(){}
 
 }
 
