@@ -2,15 +2,12 @@ format: outwillfile-2.0
 root:
   - wEqualer.out
 consistency:
-  wEqualer.out.will.yml: &ref_0
-    hash: 66856618677f6294ee9ed705a296b3d2
-    size: 38546
-  ../.ex.will.yml: &ref_1
+  ../.ex.will.yml: &ref_0
     hash: 5a350403a4d139a420a57eaec7c3ce80
     size: 1900
-  ../.im.will.yml: &ref_2
-    hash: 539d7cc0e09f882a8e99e2d8bbc5e93c
-    size: 5066
+  ../.im.will.yml: &ref_1
+    hash: c2c654e747112fb711ae0228ee060aec
+    size: 5174
 module:
   wEqualer.out:
     about:
@@ -23,18 +20,18 @@ module:
         avoid manually work and cherry picking.
       enabled: 1
       version: 0.6.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wequaler
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -189,6 +186,12 @@ module:
           development: 1
       wTesting:
         path: 'npm:///wTesting'
+        autoExporting: 0
+        enabled: 0
+        criterion:
+          development: 1
+      eslint:
+        path: 'npm:///eslint#7.1.0'
         autoExporting: 0
         enabled: 0
         criterion:
@@ -700,24 +703,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          filePath: 'reflector::exported.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          filePath: 'reflector::exported.files.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -806,9 +791,8 @@ module:
           content: proto
           export: 1
     consistency:
-      wEqualer.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wEqualer
@@ -820,20 +804,13 @@ module:
         avoid manually work and cherry picking.
       enabled: 1
       version: 0.6.0
-      interpreters:
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
+      contributors: *ref_4
       npm.name: wequaler
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -963,6 +940,12 @@ module:
           development: 1
       wTesting:
         path: 'npm:///wTesting'
+        autoExporting: 0
+        enabled: 0
+        criterion:
+          development: 1
+      eslint:
+        path: 'npm:///eslint#7.1.0'
         autoExporting: 0
         enabled: 0
         criterion:
@@ -1502,6 +1485,5 @@ module:
         hash: 5a350403a4d139a420a57eaec7c3ce80
         size: 1900
       ../.im.will.yml:
-        hash: 539d7cc0e09f882a8e99e2d8bbc5e93c
-        size: 5066
-      wEqualer.out.will.yml: *ref_0
+        hash: c2c654e747112fb711ae0228ee060aec
+        size: 5174
