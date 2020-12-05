@@ -7493,6 +7493,390 @@ cd'
 
 }
 
+//
+
+function entityDiffExplanationMap( test )
+{
+  test.case = '1 el in got, 2 el in exp, got[0] = expected[0],';
+
+  var expected =
+`at /MultipleExports/in
+- got :
+  {}
+- expected :
+  { 'b' : 2 }
+- difference :
+  {*
+`
+
+  var srcs =
+  [
+    {
+      MultipleExports :
+      {
+        a : 1,
+      }
+    },
+    {
+      MultipleExports :
+      {
+        a : 1,
+        b : 2,
+      }
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/MultipleExports/in',
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = '2 el in got, 1 el in exp, got[0] == expected[0],';
+
+  var expected =
+`at /MultipleExports/in
+- got :
+  { 'b' : 2 }
+- expected :
+  {}
+- difference :
+  {*
+`
+
+  var srcs =
+  [
+    {
+      MultipleExports :
+      {
+        a : 1,
+        b : 2,
+      }
+    },
+    {
+      MultipleExports :
+      {
+        a : 1,
+      }
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/MultipleExports/in',
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = '2 el in got, 2 el in exp, got[1] != expected[1],';
+
+  var expected =
+`at /MultipleExports/in
+- got :
+  { 'b' : 2 }
+- expected :
+  { 'c' : 3 }
+- difference :
+  { '*
+`
+
+  var srcs =
+  [
+    {
+      MultipleExports :
+      {
+        a : 1,
+        b : 2,
+      }
+    },
+    {
+      MultipleExports :
+      {
+        a : 1,
+        c : 3,
+      }
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/MultipleExports/in',
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = '5 el in got, 3 el in exp, got[0] = expected[0], got[2] = expected[2], got[4] = expected[4]';
+
+  var expected =
+`at /MultipleExports/in
+- got :
+  { 'b' : 2, 'd' : 4 }
+- expected :
+  {}
+- difference :
+  {*
+`
+
+  var srcs =
+  [
+    {
+      MultipleExports :
+      {
+        a : 1,
+        b : 2,
+        c : 3,
+        d : 4,
+        e : 5
+      }
+    },
+    {
+      MultipleExports :
+      {
+        a : 1,
+        c : 3,
+        e : 5
+      }
+    }
+  ]
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : '/MultipleExports/in',
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'maps with > 1 el, without path';
+
+  var expected =
+`- got :
+  { 'b' : 2, 'd' : 4 }
+- expected :
+  {}
+- difference :
+  {*
+`
+
+  var srcs =
+  [
+    {
+      a : 1,
+      b : 2,
+      c : 3,
+      d : 4,
+      e : 5
+    },
+    {
+      a : 1,
+      c : 3,
+      e : 5
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'maps with > 1 el, big difference, without path';
+
+  var expected =
+`- got :
+  { 'b' : 2, 'd' : 4, 'f' : 6 }
+- expected :
+  { 'g' : 7, 'i' : 9 }
+- difference :
+  { '*
+`
+
+  var srcs =
+  [
+    {
+      a : 1,
+      b : 2,
+      c : 3,
+      d : 4,
+      e : 5,
+      f : 6,
+      h : 8,
+    },
+    {
+      a : 1,
+      c : 3,
+      e : 5,
+      g : 7,
+      h : 8,
+      i : 9
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'maps with > 1 el, 2 identical funcs, without path';
+
+  var expected =
+`- got :
+  { 'a' : 'reducing1' }
+- expected :
+  { 'a' : 'reducing2' }
+- difference :
+  { 'a' : 'reducing*
+`
+
+  var srcs =
+  [
+    {
+      f : func1,
+      a : 'reducing1',
+      b : [ 1, 3 ],
+      c : true,
+    },
+    {
+      f : func1,
+      a : 'reducing2',
+      b : [ 1, 3 ],
+      c : true,
+    },
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'maps with > 1 el, 1 identical func and 1 different, without path';
+
+  var expected =
+`- got :
+  { 'f2' : [ routine b ], 'a' : 'reducing1' }
+- expected :
+  { 'f2' : [ routine b ], 'a' : 'reducing2' }
+- difference :
+  { 'f2' : [ routine b ], 'a' : 'reducing*
+`
+
+  var srcs =
+  [
+    {
+      f1 : func1,
+      f2 : function b(){},
+      a : 'reducing1',
+      b : [ 1, 3 ],
+      c : true,
+    },
+    {
+      f1 : func1,
+      f2 : function b(){},
+      a : 'reducing2',
+      b : [ 1, 3 ],
+      c : true,
+    },
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'maps with > 1 el, 3 identical func and 1 different, with async, without path';
+
+  var expected =
+`- got :
+  { 'f4' : [ routine a ], 'a' : 'reducing1' }
+- expected :
+  { 'f4' : [ routine a ], 'a' : 'reducing2' }
+- difference :
+  { 'f4' : [ routine a ], 'a' : 'reducing*
+`
+
+  var srcs =
+  [
+    {
+      f1 : func1,
+      f2 : func2,
+      f3 : func3a,
+      f4 : function a(){},
+      a : 'reducing1',
+      b : [ 1, 3 ],
+      c : true,
+    },
+    {
+      f1 : func1,
+      f2 : func2,
+      f3 : func3a,
+      f4 : function a(){},
+      a : 'reducing2',
+      b : [ 1, 3 ],
+      c : true,
+    },
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* - */
+
+  function func1(){};
+
+  function func2(){};
+
+  async function func3a(){}
+
+}
+
 // --
 // declare
 // --
@@ -7567,6 +7951,7 @@ let Self =
     entityDiffLoose,
     entityDiffExplanationBasic,
     entityDiffExplanationString,
+    entityDiffExplanationMap
 
     /* qqq : research: what should be covered in the first place */
 
