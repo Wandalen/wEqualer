@@ -506,7 +506,8 @@ function entityDiffExplanation( o )
     let src0 = _.select( o.srcs[ 0 ], o.path );
     let src1 = _.select( o.srcs[ 1 ], o.path );
 
-    if( _.mapIs( src0 ) && _.mapIs( src1 ) )
+    // if( _.mapIs( src0 ) && _.mapIs( src1 ) )
+    if( _.objectIs( src0 ) && _.objectIs( src1 ) )
     {
       o.srcs[ 0 ] = src0;
       o.srcs[ 1 ] = src1;
@@ -530,11 +531,50 @@ function entityDiffExplanation( o )
   if( _.strIs( o.srcs[ 1 ] ) )
   o.srcs[ 1 ] = o.onStringPreprocess( o.srcs[ 1 ] );
 
-  if( _.mapIs( o.srcs[ 0 ] ) && _.mapIs( o.srcs[ 1 ] ) )
+  // if( _.mapIs( o.srcs[ 0 ] ) && _.mapIs( o.srcs[ 1 ] ) )
+  if( _.objectIs( o.srcs[ 0 ] ) && _.objectIs( o.srcs[ 1 ] ) )
   {
+    let protoGot = Object.getPrototypeOf( o.srcs[ 0 ] );
+    let protoExpected = Object.getPrototypeOf( o.srcs[ 1 ] );
+
     let common = _.filter_( null, _.mapOwnProperties( o.srcs[ 0 ] ), ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
     o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
     o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
+
+    /*
+    if maps are identical cases :
+      1. One map and one pure map
+      2. Two with different __proto__
+    */
+    if( _.mapIsEmpty( o.srcs[ 0 ] ) && _.mapIsEmpty( o.srcs[ 1 ] ) )
+    {
+      if( protoGot !== protoExpected )
+      {
+        if( protoGot === null )
+        {
+          // o.srcs[ 1 ].proto = '__proto__';
+          // o.srcs[ 1 ] = '{ __proto__ }';
+          o.srcs[ 1 ] = 'Map with __proto__';
+          o.srcs[ 0 ] = 'Map without __proto__';
+        }
+        else if( protoExpected === null )
+        {
+          // o.srcs[ 0 ].proto = '__proto__';
+          // o.srcs[ 0 ] = '{ __proto__ }';
+          o.srcs[ 0 ] = 'Map with __proto__';
+          o.srcs[ 1 ] = 'Map without __proto__';
+        }
+        else
+        {
+          // o.srcs[ 0 ].proto = '__proto__';
+          // o.srcs[ 1 ].proto = '__proto__';
+          // o.srcs[ 0 ] = '{ __proto__ }';
+          // o.srcs[ 1 ] = '{ __proto__ }';
+          o.srcs[ 0 ] = 'Map with __proto__';
+          o.srcs[ 1 ] = 'Map with __proto__';
+        }
+      }
+    }
   }
 
   o.srcs[ 0 ] = _.toStr( o.srcs[ 0 ], { levels : o.levels, keyWrapper : '\'' } );

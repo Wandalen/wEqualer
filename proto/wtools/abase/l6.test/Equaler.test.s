@@ -7881,7 +7881,6 @@ function entityDiffExplanationMap( test )
 
 function entityDiffExplanationMapDiffProto( test )
 {
-
   /*
   Cases when maps' fields are identical:
 
@@ -7912,202 +7911,158 @@ function entityDiffExplanationMapDiffProto( test )
     `
   */
 
-  test.case = 'identical maps, 1 with __proto__ : {}';
-  var obj1 =
-  {
-    a : 'hello1',
-    b : 'hello2',
-  }
-  Object.setPrototypeOf( obj1, {} );
-
-  var obj2 =
-  {
-    a : 'hello1',
-    b : 'hello2',
-  }
-
-  var expected =
-`- got :
-  { __proto__ }
-- expected :
-  {}
-- difference :
-  { *
-`
-
-  var got = _.entityDiffExplanation
-  ({
-    name1 : '- got',
-    name2 : '- expected',
-    srcs : [ obj1, obj2 ],
-    accuracy : null,
-  });
-
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
-
-  /* */
-
-  test.case = 'identical maps, 2 with equivalent __proto__ : {}';
-  var obj1 =
-  {
-    a : 'hello1',
-    b : 'hello2',
-  }
-  Object.setPrototypeOf( obj1, {} );
-
-  var obj2 =
-  {
-    a : 'hello1',
-    b : 'hello2',
-  }
-  Object.setPrototypeOf( obj2, {} );
-
-  var expected =
-`- got :
-  { __proto__ }
-- expected :
-  {}
-- difference :
-  { *
-`
-
-  var got = _.entityDiffExplanation
-  ({
-    name1 : '- got',
-    name2 : '- expected',
-    srcs : [ obj1, obj2 ],
-    accuracy : null,
-  });
-
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
-
-  /* */
-
-  test.case = 'not identical maps, 1 with __proto__ : {}';
-  var obj1 =
-  {
-    a : 'hello1',
-    b : 'hello2',
-  }
-  Object.setPrototypeOf( obj1, {} );
-
-  var obj2 =
-  {
-    a : 'hello',
-    b : 'hello2',
-  }
-
-  var expected =
-`- got :
-  { 'a' : 'hello1' }
-- expected :
-  { 'a' : 'hello' }
-- difference :
-  { 'a' : 'hello*
-`
-
-  var got = _.entityDiffExplanation
-  ({
-    name1 : '- got',
-    name2 : '- expected',
-    srcs : [ obj1, obj2 ],
-    accuracy : null,
-  });
-
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
-
-  /* */
-
-  test.case = `identical maps, got without __proto__`;
-
-  var obj1 = Object.create( null );
-  obj1.a = 'hello1';
-  obj1.b = 'hello2';
-
-  var proto2 = { 'c' : 'hello3' };
-  var obj2 =
-  {
-    a : 'hello1',
-    b : 'hello2',
-  }
-  Object.setPrototypeOf( obj2, proto2 );
-
-  var expected =
-`- got :
-  { __proto__ }
-- expected :
-  {}
-- difference :
-  { *
-`
-  var got = _.entityDiffExplanation
-  ({
-    name1 : '- got',
-    name2 : '- expected',
-    srcs : [ obj1, obj2 ],
-    accuracy : null,
-  });
-
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
-
-  /* */
-
-  test.case = `identical maps, expected without __proto__`;
-
-  var obj1 =
-  {
-    a : 'hello1',
-    b : 'hello2',
-  }
-
-  var obj2 = Object.create( null );
-  obj2.a = 'hello1';
-  obj2.b = 'hello2';
-
-  var expected =
-`- got :
-  {}
-- expected :
-  { __proto__ }
-- difference :
-  { *
-`
-  var got = _.entityDiffExplanation
-  ({
-    name1 : '- got',
-    name2 : '- expected',
-    srcs : [ obj1, obj2 ],
-    accuracy : null,
-  });
-
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
-
-  /* */
-
-//   test.case = 'not identical maps, 2 with non empty equivalent __proto__';
+//   test.case = 'identical maps, 1 with __proto__ : {}';
 //   var obj1 =
 //   {
 //     a : 'hello1',
 //     b : 'hello2',
 //   }
-//   Object.setPrototypeOf( obj1, { c : 'hello3' } );
+//   Object.setPrototypeOf( obj1, {} );
+
+//   var obj2 =
+//   {
+//     a : 'hello1',
+//     b : 'hello2',
+//   }
+
+//   var expected =
+// `- got :
+//   'Map with __proto__'
+// - expected :
+//   'Map with __proto__'
+// `
+
+//   var got = _.entityDiffExplanation
+//   ({
+//     name1 : '- got',
+//     name2 : '- expected',
+//     srcs : [ obj1, obj2 ],
+//     accuracy : null,
+//   });
+
+//   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+//   /* */
+
+//   test.case = 'identical maps, 2 with equivalent __proto__ : {}';
+//   var obj1 =
+//   {
+//     a : 'hello1',
+//     b : 'hello2',
+//   }
+//   Object.setPrototypeOf( obj1, {} );
+
+//   var obj2 =
+//   {
+//     a : 'hello1',
+//     b : 'hello2',
+//   }
+//   Object.setPrototypeOf( obj2, {} );
+
+//   var expected =
+// `- got :
+//   'Map with __proto__'
+// - expected :
+//   'Map with __proto__'
+// `
+
+//   var got = _.entityDiffExplanation
+//   ({
+//     name1 : '- got',
+//     name2 : '- expected',
+//     srcs : [ obj1, obj2 ],
+//     accuracy : null,
+//   });
+
+//   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+//   /* */
+
+//   test.case = 'not identical maps, 1 with __proto__ : {}';
+//   var obj1 =
+//   {
+//     a : 'hello1',
+//     b : 'hello2',
+//   }
+//   Object.setPrototypeOf( obj1, {} );
 
 //   var obj2 =
 //   {
 //     a : 'hello',
 //     b : 'hello2',
 //   }
-//   Object.setPrototypeOf( obj2, { c : 'hello3' } );
 
 //   var expected =
 // `- got :
-//   { __proto__ }
+//   { 'a' : 'hello1' }
 // - expected :
-//   {}
+//   { 'a' : 'hello' }
 // - difference :
-//   { *
+//   { 'a' : 'hello*
 // `
 
+//   var got = _.entityDiffExplanation
+//   ({
+//     name1 : '- got',
+//     name2 : '- expected',
+//     srcs : [ obj1, obj2 ],
+//     accuracy : null,
+//   });
+
+//   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+//   /* */
+
+//   test.case = `identical maps, got without __proto__`;
+
+//   var obj1 = Object.create( null );
+//   obj1.a = 'hello1';
+//   obj1.b = 'hello2';
+
+//   var proto2 = { 'c' : 'hello3' };
+//   var obj2 =
+//   {
+//     a : 'hello1',
+//     b : 'hello2',
+//   }
+//   Object.setPrototypeOf( obj2, proto2 );
+
+//   var expected =
+// `- got :
+//   'Map without __proto__'
+// - expected :
+//   'Map with __proto__'
+// `
+//   var got = _.entityDiffExplanation
+//   ({
+//     name1 : '- got',
+//     name2 : '- expected',
+//     srcs : [ obj1, obj2 ],
+//     accuracy : null,
+//   });
+
+//   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+//   /* */
+
+//   test.case = `identical maps, expected without __proto__`;
+
+//   var obj1 =
+//   {
+//     a : 'hello1',
+//     b : 'hello2',
+//   }
+
+//   var obj2 = Object.create( null );
+//   obj2.a = 'hello1';
+//   obj2.b = 'hello2';
+
+//   var expected =
+// `- got :
+//   'Map with __proto__'
+// - expected :
+//   'Map without __proto__'
+// `
 //   var got = _.entityDiffExplanation
 //   ({
 //     name1 : '- got',
@@ -8143,10 +8098,8 @@ function entityDiffExplanationMapDiffProto( test )
   {}
 - expected :
   {}
-- difference :
-  { *
 `
-
+  debugger;
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',
@@ -8159,6 +8112,43 @@ function entityDiffExplanationMapDiffProto( test )
 
   /* */
 
+  test.case = `not identical maps, 2 with identical __proto__`;
+
+  var proto = { 'c' : 'hello3' }
+  var obj1 =
+  {
+    a : 'hello1',
+    b : 'hello2',
+  }
+  Object.setPrototypeOf( obj1, proto );
+
+  var obj2 =
+  {
+    a : 'hello1.1',
+    b : 'hello2',
+  }
+  Object.setPrototypeOf( obj2, proto );
+
+  var expected =
+`- got :
+  { 'a' : 'hello1' }
+- expected :
+  { 'a' : 'hello1.1' }
+- difference :
+  { 'a' : 'hello1*'
+`;
+  debugger;
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : [ obj1, obj2 ],
+    accuracy : null,
+  });
+
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* ADDITIONAL */
 //   test.case = `identical maps, diff __proto__, same fields on diff level in __proto__`;
 
 //   var proto1 = {}
@@ -8178,6 +8168,42 @@ function entityDiffExplanationMapDiffProto( test )
 //     b : 'hello2',
 //   }
 //   Object.setPrototypeOf( obj2, proto2 );
+
+//   var expected =
+// `- got :
+//   { __proto__ }
+// - expected :
+//   {}
+// - difference :
+//   { *
+// `
+
+//   var got = _.entityDiffExplanation
+//   ({
+//     name1 : '- got',
+//     name2 : '- expected',
+//     srcs : [ obj1, obj2 ],
+//     accuracy : null,
+//   });
+
+//   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+// /* */
+
+//   test.case = 'not identical maps, 2 with non empty equivalent __proto__';
+//   var obj1 =
+//   {
+//     a : 'hello1',
+//     b : 'hello2',
+//   }
+//   Object.setPrototypeOf( obj1, { c : 'hello3' } );
+
+//   var obj2 =
+//   {
+//     a : 'hello',
+//     b : 'hello2',
+//   }
+//   Object.setPrototypeOf( obj2, { c : 'hello3' } );
 
 //   var expected =
 // `- got :
