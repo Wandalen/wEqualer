@@ -537,7 +537,7 @@ function entityDiffExplanation( o )
     let protoGot = Object.getPrototypeOf( o.srcs[ 0 ] );
     let protoExpected = Object.getPrototypeOf( o.srcs[ 1 ] );
 
-    let common = _.filter_( null, _.mapOwnProperties( o.srcs[ 0 ] ), ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
+    let common = _.filter_( null, _.property.own( o.srcs[ 0 ] ), ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
     o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
     o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
 
