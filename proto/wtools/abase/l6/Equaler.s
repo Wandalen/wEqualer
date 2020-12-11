@@ -488,6 +488,7 @@ function entityDiff( src, src2, opts )
 function entityDiffExplanation( o )
 {
   let result = '';
+  let isDiffProto = false;
 
   o = _.routineOptions( entityDiffExplanation, arguments );
   _.assert( _.arrayIs( o.srcs ) );
@@ -536,20 +537,26 @@ function entityDiffExplanation( o )
   {
     let protoGot = Object.getPrototypeOf( o.srcs[ 0 ] );
     let protoExpected = Object.getPrototypeOf( o.srcs[ 1 ] );
+    let srcOwn0 = _.property.own( o.srcs[ 0 ] );
+    let srcOwn1 = _.property.own( o.srcs[ 1 ] );
 
-    let common = _.filter_( null, _.property.own( o.srcs[ 0 ] ), ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
-    o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
-    o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
+    let common = _.filter_( null, srcOwn0, ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
+    // o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
+    // o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
+    o.srcs[ 0 ] = _.mapBut( srcOwn0, common );
+    o.srcs[ 1 ] = _.mapBut( srcOwn1, common );
+
 
     /*
-    if maps are identical cases :
-      1. One map and one pure map
-      2. Two with different __proto__
+      Identical maps, different prototypes :
+      1. One object and one pure map
+      2. Two objects with different __proto__
     */
     if( _.mapIsEmpty( o.srcs[ 0 ] ) && _.mapIsEmpty( o.srcs[ 1 ] ) )
     {
       if( protoGot !== protoExpected )
       {
+        isDiffProto = true;
         if( protoGot === null )
         {
           // o.srcs[ 1 ].proto = '__proto__';
@@ -587,7 +594,11 @@ function entityDiffExplanation( o )
 
   /* */
 
-  let strDiff = _.strDifference( o.srcs[ 0 ], o.srcs[ 1 ] );
+  let strDiff = false;
+
+  if( !isDiffProto )
+  strDiff = _.strDifference( o.srcs[ 0 ], o.srcs[ 1 ] );
+
   if( strDiff !== false )
   {
     result += ( '\n' + o.differenceName + ' :\n' + strDiff );
