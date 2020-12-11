@@ -7921,9 +7921,9 @@ function entityDiffExplanationMapDiffProto( test )
 
   var expected =
 `- got :
-  'Map with __proto__'
+  '__proto__'
 - expected :
-  'Map with __proto__'
+  '__proto__'
 `
 
   var got = _.entityDiffExplanation
@@ -7955,9 +7955,9 @@ function entityDiffExplanationMapDiffProto( test )
 
   var expected =
 `- got :
-  'Map with __proto__'
+  '__proto__'
 - expected :
-  'Map with __proto__'
+  '__proto__'
 `
 
   var got = _.entityDiffExplanation
@@ -8007,7 +8007,7 @@ function entityDiffExplanationMapDiffProto( test )
 
   /* */
 
-  test.case = `identical maps, got without __proto__`;
+  test.case = `identical maps, got without __proto__, expected with custom __proto__`;
 
   var obj1 = Object.create( null );
   obj1.a = 'hello1';
@@ -8023,9 +8023,9 @@ function entityDiffExplanationMapDiffProto( test )
 
   var expected =
 `- got :
-  'Map without __proto__'
+  '__proto__ = null'
 - expected :
-  'Map with __proto__'
+  '__proto__'
 `
   var got = _.entityDiffExplanation
   ({
@@ -8039,13 +8039,15 @@ function entityDiffExplanationMapDiffProto( test )
 
   /* */
 
-  test.case = `identical maps, expected without __proto__`;
+  test.case = `identical maps, expected without __proto__, got with custom __proto__`;
 
+  var proto = { c : 'hello3' }
   var obj1 =
   {
     a : 'hello1',
     b : 'hello2',
   }
+  Object.setPrototypeOf( obj1, proto )
 
   var obj2 = Object.create( null );
   obj2.a = 'hello1';
@@ -8053,9 +8055,9 @@ function entityDiffExplanationMapDiffProto( test )
 
   var expected =
 `- got :
-  'Map with __proto__'
+  '__proto__'
 - expected :
-  'Map without __proto__'
+  '__proto__ = null'
 `
   var got = _.entityDiffExplanation
   ({
@@ -8130,7 +8132,7 @@ function entityDiffExplanationMapDiffProto( test )
 - difference :
   { 'a' : 'hello1*
 `;
-  debugger;
+
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',
@@ -8161,22 +8163,75 @@ function entityDiffExplanationMapDiffProto( test )
   }
   Object.setPrototypeOf( obj2, proto2 );
 
-  /*
-  Was : 
-  '- got :
-  { 'c' : 'hello3' }
-  - expected :
-  { 'c' : 'hello3' }'
-  
-  */
+  var expected =
+`- got :
+  '__proto__'
+- expected :
+  '__proto__'
+`;
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : [ obj1, obj2 ],
+    accuracy : null,
+  });
+
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = `identical maps, got __proto__ = null & expected __proto__ = Object.prototype`;
+
+  var obj1 = Object.create( null );
+  obj1.a = 'hello1';
+  obj1.b = 'hello2';
+
+  var obj2 =
+  {
+    a : 'hello1',
+    b : 'hello2',
+  }
 
   var expected =
 `- got :
-  'Map with __proto__'
+  {}
 - expected :
-  'Map with __proto__'
-`;
-  debugger;
+  {}
+`
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : [ obj1, obj2 ],
+    accuracy : null,
+  });
+
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = `identical maps, expected __proto__ = null & got __proto__ = Object.prototype`;
+
+  var obj1 =
+  {
+    a : 'hello1',
+    b : 'hello2',
+  }
+
+  var obj2 = Object.create( null );
+  obj2.a = 'hello1';
+  obj2.b = 'hello2';
+
+  var expected =
+`- got :
+  {}
+- expected :
+  {}
+`
+
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',

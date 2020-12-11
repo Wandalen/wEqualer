@@ -546,39 +546,25 @@ function entityDiffExplanation( o )
     o.srcs[ 0 ] = _.mapBut( srcOwn0, common );
     o.srcs[ 1 ] = _.mapBut( srcOwn1, common );
 
-
-    /*
-      Identical maps, different prototypes :
-      1. One object and one pure map
-      2. Two objects with different __proto__
-    */
     if( _.mapIsEmpty( o.srcs[ 0 ] ) && _.mapIsEmpty( o.srcs[ 1 ] ) )
     {
-      if( protoGot !== protoExpected )
+      if( !isEquivalentProto( protoGot, protoExpected ) )
       {
         isDiffProto = true;
         if( protoGot === null )
         {
-          // o.srcs[ 1 ].proto = '__proto__';
-          // o.srcs[ 1 ] = '{ __proto__ }';
-          o.srcs[ 1 ] = 'Map with __proto__';
-          o.srcs[ 0 ] = 'Map without __proto__';
+          o.srcs[ 1 ] = '__proto__';
+          o.srcs[ 0 ] = '__proto__ = null';
         }
         else if( protoExpected === null )
         {
-          // o.srcs[ 0 ].proto = '__proto__';
-          // o.srcs[ 0 ] = '{ __proto__ }';
-          o.srcs[ 0 ] = 'Map with __proto__';
-          o.srcs[ 1 ] = 'Map without __proto__';
+          o.srcs[ 0 ] = '__proto__';
+          o.srcs[ 1 ] = '__proto__ = null';
         }
         else
         {
-          // o.srcs[ 0 ].proto = '__proto__';
-          // o.srcs[ 1 ].proto = '__proto__';
-          // o.srcs[ 0 ] = '{ __proto__ }';
-          // o.srcs[ 1 ] = '{ __proto__ }';
-          o.srcs[ 0 ] = 'Map with __proto__';
-          o.srcs[ 1 ] = 'Map with __proto__';
+          o.srcs[ 0 ] = '__proto__';
+          o.srcs[ 1 ] = '__proto__';
         }
       }
     }
@@ -623,6 +609,20 @@ function entityDiffExplanation( o )
   function stringsPreprocessNo( str )
   {
     return str;
+  }
+
+  function isEquivalentProto( proto1, proto2 )
+  {
+    if( proto1 === proto2 )
+    return true;
+
+    if( proto1 === null && proto2 === Object.prototype )
+    return true;
+
+    if( proto2 === null && proto1 === Object.prototype )
+    return true;
+
+    return false;
   }
 
 }
