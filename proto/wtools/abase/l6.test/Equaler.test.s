@@ -7884,24 +7884,24 @@ function entityDiffExplanationMapDiffProto( test )
   /*
   Cases when maps' fields are identical:
 
-  1. identical __proto__ : no diff
+  1. identical __proto__ OR null and Object.prototype : no diff
   2. different __proto__ :
     `- got :
-      'Map with __proto__'
+      '__proto__'
     - expected :
-      'Map with __proto__'
+      '__proto__'
     `
   3. one map without __proto__ :
     `- got :
-      'Map with __proto__'
+      '__proto__ = null'
     - expected :
-      'Map without __proto__'
+      '__proto__'
     `
     OR
     `- got :
-      'Map without __proto__'
+      '__proto__'
     - expected :
-      'Map with __proto__'
+      '__proto__ = null'
     `
   */
 
