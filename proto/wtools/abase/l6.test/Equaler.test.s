@@ -710,7 +710,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( '', new RegExp( '' ) );
+  var got = _.entityIdentical( '', /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -782,7 +782,7 @@ function entityIdenticalSimple( test )
   test.case = 'RegExp - RegExp';
 
   var expected = true;
-  var got = _.entityIdentical( new RegExp( '' ), new RegExp( '' ) );
+  var got = _.entityIdentical( /(?:)/, /(?:)/ );
   test.identical( got, expected );
 
   var expected = true;
@@ -793,12 +793,12 @@ function entityIdenticalSimple( test )
   var got = _.entityIdentical( /abc/iy, /abc/yi );
   test.identical( got, expected );
 
-  var expected = true;
-  var got = _.entityIdentical( new RegExp( 'abc' ), /abc/ );
-  test.identical( got, expected );
+  // var expected = true;
+  // var got = _.entityIdentical( new RegExp( 'abc' ), /abc/ );
+  // test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityIdentical( new RegExp( 'abc', 'i' ), /abc/i );
+  var got = _.entityIdentical( /abc/i, /abc/i );
   test.identical( got, expected );
 
   var expected = false;
@@ -810,11 +810,11 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), /abc/ );
+  var got = _.entityIdentical( /(?:)/, /abc/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( /abc/, new RegExp( '' ) );
+  var got = _.entityIdentical( /abc/, /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -826,51 +826,51 @@ function entityIdenticalSimple( test )
   test.case = 'RegExp - not RegExp';
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), new Date() );
+  var got = _.entityIdentical( /(?:)/, new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), undefined );
+  var got = _.entityIdentical( /(?:)/, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), null );
+  var got = _.entityIdentical( /(?:)/, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), NaN );
+  var got = _.entityIdentical( /(?:)/, NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), 0 );
+  var got = _.entityIdentical( /(?:)/, 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), 1 );
+  var got = _.entityIdentical( /(?:)/, 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), [] );
+  var got = _.entityIdentical( /(?:)/, [] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), {} );
+  var got = _.entityIdentical( /(?:)/, {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), [ new RegExp( '' ) ] );
+  var got = _.entityIdentical( /(?:)/, [ /(?:)/ ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), { a : new RegExp( '' ) } );
+  var got = _.entityIdentical( /(?:)/, { a : /(?:)/ } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), new F32x( 3 ) );
+  var got = _.entityIdentical( /(?:)/, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( new RegExp( '' ), function(){} );
+  var got = _.entityIdentical( /(?:)/, function(){} );
   test.identical( got, expected );
 
   var expected = false;
@@ -1152,7 +1152,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [], new RegExp( '' ) );
+  var got = _.entityIdentical( [], /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -1198,7 +1198,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ new RegExp( '' ) ], new RegExp( '' ) );
+  var got = _.entityIdentical( [ /(?:)/ ], /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -1322,7 +1322,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( {}, new RegExp( '' ) );
+  var got = _.entityIdentical( {}, /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -1368,7 +1368,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( { a : new RegExp( '' ) }, new RegExp( '' ) );
+  var got = _.entityIdentical( { a : /(?:)/ }, /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -2432,7 +2432,7 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', new RegExp( '' ) );
+  var got = _.entityContains( '', /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -2508,7 +2508,7 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'RegExp - RegExp';
 
   var expected = true;
-  var got = _.entityContains( new RegExp( '' ), new RegExp( '' ) );
+  var got = _.entityContains( /(?:)/, /(?:)/ );
   test.identical( got, expected );
 
   var expected = true;
@@ -2519,12 +2519,12 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   var got = _.entityContains( /abc/iy, /abc/yi );
   test.identical( got, expected );
 
-  var expected = true;
-  var got = _.entityContains( new RegExp( 'abc' ), /abc/ );
-  test.identical( got, expected );
+  // var expected = true;
+  // var got = _.entityContains( new RegExp( 'abc' ), /abc/ );
+  // test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( new RegExp( 'abc', 'i' ), /abc/i );
+  var got = _.entityContains( /abc/i, /abc/i );
   test.identical( got, expected );
 
   var expected = true;
@@ -2536,11 +2536,11 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), /abc/ );
+  var got = _.entityContains( /(?:)/, /abc/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, new RegExp( '' ) );
+  var got = _.entityContains( /abc/, /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -2552,55 +2552,55 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'RegExp - not RegExp';
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), new Date() );
+  var got = _.entityContains( /(?:)/, new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), undefined );
+  var got = _.entityContains( /(?:)/, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), null );
+  var got = _.entityContains( /(?:)/, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), NaN );
+  var got = _.entityContains( /(?:)/, NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), 0 );
+  var got = _.entityContains( /(?:)/, 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), 1 );
+  var got = _.entityContains( /(?:)/, 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), [] );
+  var got = _.entityContains( /(?:)/, [] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( new RegExp( '' ), {} );
+  var got = _.entityContains( /(?:)/, {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), [ new RegExp( '' ) ] );
+  var got = _.entityContains( /(?:)/, [ /(?:)/ ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), { a : new RegExp( '' ) } );
+  var got = _.entityContains( /(?:)/, { a : /(?:)/ } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), { a : '' } );
+  var got = _.entityContains( /(?:)/, { a : '' } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), new F32x( 3 ) );
+  var got = _.entityContains( /(?:)/, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new RegExp( '' ), function(){} );
+  var got = _.entityContains( /(?:)/, function(){} );
   test.identical( got, expected );
 
   var expected = false;
@@ -2902,7 +2902,7 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], new RegExp( '' ) );
+  var got = _.entityContains( [], /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -2948,7 +2948,7 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ new RegExp( '' ) ], new RegExp( '' ) );
+  var got = _.entityContains( [ /(?:)/ ], /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -3064,7 +3064,7 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, new RegExp( '' ) );
+  var got = _.entityContains( {}, /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
@@ -3118,7 +3118,7 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : new RegExp( '' ) }, new RegExp( '' ) );
+  var got = _.entityContains( { a : /(?:)/ }, /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
