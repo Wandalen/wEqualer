@@ -71,7 +71,7 @@ rules :
   func-name-matching : off
   func-names : off
   func-style :
-    - warn
+    - error
     - declaration
     - allowArrowFunctions : true
   function-paren-newline :
@@ -291,7 +291,7 @@ rules :
   prefer-object-spread : error
   prefer-promise-reject-errors : off
   prefer-reflect : off
-  prefer-regex-literals : warn
+  prefer-regex-literals : error
   prefer-rest-params : off
   prefer-spread : off
   prefer-template : off

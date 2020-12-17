@@ -925,8 +925,8 @@ function entityIdenticalSimple( test )
 
   test.case = 'Routine - Routine';
 
-  var func1 = function func(){};
-  var func2 = function func(){};
+  function func1(){};
+  function func2(){};
 
   var expected = true;
   var got = _.entityIdentical( func1, func1 );
@@ -2663,8 +2663,8 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
 
   test.case = 'Routine - Routine';
 
-  var func1 = function func(){};
-  var func2 = function func(){};
+  function func1(){};
+  function func2(){};
 
   var expected = true;
   var got = _.entityContains( func1, func1 );
@@ -3127,29 +3127,29 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
 
   var expected = false;
   var src = { a : function(){} };
-  var src2 = function(){};
-  var got = _.entityContains( src, src2 );
+  function src02(){};
+  var got = _.entityContains( src, src02 );
   test.identical( got, expected );
 
   var expected = false;
   var src = { a : function(){} };
-  var src2 = function(){};
-  src2.a = src.a;
-  var got = _.entityContains( src, src2 );
+  function src03(){};
+  src03.a = src.a;
+  var got = _.entityContains( src, src03 );
   test.identical( got, expected );
 
   var expected = true;
-  var src = function(){};
-  src.a = '13';
+  function src04(){};
+  src04.a = '13';
   var src2 = {};
-  var got = _.entityContains( src, src2 );
+  var got = _.entityContains( src04, src2 );
   test.identical( got, expected );
 
   var expected = true;
-  var src = function(){};
-  src.a = '13';
+  function src05(){};
+  src05.a = '13';
   var src2 = { a : '13' };
-  var got = _.entityContains( src, src2 );
+  var got = _.entityContains( src05, src2 );
   test.identical( got, expected );
 
   /* qqq : add typed / raw / node / view buffers tests */
@@ -6074,7 +6074,7 @@ function entityIdenticalCycled( test )
 
   test.case = 'trivial mixed with routine';
 
-  var onScalar = function(){};
+  // var onScalar = function(){};
   var src1 =
   {
     onScalar,
@@ -6092,7 +6092,7 @@ function entityIdenticalCycled( test )
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
-  var onScalar = function(){};
+  // var onScalar = function(){};
   var src1 =
   {
     onScalar : function(){},
@@ -6216,6 +6216,10 @@ function entityIdenticalCycled( test )
   var got = _.entityIdentical( a, b );
   test.identical( got, expected );
 
+  /* - */
+
+  function onScalar(){}
+
 }
 
 //
@@ -6321,7 +6325,7 @@ function entityIdenticalCycledWithOptions( test )
 
   test.case = 'trivial mixed with routine';
 
-  var onScalar = function(){};
+  // var onScalar = function(){};
   var src1 =
   {
     onScalar,
@@ -6342,7 +6346,7 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onUpPaths, [ '/', '/onScalar', '/name', '/takingArguments', '/takingArguments/0', '/takingArguments/1' ] );
   test.identical( onDownPaths, [ '/onScalar', '/name', '/takingArguments/0', '/takingArguments/1', '/takingArguments', '/' ] );
 
-  var onScalar = function(){};
+  // var onScalar = function(){};
   var src1 =
   {
     onScalar : function(){},
@@ -6532,6 +6536,9 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/0' ] );
   test.identical( onDownPaths, [ '/f1', '/Instances/0', '/Instances', '/' ] );
 
+  /* - */
+
+  function onScalar(){}
 }
 
 //
@@ -6580,7 +6587,7 @@ function entityEquivalentCycled( test )
 
   test.case = 'trivial mixed with routine';
 
-  var onScalar = function(){};
+  // var onScalar = function(){};
   var src1 =
   {
     onScalar,
@@ -6598,7 +6605,7 @@ function entityEquivalentCycled( test )
   var got = _.entityEquivalent( src1, src2 );
 
   test.identical( got, expected );
-  var onScalar = function(){};
+  // var onScalar = function(){};
   var src1 =
   {
     onScalar : function(){},
@@ -6729,6 +6736,10 @@ function entityEquivalentCycled( test )
   var expected = true;
   var got = _.entityEquivalent( a, b );
   test.identical( got, expected );
+
+  /* - */
+
+  function onScalar(){}
 
 }
 
