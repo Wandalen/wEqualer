@@ -1,4 +1,5 @@
-( function _Equaler_s_() {
+( function _Equaler_s_()
+{
 
 'use strict';
 
@@ -424,7 +425,7 @@ defaults.strictContainer = 0;
 
 //
 
- /**
+/**
   * Deep comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
   * Returns string refering to first found difference or false if entities are sames.
   *
@@ -515,7 +516,10 @@ function entityDiffExplanation( o )
     }
     else
     {
-      let dir = _.strSplit( o.path, '/' ).slice( 0, -1 ).join( '' );
+      let dir = _.strSplit( o.path, '/' )
+      .slice( 0, -1 )
+      .join( '' );
+
       if( !dir )
       dir = '/';
       o.srcs[ 0 ] = _.select( o.srcs[ 0 ], dir );
@@ -865,7 +869,10 @@ function visitPop()
     _.assert
     (
       Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.src2 ),
-      () => `Top-most visit ${it.path} does not match ${_.strEntityShort( it.src2 )} <> ${_.strEntityShort( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ] )}`
+      () => `Top-most visit ${it.path} does not match ${_.strEntityShort( it.src2 )} <> ${_.strEntityShort
+      (
+        it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ]
+      )}`
     );
     it.iterator.visitedContainer2.pop( it.src2 );
   }
@@ -928,7 +935,13 @@ function stop( result )
 
     if( it.containing === 'any' )
     {
-      let any = [ _.equaler.containerNameToIdMap.map, containerNameToIdMap.hashMap, containerNameToIdMap.set, containerNameToIdMap.object ];
+      let any =
+      [
+        _.equaler.containerNameToIdMap.map,
+        containerNameToIdMap.hashMap,
+        containerNameToIdMap.set,
+        containerNameToIdMap.object
+      ];
       if( it.down && _.longHasAny( any, it.down.iterable ) )
       {
         it.result = false;
@@ -948,7 +961,13 @@ function stop( result )
     }
     else if( it.containing === 'none' )
     {
-      let any = [ _.equaler.containerNameToIdMap.map, containerNameToIdMap.hashMap, containerNameToIdMap.set, containerNameToIdMap.object ];
+      let any =
+      [
+        _.equaler.containerNameToIdMap.map,
+        containerNameToIdMap.hashMap,
+        containerNameToIdMap.set,
+        containerNameToIdMap.object
+      ];
       if( it.down && _.longHasAny( any, it.down.iterable ) )
       {
         result = !result;
@@ -1034,7 +1053,13 @@ function equalUp()
     if( !it.type1 || !it.type2 )
     if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) )
     {
-      if( it.srcEffective === null || it.srcEffective === undefined || it.srcEffective2 === null || it.srcEffective2 === undefined )
+      if
+      (
+        it.srcEffective === null
+        || it.srcEffective === undefined
+        || it.srcEffective2 === null
+        || it.srcEffective2 === undefined
+      )
       return it.stop( it.srcEffective === it.srcEffective2 );
     }
   }
@@ -1126,7 +1151,12 @@ function equalCycle()
     if( it.result )
     {
       if( it.iterator.visitedContainer2 && _.arrayIs( it.iterator.visitedContainer2.original ) )
-      it.result = it.iterator.visitedContainer2.original[ it.visitedContainer.original.indexOf( it.srcEffective ) ] === it.srcEffective2;
+      {
+        it.result = it
+        .iterator
+        .visitedContainer2
+        .original[ it.visitedContainer.original.indexOf( it.srcEffective ) ] === it.srcEffective2;
+      }
       if( !it.result )
       {
         it.iterator.continue = false;
@@ -1496,8 +1526,8 @@ function equalObjects()
 
   _.assert
   (
-    it.iterable === _.equaler.containerNameToIdMap.custom ||
-    it.iterable === _.equaler.containerNameToIdMap.object
+    it.iterable === _.equaler.containerNameToIdMap.custom
+    || it.iterable === _.equaler.containerNameToIdMap.object
   );
 
   if( it.srcEffective && _.routineIs( it.srcEffective[ equalAreSymbol ] ) )
@@ -1559,7 +1589,7 @@ function equalTerminals()
     if( !_.boolLike( it.srcEffective ) || !_.boolLike( it.srcEffective2 ) )
     it.stop( false );
     else
-    it.stop( it.srcEffective == it.srcEffective2 );
+    it.stop( it.srcEffective === it.srcEffective2 );
   }
   else if( _.numberIs( it.srcEffective ) || _.bigIntIs( it.srcEffective ) )
   {
@@ -1570,7 +1600,7 @@ function equalTerminals()
     if( it.strictTyping )
     return it.stop( it.srcEffective === it.srcEffective2 );
     else
-    return it.stop( it.srcEffective == it.srcEffective2 );
+    return it.stop( it.srcEffective === it.srcEffective2 );
   }
 
 }

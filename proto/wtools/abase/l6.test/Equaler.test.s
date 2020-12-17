@@ -1,4 +1,5 @@
-( function _Equaler_test_s_() {
+( function _Equaler_test_s_()
+{
 
 'use strict';
 
@@ -57,13 +58,13 @@ function _entityEqualLoose( test )
   test.identical( got, expected );
 
   test.case = 'default options, array';
-  var got = _.equaler._equal( [ 1, 2 ,'3'], [ 1, 2, 3 ] );
+  var got = _.equaler._equal( [ 1, 2, '3' ], [ 1, 2, 3 ] );
   var expected = false;
   test.identical( got, expected );
 
   test.case = 'default options, object';
-  var src1 = { a : 1, b : 2 , c : { d : 3  }  };
-  var src2 = { a : 1, b : 2 , c : { d : 3  }  };
+  var src1 = { a : 1, b : 2, c : { d : 3  }  };
+  var src2 = { a : 1, b : 2, c : { d : 3  }  };
   var got = _.equaler._equal( src1, src2 );
   var expected = true;
   test.identical( got, expected );
@@ -481,12 +482,11 @@ function entityEqualStrings( test )
   var a =
 `
  some
-text ` +
-`
+text `
++ `
 
 this is
-`
-;
+`;
   var b =
 `some
 text
@@ -503,12 +503,11 @@ this is
   var a =
 `
  some
-text ` +
-`
+text `
++ `
 
 this is
-`
-;
+`;
   var b =
 `some
 text
@@ -799,7 +798,7 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityIdentical( new RegExp( 'abc','i' ), /abc/i );
+  var got = _.entityIdentical( new RegExp( 'abc', 'i' ), /abc/i );
   test.identical( got, expected );
 
   var expected = false;
@@ -1089,23 +1088,23 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityIdentical( [ [ 1,2,3 ] ], [ [ 1,2,3 ] ] );
+  var got = _.entityIdentical( [ [ 1, 2, 3 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ [ 1,2 ] ], [ [ 1,2,3 ] ] );
+  var got = _.entityIdentical( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ [ 1,2,3 ] ], [ [ 1,2 ] ] );
+  var got = _.entityIdentical( [ [ 1, 2, 3 ] ], [ [ 1, 2 ] ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ [ 1,2 ] ], [ [ 1 ] ] );
+  var got = _.entityIdentical( [ [ 1, 2 ] ], [ [ 1 ] ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ [ 1,3 ] ], [ 1,3 ] );
+  var got = _.entityIdentical( [ [ 1, 3 ] ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = false;
@@ -1617,31 +1616,31 @@ function entityIdenticalBuffers( test )
   if( Config.interpreter === 'njs' )
   {
     test.case = 'identical Buffer, simple';
-    var src1 = BufferNode.alloc( 10 );
-    var src2 = BufferNode.alloc( 10 );
-    var expected = true;
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, expected );
+    var src01 = BufferNode.alloc( 10 );
+    var src02 = BufferNode.alloc( 10 );
+    var expected0 = true;
+    var got0 = _.entityIdentical( src01, src02 );
+    test.identical( got0, expected0 );
 
-    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
-    var expected = true;
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, expected );
+    var src01 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src02 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var expected0 = true;
+    var got0 = _.entityIdentical( src01, src02 );
+    test.identical( got0, expected0 );
 
-    test.case = 'src1 = src2, Buffer, simple';
-    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = src1;
-    var expected = true;
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, expected );
+    test.case = 'src01 = src02, Buffer, simple';
+    var src01 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src02 = src01;
+    var expected0 = true;
+    var got0 = _.entityIdentical( src01, src02 );
+    test.identical( got0, expected0 );
 
     test.case = 'not identical Buffer, simple';
-    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = BufferNode.from( [ 0, 2, 3, 4, 5 ] );
-    var expected = false;
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, expected );
+    var src01 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src02 = BufferNode.from( [ 0, 2, 3, 4, 5 ] );
+    var expected0 = false;
+    var got0 = _.entityIdentical( src01, src02 );
+    test.identical( got0, expected0 );
   }
 
   /* */
@@ -1670,13 +1669,13 @@ function entityIdenticalBuffers( test )
   test.case = 'maps with identical BufferTyped';
   var src1 =
   {
-    min : new F64x([ NaN,NaN ]),
-    max : new F64x([ NaN,NaN ]),
+    min : new F64x([ NaN, NaN ]),
+    max : new F64x([ NaN, NaN ]),
   };
   var src2 =
   {
-    min : new F64x([ NaN,NaN ]),
-    max : new F64x([ NaN,NaN ]),
+    min : new F64x([ NaN, NaN ]),
+    max : new F64x([ NaN, NaN ]),
   };
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
@@ -1685,13 +1684,13 @@ function entityIdenticalBuffers( test )
   test.case = 'map with different BufferTyped';
   var src1 =
   {
-    min : new F32x([ NaN,NaN ]),
-    max : new F32x([ NaN,NaN ]),
+    min : new F32x([ NaN, NaN ]),
+    max : new F32x([ NaN, NaN ]),
   };
   var src2 =
   {
-    min : new F64x([ NaN,NaN ]),
-    max : new F64x([ NaN,NaN ]),
+    min : new F64x([ NaN, NaN ]),
+    max : new F64x([ NaN, NaN ]),
   };
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
@@ -1752,31 +1751,31 @@ function entityEquivalentBuffers( test )
   if( Config.interpreter === 'njs' )
   {
     test.case = 'identical Buffer, simple';
-    var src1 = BufferNode.alloc( 10 );
-    var src2 = BufferNode.alloc( 10 );
-    var expected = true;
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, expected );
+    var src01 = BufferNode.alloc( 10 );
+    var src02 = BufferNode.alloc( 10 );
+    var expected0 = true;
+    var got0 = _.entityIdentical( src01, src02 );
+    test.identical( got0, expected0 );
 
-    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
-    var expected = true;
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, expected );
+    var src01 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src02 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var expected0 = true;
+    var got0 = _.entityIdentical( src01, src02 );
+    test.identical( got0, expected0 );
 
-    test.case = 'src1 = src2, Buffer, simple';
-    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = src1;
-    var expected = true;
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, expected );
+    test.case = 'src01 = src02, Buffer, simple';
+    var src01 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src02 = src01;
+    var expected0 = true;
+    var got0 = _.entityIdentical( src01, src02 );
+    test.identical( got0, expected0 );
 
     test.case = 'not identical Buffer, simple';
-    var src1 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
-    var src2 = BufferNode.from( [ 0, 2, 3, 4, 5 ] );
-    var expected = false;
-    var got = _.entityIdentical( src1, src2 );
-    test.identical( got, expected );
+    var src01 = BufferNode.from( [ 1, 2, 3, 4, 5 ] );
+    var src02 = BufferNode.from( [ 0, 2, 3, 4, 5 ] );
+    var expected0 = false;
+    var got0 = _.entityIdentical( src01, src02 );
+    test.identical( got0, expected0 );
   }
 
   /* */
@@ -1805,13 +1804,13 @@ function entityEquivalentBuffers( test )
   test.case = 'map with identical BufferTyped';
   var src1 =
   {
-    min : new F64x([ NaN,NaN ]),
-    max : new F64x([ NaN,NaN ]),
+    min : new F64x([ NaN, NaN ]),
+    max : new F64x([ NaN, NaN ]),
   };
   var src2 =
   {
-    min : new F64x([ NaN,NaN ]),
-    max : new F64x([ NaN,NaN ]),
+    min : new F64x([ NaN, NaN ]),
+    max : new F64x([ NaN, NaN ]),
   };
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
@@ -1820,13 +1819,13 @@ function entityEquivalentBuffers( test )
   test.case = 'map with different BufferTyped';
   var src1 =
   {
-    min : new F32x([ NaN,NaN ]),
-    max : new F32x([ NaN,NaN ]),
+    min : new F32x([ NaN, NaN ]),
+    max : new F32x([ NaN, NaN ]),
   };
   var src2 =
   {
-    min : new F64x([ NaN,NaN ]),
-    max : new F64x([ NaN,NaN ]),
+    min : new F64x([ NaN, NaN ]),
+    max : new F64x([ NaN, NaN ]),
   };
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
@@ -1892,7 +1891,7 @@ function entityIdenticalSet( test )
   var src1 =
   {
     set1 : new Set( [ undefined, { a : 3 }, { b : 4, c : 5 }, [ 2 ], [ 3, 4 ], false, 'str', 1, '', null, NaN, obj ] ),
-    set2 : new Set( [ undefined, [ 2 ], false, 'str', 1, [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, , '', null, NaN, obj ] ),
+    set2 : new Set( [ undefined, [ 2 ], false, 'str', 1, [ 3, 4 ], { a : 3 }, { b : 4, c : 5 }, '', null, NaN, obj ] ),
   };
   var src2 =
   {
@@ -1964,7 +1963,7 @@ function entityEquivalentSet( test )
   var expected = true;
   var src1 =
   {
-    set1 : new Set( [ '', null, false, undefined, NaN, obj, 1, [ 2 ], { a : 3 }, 'str',  ] ),
+    set1 : new Set( [ '', null, false, undefined, NaN, obj, 1, [ 2 ], { a : 3 }, 'str' ] ),
     set2 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, 1, [ 2 ], undefined, NaN, obj ] )
   };
   var src2 =
@@ -1979,7 +1978,7 @@ function entityEquivalentSet( test )
   var expected = false;
   var src1 =
   {
-    set1 : new Set( [ '', null, false, undefined, NaN, obj, 1, [ 2 ], { a : 3 }, 'str',  ] ),
+    set1 : new Set( [ '', null, false, undefined, NaN, obj, 1, [ 2 ], { a : 3 }, 'str' ] ),
     set2 : new Set( [ 1, [ 2 ], { a : 2 }, 'str', '', null, false, 1, [ 2 ], undefined, NaN, obj ] )
   };
   var src2 =
@@ -2525,7 +2524,7 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( new RegExp( 'abc','i' ), /abc/i );
+  var got = _.entityContains( new RegExp( 'abc', 'i' ), /abc/i );
   test.identical( got, expected );
 
   var expected = true;
@@ -2827,23 +2826,23 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ [ 1,2,3 ] ], [ [ 1,2,3 ] ] );
+  var got = _.entityContains( [ [ 1, 2, 3 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ [ 1,2 ] ], [ [ 1,2,3 ] ] );
+  var got = _.entityContains( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ [ 1,2,3 ] ], [ [ 1,2 ] ] );
+  var got = _.entityContains( [ [ 1, 2, 3 ] ], [ [ 1, 2 ] ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ [ 1,2 ] ], [ [ 1 ] ] );
+  var got = _.entityContains( [ [ 1, 2 ] ], [ [ 1 ] ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ [ 1,3 ] ], [ 1,3 ] );
+  var got = _.entityContains( [ [ 1, 3 ] ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = false;
@@ -5660,12 +5659,16 @@ function compareObjectsWithEqualAre( test )
     return this;
   }
   ProtoWithStringTag.prototype[ Symbol.for( 'equalAre' ) ] = _equalAre;
-  Object.defineProperty( ProtoWithStringTag.prototype, Symbol.toStringTag,
-  {
-    enumerable : false,
-    configurable : false,
-    get : function(){ return 'ProtoWithStringTag1' }
-  });
+  Object.defineProperty
+  (
+    ProtoWithStringTag.prototype,
+    Symbol.toStringTag,
+    {
+      enumerable : false,
+      configurable : false,
+      get : function(){ return 'ProtoWithStringTag1' }
+    }
+  );
 
   var src1 = new ProtoWithStringTag( 3, 1 );
   var src2 = new ProtoWithStringTag( 3, 2 );
@@ -5695,12 +5698,16 @@ function compareObjectsWithEqualAre( test )
     this[ Symbol.for( 'equalAre' ) ] = _equalAre;
     return this;
   }
-  Object.defineProperty( InstanceWithStringTag.prototype, Symbol.toStringTag,
-  {
-    enumerable : false,
-    configurable : false,
-    get : function(){ return 'InstanceWithStringTag1' }
-  });
+  Object.defineProperty
+  (
+    InstanceWithStringTag.prototype,
+    Symbol.toStringTag,
+    {
+      enumerable : false,
+      configurable : false,
+      get : function(){ return 'InstanceWithStringTag1' }
+    }
+  );
 
   var src1 = new InstanceWithStringTag( 3, 1 );
   var src2 = new InstanceWithStringTag( 3, 2 );
@@ -6032,19 +6039,19 @@ function entityIdenticalCycled( test )
   test.case = 'trivial array';
 
   var expected = true;
-  var got = _.entityIdentical( [ 1,3 ], [ 1,3 ] );
+  var got = _.entityIdentical( [ 1, 3 ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ 1 ], [ 1,3 ] );
+  var got = _.entityIdentical( [ 1 ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ 1,3 ], [ 1 ] );
+  var got = _.entityIdentical( [ 1, 3 ], [ 1 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityIdentical( [ [ 1,2 ] ], [ [ 1,2,3 ] ] );
+  var got = _.entityIdentical( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   test.case = 'trivial map';
@@ -6072,13 +6079,13 @@ function entityIdenticalCycled( test )
   {
     onScalar,
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
   var src2 =
   {
     onScalar,
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
 
   var expected = true;
@@ -6090,13 +6097,13 @@ function entityIdenticalCycled( test )
   {
     onScalar : function(){},
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
   var src2 =
   {
     onScalar : function(){},
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
 
   var expected = false;
@@ -6105,20 +6112,20 @@ function entityIdenticalCycled( test )
 
   test.case = 'trivial mixed';
 
-  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
-  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
+  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
+  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
   var expected = true;
   var got = _.entityIdentical( a, b );
   test.identical( got, expected );
 
-  var a = { e : [ 1,3,4 ] }
-  var b = { e : [ 1,4,4 ] }
+  var a = { e : [ 1, 3, 4 ] }
+  var b = { e : [ 1, 4, 4 ] }
   var expected = false;
   var got = _.entityIdentical( a, b );
   test.identical( got, expected );
 
-  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
-  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,4 ] } ] } }
+  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
+  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 4 ] } ] } }
   var expected = false;
   var got = _.entityIdentical( a, b );
   test.identical( got, expected );
@@ -6252,28 +6259,28 @@ function entityIdenticalCycledWithOptions( test )
 
   clean();
   var expected = true;
-  var got = _.entityIdentical( [ 1,3 ], [ 1,3 ], opt );
+  var got = _.entityIdentical( [ 1, 3 ], [ 1, 3 ], opt );
   test.identical( got, expected );
   test.identical( onUpPaths, [ '/', '/0', '/1' ] );
   test.identical( onDownPaths, [ '/0', '/1', '/' ] );
 
   clean();
   var expected = false;
-  var got = _.entityIdentical( [ 1 ], [ 1,3 ], opt  );
+  var got = _.entityIdentical( [ 1 ], [ 1, 3 ], opt  );
   test.identical( got, expected );
   test.identical( onUpPaths, [ '/' ] );
   test.identical( onDownPaths, [ '/' ] );
 
   clean();
   var expected = false;
-  var got = _.entityIdentical( [ 1,3 ], [ 1 ], opt  );
+  var got = _.entityIdentical( [ 1, 3 ], [ 1 ], opt  );
   test.identical( got, expected );
   test.identical( onUpPaths, [ '/' ] );
   test.identical( onDownPaths, [ '/' ] );
 
   clean();
   var expected = false;
-  var got = _.entityIdentical( [ [ 1,2 ] ], [ [ 1,2,3 ] ], opt  );
+  var got = _.entityIdentical( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ], opt  );
   test.identical( got, expected );
   test.identical( onUpPaths, [ '/', '/0' ] );
   test.identical( onDownPaths, [ '/0', '/' ] );
@@ -6319,13 +6326,13 @@ function entityIdenticalCycledWithOptions( test )
   {
     onScalar,
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
   var src2 =
   {
     onScalar,
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
 
   clean();
@@ -6340,13 +6347,13 @@ function entityIdenticalCycledWithOptions( test )
   {
     onScalar : function(){},
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
   var src2 =
   {
     onScalar : function(){},
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
 
   clean();
@@ -6361,8 +6368,8 @@ function entityIdenticalCycledWithOptions( test )
   test.case = 'trivial mixed';
 
   clean();
-  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
-  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
+  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
+  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
   var expected = true;
   var got = _.entityIdentical( a, b, opt  );
   test.identical( got, expected );
@@ -6370,8 +6377,8 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onDownPaths, [ '/a/0', '/a', '/b/c/0/d', '/b/c/0/e/0', '/b/c/0/e/1', '/b/c/0/e', '/b/c/0', '/b/c', '/b', '/' ] );
 
   clean();
-  var a = { e : [ 1,3 ] }
-  var b = { e : [ 1,4 ] }
+  var a = { e : [ 1, 3 ] }
+  var b = { e : [ 1, 4 ] }
   var expected = false;
   var got = _.entityIdentical( a, b, opt  );
   test.identical( got, expected );
@@ -6379,8 +6386,8 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onDownPaths, [ '/e/0', '/e/1', '/e', '/' ] );
 
   clean();
-  var a = { e : [ 1,3,4 ] }
-  var b = { e : [ 1,4,4 ] }
+  var a = { e : [ 1, 3, 4 ] }
+  var b = { e : [ 1, 4, 4 ] }
   var expected = false;
   var got = _.entityIdentical( a, b, opt  );
   test.identical( got, expected );
@@ -6388,8 +6395,8 @@ function entityIdenticalCycledWithOptions( test )
   test.identical( onDownPaths, [ '/e/0', '/e/1', '/e', '/' ] );
 
   clean();
-  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
-  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,4 ] } ] } }
+  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
+  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 4 ] } ] } }
   var expected = false;
   var got = _.entityIdentical( a, b, opt  );
   test.identical( got, expected );
@@ -6536,19 +6543,19 @@ function entityEquivalentCycled( test )
   test.case = 'trivial array';
 
   var expected = true;
-  var got = _.entityEquivalent( [ 1,3 ], [ 1,3 ] );
+  var got = _.entityEquivalent( [ 1, 3 ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityEquivalent( [ 1 ], [ 1,3 ] );
+  var got = _.entityEquivalent( [ 1 ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityEquivalent( [ 1,3 ], [ 1 ] );
+  var got = _.entityEquivalent( [ 1, 3 ], [ 1 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityEquivalent( [ [ 1,2 ] ], [ [ 1,2,3 ] ] );
+  var got = _.entityEquivalent( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   test.case = 'trivial map';
@@ -6578,13 +6585,13 @@ function entityEquivalentCycled( test )
   {
     onScalar,
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
   var src2 =
   {
     onScalar,
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
 
   var expected = true;
@@ -6596,13 +6603,13 @@ function entityEquivalentCycled( test )
   {
     onScalar : function(){},
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
   var src2 =
   {
     onScalar : function(){},
     name : 'reduceToMagSqr',
-    takingArguments : [ 1,3 ],
+    takingArguments : [ 1, 3 ],
   }
 
   var expected = false;
@@ -6613,20 +6620,20 @@ function entityEquivalentCycled( test )
 
   test.case = 'trivial mixed';
 
-  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
-  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
+  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
+  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
   var expected = true;
   var got = _.entityEquivalent( a, b );
   test.identical( got, expected );
 
-  var a = { e : [ 1,3,4 ] }
-  var b = { e : [ 1,4,4 ] }
+  var a = { e : [ 1, 3, 4 ] }
+  var b = { e : [ 1, 4, 4 ] }
   var expected = false;
   var got = _.entityEquivalent( a, b );
   test.identical( got, expected );
 
-  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
-  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,4 ] } ] } }
+  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
+  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 4 ] } ] } }
   var expected = false;
   var got = _.entityEquivalent( a, b );
   test.identical( got, expected );
@@ -6736,19 +6743,19 @@ function entityContainsCycled( test )
   test.case = 'trivial array';
 
   var expected = true;
-  var got = _.entityContains( [ 1,3 ], [ 1,3 ] );
+  var got = _.entityContains( [ 1, 3 ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ 1 ], [ 1,3 ] );
+  var got = _.entityContains( [ 1 ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ 1,3 ], [ 1 ] );
+  var got = _.entityContains( [ 1, 3 ], [ 1 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ [ 1,2 ] ], [ [ 1,2,3 ] ] );
+  var got = _.entityContains( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   /* */
@@ -6775,32 +6782,32 @@ function entityContainsCycled( test )
 
   test.case = 'trivial mixed';
 
-  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
-  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
+  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
+  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
   var expected = true;
   var got = _.entityContains( a, b );
   test.identical( got, expected );
 
-  var a = { e : [ 1,3,4 ] }
-  var b = { e : [ 1,4,4 ] }
+  var a = { e : [ 1, 3, 4 ] }
+  var b = { e : [ 1, 4, 4 ] }
   var expected = false;
   var got = _.entityContains( a, b );
   test.identical( got, expected );
 
-  var a = { e : [ 1,4,3 ] }
-  var b = { e : [ 1,4 ] }
+  var a = { e : [ 1, 4, 3 ] }
+  var b = { e : [ 1, 4 ] }
   var expected = true;
   var got = _.entityContains( a, b );
   test.identical( got, expected );
 
-  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,4,3 ] } ] } }
-  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,4 ] } ] } }
+  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 4, 3 ] } ] } }
+  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 4 ] } ] } }
   var expected = true;
   var got = _.entityContains( a, b );
   test.identical( got, expected );
 
-  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,3 ] } ] } }
-  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1,4 ] } ] } }
+  var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
+  var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 4 ] } ] } }
   var expected = false;
   var got = _.entityContains( a, b );
   test.identical( got, expected );
@@ -7151,7 +7158,7 @@ function entityDiffLoose( test )
 
   test.case = 'objects,custom path';
 
-  var src1 = { a : { a : 1, b : '2' }, b : [ 1,2 ] };
+  var src1 = { a : { a : 1, b : '2' }, b : [ 1, 2 ] };
   var src2 = { a : { a : 1, b : '2' } };
   var got = _.entityDiff( src1, src2 );
   var expected =
@@ -7174,14 +7181,14 @@ function entityDiffLoose( test )
   {
     f : function(){},
     a : 'reducing',
-    b : [ 1,3 ],
+    b : [ 1, 3 ],
     c : true,
   }
   var src2 =
   {
     f : function(){},
     a : 'reducing',
-    b : [ 1,3 ],
+    b : [ 1, 3 ],
     c : true,
   }
 
