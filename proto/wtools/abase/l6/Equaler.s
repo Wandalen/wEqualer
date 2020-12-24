@@ -481,10 +481,11 @@ function entityDiff( src, src2, opts )
     path : opts.it.lastPath,
   });
 
-// = qqq for Yevhen : fix please
-//     test.identical( _.property.all( {} ), {} )
-//         - got :          {}
-//         - expected :     {}
+  /* = qqq for Yevhen : fix please
+       test.identical( _.property.all( {} ), {} )
+           - got :          {}
+           - expected :     {}
+  */
 
   return result;
 }
