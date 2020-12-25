@@ -170,6 +170,7 @@ function _equal_head( routine, args )
 
 function _equalIt_body( it )
 {
+  debugger
   let it2 = _.look.body( it );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -206,6 +207,7 @@ let _equalIt = _.routineUnite( _equal_head, _equalIt_body );
 
 function _equal_body( it )
 {
+  debugger
   it = _.equaler._equalIt.body( it );
   return it.result === _.dont ? false : it.result;
 }
@@ -550,7 +552,7 @@ function entityDiffExplanation( o )
     let srcOwn0 = _.property.own( o.srcs[ 0 ] );
     let srcOwn1 = _.property.own( o.srcs[ 1 ] );
 
-    let common = _.filter_( null, srcOwn0, ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
+    let common = _.filter_( null, srcOwn0, ( e, k ) => _.entityIdentical( e, srcOwn1[ k ] ) ? e : undefined );
     // o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
     // o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
     o.srcs[ 0 ] = _.mapBut( srcOwn0, common );
