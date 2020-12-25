@@ -170,7 +170,6 @@ function _equal_head( routine, args )
 
 function _equalIt_body( it )
 {
-  debugger
   let it2 = _.look.body( it );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -207,7 +206,6 @@ let _equalIt = _.routineUnite( _equal_head, _equalIt_body );
 
 function _equal_body( it )
 {
-  debugger
   it = _.equaler._equalIt.body( it );
   return it.result === _.dont ? false : it.result;
 }
