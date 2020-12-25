@@ -1596,8 +1596,13 @@ function equalTerminals()
   {
     if( !_.boolLike( it.srcEffective ) || !_.boolLike( it.srcEffective2 ) )
     it.stop( false );
-    else
-    it.stop( it.srcEffective === it.srcEffective2 );
+    else /* Yevhen : case 1 and true or false and 0 */
+    it.stop
+    (
+      ( _.boolLikeTrue( it.srcEffective ) && _.boolLikeTrue( it.srcEffective2 ) )
+      || ( _.boolLikeFalse( it.srcEffective ) && _.boolLikeFalse( it.srcEffective2 ) )
+    )
+    // it.stop( it.srcEffective === it.srcEffective2 );
   }
   else if( _.numberIs( it.srcEffective ) || _.bigIntIs( it.srcEffective ) )
   {
