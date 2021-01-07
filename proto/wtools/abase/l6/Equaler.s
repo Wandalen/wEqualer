@@ -1,4 +1,5 @@
-( function _Equaler_s_() {
+( function _Equaler_s_()
+{
 
 'use strict';
 
@@ -424,7 +425,7 @@ defaults.strictContainer = 0;
 
 //
 
- /**
+/**
   * Deep comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
   * Returns string refering to first found difference or false if entities are sames.
   *
@@ -480,10 +481,11 @@ function entityDiff( src, src2, opts )
     path : opts.it.lastPath,
   });
 
-// = qqq for Yevhen : fix please
-//     test.identical( _.property.all( {} ), {} )
-//         - got :          {}
-//         - expected :     {}
+  /* = qqq for Yevhen : fix please
+       test.identical( _.property.all( {} ), {} )
+           - got :          {}
+           - expected :     {}
+  */
 
   return result;
 }
@@ -493,6 +495,7 @@ function entityDiff( src, src2, opts )
 function entityDiffExplanation( o )
 {
   let result = '';
+  let isDiffProto = false;
 
   o = _.routineOptions( entityDiffExplanation, arguments );
   _.assert( _.arrayIs( o.srcs ) );
@@ -511,14 +514,18 @@ function entityDiffExplanation( o )
     let src0 = _.select( o.srcs[ 0 ], o.path );
     let src1 = _.select( o.srcs[ 1 ], o.path );
 
-    if( _.mapIs( src0 ) && _.mapIs( src1 ) )
+    // if( _.mapIs( src0 ) && _.mapIs( src1 ) )
+    if( _.objectIs( src0 ) && _.objectIs( src1 ) )
     {
       o.srcs[ 0 ] = src0;
       o.srcs[ 1 ] = src1;
     }
     else
     {
-      let dir = _.strSplit( o.path, '/' ).slice( 0, -1 ).join( '' );
+      let dir = _.strSplit( o.path, '/' )
+      .slice( 0, -1 )
+      .join( '' );
+
       if( !dir )
       dir = '/';
       o.srcs[ 0 ] = _.select( o.srcs[ 0 ], dir );
@@ -535,11 +542,42 @@ function entityDiffExplanation( o )
   if( _.strIs( o.srcs[ 1 ] ) )
   o.srcs[ 1 ] = o.onStringPreprocess( o.srcs[ 1 ] );
 
-  if( _.mapIs( o.srcs[ 0 ] ) && _.mapIs( o.srcs[ 1 ] ) )
+  // if( _.mapIs( o.srcs[ 0 ] ) && _.mapIs( o.srcs[ 1 ] ) )
+  if( _.objectIs( o.srcs[ 0 ] ) && _.objectIs( o.srcs[ 1 ] ) )
   {
-    let common = _.filter_( null, _.property.own( o.srcs[ 0 ] ), ( e, k ) => _.entityIdentical( e, o.srcs[ 1 ][ k ] ) ? e : undefined );
-    o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
-    o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
+    let protoGot = Object.getPrototypeOf( o.srcs[ 0 ] );
+    let protoExpected = Object.getPrototypeOf( o.srcs[ 1 ] );
+    let srcOwn0 = _.property.own( o.srcs[ 0 ] );
+    let srcOwn1 = _.property.own( o.srcs[ 1 ] );
+
+    let common = _.filter_( null, srcOwn0, ( e, k ) => _.entityIdentical( e, srcOwn1[ k ] ) ? e : undefined );
+    // o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
+    // o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
+    o.srcs[ 0 ] = _.mapBut( srcOwn0, common );
+    o.srcs[ 1 ] = _.mapBut( srcOwn1, common );
+
+    if( _.mapIsEmpty( o.srcs[ 0 ] ) && _.mapIsEmpty( o.srcs[ 1 ] ) )
+    {
+      if( !isEquivalentProto( protoGot, protoExpected ) )
+      {
+        isDiffProto = true;
+        if( protoGot === null )
+        {
+          o.srcs[ 1 ] = '__proto__';
+          o.srcs[ 0 ] = '__proto__ = null';
+        }
+        else if( protoExpected === null )
+        {
+          o.srcs[ 0 ] = '__proto__';
+          o.srcs[ 1 ] = '__proto__ = null';
+        }
+        else
+        {
+          o.srcs[ 0 ] = '__proto__';
+          o.srcs[ 1 ] = '__proto__';
+        }
+      }
+    }
   }
 
   o.srcs[ 0 ] = _.toStr( o.srcs[ 0 ], { levels : o.levels, keyWrapper : '\'' } );
@@ -552,7 +590,11 @@ function entityDiffExplanation( o )
 
   /* */
 
-  let strDiff = _.strDifference( o.srcs[ 0 ], o.srcs[ 1 ] );
+  let strDiff = false;
+
+  if( !isDiffProto )
+  strDiff = _.strDifference( o.srcs[ 0 ], o.srcs[ 1 ] );
+
   if( strDiff !== false )
   {
     result += ( '\n' + o.differenceName + ' :\n' + strDiff );
@@ -577,6 +619,20 @@ function entityDiffExplanation( o )
   function stringsPreprocessNo( str )
   {
     return str;
+  }
+
+  function isEquivalentProto( proto1, proto2 )
+  {
+    if( proto1 === proto2 )
+    return true;
+
+    if( proto1 === null && proto2 === Object.prototype )
+    return true;
+
+    if( proto2 === null && proto1 === Object.prototype )
+    return true;
+
+    return false;
   }
 
 }
@@ -819,7 +875,10 @@ function visitPop()
     _.assert
     (
       Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.src2 ),
-      () => `Top-most visit ${it.path} does not match ${_.strEntityShort( it.src2 )} <> ${_.strEntityShort( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ] )}`
+      () => `Top-most visit ${it.path} does not match ${_.strEntityShort( it.src2 )} <> ${_.strEntityShort
+      (
+        it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ]
+      )}`
     );
     it.iterator.visitedContainer2.pop( it.src2 );
   }
@@ -882,7 +941,13 @@ function stop( result )
 
     if( it.containing === 'any' )
     {
-      let any = [ _.equaler.containerNameToIdMap.map, containerNameToIdMap.hashMap, containerNameToIdMap.set, containerNameToIdMap.object ];
+      let any =
+      [
+        _.equaler.containerNameToIdMap.map,
+        containerNameToIdMap.hashMap,
+        containerNameToIdMap.set,
+        containerNameToIdMap.object
+      ];
       if( it.down && _.longHasAny( any, it.down.iterable ) )
       {
         it.result = false;
@@ -902,7 +967,13 @@ function stop( result )
     }
     else if( it.containing === 'none' )
     {
-      let any = [ _.equaler.containerNameToIdMap.map, containerNameToIdMap.hashMap, containerNameToIdMap.set, containerNameToIdMap.object ];
+      let any =
+      [
+        _.equaler.containerNameToIdMap.map,
+        containerNameToIdMap.hashMap,
+        containerNameToIdMap.set,
+        containerNameToIdMap.object
+      ];
       if( it.down && _.longHasAny( any, it.down.iterable ) )
       {
         result = !result;
@@ -988,7 +1059,13 @@ function equalUp()
     if( !it.type1 || !it.type2 )
     if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) )
     {
-      if( it.srcEffective === null || it.srcEffective === undefined || it.srcEffective2 === null || it.srcEffective2 === undefined )
+      if
+      (
+        it.srcEffective === null
+        || it.srcEffective === undefined
+        || it.srcEffective2 === null
+        || it.srcEffective2 === undefined
+      )
       return it.stop( it.srcEffective === it.srcEffective2 );
     }
   }
@@ -1080,7 +1157,12 @@ function equalCycle()
     if( it.result )
     {
       if( it.iterator.visitedContainer2 && _.arrayIs( it.iterator.visitedContainer2.original ) )
-      it.result = it.iterator.visitedContainer2.original[ it.visitedContainer.original.indexOf( it.srcEffective ) ] === it.srcEffective2;
+      {
+        it.result = it
+        .iterator
+        .visitedContainer2
+        .original[ it.visitedContainer.original.indexOf( it.srcEffective ) ] === it.srcEffective2;
+      }
       if( !it.result )
       {
         it.iterator.continue = false;
@@ -1450,8 +1532,8 @@ function equalObjects()
 
   _.assert
   (
-    it.iterable === _.equaler.containerNameToIdMap.custom ||
-    it.iterable === _.equaler.containerNameToIdMap.object
+    it.iterable === _.equaler.containerNameToIdMap.custom
+    || it.iterable === _.equaler.containerNameToIdMap.object
   );
 
   if( it.srcEffective && _.routineIs( it.srcEffective[ equalAreSymbol ] ) )
@@ -1512,8 +1594,13 @@ function equalTerminals()
   {
     if( !_.boolLike( it.srcEffective ) || !_.boolLike( it.srcEffective2 ) )
     it.stop( false );
-    else
-    it.stop( it.srcEffective == it.srcEffective2 );
+    else /* Yevhen : case 1 and true or false and 0 */
+    it.stop
+    (
+      ( _.boolLikeTrue( it.srcEffective ) && _.boolLikeTrue( it.srcEffective2 ) )
+      || ( _.boolLikeFalse( it.srcEffective ) && _.boolLikeFalse( it.srcEffective2 ) )
+    )
+    // it.stop( it.srcEffective === it.srcEffective2 );
   }
   else if( _.numberIs( it.srcEffective ) || _.bigIntIs( it.srcEffective ) )
   {
@@ -1524,7 +1611,7 @@ function equalTerminals()
     if( it.strictTyping )
     return it.stop( it.srcEffective === it.srcEffective2 );
     else
-    return it.stop( it.srcEffective == it.srcEffective2 );
+    return it.stop( it.srcEffective === it.srcEffective2 );
   }
 
 }
