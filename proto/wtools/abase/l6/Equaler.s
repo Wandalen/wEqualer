@@ -547,8 +547,8 @@ function entityDiffExplanation( o )
   {
     let protoGot = Object.getPrototypeOf( o.srcs[ 0 ] );
     let protoExpected = Object.getPrototypeOf( o.srcs[ 1 ] );
-    let srcOwn0 = _.property.own( o.srcs[ 0 ] );
-    let srcOwn1 = _.property.own( o.srcs[ 1 ] );
+    let srcOwn0 = _.property.onlyOwn( o.srcs[ 0 ] );
+    let srcOwn1 = _.property.onlyOwn( o.srcs[ 1 ] );
 
     let common = _.filter_( null, srcOwn0, ( e, k ) => _.entityIdentical( e, srcOwn1[ k ] ) ? e : undefined );
     // o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
@@ -1509,7 +1509,7 @@ function equalMaps()
       return it.stop( false );
       if( _.mapKeys( it.srcEffective ).length !== _.mapKeys( it.srcEffective2 ).length )
       return it.stop( false );
-      if( _.mapOwnKeys( it.srcEffective ).length !== _.mapOwnKeys( it.srcEffective2 ).length )
+      if( _.mapOnlyOwnKeys( it.srcEffective ).length !== _.mapOnlyOwnKeys( it.srcEffective2 ).length )
       return it.stop( false );
     }
     else
