@@ -1,18 +1,36 @@
 {
-  "name" : "wequaler",
-  "version" : "0.5.179",
-  "description" : "Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.",
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
-  "license" : "MIT",
-  "main" : "proto/wtools/abase/l6/Equaler.s",
-  "files" : [ "proto/wtools/abase/l6", "proto/wtools/Tools.s" ],
-  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
-  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wEqualer.git" },
-  "bugs" :
-  {
-    "url" : "https://github.com/Wandalen/wEqualer/issues"
+  "name": "wequaler",
+  "version": "0.5.180",
+  "description": "Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.",
+  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "license": "MIT",
+  "main": "proto/wtools/abase/l6/Equaler.s",
+  "files": [
+    "proto/wtools/abase/l6",
+    "proto/wtools/Tools.s"
+  ],
+  "scripts": {
+    "test": "wtest .run 'proto/**' rapidity:-3",
+    "docgen": "wdocgen proto"
   },
-  "dependencies" : { "wTools" : "alpha", "wlooker" : "alpha", "wselector" : "alpha" },
-  "devDependencies" : { "eslint" : "7.1.0", "wequaler" : "file:.", "wTesting" : "alpha" },
-  "keywords" : [ "wTools" ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wEqualer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wandalen/wEqualer/issues"
+  },
+  "dependencies": {
+    "wTools": "alpha",
+    "wlooker": "alpha",
+    "wselector": "alpha"
+  },
+  "devDependencies": {
+    "eslint": "7.1.0",
+    "wTesting": "alpha",
+    "wequaler": "file:."
+  },
+  "keywords": [
+    "wTools"
+  ]
 }
