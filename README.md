@@ -29,7 +29,7 @@ map1 ~ map3 : false
 git clone https://github.com/Wandalen/wEqualer
 cd wEqualer
 npm install
-node sample/Sample.s
+node sample/trivial/Sample.s
 ```
 
 ## To add to your project
