@@ -41,6 +41,7 @@ function _entityEqualLoose( test )
 {
 
   /* default options */
+  // xxx
 
   // test.case = 'default options, number';
   // var got = _.equaler._equal( 1, 1 );
@@ -225,7 +226,7 @@ function entityIdenticalLoose( test )
   var got = _.entityIdentical( x2, y2 );
   test.identical( got, false );
 
-  // strings test
+  /* strings test */
 
   test.case = 'same string';
   var got = _.entityIdentical( strX1, strX1 );
@@ -245,7 +246,7 @@ function entityIdenticalLoose( test )
   var got = _.entityIdentical( strX3, strY3, _.mapExtend( null, options ) );
   test.identical( got, false );
 
-  // array tests
+  /* array tests */
 
   test.case = 'tests two non empty arrays';
   var got = _.entityIdentical( arrX1, arrY1 );
@@ -255,7 +256,7 @@ function entityIdenticalLoose( test )
   var got = _.entityIdentical( arrX2, arrY2 );
   test.identical( got, false );
 
-  // object tests
+  /* object tests */
 
   test.case = 'tests two non empty objects';
   var got = _.entityIdentical( objX1, objY1 );
@@ -5966,6 +5967,7 @@ function compareObjectsWithIterator( test )
 function compareObjectPrototyped1( test )
 {
 
+  // xxx
   // test.case = 'all keys in srcMap exists in screenMap - map';
   // var srcMap = Object.create( { d : 'name', c : 33 } );
   // srcMap.a = 'abc';
@@ -6027,6 +6029,91 @@ function compareObjectPrototyped1( test )
   test.ne( src2, src1 );
 
   /* */
+
+}
+
+//
+
+function compareObjectPrototyped1( test )
+{
+
+  Object.setPrototypeOf( Escape.prototype, null );
+  Escape.prototype = Object.create( null );
+  Escape.prototype[ _.entity.equalAreSymbol ] = equalAre;
+  Escape.prototype[ _.entity.iteratorSymbol ] = iterate;
+  Escape.prototype.constructor = Escape;
+
+  /* */
+
+  function equalAre( it )
+  {
+    let self = this;
+
+    _.assert( arguments.length === 1 );
+
+    if( !it.srcEffective )
+    return end( false );
+    if( !it.srcEffective2 )
+    return end( false );
+    if( !it.srcEffective instanceof _.Escape )
+    return end( false );
+    if( !it.srcEffective2 instanceof _.Escape )
+    return end( false );
+
+    debugger;
+
+    if( it.srcEffective.val === it.srcEffective2.val )
+    return end( true );
+
+    if( !( it.srcEffective.val instanceof _.Escape ) )
+    return end( false );
+    if( !( it.srcEffective.val instanceof _.Escape ) )
+    return end( false );
+
+    return true;
+
+    function end( result )
+    {
+      it.result = result;
+      it.continue = false;
+      return result;
+    }
+  }
+
+  /* */
+
+  function iterate()
+  {
+
+    let iterator = Object.create( null );
+    iterator.next = next;
+    iterator.index = 0;
+    iterator.instance = this;
+    return iterator;
+
+    function next()
+    {
+      let result = Object.create( null ); debugger;
+      result.done = this.index === 1;
+      if( result.done )
+      return result;
+      result.value = this.instance.val;
+      this.index += 1;
+      return result;
+    }
+
+  }
+
+  /* */
+
+  function Escape( val )
+  {
+    if( arguments.length !== 1 )
+    throw new Error( 'Expects exactly 1 argument' );
+    this.val = val;
+    Object.freeze( this );
+    return this;
+  }
 
 }
 
@@ -7893,7 +7980,7 @@ function entityDiffExplanationMap( test )
 
   var expected =
 `- got :
-  { 
+  {
   'constructor' : [ routine Object ],
   '__defineGetter__' : [ routine __defineGetter__ ],
   '__defineSetter__' : [ routine __defineSetter__ ],
@@ -8410,6 +8497,7 @@ let Self =
     compareObjectsWithSecondCoerce,
     compareObjectsWithIterator,
     compareObjectPrototyped1,
+    compareObjectWithIteratorAndEqual,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,

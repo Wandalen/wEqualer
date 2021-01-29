@@ -1678,7 +1678,7 @@ function _objectAscend( src )
   _.assert( arguments.length === 1 );
 
   if( _.entity.methodIteratorOf( src ) )
-  if( !it.srcEffective || !_.routineIs( it.srcEffective[ equalAreSymbol ] ) )
+  if( !it.srcEffective || !_.routineIs( it.srcEffective[ equalAreSymbol ] ) ) /* yyy */
   if( !it.srcEffective2 || !_.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
   {
 
