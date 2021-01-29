@@ -6037,11 +6037,11 @@ function compareObjectPrototyped1( test )
 function compareObjectPrototyped1( test )
 {
 
-  Object.setPrototypeOf( Escape.prototype, null );
-  Escape.prototype = Object.create( null );
-  Escape.prototype[ _.entity.equalAreSymbol ] = equalAre;
-  Escape.prototype[ _.entity.iteratorSymbol ] = iterate;
-  Escape.prototype.constructor = Escape;
+  Object.setPrototypeOf( Obj1.prototype, null );
+  Obj1.prototype = Object.create( null );
+  Obj1.prototype[ _.entity.equalAreSymbol ] = equalAre;
+  Obj1.prototype[ _.entity.iteratorSymbol ] = iterate;
+  Obj1.prototype.constructor = Obj1;
 
   /* */
 
@@ -6055,9 +6055,9 @@ function compareObjectPrototyped1( test )
     return end( false );
     if( !it.srcEffective2 )
     return end( false );
-    if( !it.srcEffective instanceof _.Escape )
+    if( !it.srcEffective instanceof _.Obj1 )
     return end( false );
-    if( !it.srcEffective2 instanceof _.Escape )
+    if( !it.srcEffective2 instanceof _.Obj1 )
     return end( false );
 
     debugger;
@@ -6065,9 +6065,9 @@ function compareObjectPrototyped1( test )
     if( it.srcEffective.val === it.srcEffective2.val )
     return end( true );
 
-    if( !( it.srcEffective.val instanceof _.Escape ) )
+    if( !( it.srcEffective.val instanceof _.Obj1 ) )
     return end( false );
-    if( !( it.srcEffective.val instanceof _.Escape ) )
+    if( !( it.srcEffective.val instanceof _.Obj1 ) )
     return end( false );
 
     return true;
@@ -6106,7 +6106,7 @@ function compareObjectPrototyped1( test )
 
   /* */
 
-  function Escape( val )
+  function Obj1( val )
   {
     if( arguments.length !== 1 )
     throw new Error( 'Expects exactly 1 argument' );
