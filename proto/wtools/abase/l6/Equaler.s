@@ -1539,13 +1539,13 @@ function equalObjects()
   if( it.srcEffective && _.routineIs( it.srcEffective[ equalAreSymbol ] ) )
   {
     _.assert( it.srcEffective[ equalAreSymbol ].length <= 1 );
-    if( !it.srcEffective[ equalAreSymbol ]( it ) )
+    if( !it.srcEffective[ equalAreSymbol ]( it ) ) /* xxx : throw error on returned defined */
     return it.stop( false );
   }
   else if( it.srcEffective2 && _.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
   {
     _.assert( it.srcEffective2[ equalAreSymbol ].length <= 1 );
-    if( !it.srcEffective2[ equalAreSymbol ]( it ) )
+    if( !it.srcEffective2[ equalAreSymbol ]( it ) )  /* xxx : throw error on returned defined */
     return it.stop( false );
   }
   else if( _.regexpIs( it.srcEffective ) )
