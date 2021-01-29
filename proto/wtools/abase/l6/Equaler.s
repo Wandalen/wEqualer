@@ -1539,14 +1539,18 @@ function equalObjects()
   if( it.srcEffective && _.routineIs( it.srcEffective[ equalAreSymbol ] ) )
   {
     _.assert( it.srcEffective[ equalAreSymbol ].length <= 1 );
-    if( !it.srcEffective[ equalAreSymbol ]( it ) ) /* xxx : throw error on returned defined */
-    return it.stop( false );
+    let r = it.srcEffective[ equalAreSymbol ]( it );
+    _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.strType( r )}` );
+    // if( !it.srcEffective[ equalAreSymbol ]( it ) ) /* xxx : throw error on returned defined */
+    // return it.stop( false );
   }
   else if( it.srcEffective2 && _.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
   {
     _.assert( it.srcEffective2[ equalAreSymbol ].length <= 1 );
-    if( !it.srcEffective2[ equalAreSymbol ]( it ) )  /* xxx : throw error on returned defined */
-    return it.stop( false );
+    let r = it.srcEffective2[ equalAreSymbol ]( it );
+    // if( !it.srcEffective2[ equalAreSymbol ]( it ) )  /* xxx : throw error on returned defined */
+    // return it.stop( false );
+    _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.strType( r )}` );
   }
   else if( _.regexpIs( it.srcEffective ) )
   {
@@ -1678,8 +1682,8 @@ function _objectAscend( src )
   _.assert( arguments.length === 1 );
 
   if( _.entity.methodIteratorOf( src ) )
-  if( !it.srcEffective || !_.routineIs( it.srcEffective[ equalAreSymbol ] ) ) /* yyy */
-  if( !it.srcEffective2 || !_.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
+  // if( !it.srcEffective || !_.routineIs( it.srcEffective[ equalAreSymbol ] ) ) /* yyy */
+  // if( !it.srcEffective2 || !_.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
   {
 
     let index = 0;

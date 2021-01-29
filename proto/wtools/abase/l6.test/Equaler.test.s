@@ -3823,6 +3823,7 @@ function entityContainsObjectWithEqualerAndIterator( test )
   function _iterate()
   {
 
+    debugger;
     let iterator = Object.create( null );
     iterator.next = next;
     iterator.index = 0;
@@ -3846,9 +3847,20 @@ function entityContainsObjectWithEqualerAndIterator( test )
 
   function _equalAre( it )
   {
+    debugger;
     if( !_.longIdentical( it.srcEffective.elements2, it.srcEffective2.elements2 ) )
-    return false;
-    return true;
+    {
+      it.continue = false;
+      it.result = false;
+      // return false;
+    }
+    else
+    {
+      it.continue = false;
+      it.result = true;
+      // return false;
+    }
+    // return true;
   }
 
   /* */
@@ -3864,6 +3876,194 @@ function entityContainsObjectWithEqualerAndIterator( test )
   }
 
   /* */
+
+}
+
+//
+
+function compareObjectWithIteratorAndEqual( test )
+{
+
+  Object.setPrototypeOf( Obj1.prototype, null );
+  Obj1.prototype = Object.create( null );
+  Obj1.prototype[ _.entity.equalAreSymbol ] = equalAre;
+  Obj1.prototype[ _.entity.iteratorSymbol ] = iterate;
+  Obj1.prototype.constructor = Obj1;
+
+  /* */
+
+  test.case = 'identical, depth:1';
+  var src1 = new Obj1( 1 );
+  var src2 = new Obj1( 1 );
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+
+  /* */
+
+  test.case = 'identical, depth:2';
+  var src1 = new Obj1( new Obj1( 1 ) );
+  var src2 = new Obj1( new Obj1( 1 ) );
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+
+  /* */
+
+  test.case = 'identical, depth:3';
+  var src1 = new Obj1( new Obj1( new Obj1( 1 ) ) );
+  var src2 = new Obj1( new Obj1( new Obj1( 1 ) ) );
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  /* qqq xxx : implement test.nc() */
+
+  /* */
+
+  test.case = 'not identical, depth:1';
+  var src1 = new Obj1( 1 );
+  var src2 = new Obj1( 2 );
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'not identical, depth:2';
+  var src1 = new Obj1( new Obj1( 1 ) );
+  var src2 = new Obj1( new Obj1( 2 ) );
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'not identical, depth:3';
+  var src1 = new Obj1( new Obj1( new Obj1( 1 ) ) );
+  var src2 = new Obj1( new Obj1( new Obj1( 2 ) ) );
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  function equalAre( it )
+  {
+    let self = this;
+
+    _.assert( arguments.length === 1 );
+
+    if( !it.srcEffective )
+    return end( false );
+    if( !it.srcEffective2 )
+    return end( false );
+    if( !it.srcEffective instanceof Obj1 )
+    return end( false );
+    if( !it.srcEffective2 instanceof Obj1 )
+    return end( false );
+
+    debugger;
+
+    if( it.srcEffective.val === it.srcEffective2.val )
+    return end( true );
+
+    if( !( it.srcEffective.val instanceof Obj1 ) )
+    return end( false );
+    if( !( it.srcEffective.val instanceof Obj1 ) )
+    return end( false );
+
+    // return true;
+
+    function end( result )
+    {
+      it.result = result;
+      it.continue = false;
+      // return result;
+    }
+  }
+
+  /* */
+
+  function iterate()
+  {
+
+    let iterator = Object.create( null );
+    iterator.next = next;
+    iterator.index = 0;
+    iterator.instance = this;
+    return iterator;
+
+    function next()
+    {
+      let result = Object.create( null ); debugger;
+      result.done = this.index === 1;
+      if( result.done )
+      return result;
+      result.value = this.instance.val;
+      this.index += 1;
+      return result;
+    }
+
+  }
+
+  /* */
+
+  function Obj1( val )
+  {
+    if( arguments.length !== 1 )
+    throw new Error( 'Expects exactly 1 argument' );
+    this.val = val;
+    Object.freeze( this );
+    return this;
+  }
 
 }
 
@@ -5734,7 +5934,8 @@ function compareObjectsWithEqualAre( test )
   function _equalAre( it )
   {
     // console.log( `_equalAre ${it.src.val} ${it.src2.val}` );
-    return it.src.val === it.src2.val;
+    it.continue = false;
+    it.result = it.src.val === it.src2.val;
   }
 
 }
@@ -5802,7 +6003,9 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalAre( it )
   {
-    return it.srcEffective.val === it.srcEffective2.val;
+    it.continue = false;
+    it.result = it.srcEffective.val === it.srcEffective2.val;
+    // return it.srcEffective.val === it.srcEffective2.val;
   }
 
   /* */
@@ -6029,91 +6232,6 @@ function compareObjectPrototyped1( test )
   test.ne( src2, src1 );
 
   /* */
-
-}
-
-//
-
-function compareObjectPrototyped1( test )
-{
-
-  Object.setPrototypeOf( Obj1.prototype, null );
-  Obj1.prototype = Object.create( null );
-  Obj1.prototype[ _.entity.equalAreSymbol ] = equalAre;
-  Obj1.prototype[ _.entity.iteratorSymbol ] = iterate;
-  Obj1.prototype.constructor = Obj1;
-
-  /* */
-
-  function equalAre( it )
-  {
-    let self = this;
-
-    _.assert( arguments.length === 1 );
-
-    if( !it.srcEffective )
-    return end( false );
-    if( !it.srcEffective2 )
-    return end( false );
-    if( !it.srcEffective instanceof _.Obj1 )
-    return end( false );
-    if( !it.srcEffective2 instanceof _.Obj1 )
-    return end( false );
-
-    debugger;
-
-    if( it.srcEffective.val === it.srcEffective2.val )
-    return end( true );
-
-    if( !( it.srcEffective.val instanceof _.Obj1 ) )
-    return end( false );
-    if( !( it.srcEffective.val instanceof _.Obj1 ) )
-    return end( false );
-
-    return true;
-
-    function end( result )
-    {
-      it.result = result;
-      it.continue = false;
-      return result;
-    }
-  }
-
-  /* */
-
-  function iterate()
-  {
-
-    let iterator = Object.create( null );
-    iterator.next = next;
-    iterator.index = 0;
-    iterator.instance = this;
-    return iterator;
-
-    function next()
-    {
-      let result = Object.create( null ); debugger;
-      result.done = this.index === 1;
-      if( result.done )
-      return result;
-      result.value = this.instance.val;
-      this.index += 1;
-      return result;
-    }
-
-  }
-
-  /* */
-
-  function Obj1( val )
-  {
-    if( arguments.length !== 1 )
-    throw new Error( 'Expects exactly 1 argument' );
-    this.val = val;
-    Object.freeze( this );
-    return this;
-  }
 
 }
 
@@ -8478,7 +8596,8 @@ let Self =
     entityContainsObjectWithIteratorAndMap,
     // entityContainsObjectWithIteratorAndObjectWithIterator, /* qqq : implement */
     // entityContainsObjectWithIteratorAndLongWithIterator, /* qqq : implement */
-    entityContainsObjectWithEqualerAndIterator,
+    entityContainsObjectWithEqualerAndIterator, /* yyy */
+    compareObjectWithIteratorAndEqual, /* yyy */
 
     comparePrimitiveAndNon,
     compareNull,
@@ -8497,7 +8616,6 @@ let Self =
     compareObjectsWithSecondCoerce,
     compareObjectsWithIterator,
     compareObjectPrototyped1,
-    compareObjectWithIteratorAndEqual,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
