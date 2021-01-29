@@ -41,83 +41,81 @@ function _entityEqualLoose( test )
 {
 
   /* default options */
-  // xxx
 
-  // test.case = 'default options, number';
-  // var got = _.equaler._equal( 1, 1 );
-  // var expected = true;
-  // test.identical( got, expected );
+  test.case = 'default options, number';
+  var got = _.equaler._equal( 1, 1 );
+  var expected = true;
+  test.identical( got, expected );
 
-  // test.case = 'default options, string';
-  // var got = _.equaler._equal( '123', '123' );
-  // var expected = true;
-  // test.identical( got, expected );
+  test.case = 'default options, string';
+  var got = _.equaler._equal( '123', '123' );
+  var expected = true;
+  test.identical( got, expected );
 
-  // test.case = 'default options, boolean';
-  // var got = _.equaler._equal( 0, false );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'default options, boolean';
+  var got = _.equaler._equal( 0, false );
+  var expected = false;
+  test.identical( got, expected );
 
-  // test.case = 'default options, array';
-  // var got = _.equaler._equal( [ 1, 2, '3' ], [ 1, 2, 3 ] );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'default options, array';
+  var got = _.equaler._equal( [ 1, 2, '3' ], [ 1, 2, 3 ] );
+  var expected = false;
+  test.identical( got, expected );
 
-  // test.case = 'default options, object';
-  // var src1 = { a : 1, b : 2, c : { d : 3  }  };
-  // var src2 = { a : 1, b : 2, c : { d : 3  }  };
-  // var got = _.equaler._equal( src1, src2 );
-  // var expected = true;
-  // test.identical( got, expected );
+  test.case = 'default options, object';
+  var src1 = { a : 1, b : 2, c : { d : 3  }  };
+  var src2 = { a : 1, b : 2, c : { d : 3  }  };
+  var got = _.equaler._equal( src1, src2 );
+  var expected = true;
+  test.identical( got, expected );
 
-  // /* strict string - number */
+  /* strict string - number */
 
-  // test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
-  // var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 0 } );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 0 } );
+  var expected = false;
+  test.identical( got, expected );
 
-  // test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
-  // var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 0 } );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 0 } );
+  var expected = false;
+  test.identical( got, expected );
 
-  // test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
-  // var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 1 } );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 0, strictTyping : 1 } );
+  var expected = false;
+  test.identical( got, expected );
 
-  // test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
-  // var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 1 } );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
+  var got = _.equaler._equal( '123', 123, { strictNumbering : 1, strictTyping : 1 } );
+  var expected = false;
+  test.identical( got, expected );
 
-  // /* */
+  /* */
 
-  // test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
-  // var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 0 } );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'number & string, strictNumbering : 0, strictTyping : 0';
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 0 } );
+  var expected = false;
+  test.identical( got, expected );
 
-  // test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
-  // var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 0 } );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'number & string, strictNumbering : 1, strictTyping : 0';
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 0 } );
+  var expected = false;
+  test.identical( got, expected );
 
-  // test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
-  // var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 1 } );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'number & string, strictNumbering : 0, strictTyping : 1';
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 0, strictTyping : 1 } );
+  var expected = false;
+  test.identical( got, expected );
 
-  // test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
-  // var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 1 } );
-  // var expected = false;
-  // test.identical( got, expected );
+  test.case = 'number & string, strictNumbering : 1, strictTyping : 1';
+  var got = _.equaler._equal( 123, '123', { strictNumbering : 1, strictTyping : 1 } );
+  var expected = false;
+  test.identical( got, expected );
 
   /* strict bool - number */
 
   test.case = 'number & boolean, strictNumbering : 0, strictTyping : 0';
-  debugger
   var got = _.equaler._equal( false, 0, { strictNumbering : 0, strictTyping : 0 } );
   var expected = true;
   test.identical( got, expected );
@@ -128,7 +126,6 @@ function _entityEqualLoose( test )
   test.identical( got, expected );
 
   test.case = 'number & boolean, strictNumbering : 1, strictTyping : 0';
-  debugger
   var got = _.equaler._equal( false, 0, { strictNumbering : 1, strictTyping : 0 } );
   var expected = true;
   test.identical( got, expected );
@@ -3823,7 +3820,6 @@ function entityContainsObjectWithEqualerAndIterator( test )
   function _iterate()
   {
 
-    debugger;
     let iterator = Object.create( null );
     iterator.next = next;
     iterator.index = 0;
@@ -3847,20 +3843,16 @@ function entityContainsObjectWithEqualerAndIterator( test )
 
   function _equalAre( it )
   {
-    debugger;
-    if( !_.longIdentical( it.srcEffective.elements2, it.srcEffective2.elements2 ) )
+    if( _.longIdentical( it.srcEffective.elements2, it.srcEffective2.elements2 ) )
     {
       it.continue = false;
-      it.result = false;
-      // return false;
+      it.result = true;
     }
     else
     {
       it.continue = false;
-      it.result = true;
-      // return false;
+      it.result = false;
     }
-    // return true;
   }
 
   /* */
@@ -4010,8 +4002,6 @@ function compareObjectWithIteratorAndEqual( test )
     if( !it.srcEffective2 instanceof Obj1 )
     return end( false );
 
-    debugger;
-
     if( it.srcEffective.val === it.srcEffective2.val )
     return end( true );
 
@@ -4020,13 +4010,10 @@ function compareObjectWithIteratorAndEqual( test )
     if( !( it.srcEffective.val instanceof Obj1 ) )
     return end( false );
 
-    // return true;
-
     function end( result )
     {
       it.result = result;
       it.continue = false;
-      // return result;
     }
   }
 
@@ -4043,7 +4030,7 @@ function compareObjectWithIteratorAndEqual( test )
 
     function next()
     {
-      let result = Object.create( null ); debugger;
+      let result = Object.create( null );
       result.done = this.index === 1;
       if( result.done )
       return result;
@@ -4735,9 +4722,7 @@ function compareNumber( test )
   var src2 = 3n;
   test.identical( _.entityIdentical( src1, src2 ), false );
   test.identical( _.entityIdentical( src2, src1 ), false );
-  debugger;
   test.identical( _.entityEquivalent( src1, src2 ), true );
-  debugger;
   test.identical( _.entityEquivalent( src2, src1 ), true );
   test.identical( _.entityContains( src1, src2 ), true );
   test.identical( _.entityContains( src2, src1 ), true );
@@ -6170,22 +6155,21 @@ function compareObjectsWithIterator( test )
 function compareObjectPrototyped1( test )
 {
 
-  // xxx
-  // test.case = 'all keys in srcMap exists in screenMap - map';
-  // var srcMap = Object.create( { d : 'name', c : 33 } );
-  // srcMap.a = 'abc';
-  // srcMap.b = undefined;
-  // var screenMap = { a : 13, b : 77, c : 3, d : 'name' };
-  // var got = _.mapOnlyComplementing_( srcMap, screenMap );
-  // var expected = Object.create( { d : 'name', c : 33 } );
-  // expected.a = 'abc';
-  // expected.b = undefined;
-  // expected.c = 33;
-  // expected.d = 'name';
-  // test.identical( got, expected );
-  // test.true( got === srcMap );
-  // test.identical( srcMap, { a : 'abc', b : undefined, c : 33, d : 'name' } );
-  // test.identical( screenMap, { a : 13, b : 77, c : 3, d : 'name' } );
+  test.case = 'all keys in srcMap exists in screenMap - map';
+  var srcMap = Object.create( { d : 'name', c : 33 } );
+  srcMap.a = 'abc';
+  srcMap.b = undefined;
+  var screenMap = { a : 13, b : 77, c : 3, d : 'name' };
+  var got = _.mapOnlyComplementing_( srcMap, screenMap );
+  var expected = Object.create( { d : 'name', c : 33 } );
+  expected.a = 'abc';
+  expected.b = undefined;
+  expected.c = 33;
+  expected.d = 'name';
+  test.identical( got, expected );
+  test.true( got === srcMap );
+  test.identical( _.property.all( srcMap, { onlyEnumerable : 1 } ), { a : 'abc', b : undefined, c : 33, d : 'name' } );
+  test.identical( screenMap, { a : 13, b : 77, c : 3, d : 'name' } );
 
   /* */
 
@@ -6646,10 +6630,7 @@ function entityIdenticalCycledWithOptions( test )
   var b = { x : 1, y : null }
   b.x = b;
   var expected = false;
-  debugger;
-  _global_.debugger = 1;
   var got = _.entityIdentical( a, b, opt  );
-  debugger;
   test.identical( got, expected );
   test.identical( onUpPaths, [ '/', '/x' ] );
   test.identical( onDownPaths, [ '/x', '/' ] );
@@ -8401,7 +8382,6 @@ function entityDiffExplanationMapDiffProto( test )
 - expected :
   {}
 `
-  debugger;
   var got = _.entityDiffExplanation
   ({
     name1 : '- got',
