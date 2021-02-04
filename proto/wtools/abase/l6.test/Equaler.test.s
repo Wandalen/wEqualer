@@ -3997,9 +3997,9 @@ function compareObjectWithIteratorAndEqual( test )
     return end( false );
     if( !it.srcEffective2 )
     return end( false );
-    if( !it.srcEffective instanceof Obj1 )
+    if( !( it.srcEffective instanceof Obj1 ) )
     return end( false );
-    if( !it.srcEffective2 instanceof Obj1 )
+    if( !( it.srcEffective2 instanceof Obj1 ) )
     return end( false );
 
     if( it.srcEffective.val === it.srcEffective2.val )
