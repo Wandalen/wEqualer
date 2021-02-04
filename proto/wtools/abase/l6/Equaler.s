@@ -743,7 +743,7 @@ function _iterableEval()
     it.type1 = _.equaler.containerNameToIdMap.long;
     it.iterable = _.equaler.containerNameToIdMap.long;
   }
-  else if( !_.primitiveIs( it.srcEffective ) )
+  else if( _.primitiveIs( it.srcEffective ) === false )
   {
     it.type1 = _.equaler.containerNameToIdMap.object;
 
@@ -795,7 +795,7 @@ function _iterableEval()
   {
     it.type2 = _.equaler.containerNameToIdMap.set;
   }
-  else if( !_.primitiveIs( it.srcEffective2 ) )
+  else if( _.primitiveIs( it.srcEffective2 ) === false )
   {
     it.type2 = _.equaler.containerNameToIdMap.object;
 
@@ -1480,15 +1480,15 @@ function equalMaps()
     if( !it.type1 || !it.type2 )
     return it.stop( false );
 
-    if( it.containing !== 'only' )
-    {
-      if( !_.mapIs( it.srcEffective ) && _.mapIs( it.srcEffective2 ) )
-      return it.stop( false );
-    }
-    else
+    if( it.containing === 'only' )
     {
       if( _.mapIs( it.srcEffective ) && !_.mapIs( it.srcEffective2 ) )
       return it.stop( true );
+    }
+    else
+    {
+      if( !_.mapIs( it.srcEffective ) && _.mapIs( it.srcEffective2 ) )
+      return it.stop( false );
     }
 
     if( it.containing === 'all' || it.containing === 'only' ) /* yyy */
