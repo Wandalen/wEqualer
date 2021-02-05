@@ -1,3 +1,4 @@
+  /* eslint-disable */
 ( function _Equaler_s_()
 {
 
@@ -794,7 +795,11 @@ function _iterableEval()
   {
     it.type2 = _.equaler.containerNameToIdMap.set;
   }
-  else if( _.primitiveIs( it.srcEffective2 ) === false )
+  else if( _.primitiveIs( it.srcEffective2 ) )
+  {
+    it.type2 = 0;
+  }
+  else
   {
     it.type2 = _.equaler.containerNameToIdMap.object;
 
@@ -824,10 +829,6 @@ function _iterableEval()
     // if( it.srcEffective && _.routineIs( it.srcEffective[ equalAreSymbol ] ) )
     // it.iterable = _.equaler.containerNameToIdMap.object;
 
-  }
-  else
-  {
-    it.type2 = 0;
   }
 
 }
