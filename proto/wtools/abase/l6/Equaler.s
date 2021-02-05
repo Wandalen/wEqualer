@@ -1480,6 +1480,17 @@ function equalMaps()
     if( !it.type1 || !it.type2 )
     return it.stop( false );
 
+    // if( it.containing !== 'only' )
+    // {
+    //   if( !_.mapIs( it.srcEffective ) && _.mapIs( it.srcEffective2 ) )
+    //   return it.stop( false );
+    // }
+    // else
+    // {
+    //   if( _.mapIs( it.srcEffective ) && !_.mapIs( it.srcEffective2 ) )
+    //   return it.stop( true );
+    // }
+
     if( it.containing === 'only' )
     {
       if( _.mapIs( it.srcEffective ) && !_.mapIs( it.srcEffective2 ) )
