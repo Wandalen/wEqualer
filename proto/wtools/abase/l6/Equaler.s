@@ -743,7 +743,12 @@ function _iterableEval()
     it.type1 = _.equaler.containerNameToIdMap.long;
     it.iterable = _.equaler.containerNameToIdMap.long;
   }
-  else if( _.primitiveIs( it.srcEffective ) === false )
+  else if( _.primitiveIs( it.srcEffective ) )
+  {
+    it.type1 = 0;
+    it.iterable = 0;
+  }
+  else
   {
     it.type1 = _.equaler.containerNameToIdMap.object;
 
@@ -764,12 +769,6 @@ function _iterableEval()
     // it.iterable = _.equaler.containerNameToIdMap.map;
 
     // it.iterable = _.equaler.containerNameToIdMap.map;
-
-  }
-  else
-  {
-    it.type1 = 0;
-    it.iterable = 0;
   }
 
   let containerType2 = _.container.typeOf( it.srcEffective2 );
