@@ -1,4 +1,3 @@
-  /* eslint-disable */
 ( function _Equaler_s_()
 {
 
