@@ -714,6 +714,7 @@ function _iterableEval()
   // if( _global_.debugger )
   // debugger;
 
+  _.debugger;
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
   let containerType1 = _.container.typeOf( it.srcEffective );
@@ -1529,6 +1530,8 @@ function equalObjects()
 {
   let it = this;
 
+  _.debugger;
+
   _.assert
   (
     it.iterable === _.equaler.containerNameToIdMap.custom
@@ -1540,15 +1543,11 @@ function equalObjects()
     _.assert( it.srcEffective[ equalAreSymbol ].length <= 1 );
     let r = it.srcEffective[ equalAreSymbol ]( it );
     _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.strType( r )}` );
-    // if( !it.srcEffective[ equalAreSymbol ]( it ) ) /* xxx : throw error on returned defined */
-    // return it.stop( false );
   }
   else if( it.srcEffective2 && _.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
   {
     _.assert( it.srcEffective2[ equalAreSymbol ].length <= 1 );
     let r = it.srcEffective2[ equalAreSymbol ]( it );
-    // if( !it.srcEffective2[ equalAreSymbol ]( it ) )  /* xxx : throw error on returned defined */
-    // return it.stop( false );
     _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.strType( r )}` );
   }
   else if( _.regexpIs( it.srcEffective ) )
