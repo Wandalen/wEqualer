@@ -723,7 +723,7 @@ function _iterableEval()
     it.containerType = containerType1;
     it.iterable = _.equaler.containerNameToIdMap.custom;
   }
-  else if( _.mapLike( it.srcEffective ) )
+  else if( _.mapLike_( it.srcEffective ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.map;
     it.iterable = _.equaler.containerNameToIdMap.map;
@@ -778,7 +778,7 @@ function _iterableEval()
     it.type2 = _.equaler.containerNameToIdMap.custom;
     it.iterable = _.equaler.containerNameToIdMap.custom;
   }
-  else if( _.mapLike( it.srcEffective2 ) )
+  else if( _.mapLike_( it.srcEffective2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.map;
   }

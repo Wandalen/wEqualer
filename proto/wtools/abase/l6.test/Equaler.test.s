@@ -443,17 +443,42 @@ function entityEqualMaps( test )
 {
 
   test.case = 'descendant has no fields';
-  var m1 = { a : 1 };
-  var m2 = Object.create({ a : 1 });
-  test.true( !_.entityIdentical( m1, m2 ) );
-  test.true( _.entityEquivalent( m1, m2 ) );
+  var src1 = { a : 1 };
+  var src2 = Object.create( null );
+  src2.a = 1;
+  test.true( _.entityIdentical( src1, src2 ) );
+  test.true( _.entityIdentical( src2, src1 ) );
+  test.true( _.entityEquivalent( src1, src2 ) );
+  test.true( _.entityEquivalent( src2, src1 ) );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  test.case = 'descendant has no fields';
+  var src1 = { a : 1 };
+  var src2 = Object.create({ a : 1 });
+  test.true( !_.entityIdentical( src1, src2 ) );
+  test.true( !_.entityIdentical( src2, src1 ) );
+  test.true( !_.entityEquivalent( src1, src2 ) );
+  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   test.case = 'descendant has field';
-  var m1 = { a : 1, b : 2 };
-  var m2 = Object.create({ a : 1 });
-  m2.b = 2;
-  test.true( !_.entityIdentical( m1, m2 ) );
-  test.true( _.entityEquivalent( m1, m2 ) );
+  var src1 = { a : 1, b : 2 };
+  var src2 = Object.create({ a : 1 });
+  src2.b = 2;
+  test.true( !_.entityIdentical( src1, src2 ) );
+  test.true( !_.entityIdentical( src2, src1 ) );
+  test.true( !_.entityEquivalent( src1, src2 ) );
+  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
 }
 
@@ -1508,56 +1533,98 @@ function entityEquivalentProto( test )
   var expected = true;
   var src1 = { a : 1 };
   var src2 = { a : 1 };
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( _.entityIdentical( src1, src2 ) );
+  test.true( _.entityIdentical( src2, src1 ) );
+  test.true( _.entityEquivalent( src1, src2 ) );
+  test.true( _.entityEquivalent( src2, src1 ) );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   test.case = 'map and proto';
   var expected = true;
   var src1 = { a : 1 };
   var src2 = { a : 1 };
   src2 = Object.setPrototypeOf( {}, src2 );
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( !_.entityIdentical( src1, src2 ) );
+  test.true( !_.entityIdentical( src2, src1 ) );
+  test.true( !_.entityEquivalent( src1, src2 ) );
+  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   test.case = 'proto and map';
   var expected = true;
   var src1 = { a : 1 };
   var src2 = { a : 1 };
   src1 = Object.setPrototypeOf( {}, src1 );
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( !_.entityIdentical( src1, src2 ) );
+  test.true( !_.entityIdentical( src2, src1 ) );
+  test.true( !_.entityEquivalent( src1, src2 ) );
+  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   test.case = 'pure map and proto';
   var expected = true;
   var src1 = _.mapExtend( null, { a : 1 } );
   var src2 = { a : 1 };
   src2 = Object.setPrototypeOf( {}, src2 );
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( !_.entityIdentical( src1, src2 ) );
+  test.true( !_.entityIdentical( src2, src1 ) );
+  test.true( !_.entityEquivalent( src1, src2 ) );
+  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   test.case = 'proto and pure map';
   var expected = true;
   var src1 = { a : 1 };
   var src2 = _.mapExtend( null, { a : 1 } );
   src1 = Object.setPrototypeOf( {}, src1 );
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( !_.entityIdentical( src1, src2 ) );
+  test.true( !_.entityIdentical( src2, src1 ) );
+  test.true( !_.entityEquivalent( src1, src2 ) );
+  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   test.case = 'map and pure proto';
   var expected = true;
   var src1 = { a : 1 };
   var src2 = _.mapExtend( null, { a : 1 } );
   src2 = Object.setPrototypeOf( {}, src2 );
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( !_.entityIdentical( src1, src2 ) );
+  test.true( !_.entityIdentical( src2, src1 ) );
+  test.true( !_.entityEquivalent( src1, src2 ) );
+  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   test.case = 'pure proto and map';
   var expected = true;
   var src1 = _.mapExtend( null, { a : 1 } );
   var src2 = { a : 1 };
   src1 = Object.setPrototypeOf( {}, src1 );
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( !_.entityIdentical( src1, src2 ) );
+  test.true( !_.entityIdentical( src2, src1 ) );
+  test.true( !_.entityEquivalent( src1, src2 ) );
+  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
 }
 
@@ -6156,19 +6223,30 @@ function compareObjectPrototyped1( test )
 {
 
   test.case = 'all keys in srcMap exists in screenMap - map';
-  var srcMap = Object.create( { d : 'name', c : 33 } );
-  srcMap.a = 'abc';
-  srcMap.b = undefined;
+  var src1 = Object.create( { d : 'name', c : 33 } );
+  src1.a = 'abc';
+  src1.b = undefined;
   var screenMap = { a : 13, b : 77, c : 3, d : 'name' };
-  var got = _.mapOnlyComplementing_( srcMap, screenMap );
-  var expected = Object.create( { d : 'name', c : 33 } );
-  expected.a = 'abc';
-  expected.b = undefined;
-  expected.c = 33;
-  expected.d = 'name';
-  test.identical( got, expected );
-  test.true( got === srcMap );
-  test.identical( _.property.all( srcMap, { onlyEnumerable : 1 } ), { a : 'abc', b : undefined, c : 33, d : 'name' } );
+  var got = _.mapOnlyComplementing_( src1, screenMap );
+  var src2 = Object.create( { d : 'name', c : 33 } );
+  src2.a = 'abc';
+  src2.b = undefined;
+  src2.c = 33;
+  src2.d = 'name';
+
+  _.debugger = 1;
+  test.true( _.entityIdentical( src1, src2 ) );
+  _.debugger;
+  test.true( _.entityIdentical( src2, src1 ) );
+  test.true( _.entityEquivalent( src1, src2 ) );
+  test.true( _.entityEquivalent( src2, src1 ) );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  test.true( got === src1 );
+  test.identical( _.property.all( src1, { onlyEnumerable : 1 } ), { a : 'abc', b : undefined, c : 33, d : 'name' } );
   test.identical( screenMap, { a : 13, b : 77, c : 3, d : 'name' } );
 
   /* */
