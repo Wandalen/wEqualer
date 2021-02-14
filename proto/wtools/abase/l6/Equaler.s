@@ -21,6 +21,11 @@
  * @module Tools/base/Looker
  */
 
+/* xxx
+- expose routine to compare non-deep types fast
+- look where maker is used in hlink and optimize hlink
+*/
+
 if( typeof module !== 'undefined' )
 {
 
@@ -482,7 +487,7 @@ function entityDiff( src, src2, opts )
   });
 
   /* = qqq for Yevhen : fix please
-       test.identical( _.property.all( {} ), {} )
+       test.identical( _.property.onlyExplicit( {} ), {} )
            - got :          {}
            - expected :     {}
   */
@@ -693,7 +698,6 @@ function effectiveEval()
 function iterableEval()
 {
   let it = this;
-  // it.iterable = null;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
@@ -711,9 +715,6 @@ function _iterableEval()
   let it = this;
   it.iterable = null;
 
-  // if( _global_.debugger )
-  // debugger;
-
   _.debugger;
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
@@ -724,7 +725,7 @@ function _iterableEval()
     it.containerType = containerType1;
     it.iterable = _.equaler.containerNameToIdMap.custom;
   }
-  else if( _.mapLike_( it.srcEffective ) )
+  else if( _.mapLike( it.srcEffective ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.map;
     it.iterable = _.equaler.containerNameToIdMap.map;
@@ -753,23 +754,15 @@ function _iterableEval()
   {
     it.type1 = _.equaler.containerNameToIdMap.object;
 
-    if( it.containing === 'only' )
+    if( it.containing === 'only' ) /* xxx */
     if( !it.srcEffective || !_.routineIs( it.srcEffective[ equalAreSymbol ] ) )
     it.iterable = _.equaler.containerNameToIdMap.map;
 
-    if( it.srcEffective && !_.routineIs( it.srcEffective[ equalAreSymbol ] ) && _.entity.methodIteratorOf( it.srcEffective ) )
+    if( it.srcEffective && !_.routineIs( it.srcEffective[ equalAreSymbol ] ) && _.entity.methodIteratorOf( it.srcEffective ) )  /* xxx */
     it.iterable = _.equaler.containerNameToIdMap.long;
 
     if( !it.iterable )
     it.iterable = _.equaler.containerNameToIdMap.object;
-
-    // if( it.iterable !== _.equaler.containerNameToIdMap.custom ) /* yyy */
-    // if( it.containing !== 'only' )
-    // it.iterable = _.equaler.containerNameToIdMap.object;
-    // else
-    // it.iterable = _.equaler.containerNameToIdMap.map;
-
-    // it.iterable = _.equaler.containerNameToIdMap.map;
   }
 
   let containerType2 = _.container.typeOf( it.srcEffective2 );
@@ -779,7 +772,7 @@ function _iterableEval()
     it.type2 = _.equaler.containerNameToIdMap.custom;
     it.iterable = _.equaler.containerNameToIdMap.custom;
   }
-  else if( _.mapLike_( it.srcEffective2 ) )
+  else if( _.mapLike( it.srcEffective2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.map;
   }
@@ -805,9 +798,6 @@ function _iterableEval()
 
     if( it.iterable !== _.equaler.containerNameToIdMap.custom )
     {
-      // if( it.srcEffective && !_.routineIs( it.srcEffective2[ equalAreSymbol ] ) && _.entity.methodIteratorOf( it.srcEffective2 ) )
-      // it.iterable = _.equaler.containerNameToIdMap.long;
-      // else
       if( it.srcEffective2 && _.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
       {
         it.iterable = _.equaler.containerNameToIdMap.object;
@@ -822,12 +812,6 @@ function _iterableEval()
         it.iterable = _.equaler.containerNameToIdMap.object;
       }
     }
-
-
-    // if( it.iterable !== _.equaler.containerNameToIdMap.custom )
-    // if( !it.containing || it.containing === 'only' )
-    // if( it.srcEffective && _.routineIs( it.srcEffective[ equalAreSymbol ] ) )
-    // it.iterable = _.equaler.containerNameToIdMap.object;
 
   }
 
@@ -933,9 +917,6 @@ function stop( result )
   _.assert( arguments.length === 1 );
   _.assert( _.boolIs( result ) );
 
-  // if( _global_.debugger )
-  // debugger;
-
   if( it.containing )
   {
 
@@ -943,12 +924,12 @@ function stop( result )
     {
       let any =
       [
-        _.equaler.containerNameToIdMap.map,
+        _.equaler.containerNameToIdMap.map, /* xxx */
         containerNameToIdMap.hashMap,
         containerNameToIdMap.set,
         containerNameToIdMap.object
       ];
-      if( it.down && _.longHasAny( any, it.down.iterable ) )
+      if( it.down && _.longHasAny( any, it.down.iterable ) ) /* xxx */
       {
         it.result = false;
         it.result = it.result || result;
@@ -959,7 +940,6 @@ function stop( result )
           {
             it.down.result = it.result;
             it.down.continue = false;
-            // it.downUpdate();
           }
         }
         return result;
@@ -982,7 +962,6 @@ function stop( result )
         {
           it.iterator.continue = false;
           it.continue = false;
-          // it.downUpdate();
         }
         return result;
       }
@@ -994,7 +973,6 @@ function stop( result )
   if( !it.result )
   it.iterator.continue = false;
   it.continue = false;
-  // it.downUpdate();
 
   return result;
 }
@@ -1004,9 +982,6 @@ function stop( result )
 function downUpdate()
 {
   let it = this;
-
-  // if( _global_.debugger )
-  // debugger;
 
   if( it.down )
   it.down.result = it.down.result && it.result;
@@ -1072,9 +1047,6 @@ function equalUp()
 
   /* */
 
-  // if( _global_.debugger )
-  // debugger;
-
   _.equaler.containerIdToEqual[ it.iterable ].call( it );
 
   it.equalCycle();
@@ -1089,24 +1061,6 @@ function equalDown()
 
   _.assert( it.ascending === false );
   _.assert( arguments.length === 0, 'Expects no arguments' );
-
-  /* if element is not equal then descend result down */
-
-  // if( it.containing === 'any' )
-  // {
-  //   // if( it.down )
-  //   // it.down.result = it.result;
-  //   it.downUpdate();
-  // }
-  // // else
-  // // if( !it.result )
-  // // {
-  // //   it.downUpdate();
-  // //   // if( it.down )
-  // //   // it.down.result = it.result;
-  // //   it.iterator.continue = false;
-  // //   it.continue = false;
-  // // }
 
   it.downUpdate();
 
@@ -1505,7 +1459,7 @@ function equalMaps()
 
     if( it.strictTyping )
     {
-      if( _.mapIs( it.srcEffective ) ^ _.mapIs( it.srcEffective2 ) )
+      if( _.mapIs( it.srcEffective ) ^ _.mapIs( it.srcEffective2 ) ) /* xxx : same condition in another branch? */
       return it.stop( false );
       if( _.mapKeys( it.srcEffective ).length !== _.mapKeys( it.srcEffective2 ).length )
       return it.stop( false );
@@ -1576,9 +1530,6 @@ function equalTerminals()
 {
   let it = this;
 
-  // if( _.bigIntIs( it.srcEffective ) )
-  // debugger;
-
   if( it.type1 || it.type2 )
   return it.stop( false );
 
@@ -1602,7 +1553,6 @@ function equalTerminals()
       ( _.boolLikeTrue( it.srcEffective ) && _.boolLikeTrue( it.srcEffective2 ) )
       || ( _.boolLikeFalse( it.srcEffective ) && _.boolLikeFalse( it.srcEffective2 ) )
     )
-    // it.stop( it.srcEffective === it.srcEffective2 );
   }
   else if( _.numberIs( it.srcEffective ) || _.bigIntIs( it.srcEffective ) )
   {
@@ -1680,8 +1630,6 @@ function _objectAscend( src )
   _.assert( arguments.length === 1 );
 
   if( _.entity.methodIteratorOf( src ) )
-  // if( !it.srcEffective || !_.routineIs( it.srcEffective[ equalAreSymbol ] ) ) /* yyy */
-  // if( !it.srcEffective2 || !_.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
   {
 
     let index = 0;

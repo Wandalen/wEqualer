@@ -6219,10 +6219,152 @@ function compareObjectsWithIterator( test )
 
 //
 
-function compareObjectPrototyped1( test )
+function compareMapPrototyped( test )
 {
 
-  test.case = 'all keys in srcMap exists in screenMap - map';
+  eachCase({ map1 : 'polluted', map2 : 'polluted' });
+
+  function eachCase( env )
+  {
+
+    /* */
+
+    // test.case = 'polluted map ~ polluted map, identical fields';
+    //
+    // var prototype1 = mapMake( env.map1 );
+    // prototype1.d = '1';
+    // prototype1.c = 33;
+    // var src1 = Object.create( prototype1 );
+    // src1.a = 'abc';
+    // src1.b = undefined;
+    // var prototype2 = mapMake( env.map2 );
+    // prototype2.d = '1';
+    // prototype2.c = 33;
+    // var src2 = Object.create( prototype2 );
+    // src2.a = 'abc';
+    // src2.b = undefined;
+    //
+    // test.identical( _.entityIdentical( src1, src2 ), true );
+    // test.identical( _.entityIdentical( src2, src1 ), true );
+    // test.identical( _.entityEquivalent( src1, src2 ), true );
+    // test.identical( _.entityEquivalent( src2, src1 ), true );
+    // test.identical( _.entityContains( src1, src2 ), true );
+    // test.identical( _.entityContains( src2, src1 ), true );
+    // test.identical( src1, src2 );
+    // test.identical( src2, src1 );
+    // test.equivalent( src1, src2 );
+    // test.equivalent( src2, src1 );
+
+    /* */
+
+    // test.case = `${env.map1} ~ ${env.map2}, diff on depth:0`;
+    //
+    // var prototype1 = mapMake( env.map1 );
+    // prototype1.a = '1';
+    // prototype1.b = '1';
+    // var src1 = Object.create( prototype1 );
+    // src1.b = '0';
+    // src1.c = '0';
+    // var prototype2 = mapMake( env.map2 );
+    // prototype2.a = '1';
+    // prototype2.b = '1';
+    // var src2 = Object.create( prototype2 );
+    // src2.b = '0x';
+    // src2.c = '0';
+    //
+    // test.identical( _.entityIdentical( src1, src2 ), false );
+    // test.identical( _.entityIdentical( src2, src1 ), false );
+    // test.identical( _.entityEquivalent( src1, src2 ), false );
+    // test.identical( _.entityEquivalent( src2, src1 ), false );
+    // test.identical( _.entityContains( src1, src2 ), false );
+    // test.identical( _.entityContains( src2, src1 ), false );
+    // test.ni( src1, src2 );
+    // test.ni( src2, src1 );
+    // test.ne( src1, src2 );
+    // test.ne( src2, src1 );
+    //
+    // /* */
+    //
+    // test.case = `${env.map1} ~ ${env.map2}, diff on depth:1`;
+    //
+    // var prototype1 = mapMake( env.map1 );
+    // prototype1.a = '1';
+    // prototype1.b = '1';
+    // var src1 = Object.create( prototype1 );
+    // src1.b = '0';
+    // src1.c = '0';
+    // var prototype2 = mapMake( env.map2 );
+    // prototype2.a = '1x';
+    // prototype2.b = '1';
+    // var src2 = Object.create( prototype2 );
+    // src2.b = '0
+    // ';
+    // src2.c = '0';
+    //
+    // test.identical( _.entityIdentical( src1, src2 ), false );
+    // test.identical( _.entityIdentical( src2, src1 ), false );
+    // test.identical( _.entityEquivalent( src1, src2 ), false );
+    // test.identical( _.entityEquivalent( src2, src1 ), false );
+    // test.identical( _.entityContains( src1, src2 ), false );
+    // test.identical( _.entityContains( src2, src1 ), false );
+    // test.ni( src1, src2 );
+    // test.ni( src2, src1 );
+    // test.ne( src1, src2 );
+    // test.ne( src2, src1 );
+
+    /* */
+
+    test.case = `${env.map1} ~ ${env.map2}, shadowed diff on depth:1`;
+
+    var prototype1 = mapMake( env.map1 );
+    prototype1.a = '1';
+    prototype1.b = '1';
+    var src1 = Object.create( prototype1 );
+    src1.b = '0';
+    src1.c = '0';
+    var prototype2 = mapMake( env.map2 );
+    prototype2.a = '1';
+    prototype2.b = '1x';
+    var src2 = Object.create( prototype2 );
+    src2.b = '0';
+    src2.c = '0';
+
+    _.debugger = 1;
+    debugger;
+    test.identical( _.entityIdentical( src1, src2 ), false );
+    debugger;
+    test.identical( _.entityIdentical( src2, src1 ), false );
+    test.identical( _.entityEquivalent( src1, src2 ), false );
+    test.identical( _.entityEquivalent( src2, src1 ), false );
+    test.identical( _.entityContains( src1, src2 ), false );
+    test.identical( _.entityContains( src2, src1 ), false );
+    test.ni( src1, src2 );
+    test.ni( src2, src1 );
+    test.ne( src1, src2 );
+    test.ne( src2, src1 );
+
+    /* */
+
+  }
+
+  function mapMake( kind )
+  {
+    if( kind === 'polluted' )
+    return {}
+    else
+    return Object.create( null );
+  }
+
+}
+
+//
+
+function compareMapPrototypedComplementing( test )
+{
+
+  /* */
+
+  test.case = 'complementing';
   var src1 = Object.create( { d : 'name', c : 33 } );
   src1.a = 'abc';
   src1.b = undefined;
@@ -6234,9 +6376,7 @@ function compareObjectPrototyped1( test )
   src2.c = 33;
   src2.d = 'name';
 
-  _.debugger = 1;
   test.true( _.entityIdentical( src1, src2 ) );
-  _.debugger;
   test.true( _.entityIdentical( src2, src1 ) );
   test.true( _.entityEquivalent( src1, src2 ) );
   test.true( _.entityEquivalent( src2, src1 ) );
@@ -6246,52 +6386,8 @@ function compareObjectPrototyped1( test )
   test.equivalent( src2, src1 );
 
   test.true( got === src1 );
-  test.identical( _.property.all( src1, { onlyEnumerable : 1 } ), { a : 'abc', b : undefined, c : 33, d : 'name' } );
+  test.identical( _.property.onlyExplicit( src1, { onlyEnumerable : 1 } ), { a : 'abc', b : undefined, c : 33, d : 'name' } );
   test.identical( screenMap, { a : 13, b : 77, c : 3, d : 'name' } );
-
-  /* */
-
-  test.case = 'object ~ object, identical';
-
-  var src1 = Object.create( { d : 'name', c : 33 } );
-  src1.a = 'abc';
-  src1.b = undefined;
-  var src2 = Object.create( { d : 'name', c : 33 } );
-  src2.a = 'abc';
-  src2.b = undefined;
-
-  test.identical( _.entityIdentical( src1, src2 ), true );
-  test.identical( _.entityIdentical( src2, src1 ), true );
-  test.identical( _.entityEquivalent( src1, src2 ), true );
-  test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'object ~ object, identical';
-
-  var src1 = Object.create( { d : 'name', c : 31 } );
-  src1.a = 'abc';
-  src1.b = undefined;
-  var src2 = Object.create( { d : 'name', c : 32 } );
-  src2.a = 'abc';
-  src2.b = undefined;
-
-  test.identical( _.entityIdentical( src1, src2 ), false );
-  test.identical( _.entityIdentical( src2, src1 ), false );
-  test.identical( _.entityEquivalent( src1, src2 ), false );
-  test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
 
   /* */
 
@@ -8153,7 +8249,7 @@ function entityDiffExplanationMap( test )
 
   /* */
 
-  test.case = 'got : _.property.all({}), expected : {}, without path';
+  test.case = 'got : _.property.onlyExplicit({}), expected : {}, without path';
 
   var expected =
 `- got :
@@ -8179,7 +8275,7 @@ function entityDiffExplanationMap( test )
 
   var srcs =
   [
-    _.property.all({}),
+    _.property.onlyExplicit({}),
     {},
   ]
 
@@ -8194,7 +8290,7 @@ function entityDiffExplanationMap( test )
 
   /* */
 
-  test.case = 'got : {}, expected : _.property.all({}), without path';
+  test.case = 'got : {}, expected : _.property.onlyExplicit({}), without path';
 
   var expected =
 `- got :
@@ -8221,7 +8317,7 @@ function entityDiffExplanationMap( test )
   var srcs =
   [
     {},
-    _.property.all({})
+    _.property.onlyExplicit({})
   ]
 
   var got = _.entityDiffExplanation
@@ -8673,7 +8769,8 @@ let Self =
     compareObjectsWithEqualAre,
     compareObjectsWithSecondCoerce,
     compareObjectsWithIterator,
-    compareObjectPrototyped1,
+    compareMapPrototyped,
+    compareMapPrototypedComplementing,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
