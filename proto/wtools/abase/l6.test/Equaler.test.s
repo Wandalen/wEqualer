@@ -455,7 +455,7 @@ function entityEqualMaps( test )
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
-  test.case = 'descendant has no fields';
+  test.case = 'prototyped with not prototyped';
   var src1 = { a : 1 };
   var src2 = Object.create({ a : 1 });
   test.true( !_.entityIdentical( src1, src2 ) );
