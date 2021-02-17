@@ -203,6 +203,7 @@ defaults.strictCycling = null;
 defaults.strictString = null;
 defaults.strictContainer = null;
 defaults.withImplicit = null;
+defaults.withPartible = 'partible';
 defaults.accuracy = 1e-7;
 defaults.recursive = Infinity;
 defaults.onNumbersAreEqual = null;
@@ -263,6 +264,18 @@ defaults.strict = 1;
 
 //
 
+function entityNotIdentical( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotIdentical, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routineExtend( entityNotIdentical, entityIdentical );
+
+//
+
 /**
  * Deep soft comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
  * By default uses own( onNumbersAreEqual ) routine to compare numbers using( options.accuracy ). Returns true if two numbers are NaN, strict equal or
@@ -296,6 +309,18 @@ let entityEquivalent = _.routineUnite( _equal_head, _equal_body );
 var defaults = entityEquivalent.defaults;
 
 defaults.strict = 0;
+
+//
+
+function entityNotEquivalent( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotEquivalent, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routineExtend( entityNotEquivalent, entityEquivalent );
 
 //
 
@@ -783,7 +808,6 @@ function _iterableEval()
   let it = this;
   it.iterable = null;
 
-  // _.debugger;
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
   let containerType1 = _.container.typeOf( it.srcEffective );
@@ -792,6 +816,16 @@ function _iterableEval()
     it.type1 = _.equaler.containerNameToIdMap.custom;
     it.containerType = containerType1;
     it.iterable = _.equaler.containerNameToIdMap.custom;
+  }
+  else if( _.mapIs( it.srcEffective ) )
+  {
+    it.type1 = _.equaler.containerNameToIdMap.map;
+    it.iterable = _.equaler.containerNameToIdMap.map;
+  }
+  else if( _.entity.methodEqualOf( it.srcEffective ) && !_.auxiliary.is( it.srcEffective ) )
+  {
+    it.type1 = _.equaler.containerNameToIdMap.object;
+    it.iterable = _.equaler.containerNameToIdMap.object;
   }
   else if( _.hashMapLike( it.srcEffective ) )
   {
@@ -803,7 +837,7 @@ function _iterableEval()
     it.type1 = _.equaler.containerNameToIdMap.set;
     it.iterable = _.equaler.containerNameToIdMap.set;
   }
-  else if( _.longLike( it.srcEffective ) && !_.entity.methodEqualOf( it.srcEffective ) ) /* xxx */
+  else if( it.isPartible( it.srcEffective ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.long;
     it.iterable = _.equaler.containerNameToIdMap.long;
@@ -826,9 +860,6 @@ function _iterableEval()
     if( !it.srcEffective || !_.routineIs( it.srcEffective[ equalAreSymbol ] ) )
     it.iterable = _.equaler.containerNameToIdMap.map;
 
-    if( it.srcEffective && !_.routineIs( it.srcEffective[ equalAreSymbol ] ) && _.entity.methodIteratorOf( it.srcEffective ) )  /* xxx */
-    it.iterable = _.equaler.containerNameToIdMap.long;
-
     if( !it.iterable )
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
@@ -840,7 +871,13 @@ function _iterableEval()
     it.type2 = _.equaler.containerNameToIdMap.custom;
     it.iterable = _.equaler.containerNameToIdMap.custom;
   }
-  else if( _.longLike( it.srcEffective2 ) && !_.entity.methodEqualOf( it.srcEffective2 ) ) /* xxx */
+  else if( _.entity.methodEqualOf( it.srcEffective2 ) && !_.auxiliary.is( it.srcEffective2 ) )
+  {
+    it.type2 = _.equaler.containerNameToIdMap.object;
+    if( it.iterable !== _.equaler.containerNameToIdMap.custom )
+    it.iterable = _.equaler.containerNameToIdMap.object;
+  }
+  else if( it.isPartible( it.srcEffective2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.long;
   }
@@ -866,11 +903,7 @@ function _iterableEval()
 
     if( it.iterable !== _.equaler.containerNameToIdMap.custom )
     {
-      if( it.srcEffective2 && _.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
-      {
-        it.iterable = _.equaler.containerNameToIdMap.object;
-      }
-      else if( it.iterable !== _.equaler.containerNameToIdMap.map && it.iterable !== _.equaler.containerNameToIdMap.long )
+      if( it.iterable !== _.equaler.containerNameToIdMap.map && it.iterable !== _.equaler.containerNameToIdMap.long )
       {
         it.iterable = _.equaler.containerNameToIdMap.object;
       }
@@ -986,8 +1019,7 @@ function stop( result )
   _.assert( _.boolIs( result ) );
 
   if( !result )
-  if( _.debugger )
-  debugger;
+  _.debugger;
 
   if( it.containing )
   {
@@ -1076,7 +1108,6 @@ function equalUp()
   {
     if( !( it.key in it.down.srcEffective2 ) )
     {
-      /* yyy */
       return it.stop( false );
     }
   }
@@ -1288,7 +1319,7 @@ function equalSets()
   if( !_.setLike( it.srcEffective2 ) )
   return it.stop( false );
 
-  if( it.containing ) /* yyy */
+  if( it.containing )
   {
     if( it.containing === 'all' || it.containing === 'only' )
     {
@@ -1356,7 +1387,7 @@ function equalSets()
 
 //
 
-function equalLongs()
+function equalPartible()
 {
   let it = this;
 
@@ -1369,7 +1400,7 @@ function equalLongs()
     if( _.bufferAnyIs( it.srcEffective ) || _.bufferAnyIs( it.srcEffective2 ) )
     return it.equalBuffers();
 
-    if( !_.longLike( it.srcEffective2 ) )
+    if( !it.isPartible( it.srcEffective2 ) )
     return it.stop( false );
 
   }
@@ -1386,7 +1417,7 @@ function equalLongs()
 
   if( it.containing  )
   {
-    if( it.containing === 'all' || it.containing === 'only' ) /* yyy */
+    if( it.containing === 'all' || it.containing === 'only' )
     {
       if( _.container.lengthOf( it.srcEffective ) > _.container.lengthOf( it.srcEffective2 ) )
       return it.stop( false );
@@ -1415,7 +1446,7 @@ function equalHashes()
 
   if( it.containing )
   {
-    if( it.containing === 'all' || it.containing === 'only' ) /* yyy */
+    if( it.containing === 'all' || it.containing === 'only' )
     {
       if( it.srcEffective.size > it.srcEffective2.size )
       return it.stop( false );
@@ -1500,24 +1531,10 @@ function equalMaps()
   if( !_.longHas( types, it.type1 ) || !_.longHas( types, it.type2 ) )
   return it.stop( false );
 
-  _.debugger;
+  // _.debugger;
 
   if( it.containing )
   {
-
-    // if( it.strictTyping )
-    // {
-    //   if( _.mapIs( it.srcEffective ) ^ _.mapIs( it.srcEffective2 ) ) /* xxx : same condition in another branch? */
-    //   return it.stop( false );
-    // }
-    // else
-    // {
-    //   if( !it.type1 || !it.type2 )
-    //   return it.stop( false );
-    // }
-
-    // if( !it.type1 || !it.type2 )
-    // return it.stop( false );
 
     if( it.containing === 'only' )
     {
@@ -1530,7 +1547,7 @@ function equalMaps()
       return it.stop( false );
     }
 
-    if( it.containing === 'all' || it.containing === 'only' ) /* yyy */
+    if( it.containing === 'all' || it.containing === 'only' )
     {
       if( it.type1 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.srcEffective[ equalAreSymbol ] ) || 'length' in it.srcEffective )
       if( it.type2 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.srcEffective2[ equalAreSymbol ] ) || 'length' in it.srcEffective2 )
@@ -1759,7 +1776,7 @@ let LookerExtension =
   secondCoerce,
   equalCustoms,
   equalSets,
-  equalLongs,
+  equalPartible,
   equalHashes,
   equalMaps,
   equalObjects,
@@ -1822,7 +1839,7 @@ let containerIdToAscendMap =
 let containerIdToEqual =
 {
   [ containerNameToIdMap.terminal ] : equalTerminals,
-  [ containerNameToIdMap.long ] : equalLongs,
+  [ containerNameToIdMap.long ] : equalPartible,
   [ containerNameToIdMap.map ] : equalMaps,
   [ containerNameToIdMap.hashMap ] : equalHashes,
   [ containerNameToIdMap.set ] : equalSets,
@@ -1845,17 +1862,35 @@ let EqualerExtension =
   entityIdentical,
   equivalent : entityEquivalent,
   entityEquivalent,
+  identical : entityIdentical,
+  entityIdentical,
+  notIdentical : entityNotIdentical,
+  entityNotIdentical,
+  equivalent : entityEquivalent,
+  entityEquivalent,
+  notEquivalent : entityNotEquivalent,
+  entityNotEquivalent,
 
   contains : entityContains,
   entityContains,
+  notContains : entityNotContains,
+  entityNotContains,
   containsAll : entityContainsAll,
   entityContainsAll,
+  notContainsAll : entityNotContainsAll,
+  entityNotContainsAll,
   containsAny : entityContainsAny,
   entityContainsAny,
+  notContainsAny : entityNotContainsAny,
+  entityNotContainsAny,
   containsOnly : entityContainsOnly,
   entityContainsOnly,
+  notContainsOnly : entityNotContainsOnly,
+  entityNotContainsOnly,
   containsNone : entityContainsNone,
   entityContainsNone,
+  notContainsNone : entityNotContainsNone,
+  entityNotContainsNone,
 
   diff : entityDiff,
   entityDiff,
@@ -1869,20 +1904,33 @@ let ToolsExtension =
 
   identical : entityIdentical,
   entityIdentical,
+  notIdentical : entityNotIdentical,
+  entityNotIdentical,
   equivalent : entityEquivalent,
   entityEquivalent,
+  notEquivalent : entityNotEquivalent,
+  entityNotEquivalent,
 
   contains : entityContains,
   entityContains,
-
+  notContains : entityNotContains,
+  entityNotContains,
   containsAll : entityContainsAll,
   entityContainsAll,
+  notContainsAll : entityNotContainsAll,
+  entityNotContainsAll,
   containsAny : entityContainsAny,
   entityContainsAny,
+  notContainsAny : entityNotContainsAny,
+  entityNotContainsAny,
   containsOnly : entityContainsOnly,
   entityContainsOnly,
+  notContainsOnly : entityNotContainsOnly,
+  entityNotContainsOnly,
   containsNone : entityContainsNone,
   entityContainsNone,
+  notContainsNone : entityNotContainsNone,
+  entityNotContainsNone,
 
   diff : entityDiff,
   entityDiff,

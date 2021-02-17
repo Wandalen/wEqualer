@@ -37,7 +37,7 @@ function trivial( test )
 
 //
 
-function _entityEqualLoose( test )
+function _compareLoose( test )
 {
 
   /* default options */
@@ -439,372 +439,7 @@ function entityContainsLoose( test )
 
 //
 
-function entityEqualMaps( test )
-{
-
-  // test.case = 'map.polluted ~ map.pure';
-  // var src1 = { a : 1 };
-  // var src2 = Object.create( null );
-  // src2.a = 1;
-  // test.true( _.identical( src1, src2 ) );
-  // test.true( _.identical( src2, src1 ) );
-  // test.true( _.equivalent( src1, src2 ) );
-  // test.true( _.equivalent( src2, src1 ) );
-  // test.true( _.contains( src1, src2 ) );
-  // test.true( _.contains( src2, src1 ) );
-  // test.true( _.containsAll( src1, src2 ) );
-  // test.true( _.containsAll( src2, src1 ) );
-  // test.true( _.containsAny( src1, src2 ) );
-  // test.true( _.containsAny( src2, src1 ) );
-  // test.true( _.containsOnly( src1, src2 ) );
-  // test.true( _.containsOnly( src2, src1 ) );
-  // test.il( src1, src2 );
-  // test.il( src2, src1 );
-  // test.eq( src1, src2 );
-  // test.eq( src2, src1 );
-  // test.contains( src1, src2 );
-  // test.contains( src2, src1 );
-  // test.containsAll( src1, src2 );
-  // test.containsAll( src2, src1 );
-  // test.containsAny( src1, src2 );
-  // test.containsAny( src2, src1 );
-  // test.containsOnly( src1, src2 );
-  // test.containsOnly( src2, src1 );
-
-  test.case = 'prototyped.pure ~ prototyped.pure, identical, field in prototype';
-  var prototype1 = Object.create( null );
-  prototype1.a = 0;
-  var src1 = Object.create( prototype1 );
-  var prototype2 = Object.create( null );
-  prototype2.a = 0
-  var src2 = Object.create( prototype2 );
-  test.true( _.identical( src1, src2 ) );
-  test.true( _.identical( src2, src1 ) );
-  test.true( _.equivalent( src1, src2 ) );
-  test.true( _.equivalent( src2, src1 ) );
-  test.true( _.contains( src1, src2 ) );
-  test.true( _.contains( src2, src1 ) );
-  test.true( _.containsAll( src1, src2 ) );
-  test.true( _.containsAll( src2, src1 ) );
-  test.true( _.containsAny( src1, src2 ) );
-  test.true( _.containsAny( src2, src1 ) );
-  test.true( _.containsOnly( src1, src2 ) );
-  test.true( _.containsOnly( src2, src1 ) );
-  test.il( src1, src2 );
-  test.il( src2, src1 );
-  test.eq( src1, src2 );
-  test.eq( src2, src1 );
-  test.contains( src1, src2 );
-  test.contains( src2, src1 );
-  test.containsAll( src1, src2 );
-  test.containsAll( src2, src1 );
-  test.containsAny( src1, src2 );
-  test.containsAny( src2, src1 );
-  test.containsOnly( src1, src2 );
-  test.containsOnly( src2, src1 );
-
-  test.case = 'prototyped.pure ~ prototyped.polluted, identical, field in prototype';
-  var prototype1 = Object.create( null );
-  prototype1.a = 0;
-  var src1 = Object.create( prototype1 );
-  var prototype2 = {};
-  prototype2.a = 0
-  var src2 = Object.create( prototype2 );
-  test.true( _.identical( src1, src2 ) );
-  test.true( _.identical( src2, src1 ) );
-  test.true( _.equivalent( src1, src2 ) );
-  test.true( _.equivalent( src2, src1 ) );
-  test.true( _.contains( src1, src2 ) );
-  test.true( _.contains( src2, src1 ) );
-  test.true( _.containsAll( src1, src2 ) );
-  test.true( _.containsAll( src2, src1 ) );
-  test.true( _.containsAny( src1, src2 ) );
-  test.true( _.containsAny( src2, src1 ) );
-  test.true( _.containsOnly( src1, src2 ) );
-  test.true( _.containsOnly( src2, src1 ) );
-  test.il( src1, src2 );
-  test.il( src2, src1 );
-  test.eq( src1, src2 );
-  test.eq( src2, src1 );
-  test.contains( src1, src2 );
-  test.contains( src2, src1 );
-  test.containsAll( src1, src2 );
-  test.containsAll( src2, src1 );
-  test.containsAny( src1, src2 );
-  test.containsAny( src2, src1 );
-  test.containsOnly( src1, src2 );
-  test.containsOnly( src2, src1 );
-
-  test.case = 'prototyped.pure ~ prototyped.pure, identical, field in instance';
-  var prototype1 = Object.create( null );
-  var src1 = Object.create( prototype1 );
-  src1.a = 0;
-  var prototype2 = Object.create( null );
-  var src2 = Object.create( prototype2 );
-  src2.a = 0;
-  test.true( _.identical( src1, src2 ) );
-  test.true( _.identical( src2, src1 ) );
-  test.true( _.equivalent( src1, src2 ) );
-  test.true( _.equivalent( src2, src1 ) );
-  test.true( _.contains( src1, src2 ) );
-  test.true( _.contains( src2, src1 ) );
-  test.true( _.containsAll( src1, src2 ) );
-  test.true( _.containsAll( src2, src1 ) );
-  test.true( _.containsAny( src1, src2 ) );
-  test.true( _.containsAny( src2, src1 ) );
-  test.true( _.containsOnly( src1, src2 ) );
-  test.true( _.containsOnly( src2, src1 ) );
-  test.il( src1, src2 );
-  test.il( src2, src1 );
-  test.eq( src1, src2 );
-  test.eq( src2, src1 );
-  test.contains( src1, src2 );
-  test.contains( src2, src1 );
-  test.containsAll( src1, src2 );
-  test.containsAll( src2, src1 );
-  test.containsAny( src1, src2 );
-  test.containsAny( src2, src1 );
-  test.containsOnly( src1, src2 );
-  test.containsOnly( src2, src1 );
-
-  test.case = 'prototyped.pure ~ prototyped.polluted, identical, field in instance';
-  var prototype1 = Object.create( null );
-  var src1 = Object.create( prototype1 );
-  src1.a = 0;
-  var prototype2 = {};
-  var src2 = Object.create( prototype2 );
-  src2.a = 0;
-  test.true( _.identical( src1, src2 ) );
-  test.true( _.identical( src2, src1 ) );
-  test.true( _.equivalent( src1, src2 ) );
-  test.true( _.equivalent( src2, src1 ) );
-  test.true( _.contains( src1, src2 ) );
-  test.true( _.contains( src2, src1 ) );
-  test.true( _.containsAll( src1, src2 ) );
-  test.true( _.containsAll( src2, src1 ) );
-  test.true( _.containsAny( src1, src2 ) );
-  test.true( _.containsAny( src2, src1 ) );
-  test.true( _.containsOnly( src1, src2 ) );
-  test.true( _.containsOnly( src2, src1 ) );
-  test.il( src1, src2 );
-  test.il( src2, src1 );
-  test.eq( src1, src2 );
-  test.eq( src2, src1 );
-  test.contains( src1, src2 );
-  test.contains( src2, src1 );
-  test.containsAll( src1, src2 );
-  test.containsAll( src2, src1 );
-  test.containsAny( src1, src2 );
-  test.containsAny( src2, src1 );
-  test.containsOnly( src1, src2 );
-  test.containsOnly( src2, src1 );
-
-  test.case = 'prototyped ~ prototyped, different, field in instance';
-  var prototype1 = Object.create( null );
-  var src1 = Object.create( prototype1 );
-  src1.a = 0;
-  var prototype2 = Object.create( null );
-  var src2 = Object.create( prototype2 );
-  src2.a = 1;
-  test.true( _.notIdentical( src1, src2 ) );
-  test.true( _.notIdentical( src2, src1 ) );
-  test.true( _.notEquivalent( src1, src2 ) );
-  test.true( _.notEquivalent( src2, src1 ) );
-  test.true( _.notContains( src1, src2 ) );
-  test.true( _.notContains( src2, src1 ) );
-  test.true( _.notContainsAll( src1, src2 ) );
-  test.true( _.notContainsAll( src2, src1 ) );
-  test.true( _.notContainsAny( src1, src2 ) );
-  test.true( _.notContainsAny( src2, src1 ) );
-  test.true( _.notContainsOnly( src1, src2 ) );
-  test.true( _.notContainsOnly( src2, src1 ) );
-  test.nil( src1, src2 );
-  test.nil( src2, src1 );
-  test.neq( src1, src2 );
-  test.neq( src2, src1 );
-  test.notContains( src1, src2 );
-  test.notContains( src2, src1 );
-  test.notContainsAll( src1, src2 );
-  test.notContainsAll( src2, src1 );
-  test.notContainsAny( src1, src2 );
-  test.notContainsAny( src2, src1 );
-  test.notContainsOnly( src1, src2 );
-  test.notContainsOnly( src2, src1 );
-
-  test.case = 'prototyped ~ prototyped overriden';
-  var prototype1 = Object.create( null );
-  prototype1.a = 0;
-  var src1 = Object.create( prototype1 );
-  src1.a = 1;
-  var prototype2 = Object.create( null );
-  var src2 = Object.create( prototype2 );
-  src2.a = 1;
-  test.true( !_.identical( src1, src2 ) );
-  test.true( !_.identical( src2, src1 ) );
-  test.true( _.equivalent( src1, src2 ) );
-  test.true( _.equivalent( src2, src1 ) );
-  test.true( _.contains( src1, src2 ) );
-  test.true( _.contains( src2, src1 ) );
-  test.true( _.containsAll( src1, src2 ) );
-  test.true( _.containsAll( src2, src1 ) );
-  test.true( _.containsAny( src1, src2 ) );
-  test.true( _.containsAny( src2, src1 ) );
-  test.true( _.containsOnly( src1, src2 ) );
-  test.true( _.containsOnly( src2, src1 ) );
-  test.nil( src1, src2 );
-  test.nil( src2, src1 );
-  test.eq( src1, src2 );
-  test.eq( src2, src1 );
-  test.contains( src1, src2 );
-  test.contains( src2, src1 );
-  test.containsAll( src1, src2 );
-  test.containsAll( src2, src1 );
-  test.containsAny( src1, src2 );
-  test.containsAny( src2, src1 );
-  test.containsOnly( src1, src2 );
-  test.containsOnly( src2, src1 );
-
-  test.case = 'prototyped ~ prototyped overriden in both';
-  var prototype1 = Object.create( null );
-  prototype1.a = 0;
-  var src1 = Object.create( prototype1 );
-  src1.a = 1;
-  var prototype2 = Object.create( null );
-  prototype2.a = -1;
-  var src2 = Object.create( prototype2 );
-  src2.a = 1;
-  test.true( !_.identical( src1, src2 ) );
-  test.true( !_.identical( src2, src1 ) );
-  test.true( _.equivalent( src1, src2 ) );
-  test.true( _.equivalent( src2, src1 ) );
-  test.true( _.contains( src1, src2 ) );
-  test.true( _.contains( src2, src1 ) );
-  test.true( _.containsAll( src1, src2 ) );
-  test.true( _.containsAll( src2, src1 ) );
-  test.true( _.containsAny( src1, src2 ) );
-  test.true( _.containsAny( src2, src1 ) );
-  test.true( _.containsOnly( src1, src2 ) );
-  test.true( _.containsOnly( src2, src1 ) );
-  test.nil( src1, src2 );
-  test.nil( src2, src1 );
-  test.eq( src1, src2 );
-  test.eq( src2, src1 );
-  test.contains( src1, src2 );
-  test.contains( src2, src1 );
-  test.containsAll( src1, src2 );
-  test.containsAll( src2, src1 );
-  test.containsAny( src1, src2 );
-  test.containsAny( src2, src1 );
-  test.containsOnly( src1, src2 );
-  test.containsOnly( src2, src1 );
-
-  test.case = 'prototyped.polluted ~ not prototyped.polluted';
-  var src1 = { a : 1 };
-  var src2 = Object.create({ a : 1 });
-  test.true( !_.identical( src1, src2 ) );
-  test.true( !_.identical( src2, src1 ) );
-  test.true( _.equivalent( src1, src2 ) );
-  test.true( _.equivalent( src2, src1 ) );
-  test.true( _.contains( src1, src2 ) );
-  test.true( _.contains( src2, src1 ) );
-  test.true( _.containsAll( src1, src2 ) );
-  test.true( _.containsAll( src2, src1 ) );
-  test.true( _.containsAny( src1, src2 ) );
-  test.true( _.containsAny( src2, src1 ) );
-  test.true( _.containsOnly( src1, src2 ) );
-  test.true( _.containsOnly( src2, src1 ) );
-  test.nil( src1, src2 );
-  test.nil( src2, src1 );
-  test.eq( src1, src2 );
-  test.eq( src2, src1 );
-  test.contains( src1, src2 );
-  test.contains( src2, src1 );
-  test.containsAll( src1, src2 );
-  test.containsAll( src2, src1 );
-  test.containsAny( src1, src2 );
-  test.containsAny( src2, src1 );
-  test.containsOnly( src1, src2 );
-  test.containsOnly( src2, src1 );
-
-  test.case = 'prototyped.pure ~ not prototyped.polluted';
-  var src1 = Object.create( null );
-  src1.a = 1;
-  var src2 = Object.create({ a : 1 });
-  test.true( !_.identical( src1, src2 ) );
-  test.true( !_.identical( src2, src1 ) );
-  test.true( _.equivalent( src1, src2 ) );
-  test.true( _.equivalent( src2, src1 ) );
-  test.true( _.contains( src1, src2 ) );
-  test.true( _.contains( src2, src1 ) );
-  test.true( _.containsAll( src1, src2 ) );
-  test.true( _.containsAll( src2, src1 ) );
-  test.true( _.containsAny( src1, src2 ) );
-  test.true( _.containsAny( src2, src1 ) );
-  test.true( _.containsOnly( src1, src2 ) );
-  test.true( _.containsOnly( src2, src1 ) );
-  test.nil( src1, src2 );
-  test.nil( src2, src1 );
-  test.eq( src1, src2 );
-  test.eq( src2, src1 );
-  test.contains( src1, src2 );
-  test.contains( src2, src1 );
-  test.containsAll( src1, src2 );
-  test.containsAll( src2, src1 );
-  test.containsAny( src1, src2 );
-  test.containsAny( src2, src1 );
-  test.containsOnly( src1, src2 );
-  test.containsOnly( src2, src1 );
-
-  test.case = 'prototyped.polluted ~ not prototyped.pure';
-  var src1 = {};
-  src1.a = 1;
-  var prototype2 = Object.create( null );
-  prototype2.a = 1;
-  var src2 = Object.create( prototype2 );
-  test.true( !_.identical( src1, src2 ) );
-  test.true( !_.identical( src2, src1 ) );
-  test.true( _.equivalent( src1, src2 ) );
-  test.true( _.equivalent( src2, src1 ) );
-  test.true( _.contains( src1, src2 ) );
-  test.true( _.contains( src2, src1 ) );
-  test.true( _.containsAll( src1, src2 ) );
-  test.true( _.containsAll( src2, src1 ) );
-  test.true( _.containsAny( src1, src2 ) );
-  test.true( _.containsAny( src2, src1 ) );
-  test.true( _.containsOnly( src1, src2 ) );
-  test.true( _.containsOnly( src2, src1 ) );
-  test.nil( src1, src2 );
-  test.nil( src2, src1 );
-  test.eq( src1, src2 );
-  test.eq( src2, src1 );
-  test.contains( src1, src2 );
-  test.contains( src2, src1 );
-  test.containsAll( src1, src2 );
-  test.containsAll( src2, src1 );
-  test.containsAny( src1, src2 );
-  test.containsAny( src2, src1 );
-  test.containsOnly( src1, src2 );
-  test.containsOnly( src2, src1 );
-
-  // xxx
-  // test.case = 'descendant has field';
-  // var src1 = { a : 1, b : 2 };
-  // var src2 = Object.create({ a : 1 });
-  // src2.b = 2;
-  // test.true( !_.entityIdentical( src1, src2 ) );
-  // test.true( !_.entityIdentical( src2, src1 ) );
-  // test.true( !_.entityEquivalent( src1, src2 ) );
-  // test.true( !_.entityEquivalent( src2, src1 ) );
-  // test.nil( src1, src2 );
-  // test.nil( src2, src1 );
-  // test.neq( src1, src2 );
-  // test.neq( src2, src1 );
-
-}
-
-//
-
-function entityEqualStrings( test )
+function compareStrings( test )
 {
 
   test.case = 'entityIdentical string and object string';
@@ -1869,12 +1504,12 @@ function entityEquivalentProto( test )
   src2 = Object.setPrototypeOf( {}, src2 );
   test.true( !_.entityIdentical( src1, src2 ) );
   test.true( !_.entityIdentical( src2, src1 ) );
-  test.true( !_.entityEquivalent( src1, src2 ) );
-  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.true( _.entityEquivalent( src1, src2 ) );
+  test.true( _.entityEquivalent( src2, src1 ) );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
-  test.neq( src1, src2 );
-  test.neq( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
 
   test.case = 'proto and map';
   var expected = true;
@@ -1883,12 +1518,12 @@ function entityEquivalentProto( test )
   src1 = Object.setPrototypeOf( {}, src1 );
   test.true( !_.entityIdentical( src1, src2 ) );
   test.true( !_.entityIdentical( src2, src1 ) );
-  test.true( !_.entityEquivalent( src1, src2 ) );
-  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.true( _.entityEquivalent( src1, src2 ) );
+  test.true( _.entityEquivalent( src2, src1 ) );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
-  test.neq( src1, src2 );
-  test.neq( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
 
   test.case = 'pure map and proto';
   var expected = true;
@@ -1897,12 +1532,12 @@ function entityEquivalentProto( test )
   src2 = Object.setPrototypeOf( {}, src2 );
   test.true( !_.entityIdentical( src1, src2 ) );
   test.true( !_.entityIdentical( src2, src1 ) );
-  test.true( !_.entityEquivalent( src1, src2 ) );
-  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.true( _.entityEquivalent( src1, src2 ) );
+  test.true( _.entityEquivalent( src2, src1 ) );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
-  test.neq( src1, src2 );
-  test.neq( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
 
   test.case = 'proto and pure map';
   var expected = true;
@@ -1911,12 +1546,12 @@ function entityEquivalentProto( test )
   src1 = Object.setPrototypeOf( {}, src1 );
   test.true( !_.entityIdentical( src1, src2 ) );
   test.true( !_.entityIdentical( src2, src1 ) );
-  test.true( !_.entityEquivalent( src1, src2 ) );
-  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.true( _.entityEquivalent( src1, src2 ) );
+  test.true( _.entityEquivalent( src2, src1 ) );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
-  test.neq( src1, src2 );
-  test.neq( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
 
   test.case = 'map and pure proto';
   var expected = true;
@@ -1925,12 +1560,12 @@ function entityEquivalentProto( test )
   src2 = Object.setPrototypeOf( {}, src2 );
   test.true( !_.entityIdentical( src1, src2 ) );
   test.true( !_.entityIdentical( src2, src1 ) );
-  test.true( !_.entityEquivalent( src1, src2 ) );
-  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.true( _.entityEquivalent( src1, src2 ) );
+  test.true( _.entityEquivalent( src2, src1 ) );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
-  test.neq( src1, src2 );
-  test.neq( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
 
   test.case = 'pure proto and map';
   var expected = true;
@@ -1939,12 +1574,12 @@ function entityEquivalentProto( test )
   src1 = Object.setPrototypeOf( {}, src1 );
   test.true( !_.entityIdentical( src1, src2 ) );
   test.true( !_.entityIdentical( src2, src1 ) );
-  test.true( !_.entityEquivalent( src1, src2 ) );
-  test.true( !_.entityEquivalent( src2, src1 ) );
+  test.true( _.entityEquivalent( src1, src2 ) );
+  test.true( _.entityEquivalent( src2, src1 ) );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
-  test.neq( src1, src2 );
-  test.neq( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
 
 }
 
@@ -2521,7 +2156,7 @@ function entityEquivalentHashMap( test )
 
 //
 
-function entityEqualContainerType( test )
+function compareContainerType( test )
 {
   try
   {
@@ -5357,7 +4992,7 @@ function compareSameInstance( test )
 
   /* */
 
-  test.case = 'map.standard empty';
+  test.case = 'map.polluted empty';
   var src1 = {};
   var src2 = src1;
   test.identical( _.entityIdentical( src1, src2 ), true );
@@ -5375,7 +5010,7 @@ function compareSameInstance( test )
 
   /* */
 
-  test.case = 'map.standard not empty';
+  test.case = 'map.polluted not empty';
   var src1 = { a : 1 };
   var src2 = src1;
   test.identical( _.entityIdentical( src1, src2 ), true );
@@ -5534,7 +5169,7 @@ function compareUndefinedElement( test )
 
   /* */
 
-  test.case = 'map.standard, null ~ undefined';
+  test.case = 'map.polluted, null ~ undefined';
   var src1 = { a : null };
   var src2 = { a : undefined };
   test.identical( _.entityIdentical( src1, src2 ), false );
@@ -5550,7 +5185,7 @@ function compareUndefinedElement( test )
 
   /* */
 
-  test.case = 'map.standard, no ~ undefined';
+  test.case = 'map.polluted, no ~ undefined';
   var src1 = {};
   var src2 = { a : undefined };
   test.identical( _.entityIdentical( src1, src2 ), false );
@@ -5625,7 +5260,7 @@ function compareObjectsWithoutEqualAre( test )
 
   /* */
 
-  test.case = 'map.standard, not equal field';
+  test.case = 'map.polluted, not equal field';
 
   var src1 = { val : 1 };
   var src2 = { val : 2 };
@@ -5643,7 +5278,7 @@ function compareObjectsWithoutEqualAre( test )
 
   /* */
 
-  test.case = 'map.standard, equal field';
+  test.case = 'map.polluted, equal field';
 
   var src1 = { val : 3 };
   var src2 = { val : 3 };
@@ -5867,12 +5502,12 @@ function compareObjectsWithoutEqualAre( test )
 
 //
 
-function compareObjectsWithEqualAre( test )
+function compareAuxiliaryWithEqualAre( test )
 {
 
   /* */
 
-  test.case = 'map.standard, not equal field';
+  test.case = 'map.polluted, not equal field';
 
   var src1 = { val : 1 };
   src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
@@ -5892,7 +5527,7 @@ function compareObjectsWithEqualAre( test )
 
   /* */
 
-  test.case = 'map.standard, equal field';
+  test.case = 'map.polluted, equal field';
 
   var src1 = { val : 3, val2 : 1 };
   src1[ Symbol.for( 'equalAre' ) ] = _equalAre;
@@ -6549,88 +6184,87 @@ function compareMapPrototyped( test )
 
     /* */
 
-    // test.case = 'polluted map ~ polluted map, identical fields';
-    //
-    // var prototype1 = mapMake( env.map1 );
-    // prototype1.d = '1';
-    // prototype1.c = 33;
-    // var src1 = Object.create( prototype1 );
-    // src1.a = 'abc';
-    // src1.b = undefined;
-    // var prototype2 = mapMake( env.map2 );
-    // prototype2.d = '1';
-    // prototype2.c = 33;
-    // var src2 = Object.create( prototype2 );
-    // src2.a = 'abc';
-    // src2.b = undefined;
-    //
-    // test.identical( _.entityIdentical( src1, src2 ), true );
-    // test.identical( _.entityIdentical( src2, src1 ), true );
-    // test.identical( _.entityEquivalent( src1, src2 ), true );
-    // test.identical( _.entityEquivalent( src2, src1 ), true );
-    // test.identical( _.entityContains( src1, src2 ), true );
-    // test.identical( _.entityContains( src2, src1 ), true );
-    // test.identical( src1, src2 );
-    // test.identical( src2, src1 );
-    // test.equivalent( src1, src2 );
-    // test.equivalent( src2, src1 );
+    test.case = 'polluted map ~ polluted map, identical fields';
+
+    var prototype1 = mapMake( env.map1 );
+    prototype1.d = '1';
+    prototype1.c = 33;
+    var src1 = Object.create( prototype1 );
+    src1.a = 'abc';
+    src1.b = undefined;
+    var prototype2 = mapMake( env.map2 );
+    prototype2.d = '1';
+    prototype2.c = 33;
+    var src2 = Object.create( prototype2 );
+    src2.a = 'abc';
+    src2.b = undefined;
+
+    test.identical( _.entityIdentical( src1, src2 ), true );
+    test.identical( _.entityIdentical( src2, src1 ), true );
+    test.identical( _.entityEquivalent( src1, src2 ), true );
+    test.identical( _.entityEquivalent( src2, src1 ), true );
+    test.identical( _.entityContains( src1, src2 ), true );
+    test.identical( _.entityContains( src2, src1 ), true );
+    test.identical( src1, src2 );
+    test.identical( src2, src1 );
+    test.equivalent( src1, src2 );
+    test.equivalent( src2, src1 );
 
     /* */
 
-    // test.case = `${env.map1} ~ ${env.map2}, diff on depth:0`;
-    //
-    // var prototype1 = mapMake( env.map1 );
-    // prototype1.a = '1';
-    // prototype1.b = '1';
-    // var src1 = Object.create( prototype1 );
-    // src1.b = '0';
-    // src1.c = '0';
-    // var prototype2 = mapMake( env.map2 );
-    // prototype2.a = '1';
-    // prototype2.b = '1';
-    // var src2 = Object.create( prototype2 );
-    // src2.b = '0x';
-    // src2.c = '0';
-    //
-    // test.identical( _.entityIdentical( src1, src2 ), false );
-    // test.identical( _.entityIdentical( src2, src1 ), false );
-    // test.identical( _.entityEquivalent( src1, src2 ), false );
-    // test.identical( _.entityEquivalent( src2, src1 ), false );
-    // test.identical( _.entityContains( src1, src2 ), false );
-    // test.identical( _.entityContains( src2, src1 ), false );
-    // test.nil( src1, src2 );
-    // test.nil( src2, src1 );
-    // test.neq( src1, src2 );
-    // test.neq( src2, src1 );
-    //
-    // /* */
-    //
-    // test.case = `${env.map1} ~ ${env.map2}, diff on depth:1`;
-    //
-    // var prototype1 = mapMake( env.map1 );
-    // prototype1.a = '1';
-    // prototype1.b = '1';
-    // var src1 = Object.create( prototype1 );
-    // src1.b = '0';
-    // src1.c = '0';
-    // var prototype2 = mapMake( env.map2 );
-    // prototype2.a = '1x';
-    // prototype2.b = '1';
-    // var src2 = Object.create( prototype2 );
-    // src2.b = '0
-    // ';
-    // src2.c = '0';
-    //
-    // test.identical( _.entityIdentical( src1, src2 ), false );
-    // test.identical( _.entityIdentical( src2, src1 ), false );
-    // test.identical( _.entityEquivalent( src1, src2 ), false );
-    // test.identical( _.entityEquivalent( src2, src1 ), false );
-    // test.identical( _.entityContains( src1, src2 ), false );
-    // test.identical( _.entityContains( src2, src1 ), false );
-    // test.nil( src1, src2 );
-    // test.nil( src2, src1 );
-    // test.neq( src1, src2 );
-    // test.neq( src2, src1 );
+    test.case = `${env.map1} ~ ${env.map2}, diff on depth:0`;
+
+    var prototype1 = mapMake( env.map1 );
+    prototype1.a = '1';
+    prototype1.b = '1';
+    var src1 = Object.create( prototype1 );
+    src1.b = '0';
+    src1.c = '0';
+    var prototype2 = mapMake( env.map2 );
+    prototype2.a = '1';
+    prototype2.b = '1';
+    var src2 = Object.create( prototype2 );
+    src2.b = '0x';
+    src2.c = '0';
+
+    test.identical( _.entityIdentical( src1, src2 ), false );
+    test.identical( _.entityIdentical( src2, src1 ), false );
+    test.identical( _.entityEquivalent( src1, src2 ), false );
+    test.identical( _.entityEquivalent( src2, src1 ), false );
+    test.identical( _.entityContains( src1, src2 ), false );
+    test.identical( _.entityContains( src2, src1 ), false );
+    test.nil( src1, src2 );
+    test.nil( src2, src1 );
+    test.neq( src1, src2 );
+    test.neq( src2, src1 );
+
+    /* */
+
+    test.case = `${env.map1} ~ ${env.map2}, diff on depth:1`;
+
+    var prototype1 = mapMake( env.map1 );
+    prototype1.a = '1';
+    prototype1.b = '1';
+    var src1 = Object.create( prototype1 );
+    src1.b = '0';
+    src1.c = '0';
+    var prototype2 = mapMake( env.map2 );
+    prototype2.a = '1x';
+    prototype2.b = '1';
+    var src2 = Object.create( prototype2 );
+    src2.b = '0';
+    src2.c = '0';
+
+    test.identical( _.entityIdentical( src1, src2 ), false );
+    test.identical( _.entityIdentical( src2, src1 ), false );
+    test.identical( _.entityEquivalent( src1, src2 ), false );
+    test.identical( _.entityEquivalent( src2, src1 ), false );
+    test.identical( _.entityContains( src1, src2 ), false );
+    test.identical( _.entityContains( src2, src1 ), false );
+    test.nil( src1, src2 );
+    test.nil( src2, src1 );
+    test.neq( src1, src2 );
+    test.neq( src2, src1 );
 
     /* */
 
@@ -6649,19 +6283,16 @@ function compareMapPrototyped( test )
     src2.b = '0';
     src2.c = '0';
 
-    _.debugger = 1;
-    debugger;
     test.identical( _.entityIdentical( src1, src2 ), false );
-    debugger;
     test.identical( _.entityIdentical( src2, src1 ), false );
-    test.identical( _.entityEquivalent( src1, src2 ), false );
-    test.identical( _.entityEquivalent( src2, src1 ), false );
-    test.identical( _.entityContains( src1, src2 ), false );
-    test.identical( _.entityContains( src2, src1 ), false );
+    test.identical( _.entityEquivalent( src1, src2 ), true );
+    test.identical( _.entityEquivalent( src2, src1 ), true );
+    test.identical( _.entityContains( src1, src2 ), true );
+    test.identical( _.entityContains( src2, src1 ), true );
     test.nil( src1, src2 );
     test.nil( src2, src1 );
-    test.neq( src1, src2 );
-    test.neq( src2, src1 );
+    test.eq( src1, src2 );
+    test.eq( src2, src1 );
 
     /* */
 
@@ -6710,6 +6341,667 @@ function compareMapPrototypedComplementing( test )
   test.identical( screenMap, { a : 13, b : 77, c : 3, d : 'name' } );
 
   /* */
+
+}
+
+//
+
+function compareAuxiliaries( test )
+{
+
+  test.case = 'map.polluted ~ map.pure';
+  var src1 = { a : 1 };
+  var src2 = Object.create( null );
+  src2.a = 1;
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.pure ~ prototyped.pure, identical, field in prototype';
+  var prototype1 = Object.create( null );
+  prototype1.a = 0;
+  var src1 = Object.create( prototype1 );
+  var prototype2 = Object.create( null );
+  prototype2.a = 0
+  var src2 = Object.create( prototype2 );
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.pure ~ prototyped.polluted, identical, field in prototype';
+  var prototype1 = Object.create( null );
+  prototype1.a = 0;
+  var src1 = Object.create( prototype1 );
+  var prototype2 = {};
+  prototype2.a = 0
+  var src2 = Object.create( prototype2 );
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.pure ~ prototyped.pure, identical, field in instance';
+  var prototype1 = Object.create( null );
+  var src1 = Object.create( prototype1 );
+  src1.a = 0;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
+  src2.a = 0;
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.pure ~ prototyped.polluted, identical, field in instance';
+  var prototype1 = Object.create( null );
+  var src1 = Object.create( prototype1 );
+  src1.a = 0;
+  var prototype2 = {};
+  var src2 = Object.create( prototype2 );
+  src2.a = 0;
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped ~ prototyped, different, field in instance';
+  var prototype1 = Object.create( null );
+  var src1 = Object.create( prototype1 );
+  src1.a = 0;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
+  src2.a = 1;
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.true( _.notContains( src1, src2 ) );
+  test.true( _.notContains( src2, src1 ) );
+  test.true( _.notContainsAll( src1, src2 ) );
+  test.true( _.notContainsAll( src2, src1 ) );
+  test.true( _.notContainsAny( src1, src2 ) );
+  test.true( _.notContainsAny( src2, src1 ) );
+  test.true( _.notContainsOnly( src1, src2 ) );
+  test.true( _.notContainsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+  test.notContains( src1, src2 );
+  test.notContains( src2, src1 );
+  test.notContainsAll( src1, src2 );
+  test.notContainsAll( src2, src1 );
+  test.notContainsAny( src1, src2 );
+  test.notContainsAny( src2, src1 );
+  test.notContainsOnly( src1, src2 );
+  test.notContainsOnly( src2, src1 );
+
+  test.case = 'prototyped ~ prototyped, different, field in prototype';
+  var prototype1 = Object.create( null );
+  prototype1.a = 0;
+  var src1 = Object.create( prototype1 );
+  var prototype2 = Object.create( null );
+  prototype2.a = 1;
+  var src2 = Object.create( prototype2 );
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.true( _.notContains( src1, src2 ) );
+  test.true( _.notContains( src2, src1 ) );
+  test.true( _.notContainsAll( src1, src2 ) );
+  test.true( _.notContainsAll( src2, src1 ) );
+  test.true( _.notContainsAny( src1, src2 ) );
+  test.true( _.notContainsAny( src2, src1 ) );
+  test.true( _.notContainsOnly( src1, src2 ) );
+  test.true( _.notContainsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+  test.notContains( src1, src2 );
+  test.notContains( src2, src1 );
+  test.notContainsAll( src1, src2 );
+  test.notContainsAll( src2, src1 );
+  test.notContainsAny( src1, src2 );
+  test.notContainsAny( src2, src1 );
+  test.notContainsOnly( src1, src2 );
+  test.notContainsOnly( src2, src1 );
+
+  test.case = 'prototyped ~ prototyped overriden';
+  var prototype1 = Object.create( null );
+  prototype1.a = 0;
+  var src1 = Object.create( prototype1 );
+  src1.a = 1;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
+  src2.a = 1;
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped ~ prototyped overriden in both';
+  var prototype1 = Object.create( null );
+  prototype1.a = 0;
+  var src1 = Object.create( prototype1 );
+  src1.a = 1;
+  var prototype2 = Object.create( null );
+  prototype2.a = -1;
+  var src2 = Object.create( prototype2 );
+  src2.a = 1;
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.polluted ~ not prototyped.polluted';
+  var src1 = { a : 1 };
+  var src2 = Object.create({ a : 1 });
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.pure ~ not prototyped.polluted';
+  var src1 = Object.create( null );
+  src1.a = 1;
+  var src2 = Object.create({ a : 1 });
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.polluted ~ not prototyped.pure';
+  var src1 = {};
+  src1.a = 1;
+  var prototype2 = Object.create( null );
+  prototype2.a = 1;
+  var src2 = Object.create( prototype2 );
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+}
+
+//
+
+function containsAuxiliaries( test )
+{
+
+  test.case = 'equivalent shadowed';
+  var prototype1 = Object.create( null );
+  prototype1.a = 1;
+  prototype1.b = 1;
+  var src1 = Object.create( prototype1 );
+  src1.a = 2;
+  src1.b = 2;
+  var prototype2 = Object.create( null );
+  prototype2.a = 1;
+  var src2 = Object.create( prototype2 );
+  src2.a = 2;
+  src2.b = 2;
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'in prototype extra b ~ in prototype';
+  var prototype1 = Object.create( null );
+  prototype1.a = 1;
+  prototype1.b = 1;
+  var src1 = Object.create( prototype1 );
+  var prototype2 = Object.create( null );
+  prototype2.a = 1;
+  var src2 = Object.create( prototype2 );
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.notContains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.notContainsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.notContainsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+  test.contains( src1, src2 );
+  test.notContains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.notContainsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.notContainsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'in instance extra b ~ in instance';
+  var prototype1 = Object.create( null );
+  var src1 = Object.create( prototype1 );
+  src1.a = 1;
+  src1.b = 1;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
+  src2.a = 1;
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.notContains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.notContainsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.notContainsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+  test.contains( src1, src2 );
+  test.notContains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.notContainsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.notContainsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'in prototype extra b ~ in instance';
+  var prototype1 = Object.create( null );
+  var src1 = Object.create( prototype1 );
+  prototype1.a = 1;
+  prototype1.b = 1;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
+  src2.a = 1;
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.notContains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.notContainsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.notContainsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+  test.contains( src1, src2 );
+  test.notContains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.notContainsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.notContainsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'in instance extra b ~ in prototype';
+  var prototype1 = Object.create( null );
+  var src1 = Object.create( prototype1 );
+  src1.a = 1;
+  src1.b = 1;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
+  prototype2.a = 1;
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.notContains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.notContainsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.notContainsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+  test.contains( src1, src2 );
+  test.notContains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.notContainsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.notContainsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'in prototype extra b ~ in prototype extra c';
+  var prototype1 = Object.create( null );
+  var src1 = Object.create( prototype1 );
+  prototype1.a = 1;
+  prototype1.b = 1;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
+  prototype2.a = 1;
+  prototype2.c = 1;
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.true( _.notContains( src1, src2 ) );
+  test.true( _.notContains( src2, src1 ) );
+  test.true( _.notContainsAll( src1, src2 ) );
+  test.true( _.notContainsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.notContainsOnly( src1, src2 ) );
+  test.true( _.notContainsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+  test.notContains( src1, src2 );
+  test.notContains( src2, src1 );
+  test.notContainsAll( src1, src2 );
+  test.notContainsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.notContainsOnly( src1, src2 );
+  test.notContainsOnly( src2, src1 );
+
+  test.case = 'in intance extra b ~ in instance extra c';
+  var prototype1 = Object.create( null );
+  var src1 = Object.create( prototype1 );
+  src1.a = 1;
+  src1.b = 1;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
+  src2.a = 1;
+  src2.c = 1;
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.true( _.notContains( src1, src2 ) );
+  test.true( _.notContains( src2, src1 ) );
+  test.true( _.notContainsAll( src1, src2 ) );
+  test.true( _.notContainsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.notContainsOnly( src1, src2 ) );
+  test.true( _.notContainsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+  test.notContains( src1, src2 );
+  test.notContains( src2, src1 );
+  test.notContainsAll( src1, src2 );
+  test.notContainsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.notContainsOnly( src1, src2 );
+  test.notContainsOnly( src2, src1 );
+
+  test.case = 'in prototype extra b ~ in instance extra c';
+  var prototype1 = Object.create( null );
+  var src1 = Object.create( prototype1 );
+  prototype1.a = 1;
+  prototype1.b = 1;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
+  src2.a = 1;
+  src2.c = 1;
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.true( _.notContains( src1, src2 ) );
+  test.true( _.notContains( src2, src1 ) );
+  test.true( _.notContainsAll( src1, src2 ) );
+  test.true( _.notContainsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.notContainsOnly( src1, src2 ) );
+  test.true( _.notContainsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+  test.notContains( src1, src2 );
+  test.notContains( src2, src1 );
+  test.notContainsAll( src1, src2 );
+  test.notContainsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.notContainsOnly( src1, src2 );
+  test.notContainsOnly( src2, src1 );
 
 }
 
@@ -7545,7 +7837,7 @@ function entityContainsCycled( test )
 
 //
 
-function entityEqualNonRecursive( test )
+function compareNonRecursive( test )
 {
 
   test.case = 'primitive, recursive : 0';
@@ -9044,17 +9336,15 @@ let Self =
   {
 
     trivial,
-    _entityEqualLoose,
+    _compareLoose,
     entityIdenticalLoose,
     entityEquivalentLoose,
     entityContainsLoose,
-    entityEqualMaps, /* qqq : extend tests */
-    entityEqualStrings,
 
     entityIdenticalSimple,
     entityIdenticalArgumentsArray,
     entityEquivalentArgumentsArray,
-    entityIdenticalProto,
+    entityIdenticalProto, /* qqq : merge and supplement test routines entityIdenticalProto and entityEquivalentProto */
     entityEquivalentProto,
     entityIdenticalBuffers,
     entityEquivalentBuffers,
@@ -9062,7 +9352,7 @@ let Self =
     entityEquivalentSet,
     entityIdenticalHashMap,
     entityEquivalentHashMap,
-    entityEqualContainerType,
+    compareContainerType,
 
     entityContainsSimple,
     entityContainsMap,
@@ -9086,17 +9376,20 @@ let Self =
     compareSameInstance,
     compareUndefinedElement,
     compareObjectsWithoutEqualAre,
-    compareObjectsWithEqualAre,
+    compareAuxiliaryWithEqualAre,
     compareObjectsWithSecondCoerce,
     compareObjectsWithIterator,
     compareMapPrototyped,
     compareMapPrototypedComplementing,
+    compareAuxiliaries, /* qqq : normalize other tests, using test compareAuxiliaries as example */
+    containsAuxiliaries,
+    compareStrings,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
     entityEquivalentCycled,
     entityContainsCycled,
-    entityEqualNonRecursive,
+    compareNonRecursive,
 
     entityDiffLoose,
     entityDiffExplanationBasic,
