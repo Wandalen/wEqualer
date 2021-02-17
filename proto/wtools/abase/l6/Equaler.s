@@ -23,7 +23,7 @@
 
 /* xxx
 - expose routine to compare non-deep types fast
-- look where maker is used in hlink and optimize hlink
+- look where maker of looker is used in hlink and optimize hlink
 */
 
 if( typeof module !== 'undefined' )
@@ -95,6 +95,8 @@ function _equal_head( routine, args )
   o.strictString = o.strict;
   if( o.strictContainer === null )
   o.strictContainer = o.strict;
+  if( o.withImplicit === null )
+  o.withImplicit = o.strictTyping ? 'map.like' : '';
 
   if( o.onNumbersAreEqual === null )
   if( o.strictNumbering && o.strictTyping )
@@ -180,6 +182,7 @@ function _equalIt_body( it )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( it2 === it );
   _.assert( it.result === _.dont || _.boolIs( it.result ) );
+  _.assert( it.withImplicit === '' ^ it.strictTyping );
 
   return it;
 }
@@ -199,6 +202,7 @@ defaults.strictNumbering = null;
 defaults.strictCycling = null;
 defaults.strictString = null;
 defaults.strictContainer = null;
+defaults.withImplicit = null;
 defaults.accuracy = 1e-7;
 defaults.recursive = Infinity;
 defaults.onNumbersAreEqual = null;
@@ -715,7 +719,7 @@ function _iterableEval()
   let it = this;
   it.iterable = null;
 
-  _.debugger;
+  // _.debugger;
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
   let containerType1 = _.container.typeOf( it.srcEffective );
@@ -724,11 +728,6 @@ function _iterableEval()
     it.type1 = _.equaler.containerNameToIdMap.custom;
     it.containerType = containerType1;
     it.iterable = _.equaler.containerNameToIdMap.custom;
-  }
-  else if( _.mapLike( it.srcEffective ) )
-  {
-    it.type1 = _.equaler.containerNameToIdMap.map;
-    it.iterable = _.equaler.containerNameToIdMap.map;
   }
   else if( _.hashMapLike( it.srcEffective ) )
   {
@@ -740,7 +739,7 @@ function _iterableEval()
     it.type1 = _.equaler.containerNameToIdMap.set;
     it.iterable = _.equaler.containerNameToIdMap.set;
   }
-  else if( _.longLike( it.srcEffective ) && !_.entity.methodEqualOf( it.srcEffective ) )
+  else if( _.longLike( it.srcEffective ) && !_.entity.methodEqualOf( it.srcEffective ) ) /* xxx */
   {
     it.type1 = _.equaler.containerNameToIdMap.long;
     it.iterable = _.equaler.containerNameToIdMap.long;
@@ -749,6 +748,11 @@ function _iterableEval()
   {
     it.type1 = 0;
     it.iterable = 0;
+  }
+  else if( _.auxiliary.is( it.srcEffective ) )
+  {
+    it.type1 = _.equaler.containerNameToIdMap.map;
+    it.iterable = _.equaler.containerNameToIdMap.map;
   }
   else
   {
@@ -772,11 +776,7 @@ function _iterableEval()
     it.type2 = _.equaler.containerNameToIdMap.custom;
     it.iterable = _.equaler.containerNameToIdMap.custom;
   }
-  else if( _.mapLike( it.srcEffective2 ) )
-  {
-    it.type2 = _.equaler.containerNameToIdMap.map;
-  }
-  else if( _.longLike( it.srcEffective2 ) && !_.entity.methodEqualOf( it.srcEffective2 ) )
+  else if( _.longLike( it.srcEffective2 ) && !_.entity.methodEqualOf( it.srcEffective2 ) ) /* xxx */
   {
     it.type2 = _.equaler.containerNameToIdMap.long;
   }
@@ -787,6 +787,10 @@ function _iterableEval()
   else if( _.setLike( it.srcEffective2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.set;
+  }
+  else if( _.auxiliary.is( it.srcEffective2 ) )
+  {
+    it.type2 = _.equaler.containerNameToIdMap.map;
   }
   else if( _.primitiveIs( it.srcEffective2 ) )
   {
@@ -917,6 +921,10 @@ function stop( result )
   _.assert( arguments.length === 1 );
   _.assert( _.boolIs( result ) );
 
+  if( !result )
+  if( _.debugger )
+  debugger;
+
   if( it.containing )
   {
 
@@ -1032,7 +1040,7 @@ function equalUp()
   else
   {
     if( !it.type1 || !it.type2 )
-    if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) )
+    if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) ) /* xxx : remove? */
     {
       if
       (
@@ -1428,20 +1436,33 @@ function equalMaps()
   if( !_.longHas( types, it.type1 ) || !_.longHas( types, it.type2 ) )
   return it.stop( false );
 
+  _.debugger;
+
   if( it.containing )
   {
 
-    if( !it.type1 || !it.type2 )
-    return it.stop( false );
+    // if( it.strictTyping )
+    // {
+    //   if( _.mapIs( it.srcEffective ) ^ _.mapIs( it.srcEffective2 ) ) /* xxx : same condition in another branch? */
+    //   return it.stop( false );
+    // }
+    // else
+    // {
+    //   if( !it.type1 || !it.type2 )
+    //   return it.stop( false );
+    // }
+
+    // if( !it.type1 || !it.type2 )
+    // return it.stop( false );
 
     if( it.containing === 'only' )
     {
-      if( _.mapIs( it.srcEffective ) && !_.mapIs( it.srcEffective2 ) )
+      if( _.auxiliary.is( it.srcEffective ) && !_.auxiliary.is( it.srcEffective2 ) )
       return it.stop( true );
     }
     else
     {
-      if( !_.mapIs( it.srcEffective ) && _.mapIs( it.srcEffective2 ) )
+      if( !_.auxiliary.is( it.srcEffective ) && _.auxiliary.is( it.srcEffective2 ) )
       return it.stop( false );
     }
 
@@ -1689,6 +1710,7 @@ _.mapExtend( Equaler, LookerExtension );
 
 let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
 Iterator.visitedContainer2 = null;
+// Iterator.withImplicit = null;
 
 let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
 Iteration.result = true;

@@ -442,43 +442,240 @@ function entityContainsLoose( test )
 function entityEqualMaps( test )
 {
 
-  test.case = 'descendant has no fields';
-  var src1 = { a : 1 };
-  var src2 = Object.create( null );
+  // test.case = 'map.polluted ~ map.pure';
+  // var src1 = { a : 1 };
+  // var src2 = Object.create( null );
+  // src2.a = 1;
+  // test.true( _.identical( src1, src2 ) );
+  // test.true( _.identical( src2, src1 ) );
+  // test.true( _.equivalent( src1, src2 ) );
+  // test.true( _.equivalent( src2, src1 ) );
+  // test.true( _.contains( src1, src2 ) );
+  // test.true( _.contains( src2, src1 ) );
+  // test.true( _.containsAll( src1, src2 ) );
+  // test.true( _.containsAll( src2, src1 ) );
+  // test.true( _.containsAny( src1, src2 ) );
+  // test.true( _.containsAny( src2, src1 ) );
+  // test.true( _.containsOnly( src1, src2 ) );
+  // test.true( _.containsOnly( src2, src1 ) );
+  // test.il( src1, src2 );
+  // test.il( src2, src1 );
+  // test.eq( src1, src2 );
+  // test.eq( src2, src1 );
+  // test.contains( src1, src2 );
+  // test.contains( src2, src1 );
+  // test.containsAll( src1, src2 );
+  // test.containsAll( src2, src1 );
+  // test.containsAny( src1, src2 );
+  // test.containsAny( src2, src1 );
+  // test.containsOnly( src1, src2 );
+  // test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.pure ~ prototyped.pure, identical, field in prototype';
+  var prototype1 = Object.create( null );
+  prototype1.a = 0;
+  var src1 = Object.create( prototype1 );
+  var prototype2 = Object.create( null );
+  prototype2.a = 0
+  var src2 = Object.create( prototype2 );
+  _.debugger = 1;
+  debugger;
+  test.true( _.identical( src1, src2 ) );
+  debugger;
+  // test.true( _.identical( src2, src1 ) );
+  // test.true( _.equivalent( src1, src2 ) );
+  // test.true( _.equivalent( src2, src1 ) );
+  // test.true( _.contains( src1, src2 ) );
+  // test.true( _.contains( src2, src1 ) );
+  // test.true( _.containsAll( src1, src2 ) );
+  // test.true( _.containsAll( src2, src1 ) );
+  // test.true( _.containsAny( src1, src2 ) );
+  // test.true( _.containsAny( src2, src1 ) );
+  // test.true( _.containsOnly( src1, src2 ) );
+  // test.true( _.containsOnly( src2, src1 ) );
+  // test.il( src1, src2 );
+  // test.il( src2, src1 );
+  // test.eq( src1, src2 );
+  // test.eq( src2, src1 );
+  // test.contains( src1, src2 );
+  // test.contains( src2, src1 );
+  // test.containsAll( src1, src2 );
+  // test.containsAll( src2, src1 );
+  // test.containsAny( src1, src2 );
+  // test.containsAny( src2, src1 );
+  // test.containsOnly( src1, src2 );
+  // test.containsOnly( src2, src1 );
+
+  debugger; return; xxx
+
+  test.case = 'prototyped ~ prototyped overriden';
+  var prototype1 = Object.create( null );
+  prototype1.a = 0;
+  var src1 = Object.create( prototype1 );
+  src1.a = 1;
+  var prototype2 = Object.create( null );
+  var src2 = Object.create( prototype2 );
   src2.a = 1;
-  test.true( _.entityIdentical( src1, src2 ) );
-  test.true( _.entityIdentical( src2, src1 ) );
-  test.true( _.entityEquivalent( src1, src2 ) );
-  test.true( _.entityEquivalent( src2, src1 ) );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
 
-  test.case = 'prototyped with not prototyped';
+  test.case = 'prototyped ~ prototyped overriden in both';
+  var prototype1 = Object.create( null );
+  prototype1.a = 0;
+  var src1 = Object.create( prototype1 );
+  src1.a = 1;
+  var prototype2 = Object.create( null );
+  prototype2.a = -1;
+  var src2 = Object.create( prototype2 );
+  src2.a = 1;
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.polluted ~ not prototyped.polluted';
   var src1 = { a : 1 };
   var src2 = Object.create({ a : 1 });
-  test.true( !_.entityIdentical( src1, src2 ) );
-  test.true( !_.entityIdentical( src2, src1 ) );
-  test.true( !_.entityEquivalent( src1, src2 ) );
-  test.true( !_.entityEquivalent( src2, src1 ) );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
 
-  test.case = 'descendant has field';
-  var src1 = { a : 1, b : 2 };
+  test.case = 'prototyped.pure ~ not prototyped.polluted';
+  var src1 = Object.create( null );
+  src1.a = 1;
   var src2 = Object.create({ a : 1 });
-  src2.b = 2;
-  test.true( !_.entityIdentical( src1, src2 ) );
-  test.true( !_.entityIdentical( src2, src1 ) );
-  test.true( !_.entityEquivalent( src1, src2 ) );
-  test.true( !_.entityEquivalent( src2, src1 ) );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  test.case = 'prototyped.polluted ~ not prototyped.pure';
+  var src1 = {};
+  src1.a = 1;
+  var prototype2 = Object.create( null );
+  prototype2.a = 1;
+  var src2 = Object.create( prototype2 );
+  test.true( !_.identical( src1, src2 ) );
+  test.true( !_.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.containsAll( src1, src2 ) );
+  test.true( _.containsAll( src2, src1 ) );
+  test.true( _.containsAny( src1, src2 ) );
+  test.true( _.containsAny( src2, src1 ) );
+  test.true( _.containsOnly( src1, src2 ) );
+  test.true( _.containsOnly( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
+
+  // xxx
+  // test.case = 'descendant has field';
+  // var src1 = { a : 1, b : 2 };
+  // var src2 = Object.create({ a : 1 });
+  // src2.b = 2;
+  // test.true( !_.entityIdentical( src1, src2 ) );
+  // test.true( !_.entityIdentical( src2, src1 ) );
+  // test.true( !_.entityEquivalent( src1, src2 ) );
+  // test.true( !_.entityEquivalent( src2, src1 ) );
+  // test.nil( src1, src2 );
+  // test.nil( src2, src1 );
+  // test.neq( src1, src2 );
+  // test.neq( src2, src1 );
 
 }
 
@@ -1551,10 +1748,10 @@ function entityEquivalentProto( test )
   test.true( !_.entityIdentical( src2, src1 ) );
   test.true( !_.entityEquivalent( src1, src2 ) );
   test.true( !_.entityEquivalent( src2, src1 ) );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   test.case = 'proto and map';
   var expected = true;
@@ -1565,10 +1762,10 @@ function entityEquivalentProto( test )
   test.true( !_.entityIdentical( src2, src1 ) );
   test.true( !_.entityEquivalent( src1, src2 ) );
   test.true( !_.entityEquivalent( src2, src1 ) );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   test.case = 'pure map and proto';
   var expected = true;
@@ -1579,10 +1776,10 @@ function entityEquivalentProto( test )
   test.true( !_.entityIdentical( src2, src1 ) );
   test.true( !_.entityEquivalent( src1, src2 ) );
   test.true( !_.entityEquivalent( src2, src1 ) );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   test.case = 'proto and pure map';
   var expected = true;
@@ -1593,10 +1790,10 @@ function entityEquivalentProto( test )
   test.true( !_.entityIdentical( src2, src1 ) );
   test.true( !_.entityEquivalent( src1, src2 ) );
   test.true( !_.entityEquivalent( src2, src1 ) );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   test.case = 'map and pure proto';
   var expected = true;
@@ -1607,10 +1804,10 @@ function entityEquivalentProto( test )
   test.true( !_.entityIdentical( src2, src1 ) );
   test.true( !_.entityEquivalent( src1, src2 ) );
   test.true( !_.entityEquivalent( src2, src1 ) );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   test.case = 'pure proto and map';
   var expected = true;
@@ -1621,10 +1818,10 @@ function entityEquivalentProto( test )
   test.true( !_.entityIdentical( src2, src1 ) );
   test.true( !_.entityEquivalent( src1, src2 ) );
   test.true( !_.entityEquivalent( src2, src1 ) );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
 }
 
@@ -4015,10 +4212,10 @@ function compareObjectWithIteratorAndEqual( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4031,10 +4228,10 @@ function compareObjectWithIteratorAndEqual( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4047,10 +4244,10 @@ function compareObjectWithIteratorAndEqual( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4200,10 +4397,10 @@ function compareNull( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4216,10 +4413,10 @@ function compareNull( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4232,10 +4429,10 @@ function compareNull( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4273,10 +4470,10 @@ function compareUndefined( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4289,10 +4486,10 @@ function compareUndefined( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4305,10 +4502,10 @@ function compareUndefined( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4346,10 +4543,10 @@ function compareEmptyString( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4362,10 +4559,10 @@ function compareEmptyString( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4378,10 +4575,10 @@ function compareEmptyString( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4419,10 +4616,10 @@ function compareZero( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4435,10 +4632,10 @@ function compareZero( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4451,10 +4648,10 @@ function compareZero( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4537,7 +4734,7 @@ function compareRegexp( test )
   test.identical( _.entityEquivalent( ins1, ins2 ), true );
   test.identical( _.entityEquivalent( ins2, ins1 ), true );
   test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), true );
+  test.identical( _.entityContains( ins2, ins1 ), true ); /* xxx : rename ins1 -> src1, ins2 -> src2 */
 
   /* */
 
@@ -4592,8 +4789,8 @@ function compareString( test )
   test.identical( _.entityEquivalent( src2, src1 ), true );
   test.identical( _.entityContains( src1, src2 ), true );
   test.identical( _.entityContains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
   test.contains( src1, src2 );
@@ -4612,10 +4809,10 @@ function compareString( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4727,8 +4924,8 @@ function compareNumber( test )
   test.identical( _.entityEquivalent( src2, src1 ), true );
   test.identical( _.entityContains( src1, src2 ), true );
   test.identical( _.entityContains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
   test.contains( src1, src2 );
@@ -4745,10 +4942,10 @@ function compareNumber( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4761,10 +4958,10 @@ function compareNumber( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4777,10 +4974,10 @@ function compareNumber( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4793,10 +4990,10 @@ function compareNumber( test )
   test.identical( _.entityEquivalent( src2, src1 ), true );
   test.identical( _.entityContains( src1, src2 ), true );
   test.identical( _.entityContains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.et( src1, src2 );
-  test.et( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
 
   /* xxx qqq : improve diff of big ints */
 
@@ -4856,10 +5053,10 @@ function compareString( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4872,10 +5069,10 @@ function compareString( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4933,8 +5130,8 @@ function compareBool( test )
   test.identical( _.entityEquivalent( src2, src1 ), true );
   test.identical( _.entityContains( src1, src2 ), true );
   test.identical( _.entityContains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
   test.contains( src1, src2 );
@@ -4951,10 +5148,10 @@ function compareBool( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -4967,8 +5164,8 @@ function compareBool( test )
   test.identical( _.entityEquivalent( src2, src1 ), true );
   test.identical( _.entityContains( src1, src2 ), true );
   test.identical( _.entityContains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
   test.contains( src1, src2 );
@@ -4985,10 +5182,10 @@ function compareBool( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5223,10 +5420,10 @@ function compareUndefinedElement( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5239,10 +5436,10 @@ function compareUndefinedElement( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5255,10 +5452,10 @@ function compareUndefinedElement( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5271,10 +5468,10 @@ function compareUndefinedElement( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5316,10 +5513,10 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5354,10 +5551,10 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5394,10 +5591,10 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5438,10 +5635,10 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5486,10 +5683,10 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5511,10 +5708,10 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5536,10 +5733,10 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5565,10 +5762,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5585,10 +5782,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5609,10 +5806,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5633,10 +5830,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5657,10 +5854,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5681,10 +5878,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5710,10 +5907,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5739,10 +5936,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5768,10 +5965,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5794,10 +5991,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -5820,10 +6017,10 @@ function compareObjectsWithEqualAre( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -6120,10 +6317,10 @@ function compareObjectsWithIterator( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -6138,10 +6335,10 @@ function compareObjectsWithIterator( test )
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.entityContains( src1, src2 ), false );
   test.identical( _.entityContains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -6156,8 +6353,8 @@ function compareObjectsWithIterator( test )
   test.identical( _.entityEquivalent( src2, src1 ), true );
   test.identical( _.entityContains( src1, src2 ), true );
   test.identical( _.entityContains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
   test.contains( src1, src2 );
@@ -6176,8 +6373,8 @@ function compareObjectsWithIterator( test )
   test.identical( _.entityEquivalent( src2, src1 ), true );
   test.identical( _.entityContains( src1, src2 ), true );
   test.identical( _.entityContains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
   test.contains( src1, src2 );
@@ -6278,10 +6475,10 @@ function compareMapPrototyped( test )
     // test.identical( _.entityEquivalent( src2, src1 ), false );
     // test.identical( _.entityContains( src1, src2 ), false );
     // test.identical( _.entityContains( src2, src1 ), false );
-    // test.ni( src1, src2 );
-    // test.ni( src2, src1 );
-    // test.ne( src1, src2 );
-    // test.ne( src2, src1 );
+    // test.nil( src1, src2 );
+    // test.nil( src2, src1 );
+    // test.neq( src1, src2 );
+    // test.neq( src2, src1 );
     //
     // /* */
     //
@@ -6307,10 +6504,10 @@ function compareMapPrototyped( test )
     // test.identical( _.entityEquivalent( src2, src1 ), false );
     // test.identical( _.entityContains( src1, src2 ), false );
     // test.identical( _.entityContains( src2, src1 ), false );
-    // test.ni( src1, src2 );
-    // test.ni( src2, src1 );
-    // test.ne( src1, src2 );
-    // test.ne( src2, src1 );
+    // test.nil( src1, src2 );
+    // test.nil( src2, src1 );
+    // test.neq( src1, src2 );
+    // test.neq( src2, src1 );
 
     /* */
 
@@ -6338,10 +6535,10 @@ function compareMapPrototyped( test )
     test.identical( _.entityEquivalent( src2, src1 ), false );
     test.identical( _.entityContains( src1, src2 ), false );
     test.identical( _.entityContains( src2, src1 ), false );
-    test.ni( src1, src2 );
-    test.ni( src2, src1 );
-    test.ne( src1, src2 );
-    test.ne( src2, src1 );
+    test.nil( src1, src2 );
+    test.nil( src2, src1 );
+    test.neq( src1, src2 );
+    test.neq( src2, src1 );
 
     /* */
 
