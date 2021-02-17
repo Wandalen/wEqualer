@@ -337,7 +337,7 @@ function entityEquivalentLoose( test )
 
 //
 
-function entityContainsLoose( test )
+function containsLoose( test )
 {
 
   /* numbers */
@@ -383,41 +383,41 @@ function entityContainsLoose( test )
   /* array tests */
 
   test.case = 'tests two non empty arrays : same length';
-  var got = _.entityContains( arrX1, arrY1 );
+  var got = _.contains( arrX1, arrY1 );
   test.identical( got, true );
 
   test.case = 'tests two non empty different arrays';
-  var got = _.entityContains( arrX2, arrY2 );
+  var got = _.contains( arrX2, arrY2 );
   test.identical( got, false );
 
   test.case = 'one array contains other`s elements';
-  var got = _.entityContains( arrX3, arrY3 );
+  var got = _.contains( arrX3, arrY3 );
   test.identical( got, true );
 
   test.case = 'one array contains other as element';
-  var got = _.entityContains( arrX4, arrY4 );
+  var got = _.contains( arrX4, arrY4 );
   test.identical( got, false );
 
   test.case = 'nested arrays';
-  var got = _.entityContains( arrX5, arrY5 );
+  var got = _.contains( arrX5, arrY5 );
   test.identical( got, true );
 
   /* object tests */
 
   test.case = 'tests two non empty objects : identical keys';
-  var got = _.entityContains( objX1, objY1 );
+  var got = _.contains( objX1, objY1 );
   test.identical( got, true );
 
   test.case = 'tests two different objects : identical keys';
-  var got = _.entityContains( objX2, objY2 );
+  var got = _.contains( objX2, objY2 );
   test.identical( got, false );
 
   test.case = 'tests nested objects : identical';
-  var got = _.entityContains( objX3, objY3 );
+  var got = _.contains( objX3, objY3 );
   test.identical( got, true );
 
   test.case = 'one object contains elements of another';
-  var got = _.entityContains( objX4, objY4 );
+  var got = _.contains( objX4, objY4 );
   test.identical( got, true );
 
   if( !Config.debug )
@@ -426,79 +426,114 @@ function entityContainsLoose( test )
   test.case = 'missed arguments';
   test.shouldThrowErrorSync( function()
   {
-    _.entityContains();
+    _.contains();
   });
 
   test.case = 'extra argument';
   test.shouldThrowErrorSync( function()
   {
-    _.entityContains( strX3, strY3, options, '');
+    _.contains( strX3, strY3, options, '');
   });
 
 }
 
 //
 
-function compareStrings( test )
+function compareContainerType( test )
 {
+  try
+  {
 
-  test.case = 'entityIdentical string and object string';
-  var a = '0';
-  var b = new String( '0' );
-  var got = _.entityIdentical( a, b );
-  test.identical( got, false );
-  var got = _.entityIdentical( b, a );
-  test.identical( got, false );
+    let type = Object.create( null );
+    type.name = 'ContainerForTest';
+    type._while = _while;
+    type._elementGet = _elementGet;
+    type._elementSet = _elementSet;
+    type._lengthGet = _lengthGet;
+    type._is = _is;
 
-  test.case = 'entityEquivalent string and object string';
-  var a = '0';
-  var b = new String( '0' );
-  var got = _.entityEquivalent( a, b );
-  test.identical( got, true );
-  var got = _.entityEquivalent( b, a );
-  test.identical( got, true );
+    _.container.typeDeclare( type );
 
-  test.case = 'entityIdentical lines with different spacing on ends';
-  var a =
-`
- some
-text `
-+ `
+    test.description = 'entityEquivalent empty';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ] };
+    var src2 = { eSet, eGet, elements : [] };
+    test.identical( _.entityEquivalent( src1, src2 ), false );
+    test.identical( _.entityEquivalent( src2, src1 ), false );
 
-this is
-`;
-  var b =
-`some
-text
-this is
+    test.description = 'entityIdentical empty';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ] };
+    var src2 = { eSet, eGet, elements : [] };
+    test.identical( _.entityIdentical( src1, src2 ), false );
+    test.identical( _.entityIdentical( src2, src1 ), false );
 
+    test.description = 'entityEquivalent identical';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+    test.identical( _.entityEquivalent( src1, src2 ), true );
+    test.identical( _.entityEquivalent( src2, src1 ), true );
 
-`
-  var got = _.entityIdentical( a, b );
-  test.identical( got, false );
-  var got = _.entityIdentical( b, a );
-  test.identical( got, false );
+    test.description = 'entityIdentical identical';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+    test.identical( _.entityIdentical( src1, src2 ), true );
+    test.identical( _.entityIdentical( src2, src1 ), true );
 
-  test.case = 'entityEquivalent lines with different spacing on ends';
-  var a =
-`
- some
-text `
-+ `
+    _.container.typeUndeclare( 'ContainerForTest' );
 
-this is
-`;
-  var b =
-`some
-text
-this is
+    test.description = 'entityEquivalent';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+    test.identical( _.entityEquivalent( src1, src2 ), false );
+    test.identical( _.entityEquivalent( src2, src1 ), false );
 
+    test.description = 'entityIdentical';
+    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+    test.identical( _.entityIdentical( src1, src2 ), false );
+    test.identical( _.entityIdentical( src2, src1 ), false );
 
-`
-  var got = _.entityEquivalent( a, b );
-  test.identical( got, true );
-  var got = _.entityEquivalent( b, a );
-  test.identical( got, true );
+  }
+  catch( err )
+  {
+    _.container.typeUndeclare( 'ContainerForTest' );
+    throw err;
+  }
+
+  function _is( src )
+  {
+    return !!src && !!src.eGet;
+  }
+
+  function _elementSet( container, key, val )
+  {
+    return container.eSet( key, val );
+  }
+
+  function _elementGet( container, key )
+  {
+    return container.eGet( key );
+  }
+
+  function _lengthGet( container )
+  {
+    return container.elements.length;
+  }
+
+  function _while( container, onEach )
+  {
+    for( let k = 0; k < container.elements.length; k++ )
+    onEach( container.elements[ k ], k, container );
+  }
+
+  function eSet( k, v )
+  {
+    this.elements[ k ] = v;
+  }
+
+  function eGet( k )
+  {
+    return this.elements[ k ];
+  }
 
 }
 
@@ -2156,125 +2191,25 @@ function entityEquivalentHashMap( test )
 
 //
 
-function compareContainerType( test )
-{
-  try
-  {
-
-    let type = Object.create( null );
-    type.name = 'ContainerForTest';
-    type._while = _while;
-    type._elementGet = _elementGet;
-    type._elementSet = _elementSet;
-    type._lengthGet = _lengthGet;
-    type._is = _is;
-
-    _.container.typeDeclare( type );
-
-    test.description = 'entityEquivalent empty';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ] };
-    var src2 = { eSet, eGet, elements : [] };
-    test.identical( _.entityEquivalent( src1, src2 ), false );
-    test.identical( _.entityEquivalent( src2, src1 ), false );
-
-    test.description = 'entityIdentical empty';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ] };
-    var src2 = { eSet, eGet, elements : [] };
-    test.identical( _.entityIdentical( src1, src2 ), false );
-    test.identical( _.entityIdentical( src2, src1 ), false );
-
-    test.description = 'entityEquivalent identical';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
-    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    test.identical( _.entityEquivalent( src1, src2 ), true );
-    test.identical( _.entityEquivalent( src2, src1 ), true );
-
-    test.description = 'entityIdentical identical';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
-    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    test.identical( _.entityIdentical( src1, src2 ), true );
-    test.identical( _.entityIdentical( src2, src1 ), true );
-
-    _.container.typeUndeclare( 'ContainerForTest' );
-
-    test.description = 'entityEquivalent';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
-    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    test.identical( _.entityEquivalent( src1, src2 ), false );
-    test.identical( _.entityEquivalent( src2, src1 ), false );
-
-    test.description = 'entityIdentical';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
-    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    test.identical( _.entityIdentical( src1, src2 ), false );
-    test.identical( _.entityIdentical( src2, src1 ), false );
-
-  }
-  catch( err )
-  {
-    _.container.typeUndeclare( 'ContainerForTest' );
-    throw err;
-  }
-
-  function _is( src )
-  {
-    return !!src && !!src.eGet;
-  }
-
-  function _elementSet( container, key, val )
-  {
-    return container.eSet( key, val );
-  }
-
-  function _elementGet( container, key )
-  {
-    return container.eGet( key );
-  }
-
-  function _lengthGet( container )
-  {
-    return container.elements.length;
-  }
-
-  function _while( container, onEach )
-  {
-    for( let k = 0; k < container.elements.length; k++ )
-    onEach( container.elements[ k ], k, container );
-  }
-
-  function eSet( k, v )
-  {
-    this.elements[ k ] = v;
-  }
-
-  function eGet( k )
-  {
-    return this.elements[ k ];
-  }
-
-}
-
-//
-
-function entityContainsSimple( test ) /* qqq : extend the test routien by other contains* checks ( entityContainsAll, entityContainsAny... ), not increasing number of test cases */
+function containsSimple( test ) /* qqq : extend the test routien by other contains* checks ( containsAll, containsAny... ), not increasing number of test cases */
 {
 
   test.case = 'null - undefined';
 
   var expected = true;
-  var got = _.entityContains( null, null );
+  var got = _.contains( null, null );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( undefined, undefined );
+  var got = _.contains( undefined, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( null, undefined );
+  var got = _.contains( null, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( undefined, null );
+  var got = _.contains( undefined, null );
   test.identical( got, expected );
 
   /* */
@@ -2282,23 +2217,23 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'number - number';
 
   var expected = true;
-  var got = _.entityContains( 1, 1 );
+  var got = _.contains( 1, 1 );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( 1, 1 + 1e-15 );
+  var got = _.contains( 1, 1 + 1e-15 );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( 0, 0 );
+  var got = _.contains( 0, 0 );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( NaN, NaN );
+  var got = _.contains( NaN, NaN );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( Infinity, Infinity );
+  var got = _.contains( Infinity, Infinity );
   test.identical( got, expected );
 
   /* */
@@ -2306,79 +2241,79 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'number - not number';
 
   var expected = false;
-  var got = _.entityContains( 1, '1' );
+  var got = _.contains( 1, '1' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 0, '0' );
+  var got = _.contains( 0, '0' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 0, '' );
+  var got = _.contains( 0, '' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 0, null );
+  var got = _.contains( 0, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 0, undefined );
+  var got = _.contains( 0, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( NaN, null );
+  var got = _.contains( NaN, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( Infinity, null );
+  var got = _.contains( Infinity, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 0, [ 0 ] );
+  var got = _.contains( 0, [ 0 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 0, { a : 0 } );
+  var got = _.contains( 0, { a : 0 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 0, [] );
+  var got = _.contains( 0, [] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 0, {} );
+  var got = _.contains( 0, {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, [] );
+  var got = _.contains( 3, [] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, {} );
+  var got = _.contains( 3, {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, [ 3 ] );
+  var got = _.contains( 3, [ 3 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, { a : 3 } );
+  var got = _.contains( 3, { a : 3 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, new Date() );
+  var got = _.contains( 3, new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, new F32x( 3 ) );
+  var got = _.contains( 3, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, /abc/ );
+  var got = _.contains( 3, /abc/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 3, function(){} );
+  var got = _.contains( 3, function(){} );
   test.identical( got, expected );
 
   /* */
@@ -2386,23 +2321,23 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'String - String';
 
   var expected = true;
-  var got = _.entityContains( '', '' );
+  var got = _.contains( '', '' );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( 'abc', 'abc' );
+  var got = _.contains( 'abc', 'abc' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', 'abc' );
+  var got = _.contains( '', 'abc' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', '' );
+  var got = _.contains( 'abc', '' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'ab', 'c' );
+  var got = _.contains( 'ab', 'c' );
   test.identical( got, expected );
 
   /* */
@@ -2410,119 +2345,119 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'String - not String';
 
   var expected = false;
-  var got = _.entityContains( '', new Date() );
+  var got = _.contains( '', new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', undefined );
+  var got = _.contains( '', undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', null );
+  var got = _.contains( '', null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', NaN );
+  var got = _.contains( '', NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', 0 );
+  var got = _.contains( '', 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', 1 );
+  var got = _.contains( '', 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', [] );
+  var got = _.contains( '', [] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', {} );
+  var got = _.contains( '', {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', [ '' ] );
+  var got = _.contains( '', [ '' ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', { a : '' } );
+  var got = _.contains( '', { a : '' } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', new F32x( 3 ) );
+  var got = _.contains( '', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', /(?:)/ );
+  var got = _.contains( '', /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '', function(){} );
+  var got = _.contains( '', function(){} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', new Date() );
+  var got = _.contains( 'abc', new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', undefined );
+  var got = _.contains( 'abc', undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', null );
+  var got = _.contains( 'abc', null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', NaN );
+  var got = _.contains( 'abc', NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', 0 );
+  var got = _.contains( 'abc', 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', 1 );
+  var got = _.contains( 'abc', 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '0', 0 );
+  var got = _.contains( '0', 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( '1', 1 );
+  var got = _.contains( '1', 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', [] );
+  var got = _.contains( 'abc', [] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ 'abc' ], '' );
+  var got = _.contains( [ 'abc' ], '' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', {} );
+  var got = _.contains( 'abc', {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', [ 'abc' ] );
+  var got = _.contains( 'abc', [ 'abc' ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', { a : 'abc' } );
+  var got = _.contains( 'abc', { a : 'abc' } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', new F32x( 3 ) );
+  var got = _.contains( 'abc', new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', /abc/ );
+  var got = _.contains( 'abc', /abc/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( 'abc', function(){} );
+  var got = _.contains( 'abc', function(){} );
   test.identical( got, expected );
 
   /* */
@@ -2530,43 +2465,43 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'RegExp - RegExp';
 
   var expected = true;
-  var got = _.entityContains( /(?:)/, /(?:)/ );
+  var got = _.contains( /(?:)/, /(?:)/ );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( /abc/, /abc/ );
+  var got = _.contains( /abc/, /abc/ );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( /abc/iy, /abc/yi );
+  var got = _.contains( /abc/iy, /abc/yi );
   test.identical( got, expected );
 
   // var expected = true;
-  // var got = _.entityContains( new RegExp( 'abc' ), /abc/ );
+  // var got = _.contains( new RegExp( 'abc' ), /abc/ );
   // test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( /abc/i, /abc/i );
+  var got = _.contains( /abc/i, /abc/i );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( /abc/i, /abc/ );
+  var got = _.contains( /abc/i, /abc/ );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( /abc/i, /abc/yi );
+  var got = _.contains( /abc/i, /abc/yi );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, /abc/ );
+  var got = _.contains( /(?:)/, /abc/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, /(?:)/ );
+  var got = _.contains( /abc/, /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /ab/, /c/ );
+  var got = _.contains( /ab/, /c/ );
   test.identical( got, expected );
 
   /* */
@@ -2574,111 +2509,111 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'RegExp - not RegExp';
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, new Date() );
+  var got = _.contains( /(?:)/, new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, undefined );
+  var got = _.contains( /(?:)/, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, null );
+  var got = _.contains( /(?:)/, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, NaN );
+  var got = _.contains( /(?:)/, NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, 0 );
+  var got = _.contains( /(?:)/, 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, 1 );
+  var got = _.contains( /(?:)/, 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, [] );
+  var got = _.contains( /(?:)/, [] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( /(?:)/, {} );
+  var got = _.contains( /(?:)/, {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, [ /(?:)/ ] );
+  var got = _.contains( /(?:)/, [ /(?:)/ ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, { a : /(?:)/ } );
+  var got = _.contains( /(?:)/, { a : /(?:)/ } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, { a : '' } );
+  var got = _.contains( /(?:)/, { a : '' } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, new F32x( 3 ) );
+  var got = _.contains( /(?:)/, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /(?:)/, function(){} );
+  var got = _.contains( /(?:)/, function(){} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, new Date() );
+  var got = _.contains( /abc/, new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, undefined );
+  var got = _.contains( /abc/, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, null );
+  var got = _.contains( /abc/, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, NaN );
+  var got = _.contains( /abc/, NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, 0 );
+  var got = _.contains( /abc/, 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, 1 );
+  var got = _.contains( /abc/, 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, [] );
+  var got = _.contains( /abc/, [] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( /abc/, {} );
+  var got = _.contains( /abc/, {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, { x : 1 } );
+  var got = _.contains( /abc/, { x : 1 } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( /abc/, { ignoreCase : false, lastIndex : 0 } );
+  var got = _.contains( /abc/, { ignoreCase : false, lastIndex : 0 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, [ /abc/ ] );
+  var got = _.contains( /abc/, [ /abc/ ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, { a : /abc/ } );
+  var got = _.contains( /abc/, { a : /abc/ } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, new F32x( 3 ) );
+  var got = _.contains( /abc/, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( /abc/, function(){} );
+  var got = _.contains( /abc/, function(){} );
   test.identical( got, expected );
 
   /* */
@@ -2689,11 +2624,11 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   function func2(){};
 
   var expected = true;
-  var got = _.entityContains( func1, func1 );
+  var got = _.contains( func1, func1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, func2 );
+  var got = _.contains( func1, func2 );
   test.identical( got, expected );
 
   /* */
@@ -2701,55 +2636,55 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'Routine - not Routine';
 
   var expected = false;
-  var got = _.entityContains( func1, '1' );
+  var got = _.contains( func1, '1' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, undefined );
+  var got = _.contains( func1, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, null );
+  var got = _.contains( func1, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, NaN );
+  var got = _.contains( func1, NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, 0 );
+  var got = _.contains( func1, 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, 1 );
+  var got = _.contains( func1, 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, [] );
+  var got = _.contains( func1, [] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( func1, {} );
+  var got = _.contains( func1, {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, [ func1 ] );
+  var got = _.contains( func1, [ func1 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, { func1 } );
+  var got = _.contains( func1, { func1 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, new F32x( 3 ) );
+  var got = _.contains( func1, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, /abc/ );
+  var got = _.contains( func1, /abc/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( func1, function(){} );
+  var got = _.contains( func1, function(){} );
   test.identical( got, expected );
 
   /* */
@@ -2757,14 +2692,14 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'Date - Date';
 
   var expected = true;
-  var got = _.entityContains( new Date(), new Date() );
+  var got = _.contains( new Date(), new Date() );
   test.identical( got, expected );
 
   var expected = false;
   var src1 = new Date();
   var src2 = new Date();
   src2.setFullYear( 1987 );
-  var got = _.entityContains( src1, src2 );
+  var got = _.contains( src1, src2 );
   test.identical( got, expected );
 
   /* */
@@ -2772,55 +2707,55 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'Date - not Date';
 
   var expected = false;
-  var got = _.entityContains( new Date(), '1' );
+  var got = _.contains( new Date(), '1' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), undefined );
+  var got = _.contains( new Date(), undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), null );
+  var got = _.contains( new Date(), null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), NaN );
+  var got = _.contains( new Date(), NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), 0 );
+  var got = _.contains( new Date(), 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), 1 );
+  var got = _.contains( new Date(), 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), [] );
+  var got = _.contains( new Date(), [] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( new Date(), {} );
+  var got = _.contains( new Date(), {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), [ new Date() ] );
+  var got = _.contains( new Date(), [ new Date() ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), { a : new Date() } );
+  var got = _.contains( new Date(), { a : new Date() } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), new F32x( 3 ) );
+  var got = _.contains( new Date(), new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), /abc/ );
+  var got = _.contains( new Date(), /abc/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( new Date(), function(){} );
+  var got = _.contains( new Date(), function(){} );
   test.identical( got, expected );
 
   /* */
@@ -2828,47 +2763,47 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'Array - Array';
 
   var expected = true;
-  var got = _.entityContains( [], [] );
+  var got = _.contains( [], [] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ 0 ], [ 0 ] );
+  var got = _.contains( [ 0 ], [ 0 ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ 1 ], [ 1 ] );
+  var got = _.contains( [ 1 ], [ 1 ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ undefined ], [ undefined ] );
+  var got = _.contains( [ undefined ], [ undefined ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ null ], [ null ] );
+  var got = _.contains( [ null ], [ null ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ [ 1, 2, 3 ] ], [ [ 1, 2, 3 ] ] );
+  var got = _.contains( [ [ 1, 2, 3 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ] );
+  var got = _.contains( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ [ 1, 2, 3 ] ], [ [ 1, 2 ] ] );
+  var got = _.contains( [ [ 1, 2, 3 ] ], [ [ 1, 2 ] ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ [ 1, 2 ] ], [ [ 1 ] ] );
+  var got = _.contains( [ [ 1, 2 ] ], [ [ 1 ] ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ [ 1, 3 ] ], [ 1, 3 ] );
+  var got = _.contains( [ [ 1, 3 ] ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ null ], [ undefined ] );
+  var got = _.contains( [ null ], [ undefined ] );
   test.identical( got, expected );
 
   /* */
@@ -2876,105 +2811,105 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'Array - not Array';
 
   var expected = false;
-  var got = _.entityContains( [], '1' );
+  var got = _.contains( [], '1' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], undefined );
+  var got = _.contains( [], undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], null );
+  var got = _.contains( [], null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], NaN );
+  var got = _.contains( [], NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], 0 );
+  var got = _.contains( [], 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], 1 );
+  var got = _.contains( [], 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], {} );
+  var got = _.contains( [], {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ 1 ], {} );
+  var got = _.contains( [ 1 ], {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ 1 ], { 0 : 1 } );
+  var got = _.contains( [ 1 ], { 0 : 1 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ 1 ], { a : 1 } );
+  var got = _.contains( [ 1 ], { a : 1 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], new Date() );
+  var got = _.contains( [], new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], new F32x( 3 ) );
+  var got = _.contains( [], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], /(?:)/ );
+  var got = _.contains( [], /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [], function(){} );
+  var got = _.contains( [], function(){} );
   test.identical( got, expected );
 
   /* */
 
   var expected = false;
-  var got = _.entityContains( [ '1' ], '1' );
+  var got = _.contains( [ '1' ], '1' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ undefined ], undefined );
+  var got = _.contains( [ undefined ], undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ null ], null );
+  var got = _.contains( [ null ], null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ NaN ], NaN );
+  var got = _.contains( [ NaN ], NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ 0 ], 0 );
+  var got = _.contains( [ 0 ], 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ 1 ], 1 );
+  var got = _.contains( [ 1 ], 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ {} ], {} );
+  var got = _.contains( [ {} ], {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ new Date() ], new Date() );
+  var got = _.contains( [ new Date() ], new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ new F32x( 3 ) ], new F32x( 3 ) );
+  var got = _.contains( [ new F32x( 3 ) ], new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ /(?:)/ ], /(?:)/ );
+  var got = _.contains( [ /(?:)/ ], /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ function(){} ], function(){} );
+  var got = _.contains( [ function(){} ], function(){} );
   test.identical( got, expected );
 
   /* */
@@ -2982,67 +2917,67 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'Map - Map';
 
   var expected = true;
-  var got = _.entityContains( {}, {} );
+  var got = _.contains( {}, {} );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : 0 }, { a : 0 } );
+  var got = _.contains( { a : 0 }, { a : 0 } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : 1 }, { a : 1 } );
+  var got = _.contains( { a : 1 }, { a : 1 } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : 1, b : 1 }, { a : 1 } );
+  var got = _.contains( { a : 1, b : 1 }, { a : 1 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : 1 }, { a : 1, b : 1 } );
+  var got = _.contains( { a : 1 }, { a : 1, b : 1 } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : undefined, b : 1 }, { a : undefined } );
+  var got = _.contains( { a : undefined, b : 1 }, { a : undefined } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : undefined }, { a : undefined, b : 1 } );
+  var got = _.contains( { a : undefined }, { a : undefined, b : 1 } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : undefined }, { a : undefined } );
+  var got = _.contains( { a : undefined }, { a : undefined } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : null }, { a : null } );
+  var got = _.contains( { a : null }, { a : null } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : { b : 1 } }, { a : { b : 1 } } );
+  var got = _.contains( { a : { b : 1 } }, { a : { b : 1 } } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : { b : 1 } }, { a : { b : 1, c : 2 } } );
+  var got = _.contains( { a : { b : 1 } }, { a : { b : 1, c : 2 } } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : { b : 1, c : 2 } }, { a : { b : 1 } } );
+  var got = _.contains( { a : { b : 1, c : 2 } }, { a : { b : 1 } } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : { b : 1, c : 3 } }, { b : 1, c : 3 } );
+  var got = _.contains( { a : { b : 1, c : 3 } }, { b : 1, c : 3 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : null }, { a : undefined } );
+  var got = _.contains( { a : null }, { a : undefined } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : undefined }, {} );
+  var got = _.contains( { a : undefined }, {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, { a : undefined } );
+  var got = _.contains( {}, { a : undefined } );
   test.identical( got, expected );
 
   /* */
@@ -3050,128 +2985,128 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
   test.case = 'Map - not Map';
 
   var expected = false;
-  var got = _.entityContains( {}, '1' );
+  var got = _.contains( {}, '1' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, undefined );
+  var got = _.contains( {}, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, null );
+  var got = _.contains( {}, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, NaN );
+  var got = _.contains( {}, NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, 0 );
+  var got = _.contains( {}, 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, 1 );
+  var got = _.contains( {}, 1 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, [] );
+  var got = _.contains( {}, [] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, new Date() );
+  var got = _.contains( {}, new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, new F32x( 3 ) );
+  var got = _.contains( {}, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, /(?:)/ );
+  var got = _.contains( {}, /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( function(){}, function(){} );
+  var got = _.contains( function(){}, function(){} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( {}, function(){} );
+  var got = _.contains( {}, function(){} );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( function(){}, {} );
+  var got = _.contains( function(){}, {} );
   test.identical( got, expected );
 
   /* */
 
   var expected = false;
-  var got = _.entityContains( { a : '1' }, '1' );
+  var got = _.contains( { a : '1' }, '1' );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : undefined }, undefined );
+  var got = _.contains( { a : undefined }, undefined );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : null }, null );
+  var got = _.contains( { a : null }, null );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : NaN }, NaN );
+  var got = _.contains( { a : NaN }, NaN );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : 0 }, 0 );
+  var got = _.contains( { a : 0 }, 0 );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : 1 }, 1 );
+  var got = _.contains( { a : 1 }, 1 );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : {} }, {} );
+  var got = _.contains( { a : {} }, {} );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : new Date() }, new Date() );
+  var got = _.contains( { a : new Date() }, new Date() );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : new F32x( 3 ) }, new F32x( 3 ) );
+  var got = _.contains( { a : new F32x( 3 ) }, new F32x( 3 ) );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : /(?:)/ }, /(?:)/ );
+  var got = _.contains( { a : /(?:)/ }, /(?:)/ );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : function(){} }, function(){} );
+  var got = _.contains( { a : function(){} }, function(){} );
   test.identical( got, expected );
 
   var expected = false;
   var src = { a : function(){} };
   function src02(){};
-  var got = _.entityContains( src, src02 );
+  var got = _.contains( src, src02 );
   test.identical( got, expected );
 
   var expected = false;
   var src = { a : function(){} };
   function src03(){};
   src03.a = src.a;
-  var got = _.entityContains( src, src03 );
+  var got = _.contains( src, src03 );
   test.identical( got, expected );
 
   var expected = true;
   function src04(){};
   src04.a = '13';
   var src2 = {};
-  var got = _.entityContains( src04, src2 );
+  var got = _.contains( src04, src2 );
   test.identical( got, expected );
 
   var expected = true;
   function src05(){};
   src05.a = '13';
   var src2 = { a : '13' };
-  var got = _.entityContains( src05, src2 );
+  var got = _.contains( src05, src2 );
   test.identical( got, expected );
 
   /* qqq : add typed / raw / node / view buffers tests */
@@ -3180,7 +3115,7 @@ function entityContainsSimple( test ) /* qqq : extend the test routien by other 
 
 //
 
-function entityContainsMap( test )
+function containsMap( test )
 {
 
   /* */
@@ -3192,16 +3127,16 @@ function entityContainsMap( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), true );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), true );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), true );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), true );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), true );
 
   /* */
 
@@ -3212,16 +3147,16 @@ function entityContainsMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), true );
 
   /* */
 
@@ -3232,16 +3167,16 @@ function entityContainsMap( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), true );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), true );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), true );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), true );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   test.identical( src1, src2 ); /* qqq : add similar test checks to other cases */
   test.identical( src2, src1 );
@@ -3265,16 +3200,16 @@ function entityContainsMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), true );
 
   /* */
 
@@ -3285,16 +3220,16 @@ function entityContainsMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), true );
 
   /* */
 
@@ -3305,16 +3240,16 @@ function entityContainsMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3325,16 +3260,16 @@ function entityContainsMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3345,22 +3280,22 @@ function entityContainsMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
 }
 
 //
 
-function entityContainsObject( test )
+function containsObject( test )
 {
 
   /* */
@@ -3373,16 +3308,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), true );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), true );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3393,16 +3328,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   var src1 = { b : '0' };
   var src2 = new Obj1({});
@@ -3410,16 +3345,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), true );
 
   /* */
 
@@ -3430,16 +3365,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), true );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), true );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3450,16 +3385,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3470,16 +3405,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3490,16 +3425,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   var src1 = { a : '1', b : '0', c : '1' };
   var src2 = new Obj1({ b : '0' });
@@ -3507,16 +3442,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3527,16 +3462,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   var src1 = { a : '0', b : '1', c : '1' };
   var src2 = new Obj1({ a : '0' });
@@ -3544,16 +3479,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3564,16 +3499,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   var src1 = { a : '1', b : '1', c : '0' };
   var src2 = new Obj1({ c : '0' });
@@ -3581,16 +3516,16 @@ function entityContainsObject( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3604,7 +3539,7 @@ function entityContainsObject( test )
 
 //
 
-function entityContainsObjectWithIteratorAndMap( test )
+function containsObjectWithIteratorAndMap( test )
 {
 
   /* */
@@ -3617,16 +3552,16 @@ function entityContainsObjectWithIteratorAndMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3637,16 +3572,16 @@ function entityContainsObjectWithIteratorAndMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   var src1 = { b : '0' };
   var src2 = new Obj1({ elements : [ 'b' ] });
@@ -3654,16 +3589,16 @@ function entityContainsObjectWithIteratorAndMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3674,16 +3609,16 @@ function entityContainsObjectWithIteratorAndMap( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3724,7 +3659,7 @@ function entityContainsObjectWithIteratorAndMap( test )
 
 //
 
-function entityContainsObjectWithEqualerAndIterator( test )
+function containsObjectWithEqualerAndIterator( test )
 {
 
   /* */
@@ -3737,16 +3672,16 @@ function entityContainsObjectWithEqualerAndIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), true );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), true );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), true );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), true );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), true );
 
   var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withEqualer : 1 });
   var src2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withEqualer : 1 });
@@ -3754,16 +3689,16 @@ function entityContainsObjectWithEqualerAndIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withIterator : 1, withEqualer : 1 });
   var src2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withIterator : 1, withEqualer : 1 });
@@ -3771,16 +3706,16 @@ function entityContainsObjectWithEqualerAndIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   /* */
 
@@ -3792,16 +3727,16 @@ function entityContainsObjectWithEqualerAndIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
-  test.identical( _.entityContainsAll( src1, src2 ), false );
-  test.identical( _.entityContainsAll( src2, src1 ), false );
-  test.identical( _.entityContainsAny( src1, src2 ), false );
-  test.identical( _.entityContainsAny( src2, src1 ), false );
-  test.identical( _.entityContainsOnly( src1, src2 ), false );
-  test.identical( _.entityContainsOnly( src2, src1 ), false );
-  test.identical( _.entityContainsNone( src1, src2 ), false );
-  test.identical( _.entityContainsNone( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.containsAll( src1, src2 ), false );
+  test.identical( _.containsAll( src2, src1 ), false );
+  test.identical( _.containsAny( src1, src2 ), false );
+  test.identical( _.containsAny( src2, src1 ), false );
+  test.identical( _.containsOnly( src1, src2 ), false );
+  test.identical( _.containsOnly( src2, src1 ), false );
+  test.identical( _.containsNone( src1, src2 ), false );
+  test.identical( _.containsNone( src2, src1 ), false );
 
   var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withEqualer : 1 });
   var src2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withEqualer : 1 });
@@ -3809,16 +3744,16 @@ function entityContainsObjectWithEqualerAndIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), true );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), true );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), true );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), true );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), true );
 
   var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withIterator : 1, withEqualer : 1 });
   var src2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withIterator : 1, withEqualer : 1 });
@@ -3826,16 +3761,16 @@ function entityContainsObjectWithEqualerAndIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
-  test.identical( _.entityContainsAll( src1, src2 ), true );
-  test.identical( _.entityContainsAll( src2, src1 ), true );
-  test.identical( _.entityContainsAny( src1, src2 ), true );
-  test.identical( _.entityContainsAny( src2, src1 ), true );
-  test.identical( _.entityContainsOnly( src1, src2 ), true );
-  test.identical( _.entityContainsOnly( src2, src1 ), true );
-  test.identical( _.entityContainsNone( src1, src2 ), true );
-  test.identical( _.entityContainsNone( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( _.containsAll( src1, src2 ), true );
+  test.identical( _.containsAll( src2, src1 ), true );
+  test.identical( _.containsAny( src1, src2 ), true );
+  test.identical( _.containsAny( src2, src1 ), true );
+  test.identical( _.containsOnly( src1, src2 ), true );
+  test.identical( _.containsOnly( src2, src1 ), true );
+  test.identical( _.containsNone( src1, src2 ), true );
+  test.identical( _.containsNone( src2, src1 ), true );
 
   /* */
 
@@ -3913,8 +3848,8 @@ function compareObjectWithIteratorAndEqual( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -3931,8 +3866,8 @@ function compareObjectWithIteratorAndEqual( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -3949,8 +3884,8 @@ function compareObjectWithIteratorAndEqual( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -3967,8 +3902,8 @@ function compareObjectWithIteratorAndEqual( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -3983,8 +3918,8 @@ function compareObjectWithIteratorAndEqual( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -3999,8 +3934,8 @@ function compareObjectWithIteratorAndEqual( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4091,8 +4026,8 @@ function comparePrimitiveAndNon( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
 
   /* */
 
@@ -4103,8 +4038,8 @@ function comparePrimitiveAndNon( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
 
   /* */
 
@@ -4115,8 +4050,8 @@ function comparePrimitiveAndNon( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
 
   /* */
 
@@ -4136,8 +4071,8 @@ function compareNull( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true ); /* qqq : find all test cases having such checks and add missing entityContains* checks */
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true ); /* qqq : find all test cases having such checks and add missing contains* checks */
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4152,8 +4087,8 @@ function compareNull( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4168,8 +4103,8 @@ function compareNull( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4184,8 +4119,8 @@ function compareNull( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4209,8 +4144,8 @@ function compareUndefined( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4225,8 +4160,8 @@ function compareUndefined( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4241,8 +4176,8 @@ function compareUndefined( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4257,8 +4192,8 @@ function compareUndefined( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4282,8 +4217,8 @@ function compareEmptyString( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4298,8 +4233,8 @@ function compareEmptyString( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4314,8 +4249,8 @@ function compareEmptyString( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4330,8 +4265,8 @@ function compareEmptyString( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4355,8 +4290,8 @@ function compareZero( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4371,8 +4306,8 @@ function compareZero( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4387,8 +4322,8 @@ function compareZero( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4403,8 +4338,8 @@ function compareZero( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4429,8 +4364,8 @@ function compareDate( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
 
   /* */
 
@@ -4442,8 +4377,8 @@ function compareDate( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
 
   /* */
 
@@ -4464,8 +4399,8 @@ function compareRegexp( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
 
   /* */
 
@@ -4477,8 +4412,8 @@ function compareRegexp( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
 
   /* */
 
@@ -4490,8 +4425,8 @@ function compareRegexp( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
 
   /* */
 
@@ -4520,8 +4455,8 @@ function compareString( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4544,8 +4479,8 @@ function compareString( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4564,14 +4499,79 @@ function compareString( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
   test.neq( src2, src1 );
 
   /* */
+
+}
+
+//
+
+function compareString2( test )
+{
+
+  test.case = 'entityIdentical string and object string';
+  var a = '0';
+  var b = new String( '0' );
+  var got = _.entityIdentical( a, b );
+  test.identical( got, false );
+  var got = _.entityIdentical( b, a );
+  test.identical( got, false );
+
+  test.case = 'entityEquivalent string and object string';
+  var a = '0';
+  var b = new String( '0' );
+  var got = _.entityEquivalent( a, b );
+  test.identical( got, true );
+  var got = _.entityEquivalent( b, a );
+  test.identical( got, true );
+
+  test.case = 'entityIdentical lines with different spacing on ends';
+  var a =
+`
+ some
+text `
++ `
+
+this is
+`;
+  var b =
+`some
+text
+this is
+
+
+`
+  var got = _.entityIdentical( a, b );
+  test.identical( got, false );
+  var got = _.entityIdentical( b, a );
+  test.identical( got, false );
+
+  test.case = 'entityEquivalent lines with different spacing on ends';
+  var a =
+`
+ some
+text `
++ `
+
+this is
+`;
+  var b =
+`some
+text
+this is
+
+
+`
+  var got = _.entityEquivalent( a, b );
+  test.identical( got, true );
+  var got = _.entityEquivalent( b, a );
+  test.identical( got, true );
 
 }
 
@@ -4589,8 +4589,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4607,8 +4607,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4625,8 +4625,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4643,8 +4643,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4661,8 +4661,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4679,8 +4679,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4697,8 +4697,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4713,8 +4713,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4729,8 +4729,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4745,8 +4745,8 @@ function compareNumber( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.eq( src1, src2 );
@@ -4772,8 +4772,8 @@ function compareString( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4790,8 +4790,8 @@ function compareString( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4808,8 +4808,8 @@ function compareString( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4824,8 +4824,8 @@ function compareString( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4849,8 +4849,8 @@ function compareBool( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4867,8 +4867,8 @@ function compareBool( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4885,8 +4885,8 @@ function compareBool( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4903,8 +4903,8 @@ function compareBool( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4919,8 +4919,8 @@ function compareBool( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4937,8 +4937,8 @@ function compareBool( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -4962,8 +4962,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4980,8 +4980,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -4998,8 +4998,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5016,8 +5016,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5034,8 +5034,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5052,8 +5052,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5070,8 +5070,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5088,8 +5088,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5106,8 +5106,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5124,8 +5124,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5142,8 +5142,8 @@ function compareSameInstance( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5175,8 +5175,8 @@ function compareUndefinedElement( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5191,8 +5191,8 @@ function compareUndefinedElement( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5207,8 +5207,8 @@ function compareUndefinedElement( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5223,8 +5223,8 @@ function compareUndefinedElement( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5239,8 +5239,8 @@ function compareUndefinedElement( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5268,8 +5268,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5286,8 +5286,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5306,8 +5306,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5326,8 +5326,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5346,8 +5346,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5366,8 +5366,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5390,8 +5390,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5414,8 +5414,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5438,8 +5438,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5463,8 +5463,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5488,8 +5488,8 @@ function compareObjectsWithoutEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5517,8 +5517,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5537,8 +5537,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5561,8 +5561,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5585,8 +5585,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5609,8 +5609,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5633,8 +5633,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5662,8 +5662,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5691,8 +5691,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5720,8 +5720,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5746,8 +5746,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5772,8 +5772,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -5798,8 +5798,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5824,8 +5824,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5850,8 +5850,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5889,8 +5889,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5928,8 +5928,8 @@ function compareAuxiliaryWithEqualAre( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5971,8 +5971,8 @@ function compareObjectsWithSecondCoerce( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -5998,8 +5998,8 @@ function compareObjectsWithSecondCoerce( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -6054,8 +6054,8 @@ function compareObjectsWithIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.identical( src1, src2 );
   test.identical( src2, src1 );
   test.equivalent( src1, src2 );
@@ -6072,8 +6072,8 @@ function compareObjectsWithIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -6090,8 +6090,8 @@ function compareObjectsWithIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
-  test.identical( _.entityContains( src1, src2 ), false );
-  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );
@@ -6108,8 +6108,8 @@ function compareObjectsWithIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.equivalent( src1, src2 );
@@ -6128,8 +6128,8 @@ function compareObjectsWithIterator( test )
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), true );
   test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.entityContains( src1, src2 ), true );
-  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.equivalent( src1, src2 );
@@ -6202,8 +6202,8 @@ function compareMapPrototyped( test )
     test.identical( _.entityIdentical( src2, src1 ), true );
     test.identical( _.entityEquivalent( src1, src2 ), true );
     test.identical( _.entityEquivalent( src2, src1 ), true );
-    test.identical( _.entityContains( src1, src2 ), true );
-    test.identical( _.entityContains( src2, src1 ), true );
+    test.identical( _.contains( src1, src2 ), true );
+    test.identical( _.contains( src2, src1 ), true );
     test.identical( src1, src2 );
     test.identical( src2, src1 );
     test.equivalent( src1, src2 );
@@ -6230,8 +6230,8 @@ function compareMapPrototyped( test )
     test.identical( _.entityIdentical( src2, src1 ), false );
     test.identical( _.entityEquivalent( src1, src2 ), false );
     test.identical( _.entityEquivalent( src2, src1 ), false );
-    test.identical( _.entityContains( src1, src2 ), false );
-    test.identical( _.entityContains( src2, src1 ), false );
+    test.identical( _.contains( src1, src2 ), false );
+    test.identical( _.contains( src2, src1 ), false );
     test.nil( src1, src2 );
     test.nil( src2, src1 );
     test.neq( src1, src2 );
@@ -6258,8 +6258,8 @@ function compareMapPrototyped( test )
     test.identical( _.entityIdentical( src2, src1 ), false );
     test.identical( _.entityEquivalent( src1, src2 ), false );
     test.identical( _.entityEquivalent( src2, src1 ), false );
-    test.identical( _.entityContains( src1, src2 ), false );
-    test.identical( _.entityContains( src2, src1 ), false );
+    test.identical( _.contains( src1, src2 ), false );
+    test.identical( _.contains( src2, src1 ), false );
     test.nil( src1, src2 );
     test.nil( src2, src1 );
     test.neq( src1, src2 );
@@ -6286,8 +6286,8 @@ function compareMapPrototyped( test )
     test.identical( _.entityIdentical( src2, src1 ), false );
     test.identical( _.entityEquivalent( src1, src2 ), true );
     test.identical( _.entityEquivalent( src2, src1 ), true );
-    test.identical( _.entityContains( src1, src2 ), true );
-    test.identical( _.entityContains( src2, src1 ), true );
+    test.identical( _.contains( src1, src2 ), true );
+    test.identical( _.contains( src2, src1 ), true );
     test.nil( src1, src2 );
     test.nil( src2, src1 );
     test.eq( src1, src2 );
@@ -7718,7 +7718,7 @@ function entityEquivalentCycled( test )
 
 //
 
-function entityContainsCycled( test )
+function containsCycled( test )
 {
   var c = this;
 
@@ -7727,19 +7727,19 @@ function entityContainsCycled( test )
   test.case = 'trivial array';
 
   var expected = true;
-  var got = _.entityContains( [ 1, 3 ], [ 1, 3 ] );
+  var got = _.contains( [ 1, 3 ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ 1 ], [ 1, 3 ] );
+  var got = _.contains( [ 1 ], [ 1, 3 ] );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( [ 1, 3 ], [ 1 ] );
+  var got = _.contains( [ 1, 3 ], [ 1 ] );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ] );
+  var got = _.contains( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ] );
   test.identical( got, expected );
 
   /* */
@@ -7747,19 +7747,19 @@ function entityContainsCycled( test )
   test.case = 'trivial map';
 
   var expected = true;
-  var got = _.entityContains( { a : 1, b : 3 }, { a : 1, b : 3 } );
+  var got = _.contains( { a : 1, b : 3 }, { a : 1, b : 3 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : 1 }, { a : 1, b : 3 } );
+  var got = _.contains( { a : 1 }, { a : 1, b : 3 } );
   test.identical( got, expected );
 
   var expected = true;
-  var got = _.entityContains( { a : 1, b : 3 }, { a : 1 } );
+  var got = _.contains( { a : 1, b : 3 }, { a : 1 } );
   test.identical( got, expected );
 
   var expected = false;
-  var got = _.entityContains( { a : { a : 1, b : 2 } }, { a : { a : 1, b : 2, c : 3 } } );
+  var got = _.contains( { a : { a : 1, b : 2 } }, { a : { a : 1, b : 2, c : 3 } } );
   test.identical( got, expected );
 
   /* */
@@ -7769,31 +7769,31 @@ function entityContainsCycled( test )
   var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
   var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
   var expected = true;
-  var got = _.entityContains( a, b );
+  var got = _.contains( a, b );
   test.identical( got, expected );
 
   var a = { e : [ 1, 3, 4 ] }
   var b = { e : [ 1, 4, 4 ] }
   var expected = false;
-  var got = _.entityContains( a, b );
+  var got = _.contains( a, b );
   test.identical( got, expected );
 
   var a = { e : [ 1, 4, 3 ] }
   var b = { e : [ 1, 4 ] }
   var expected = true;
-  var got = _.entityContains( a, b );
+  var got = _.contains( a, b );
   test.identical( got, expected );
 
   var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 4, 3 ] } ] } }
   var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 4 ] } ] } }
   var expected = true;
-  var got = _.entityContains( a, b );
+  var got = _.contains( a, b );
   test.identical( got, expected );
 
   var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
   var b = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 4 ] } ] } }
   var expected = false;
-  var got = _.entityContains( a, b );
+  var got = _.contains( a, b );
   test.identical( got, expected );
 
   /* */
@@ -7805,7 +7805,7 @@ function entityContainsCycled( test )
   var b = { x : 1, y : null }
   b.y = b;
   var expected = true;
-  var got = _.entityContains( a, b );
+  var got = _.contains( a, b );
   test.identical( got, expected );
 
   var a = { x : 1, y : null }
@@ -7813,7 +7813,7 @@ function entityContainsCycled( test )
   var b = { x : 1, y : null }
   b.x = b;
   var expected = true;
-  var got = _.entityContains( a, b );
+  var got = _.contains( a, b );
   test.identical( got, expected );
 
   var a = { x : 1, y : { x : 1, y : null } }
@@ -7821,7 +7821,7 @@ function entityContainsCycled( test )
   var b = { x : 1, y : null }
   b.y = b;
   var expected = false;
-  var got = _.entityContains( a, b );
+  var got = _.contains( a, b );
   test.identical( got, expected );
 
   var a = { x : 1, y : null }
@@ -7829,7 +7829,7 @@ function entityContainsCycled( test )
   var b = { x : 1, y : { x : 1, y : null } }
   b.y.y = b;
   var expected = false;
-  var got = _.entityContains( a, b );
+  var got = _.contains( a, b );
   test.identical( got, expected );
 
 }
@@ -9338,7 +9338,7 @@ let Self =
     _compareLoose,
     entityIdenticalLoose,
     entityEquivalentLoose,
-    entityContainsLoose,
+    containsLoose,
 
     entityIdenticalSimple,
     entityIdenticalArgumentsArray,
@@ -9351,15 +9351,14 @@ let Self =
     entityEquivalentSet,
     entityIdenticalHashMap,
     entityEquivalentHashMap,
-    compareContainerType,
 
-    entityContainsSimple,
-    entityContainsMap,
-    entityContainsObject,
-    entityContainsObjectWithIteratorAndMap,
-    // entityContainsObjectWithIteratorAndObjectWithIterator, /* qqq : implement */
-    // entityContainsObjectWithIteratorAndLongWithIterator, /* qqq : implement */
-    entityContainsObjectWithEqualerAndIterator, /* yyy */
+    containsSimple,
+    containsMap,
+    containsObject,
+    containsObjectWithIteratorAndMap,
+    // containsObjectWithIteratorAndObjectWithIterator, /* qqq : implement */
+    // containsObjectWithIteratorAndLongWithIterator, /* qqq : implement */
+    containsObjectWithEqualerAndIterator, /* yyy */
     compareObjectWithIteratorAndEqual, /* yyy */
 
     comparePrimitiveAndNon,
@@ -9370,6 +9369,7 @@ let Self =
     compareDate,
     compareRegexp,
     compareString,
+    compareString2,
     compareNumber,
     compareBool,
     compareSameInstance,
@@ -9382,12 +9382,12 @@ let Self =
     compareMapPrototypedComplementing,
     compareAuxiliaries, /* qqq : normalize other tests, using test compareAuxiliaries as example */
     containsAuxiliaries,
-    compareStrings,
+    compareContainerType,
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
     entityEquivalentCycled,
-    entityContainsCycled,
+    containsCycled,
     compareNonRecursive,
 
     entityDiffLoose,

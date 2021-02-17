@@ -21,7 +21,7 @@
  * @module Tools/base/Looker
  */
 
-/* xxx
+/* qqq xxx
 - expose routine to compare non-deep types fast
 - look where maker of looker is used in hlink and optimize hlink
 */
