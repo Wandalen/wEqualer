@@ -1414,7 +1414,7 @@ function equalPartible()
 
   }
 
-  if( it.containing  )
+  if( it.containing )
   {
     if( it.containing === 'all' || it.containing === 'only' )
     {
@@ -1858,10 +1858,6 @@ let EqualerExtension =
   containerIdToAscendMap,
   containerIdToEqual,
 
-  identical : entityIdentical,
-  entityIdentical,
-  equivalent : entityEquivalent,
-  entityEquivalent,
   identical : entityIdentical,
   entityIdentical,
   notIdentical : entityNotIdentical,
