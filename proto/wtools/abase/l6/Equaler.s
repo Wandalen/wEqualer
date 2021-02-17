@@ -350,6 +350,18 @@ defaults.strictContainer = 0; /* qqq : cover option strictContainer */
 
 //
 
+function entityNotContains( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContains, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routineExtend( entityNotContains, entityContains );
+
+//
+
 function entityContainsAll( src, src2, opts )
 {
   let it = _equal.head.call( this, entityContainsAll, arguments );
@@ -357,17 +369,30 @@ function entityContainsAll( src, src2, opts )
   return result;
 }
 
-_.routineExtend( entityContainsAll, _equal );
+// _.routineExtend( entityContainsAll, _equal );
+_.routineExtend( entityContainsAll, entityContains );
 
 var defaults = entityContainsAll.defaults;
 
 defaults.containing = 'all';
-defaults.strict = 1;
-defaults.strictTyping = 0;
-defaults.strictNumbering = 0;
-defaults.strictString = 0;
-defaults.strictCycling = 1;
-defaults.strictContainer = 0;
+// defaults.strict = 1;
+// defaults.strictTyping = 0;
+// defaults.strictNumbering = 0;
+// defaults.strictString = 0;
+// defaults.strictCycling = 1;
+// defaults.strictContainer = 0;
+
+//
+
+function entityNotContainsAll( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContainsAll, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routineExtend( entityNotContainsAll, entityContainsAll );
 
 //
 
@@ -378,17 +403,30 @@ function entityContainsAny( src, src2, opts )
   return result;
 }
 
-_.routineExtend( entityContainsAny, _equal );
+// _.routineExtend( entityContainsAny, _equal );
+_.routineExtend( entityContainsAny, entityContains );
 
 var defaults = entityContainsAny.defaults;
 
 defaults.containing = 'any';
-defaults.strict = 1;
-defaults.strictTyping = 0;
-defaults.strictNumbering = 0;
-defaults.strictString = 0;
-defaults.strictCycling = 1;
-defaults.strictContainer = 0;
+// defaults.strict = 1;
+// defaults.strictTyping = 0;
+// defaults.strictNumbering = 0;
+// defaults.strictString = 0;
+// defaults.strictCycling = 1;
+// defaults.strictContainer = 0;
+
+//
+
+function entityNotContainsAny( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContainsAny, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routineExtend( entityNotContainsAny, entityContainsAny );
 
 //
 
@@ -399,17 +437,30 @@ function entityContainsOnly( src, src2, opts )
   return result;
 }
 
-_.routineExtend( entityContainsOnly, _equal );
+// _.routineExtend( entityContainsOnly, _equal );
+_.routineExtend( entityContainsOnly, entityContains );
 
 var defaults = entityContainsOnly.defaults;
 
 defaults.containing = 'only';
-defaults.strict = 1;
-defaults.strictTyping = 0;
-defaults.strictNumbering = 0;
-defaults.strictString = 0;
-defaults.strictCycling = 1;
-defaults.strictContainer = 0;
+// defaults.strict = 1;
+// defaults.strictTyping = 0;
+// defaults.strictNumbering = 0;
+// defaults.strictString = 0;
+// defaults.strictCycling = 1;
+// defaults.strictContainer = 0;
+
+//
+
+function entityNotContainsOnly( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContainsOnly, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routineExtend( entityNotContainsOnly, entityContainsOnly );
 
 //
 
@@ -420,17 +471,30 @@ function entityContainsNone( src, src2, opts )
   return result;
 }
 
-_.routineExtend( entityContainsNone, _equal );
+// _.routineExtend( entityContainsNone, _equal );
+_.routineExtend( entityContainsNone, entityContains );
 
 var defaults = entityContainsNone.defaults;
 
 defaults.containing = 'none';
-defaults.strict = 1;
-defaults.strictTyping = 0;
-defaults.strictNumbering = 0;
-defaults.strictString = 0;
-defaults.strictCycling = 1;
-defaults.strictContainer = 0;
+// defaults.strict = 1;
+// defaults.strictTyping = 0;
+// defaults.strictNumbering = 0;
+// defaults.strictString = 0;
+// defaults.strictCycling = 1;
+// defaults.strictContainer = 0;
+
+//
+
+function entityNotContainsNone( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContainsNone, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routineExtend( entityNotContainsNone, entityContainsNone );
 
 //
 
@@ -1810,6 +1874,7 @@ let ToolsExtension =
 
   contains : entityContains,
   entityContains,
+
   containsAll : entityContainsAll,
   entityContainsAll,
   containsAny : entityContainsAny,
