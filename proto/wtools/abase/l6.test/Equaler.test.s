@@ -3186,175 +3186,175 @@ function entityContainsMap( test )
   /* */
 
   test.case = 'empty';
-  var ins1 = {};
-  var ins2 = {};
-  test.identical( _.entityIdentical( ins1, ins2 ), true );
-  test.identical( _.entityIdentical( ins2, ins1 ), true );
-  test.identical( _.entityEquivalent( ins1, ins2 ), true );
-  test.identical( _.entityEquivalent( ins2, ins1 ), true );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), true );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), true );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), true );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), true );
+  var src1 = {};
+  var src2 = {};
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), true );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), true );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), true );
 
   /* */
 
-  test.case = 'ins1.b:0';
-  var ins1 = { b : '0' };
-  var ins2 = {};
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), true );
+  test.case = 'src1.b:0';
+  var src1 = { b : '0' };
+  var src2 = {};
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), true );
 
   /* */
 
-  test.case = 'ins1.b:0 ins2.b:0';
-  var ins1 = { b : '0' };
-  var ins2 = { b : '0' };
-  test.identical( _.entityIdentical( ins1, ins2 ), true );
-  test.identical( _.entityIdentical( ins2, ins1 ), true );
-  test.identical( _.entityEquivalent( ins1, ins2 ), true );
-  test.identical( _.entityEquivalent( ins2, ins1 ), true );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), true );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), true );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), true );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.b:0 src2.b:0';
+  var src1 = { b : '0' };
+  var src2 = { b : '0' };
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), true );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), true );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
-  test.identical( ins1, ins2 ); /* qqq : add similar test checks to other cases */
-  test.identical( ins2, ins1 );
-  test.equivalent( ins1, ins2 );
-  test.equivalent( ins2, ins1 );
-  test.contains( ins1, ins2 );
-  test.contains( ins2, ins1 );
-  test.containsAll( ins1, ins2 );
-  test.containsAll( ins2, ins1 );
-  test.containsAny( ins1, ins2 );
-  test.containsAny( ins2, ins1 );
-  test.containsOnly( ins1, ins2 );
-  test.containsOnly( ins2, ins1 );
-
-  /* */
-
-  test.case = 'ins1.b:1 ins2.b:2';
-  var ins1 = { b : '1' };
-  var ins2 = { b : '2' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), true );
+  test.identical( src1, src2 ); /* qqq : add similar test checks to other cases */
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+  test.contains( src1, src2 );
+  test.contains( src2, src1 );
+  test.containsAll( src1, src2 );
+  test.containsAll( src2, src1 );
+  test.containsAny( src1, src2 );
+  test.containsAny( src2, src1 );
+  test.containsOnly( src1, src2 );
+  test.containsOnly( src2, src1 );
 
   /* */
 
-  test.case = 'ins1.a:1 ins2.b:2';
-  var ins1 = { a : '1' };
-  var ins2 = { b : '2' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), true );
+  test.case = 'src1.b:1 src2.b:2';
+  var src1 = { b : '1' };
+  var src2 = { b : '2' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), true );
 
   /* */
 
-  test.case = 'ins1.a:1 ins1.b:0 ins1.c:1 ins2.b:0';
-  var ins1 = { a : '1', b : '0', c : '1' };
-  var ins2 = { b : '0' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.a:1 src2.b:2';
+  var src1 = { a : '1' };
+  var src2 = { b : '2' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), true );
 
   /* */
 
-  test.case = 'ins1.a:0 ins1.b:1 ins1.c:1 ins2.a:0';
-  var ins1 = { a : '0', b : '1', c : '1' };
-  var ins2 = { a : '0' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.a:1 src1.b:0 src1.c:1 src2.b:0';
+  var src1 = { a : '1', b : '0', c : '1' };
+  var src2 = { b : '0' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
-  test.case = 'ins1.a:1 ins1.b:1 ins1.c:0 ins2.c:0';
-  var ins1 = { a : '1', b : '1', c : '0' };
-  var ins2 = { c : '0' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.a:0 src1.b:1 src1.c:1 src2.a:0';
+  var src1 = { a : '0', b : '1', c : '1' };
+  var src2 = { a : '0' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
+
+  /* */
+
+  test.case = 'src1.a:1 src1.b:1 src1.c:0 src2.c:0';
+  var src1 = { a : '1', b : '1', c : '0' };
+  var src2 = { c : '0' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
 }
 
@@ -3367,230 +3367,230 @@ function entityContainsObject( test )
 
   test.case = 'empty';
 
-  var ins1 = new Obj1({});
-  var ins2 = {};
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), true );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  var src1 = new Obj1({});
+  var src2 = {};
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), true );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
-  test.case = 'ins1.b:0';
-  var ins1 = new Obj1({ b : '0' });
-  var ins2 = {};
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.b:0';
+  var src1 = new Obj1({ b : '0' });
+  var src2 = {};
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
-  var ins1 = { b : '0' };
-  var ins2 = new Obj1({});
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), true );
-
-  /* */
-
-  test.case = 'ins1.b:0 ins2.b:0';
-  var ins1 = new Obj1({ b : '0' });
-  var ins2 = { b : '0' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), true );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  var src1 = { b : '0' };
+  var src2 = new Obj1({});
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), true );
 
   /* */
 
-  test.case = 'ins1.b:1 ins2.b:2';
-  var ins1 = new Obj1({ b : '1' });
-  var ins2 = { b : '2' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.b:0 src2.b:0';
+  var src1 = new Obj1({ b : '0' });
+  var src2 = { b : '0' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), true );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
-  test.case = 'ins1.a:1 ins2.b:2';
-  var ins1 = new Obj1({ a : '1' });
-  var ins2 = { b : '2' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.b:1 src2.b:2';
+  var src1 = new Obj1({ b : '1' });
+  var src2 = { b : '2' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
-  test.case = 'ins1.a:1 ins1.b:0 ins1.c:1 ins2.b:0';
-  var ins1 = new Obj1({ a : '1', b : '0', c : '1' });
-  var ins2 = { b : '0' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
-
-  var ins1 = { a : '1', b : '0', c : '1' };
-  var ins2 = new Obj1({ b : '0' });
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.a:1 src2.b:2';
+  var src1 = new Obj1({ a : '1' });
+  var src2 = { b : '2' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
-  test.case = 'ins1.a:0 ins1.b:1 ins1.c:1 ins2.a:0';
-  var ins1 = new Obj1({ a : '0', b : '1', c : '1' });
-  var ins2 = { a : '0' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.a:1 src1.b:0 src1.c:1 src2.b:0';
+  var src1 = new Obj1({ a : '1', b : '0', c : '1' });
+  var src2 = { b : '0' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
-  var ins1 = { a : '0', b : '1', c : '1' };
-  var ins2 = new Obj1({ a : '0' });
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  var src1 = { a : '1', b : '0', c : '1' };
+  var src2 = new Obj1({ b : '0' });
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
-  test.case = 'ins1.a:1 ins1.b:1 ins1.c:0 ins2.c:0';
-  var ins1 = new Obj1({ a : '1', b : '1', c : '0' });
-  var ins2 = { c : '0' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.a:0 src1.b:1 src1.c:1 src2.a:0';
+  var src1 = new Obj1({ a : '0', b : '1', c : '1' });
+  var src2 = { a : '0' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
-  var ins1 = { a : '1', b : '1', c : '0' };
-  var ins2 = new Obj1({ c : '0' });
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  var src1 = { a : '0', b : '1', c : '1' };
+  var src2 = new Obj1({ a : '0' });
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
+
+  /* */
+
+  test.case = 'src1.a:1 src1.b:1 src1.c:0 src2.c:0';
+  var src1 = new Obj1({ a : '1', b : '1', c : '0' });
+  var src2 = { c : '0' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
+
+  var src1 = { a : '1', b : '1', c : '0' };
+  var src2 = new Obj1({ c : '0' });
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
@@ -3611,79 +3611,79 @@ function entityContainsObjectWithIteratorAndMap( test )
 
   test.case = 'empty';
 
-  var ins1 = new Obj1({});
-  var ins2 = {};
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  var src1 = new Obj1({});
+  var src2 = {};
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
-  test.case = 'ins1.b:0';
-  var ins1 = new Obj1({ elements : [ 'b' ] });
-  var ins2 = {};
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.b:0';
+  var src1 = new Obj1({ elements : [ 'b' ] });
+  var src2 = {};
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
-  var ins1 = { b : '0' };
-  var ins2 = new Obj1({ elements : [ 'b' ] });
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  var src1 = { b : '0' };
+  var src2 = new Obj1({ elements : [ 'b' ] });
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
-  test.case = 'ins1.b:0 ins2.b:0';
-  var ins1 = new Obj1({ b : '0' });
-  var ins2 = { b : '0' };
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  test.case = 'src1.b:0 src2.b:0';
+  var src1 = new Obj1({ b : '0' });
+  var src2 = { b : '0' };
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
@@ -3731,111 +3731,111 @@ function entityContainsObjectWithEqualerAndIterator( test )
 
   test.case = 'iterating:1 equaling:0';
 
-  var ins1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withIterator : 1 });
-  var ins2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withIterator : 1 });
-  test.identical( _.entityIdentical( ins1, ins2 ), true );
-  test.identical( _.entityIdentical( ins2, ins1 ), true );
-  test.identical( _.entityEquivalent( ins1, ins2 ), true );
-  test.identical( _.entityEquivalent( ins2, ins1 ), true );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), true );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), true );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), true );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), true );
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withIterator : 1 });
+  var src2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withIterator : 1 });
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), true );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), true );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), true );
 
-  var ins1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withEqualer : 1 });
-  var ins2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withEqualer : 1 });
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withEqualer : 1 });
+  var src2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withEqualer : 1 });
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
-  var ins1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withIterator : 1, withEqualer : 1 });
-  var ins2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withIterator : 1, withEqualer : 1 });
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withIterator : 1, withEqualer : 1 });
+  var src2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withIterator : 1, withEqualer : 1 });
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
   /* */
 
   test.case = 'iterating:0 equaling:1';
 
-  var ins1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withIterator : 1 });
-  var ins2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withIterator : 1 });
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
-  test.identical( _.entityContainsAll( ins1, ins2 ), false );
-  test.identical( _.entityContainsAll( ins2, ins1 ), false );
-  test.identical( _.entityContainsAny( ins1, ins2 ), false );
-  test.identical( _.entityContainsAny( ins2, ins1 ), false );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), false );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), false );
-  test.identical( _.entityContainsNone( ins1, ins2 ), false );
-  test.identical( _.entityContainsNone( ins2, ins1 ), false );
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withIterator : 1 });
+  var src2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withIterator : 1 });
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
+  test.identical( _.entityContainsAll( src1, src2 ), false );
+  test.identical( _.entityContainsAll( src2, src1 ), false );
+  test.identical( _.entityContainsAny( src1, src2 ), false );
+  test.identical( _.entityContainsAny( src2, src1 ), false );
+  test.identical( _.entityContainsOnly( src1, src2 ), false );
+  test.identical( _.entityContainsOnly( src2, src1 ), false );
+  test.identical( _.entityContainsNone( src1, src2 ), false );
+  test.identical( _.entityContainsNone( src2, src1 ), false );
 
-  var ins1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withEqualer : 1 });
-  var ins2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withEqualer : 1 });
-  test.identical( _.entityIdentical( ins1, ins2 ), true );
-  test.identical( _.entityIdentical( ins2, ins1 ), true );
-  test.identical( _.entityEquivalent( ins1, ins2 ), true );
-  test.identical( _.entityEquivalent( ins2, ins1 ), true );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), true );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), true );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), true );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), true );
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withEqualer : 1 });
+  var src2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withEqualer : 1 });
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), true );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), true );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), true );
 
-  var ins1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withIterator : 1, withEqualer : 1 });
-  var ins2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withIterator : 1, withEqualer : 1 });
-  test.identical( _.entityIdentical( ins1, ins2 ), true );
-  test.identical( _.entityIdentical( ins2, ins1 ), true );
-  test.identical( _.entityEquivalent( ins1, ins2 ), true );
-  test.identical( _.entityEquivalent( ins2, ins1 ), true );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), true );
-  test.identical( _.entityContainsAll( ins1, ins2 ), true );
-  test.identical( _.entityContainsAll( ins2, ins1 ), true );
-  test.identical( _.entityContainsAny( ins1, ins2 ), true );
-  test.identical( _.entityContainsAny( ins2, ins1 ), true );
-  test.identical( _.entityContainsOnly( ins1, ins2 ), true );
-  test.identical( _.entityContainsOnly( ins2, ins1 ), true );
-  test.identical( _.entityContainsNone( ins1, ins2 ), true );
-  test.identical( _.entityContainsNone( ins2, ins1 ), true );
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withIterator : 1, withEqualer : 1 });
+  var src2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withIterator : 1, withEqualer : 1 });
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
+  test.identical( _.entityContainsAll( src1, src2 ), true );
+  test.identical( _.entityContainsAll( src2, src1 ), true );
+  test.identical( _.entityContainsAny( src1, src2 ), true );
+  test.identical( _.entityContainsAny( src2, src1 ), true );
+  test.identical( _.entityContainsOnly( src1, src2 ), true );
+  test.identical( _.entityContainsOnly( src2, src1 ), true );
+  test.identical( _.entityContainsNone( src1, src2 ), true );
+  test.identical( _.entityContainsNone( src2, src1 ), true );
 
   /* */
 
@@ -3957,7 +3957,6 @@ function compareObjectWithIteratorAndEqual( test )
   test.equivalent( src2, src1 );
   test.contains( src1, src2 );
   test.contains( src2, src1 );
-  /* qqq xxx : implement test.nc() */
 
   /* */
 
@@ -4086,38 +4085,38 @@ function comparePrimitiveAndNon( test )
   /* */
 
   test.case = 'map pure';
-  var ins1 = 3;
-  var ins2 = Object.create( null );
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
+  var src1 = 3;
+  var src2 = Object.create( null );
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
 
   /* */
 
   test.case = 'map standanrd';
-  var ins1 = 3;
-  var ins2 = {};
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
+  var src1 = 3;
+  var src2 = {};
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
 
   /* */
 
   test.case = 'array';
-  var ins1 = 3;
-  var ins2 = [ 1, 2, 3 ];
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
+  var src1 = 3;
+  var src2 = [ 1, 2, 3 ];
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
 
   /* */
 
@@ -4424,27 +4423,27 @@ function compareDate( test )
 
   test.case = 'same dates'
   var expected = true;
-  var ins1 = new Date( 1995, 11, 17, 3, 24, 0 );
-  var ins2 = new Date( 1995, 11, 17, 3, 24, 0 );
-  test.identical( _.entityIdentical( ins1, ins2 ), true );
-  test.identical( _.entityIdentical( ins2, ins1 ), true );
-  test.identical( _.entityEquivalent( ins1, ins2 ), true );
-  test.identical( _.entityEquivalent( ins2, ins1 ), true );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), true );
+  var src1 = new Date( 1995, 11, 17, 3, 24, 0 );
+  var src2 = new Date( 1995, 11, 17, 3, 24, 0 );
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
 
   /* */
 
   test.case = 'different dates'
   var expected = true;
-  var ins1 = new Date( 1995, 11, 17, 3, 24, 0 );
-  var ins2 = new Date( 1995, 11, 17, 3, 24, 1 );
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
+  var src1 = new Date( 1995, 11, 17, 3, 24, 0 );
+  var src2 = new Date( 1995, 11, 17, 3, 24, 1 );
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
 
   /* */
 
@@ -4459,40 +4458,40 @@ function compareRegexp( test )
 
   test.case = 'same regexps'
   var expected = true;
-  var ins1 = /some \n regexp/;
-  var ins2 = /some \n regexp/;
-  test.identical( _.entityIdentical( ins1, ins2 ), true );
-  test.identical( _.entityIdentical( ins2, ins1 ), true );
-  test.identical( _.entityEquivalent( ins1, ins2 ), true );
-  test.identical( _.entityEquivalent( ins2, ins1 ), true );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), true );
+  var src1 = /some \n regexp/;
+  var src2 = /some \n regexp/;
+  test.identical( _.entityIdentical( src1, src2 ), true );
+  test.identical( _.entityIdentical( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
 
   /* */
 
   test.case = 'different regexps'
   var expected = true;
-  var ins1 = /some \n regexp/;
-  var ins2 = /some \n regexp2/;
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), false );
-  test.identical( _.entityEquivalent( ins2, ins1 ), false );
-  test.identical( _.entityContains( ins1, ins2 ), false );
-  test.identical( _.entityContains( ins2, ins1 ), false );
+  var src1 = /some \n regexp/;
+  var src2 = /some \n regexp2/;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.entityContains( src1, src2 ), false );
+  test.identical( _.entityContains( src2, src1 ), false );
 
   /* */
 
   test.case = 'different flags'
   var expected = true;
-  var ins1 = /some \n regexp/i;
-  var ins2 = /some \n regexp/;
-  test.identical( _.entityIdentical( ins1, ins2 ), false );
-  test.identical( _.entityIdentical( ins2, ins1 ), false );
-  test.identical( _.entityEquivalent( ins1, ins2 ), true );
-  test.identical( _.entityEquivalent( ins2, ins1 ), true );
-  test.identical( _.entityContains( ins1, ins2 ), true );
-  test.identical( _.entityContains( ins2, ins1 ), true ); /* xxx : rename ins1 -> src1, ins2 -> src2 */
+  var src1 = /some \n regexp/i;
+  var src2 = /some \n regexp/;
+  test.identical( _.entityIdentical( src1, src2 ), false );
+  test.identical( _.entityIdentical( src2, src1 ), false );
+  test.identical( _.entityEquivalent( src1, src2 ), true );
+  test.identical( _.entityEquivalent( src2, src1 ), true );
+  test.identical( _.entityContains( src1, src2 ), true );
+  test.identical( _.entityContains( src2, src1 ), true );
 
   /* */
 

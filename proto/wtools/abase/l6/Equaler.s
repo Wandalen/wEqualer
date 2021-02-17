@@ -856,8 +856,7 @@ function _iterableEval()
   {
     it.type1 = _.equaler.containerNameToIdMap.object;
 
-    if( it.containing === 'only' ) /* xxx */
-    if( !it.srcEffective || !_.routineIs( it.srcEffective[ equalAreSymbol ] ) )
+    if( it.containing === 'only' )
     it.iterable = _.equaler.containerNameToIdMap.map;
 
     if( !it.iterable )
@@ -909,7 +908,7 @@ function _iterableEval()
       }
       else if( !it.containing || it.containing === 'only' )
       {
-        if( !_.entity.methodIteratorOf( it.srcEffective ) )
+        // if( !_.entity.methodIteratorOf( it.srcEffective ) ) /* yyy */
         it.iterable = _.equaler.containerNameToIdMap.object;
       }
     }
@@ -1028,12 +1027,12 @@ function stop( result )
     {
       let any =
       [
-        _.equaler.containerNameToIdMap.map, /* xxx */
+        _.equaler.containerNameToIdMap.map,
         containerNameToIdMap.hashMap,
         containerNameToIdMap.set,
         containerNameToIdMap.object
       ];
-      if( it.down && _.longHasAny( any, it.down.iterable ) ) /* xxx */
+      if( it.down && _.longHasAny( any, it.down.iterable ) )
       {
         it.result = false;
         it.result = it.result || result;
@@ -1135,7 +1134,7 @@ function equalUp()
   else
   {
     if( !it.type1 || !it.type2 )
-    if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) ) /* xxx : remove? */
+    // if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) ) /* yyy : remove? */
     {
       if
       (
@@ -1531,8 +1530,6 @@ function equalMaps()
   if( !_.longHas( types, it.type1 ) || !_.longHas( types, it.type2 ) )
   return it.stop( false );
 
-  // _.debugger;
-
   if( it.containing )
   {
 
@@ -1561,7 +1558,11 @@ function equalMaps()
 
     if( it.strictTyping )
     {
-      if( _.mapIs( it.srcEffective ) ^ _.mapIs( it.srcEffective2 ) ) /* xxx : same condition in another branch? */
+      /*
+      there is no such check in contain branch because
+      second argument of contain-comparison does not have to be object, but may be map to give true
+      */
+      if( _.mapIs( it.srcEffective ) ^ _.mapIs( it.srcEffective2 ) )
       return it.stop( false );
       if( _.mapKeys( it.srcEffective ).length !== _.mapKeys( it.srcEffective2 ).length )
       return it.stop( false );
@@ -1791,7 +1792,6 @@ _.mapExtend( Equaler, LookerExtension );
 
 let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
 Iterator.visitedContainer2 = null;
-// Iterator.withImplicit = null;
 
 let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
 Iteration.result = true;
