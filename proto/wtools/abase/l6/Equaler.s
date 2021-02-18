@@ -96,7 +96,7 @@ function _equal_head( routine, args )
   if( o.strictContainer === null )
   o.strictContainer = o.strict;
   if( o.withImplicit === null )
-  o.withImplicit = o.strictTyping ? 'map.like' : '';
+  o.withImplicit = o.strictTyping ? 'auxiliary' : '';
 
   if( o.onNumbersAreEqual === null )
   if( o.strictNumbering && o.strictTyping )
@@ -819,8 +819,8 @@ function _iterableEval()
   }
   else if( _.mapIs( it.srcEffective ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.map;
-    it.iterable = _.equaler.containerNameToIdMap.map;
+    it.type1 = _.equaler.containerNameToIdMap.auxiliary;
+    it.iterable = _.equaler.containerNameToIdMap.auxiliary;
   }
   else if( _.entity.methodEqualOf( it.srcEffective ) && !_.auxiliary.is( it.srcEffective ) )
   {
@@ -839,8 +839,8 @@ function _iterableEval()
   }
   else if( it.isPartible( it.srcEffective ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.long;
-    it.iterable = _.equaler.containerNameToIdMap.long;
+    it.type1 = _.equaler.containerNameToIdMap.partible;
+    it.iterable = _.equaler.containerNameToIdMap.partible;
   }
   else if( _.primitiveIs( it.srcEffective ) )
   {
@@ -849,15 +849,15 @@ function _iterableEval()
   }
   else if( _.auxiliary.is( it.srcEffective ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.map;
-    it.iterable = _.equaler.containerNameToIdMap.map;
+    it.type1 = _.equaler.containerNameToIdMap.auxiliary;
+    it.iterable = _.equaler.containerNameToIdMap.auxiliary;
   }
   else
   {
     it.type1 = _.equaler.containerNameToIdMap.object;
 
     if( it.containing === 'only' )
-    it.iterable = _.equaler.containerNameToIdMap.map;
+    it.iterable = _.equaler.containerNameToIdMap.auxiliary;
 
     if( !it.iterable )
     it.iterable = _.equaler.containerNameToIdMap.object;
@@ -870,7 +870,7 @@ function _iterableEval()
     it.type2 = _.equaler.containerNameToIdMap.custom;
     it.iterable = _.equaler.containerNameToIdMap.custom;
   }
-  else if( _.entity.methodEqualOf( it.srcEffective2 ) && !_.auxiliary.is( it.srcEffective2 ) )
+  else if( _.entity.methodEqualOf( it.srcEffective2 ) && !_.auxiliary.is( it.srcEffective2 ) ) /* xxx */
   {
     it.type2 = _.equaler.containerNameToIdMap.object;
     if( it.iterable !== _.equaler.containerNameToIdMap.custom )
@@ -878,7 +878,7 @@ function _iterableEval()
   }
   else if( it.isPartible( it.srcEffective2 ) )
   {
-    it.type2 = _.equaler.containerNameToIdMap.long;
+    it.type2 = _.equaler.containerNameToIdMap.partible;
   }
   else if( _.hashMapLike( it.srcEffective2 ) )
   {
@@ -890,7 +890,7 @@ function _iterableEval()
   }
   else if( _.auxiliary.is( it.srcEffective2 ) )
   {
-    it.type2 = _.equaler.containerNameToIdMap.map;
+    it.type2 = _.equaler.containerNameToIdMap.auxiliary;
   }
   else if( _.primitiveIs( it.srcEffective2 ) )
   {
@@ -902,7 +902,7 @@ function _iterableEval()
 
     if( it.iterable !== _.equaler.containerNameToIdMap.custom )
     {
-      if( it.iterable !== _.equaler.containerNameToIdMap.map && it.iterable !== _.equaler.containerNameToIdMap.long )
+      if( it.iterable !== _.equaler.containerNameToIdMap.auxiliary && it.iterable !== _.equaler.containerNameToIdMap.partible )
       {
         it.iterable = _.equaler.containerNameToIdMap.object;
       }
@@ -1027,7 +1027,7 @@ function stop( result )
     {
       let any =
       [
-        _.equaler.containerNameToIdMap.map,
+        _.equaler.containerNameToIdMap.auxiliary,
         containerNameToIdMap.hashMap,
         containerNameToIdMap.set,
         containerNameToIdMap.object
@@ -1052,7 +1052,7 @@ function stop( result )
     {
       let any =
       [
-        _.equaler.containerNameToIdMap.map,
+        _.equaler.containerNameToIdMap.auxiliary,
         containerNameToIdMap.hashMap,
         containerNameToIdMap.set,
         containerNameToIdMap.object
@@ -1103,7 +1103,7 @@ function equalUp()
   /* if containing mode then srcEffective2 could even don't have such entry */
 
   if( it.containing )
-  if( it.down && it.down.iterable === _.equaler.containerNameToIdMap.map )
+  if( it.down && it.down.iterable === _.equaler.containerNameToIdMap.auxiliary )
   {
     if( !( it.key in it.down.srcEffective2 ) )
     {
@@ -1515,12 +1515,12 @@ function equalHashes()
 
 //
 
-function equalMaps()
+function equalAuxiliary()
 {
   let it = this;
   let types =
   [
-    _.equaler.containerNameToIdMap.map,
+    _.equaler.containerNameToIdMap.auxiliary,
     _.equaler.containerNameToIdMap.custom,
     _.equaler.containerNameToIdMap.object,
   ];
@@ -1560,7 +1560,7 @@ function equalMaps()
     {
       /*
       there is no such check in contain branch because
-      second argument of contain-comparison does not have to be object, but may be map to give true
+      second argument of contain-comparison does not have to be object, but may be auxiliary to give true
       */
       if( _.mapIs( it.srcEffective ) ^ _.mapIs( it.srcEffective2 ) )
       return it.stop( false );
@@ -1779,7 +1779,7 @@ let LookerExtension =
   equalSets,
   equalPartible,
   equalHashes,
-  equalMaps,
+  equalAuxiliary,
   equalObjects,
   equalTerminals,
   equalRegexps,
@@ -1839,8 +1839,8 @@ let containerIdToAscendMap =
 let containerIdToEqual =
 {
   [ containerNameToIdMap.terminal ] : equalTerminals,
-  [ containerNameToIdMap.long ] : equalPartible,
-  [ containerNameToIdMap.map ] : equalMaps,
+  [ containerNameToIdMap.partible ] : equalPartible,
+  [ containerNameToIdMap.auxiliary ] : equalAuxiliary,
   [ containerNameToIdMap.hashMap ] : equalHashes,
   [ containerNameToIdMap.set ] : equalSets,
   [ containerNameToIdMap.custom ] : equalCustoms,
