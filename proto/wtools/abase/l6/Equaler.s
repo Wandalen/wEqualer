@@ -203,7 +203,7 @@ defaults.strictCycling = null;
 defaults.strictString = null;
 defaults.strictContainer = null;
 defaults.withImplicit = null;
-defaults.withPartible = 'partible';
+defaults.withCountable = 'countable';
 defaults.accuracy = 1e-7;
 defaults.recursive = Infinity;
 defaults.onNumbersAreEqual = null;
@@ -837,10 +837,10 @@ function _iterableEval()
     it.type1 = _.equaler.containerNameToIdMap.set;
     it.iterable = _.equaler.containerNameToIdMap.set;
   }
-  else if( it.isPartible( it.srcEffective ) )
+  else if( it.isCountable( it.srcEffective ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.partible;
-    it.iterable = _.equaler.containerNameToIdMap.partible;
+    it.type1 = _.equaler.containerNameToIdMap.countable;
+    it.iterable = _.equaler.containerNameToIdMap.countable;
   }
   else if( _.primitiveIs( it.srcEffective ) )
   {
@@ -876,9 +876,9 @@ function _iterableEval()
     if( it.iterable !== _.equaler.containerNameToIdMap.custom )
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
-  else if( it.isPartible( it.srcEffective2 ) )
+  else if( it.isCountable( it.srcEffective2 ) )
   {
-    it.type2 = _.equaler.containerNameToIdMap.partible;
+    it.type2 = _.equaler.containerNameToIdMap.countable;
   }
   else if( _.hashMapLike( it.srcEffective2 ) )
   {
@@ -902,7 +902,7 @@ function _iterableEval()
 
     if( it.iterable !== _.equaler.containerNameToIdMap.custom )
     {
-      if( it.iterable !== _.equaler.containerNameToIdMap.auxiliary && it.iterable !== _.equaler.containerNameToIdMap.partible )
+      if( it.iterable !== _.equaler.containerNameToIdMap.auxiliary && it.iterable !== _.equaler.containerNameToIdMap.countable )
       {
         it.iterable = _.equaler.containerNameToIdMap.object;
       }
@@ -1386,7 +1386,7 @@ function equalSets()
 
 //
 
-function equalPartible()
+function equalCountable()
 {
   let it = this;
 
@@ -1399,7 +1399,7 @@ function equalPartible()
     if( _.bufferAnyIs( it.srcEffective ) || _.bufferAnyIs( it.srcEffective2 ) )
     return it.equalBuffers();
 
-    if( !it.isPartible( it.srcEffective2 ) )
+    if( !it.isCountable( it.srcEffective2 ) )
     return it.stop( false );
 
   }
@@ -1777,7 +1777,7 @@ let LookerExtension =
   secondCoerce,
   equalCustoms,
   equalSets,
-  equalPartible,
+  equalCountable,
   equalHashes,
   equalAuxiliary,
   equalObjects,
@@ -1839,7 +1839,7 @@ let containerIdToAscendMap =
 let containerIdToEqual =
 {
   [ containerNameToIdMap.terminal ] : equalTerminals,
-  [ containerNameToIdMap.partible ] : equalPartible,
+  [ containerNameToIdMap.countable ] : equalCountable,
   [ containerNameToIdMap.auxiliary ] : equalAuxiliary,
   [ containerNameToIdMap.hashMap ] : equalHashes,
   [ containerNameToIdMap.set ] : equalSets,
