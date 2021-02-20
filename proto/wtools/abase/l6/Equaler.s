@@ -57,7 +57,7 @@ function _equal_head( routine, args )
 
   let o = args[ 2 ] || Object.create( null );
 
-  if( _.lookIterationIs( o ) )
+  if( _.looker.iterationIs( o ) )
   {
     let it = o;
     _.assert( it.src === args[ 1 ] );
@@ -394,18 +394,11 @@ function entityContainsAll( src, src2, opts )
   return result;
 }
 
-// _.routineExtend( entityContainsAll, _equal );
 _.routineExtend( entityContainsAll, entityContains );
 
 var defaults = entityContainsAll.defaults;
 
 defaults.containing = 'all';
-// defaults.strict = 1;
-// defaults.strictTyping = 0;
-// defaults.strictNumbering = 0;
-// defaults.strictString = 0;
-// defaults.strictCycling = 1;
-// defaults.strictContainer = 0;
 
 //
 
@@ -428,18 +421,11 @@ function entityContainsAny( src, src2, opts )
   return result;
 }
 
-// _.routineExtend( entityContainsAny, _equal );
 _.routineExtend( entityContainsAny, entityContains );
 
 var defaults = entityContainsAny.defaults;
 
 defaults.containing = 'any';
-// defaults.strict = 1;
-// defaults.strictTyping = 0;
-// defaults.strictNumbering = 0;
-// defaults.strictString = 0;
-// defaults.strictCycling = 1;
-// defaults.strictContainer = 0;
 
 //
 
@@ -462,18 +448,11 @@ function entityContainsOnly( src, src2, opts )
   return result;
 }
 
-// _.routineExtend( entityContainsOnly, _equal );
 _.routineExtend( entityContainsOnly, entityContains );
 
 var defaults = entityContainsOnly.defaults;
 
 defaults.containing = 'only';
-// defaults.strict = 1;
-// defaults.strictTyping = 0;
-// defaults.strictNumbering = 0;
-// defaults.strictString = 0;
-// defaults.strictCycling = 1;
-// defaults.strictContainer = 0;
 
 //
 
@@ -496,18 +475,11 @@ function entityContainsNone( src, src2, opts )
   return result;
 }
 
-// _.routineExtend( entityContainsNone, _equal );
 _.routineExtend( entityContainsNone, entityContains );
 
 var defaults = entityContainsNone.defaults;
 
 defaults.containing = 'none';
-// defaults.strict = 1;
-// defaults.strictTyping = 0;
-// defaults.strictNumbering = 0;
-// defaults.strictString = 0;
-// defaults.strictCycling = 1;
-// defaults.strictContainer = 0;
 
 //
 
@@ -570,20 +542,17 @@ function entityDiff( src, src2, opts )
   if( equal )
   return false;
 
-  _.assert( !!opts.it );
+  _.assert( !!opts.it ); // yyy
   _.assert( opts.it.lastPath !== undefined );
+  let it = opts.it;
+  // let it = opts;
+  // _.assert( it.lastPath !== undefined );
 
   let result = _.entityDiffExplanation
   ({
     srcs : [ src, src2 ],
-    path : opts.it.lastPath,
+    path : it.lastPath,
   });
-
-  /* = qqq for Yevhen : fix please
-       test.identical( _.property.onlyExplicit( {} ), {} )
-           - got :          {}
-           - expected :     {}
-  */
 
   return result;
 }
@@ -612,7 +581,7 @@ function entityDiffExplanation( o )
     let src0 = _.select( o.srcs[ 0 ], o.path );
     let src1 = _.select( o.srcs[ 1 ], o.path );
 
-    // if( _.mapIs( src0 ) && _.mapIs( src1 ) )
+    // if( _.mapIs( src0 ) && _.mapIs( src1 ) ) /* xxx */
     if( _.objectIs( src0 ) && _.objectIs( src1 ) )
     {
       o.srcs[ 0 ] = src0;
@@ -908,7 +877,6 @@ function _iterableEval()
       }
       else if( !it.containing || it.containing === 'only' )
       {
-        // if( !_.entity.methodIteratorOf( it.srcEffective ) ) /* yyy */
         it.iterable = _.equaler.containerNameToIdMap.object;
       }
     }
@@ -1134,7 +1102,6 @@ function equalUp()
   else
   {
     if( !it.type1 || !it.type2 )
-    // if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) ) /* yyy : remove? */
     {
       if
       (
@@ -1260,7 +1227,8 @@ function equal( src1, src2, o )
   _.assert( o === undefined || _.mapIs( o ) );
 
   let o2 = _.mapOnly( it, _.equaler._equal.defaults );
-  _.assert( o2.it === undefined );
+
+  _.assert( o2.it === undefined || o2.it === null );
   _.assert( o2.level === it.level );
 
   if( o )
