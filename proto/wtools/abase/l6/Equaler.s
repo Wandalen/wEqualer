@@ -1059,7 +1059,7 @@ function visitPop()
     _.assert
     (
       Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.src2 ),
-      () => `Top-most visit ${it.path} does not match ${_.entity.exportStringShortFine( it.src2 )} <> ${_.entity.exportStringShortFine
+      () => `Top-most visit ${it.path} does not match ${_.entity.exportStringShort( it.src2 )} <> ${_.entity.exportStringShort
       (
         it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ]
       )}`
