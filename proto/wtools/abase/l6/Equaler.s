@@ -48,129 +48,111 @@ _.assert( !!_.look );
 _.assert( !!_.select );
 
 // --
+// declare looker
+// --
+
+let Defaults = _.mapExtend( null, _.look.defaults );
+
+Defaults.Looker = null;
+Defaults.src = null;
+Defaults.src2 = null;
+Defaults.srcEffective = null;
+Defaults.srcEffective2 = null;
+Defaults.containing = 0;
+Defaults.strict = 1;
+Defaults.revisiting = 1;
+Defaults.strictTyping = null;
+Defaults.strictNumbering = null;
+Defaults.strictCycling = null;
+Defaults.strictString = null;
+Defaults.strictContainer = null;
+Defaults.withImplicit = null;
+Defaults.withCountable = 'countable';
+Defaults.accuracy = 1e-7;
+Defaults.recursive = Infinity;
+Defaults.onNumbersAreEqual = null;
+Defaults.onStringsAreEqual = null;
+Defaults.onStringPreprocess = null;
+
+let Equaler = Object.create( Parent );
+Equaler.constructor = function Equaler(){};
+
+let LookerExtension =
+{
+  Looker : Equaler,
+  optionsFromArguments,
+  optionsForm,
+  optionsToIteration,
+  start,
+  choose,
+  chooseRoot,
+  effectiveEval,
+  iterableEval,
+  _iterableEval,
+  ascendEval,
+  visitPush,
+  visitPop,
+  visitUp,
+  visitDown,
+  stop,
+  downUpdate,
+  equalUp,
+  equalDown,
+  equalCycle,
+  equal,
+  secondCoerce,
+  // equalCustoms,
+  equalSets,
+  equalCountable,
+  equalHashes,
+  equalAuxiliary,
+  equalObjects,
+  equalTerminals,
+  equalRegexps,
+  equalDates,
+  equalBuffers,
+  _objectAscend,
+}
+
+_.mapExtend( Equaler, LookerExtension );
+
+let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
+Iterator.visitedContainer2 = null;
+
+let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
+Iteration.result = true;
+Iteration.srcEffective = null;
+Iteration.src2 = null;
+Iteration.originalSrc2 = null; /* qqq : cover the field */
+Iteration.srcEffective2 = null;
+Iteration.type1 = null;
+Iteration.type2 = null;
+
+let IterationPreserve = Equaler.IterationPreserve = _.mapExtend( null, Equaler.IterationPreserve );
+IterationPreserve.src2 = null;
+IterationPreserve.srcEffective2 = null;
+
+// --
 // routines
 // --
 
 function _equal_head( routine, args )
 {
 
-
-  let o = args[ 2 ] || Object.create( null );
-
-  if( _.looker.iterationIs( o ) )
+  if( args.length === 3 && _.looker.iterationIs( args[ 2 ] ) )
   {
-    let it = o;
+    let it = args[ 2 ];
     _.assert( it.src === args[ 1 ] );
     _.assert( it.src2 === args[ 0 ] );
     return it;
   }
 
-  o = _.routineOptionsPreservingUndefines( routine, args[ 2 ] || Object.create( null ) );
-  _.assert( 0 <= o.revisiting && o.revisiting <= 2 );
-  _.assert( args.length === 2 || args.length === 3 );
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert
-  (
-    _.longHasAll( [ 0, false, 'all', 'any', 'only', 'none' ], o.containing )
-    , () => `Unknown value of option o.containing : ${o.containing}`
-    + `\nExpects any of [ ${[ 0, false, 'all', 'any', 'only', 'none' ].join( ' ' )} ]`
-  );
-
-  let accuracy = o.accuracy;
-
-  /*
-    second argument should goes first to make contain work properly
-  */
-
-  o.src = args[ 1 ];
-  o.src2 = args[ 0 ];
-
-  if( o.strictTyping === null )
-  o.strictTyping = o.strict;
-  if( o.strictNumbering === null )
-  o.strictNumbering = o.strict;
-  if( o.strictCycling === null )
-  o.strictCycling = o.strict;
-  if( o.strictString === null )
-  o.strictString = o.strict;
-  if( o.strictContainer === null )
-  o.strictContainer = o.strict;
-  if( o.withImplicit === null )
-  o.withImplicit = o.strictTyping ? 'auxiliary' : '';
-
-  if( o.onNumbersAreEqual === null )
-  if( o.strictNumbering && o.strictTyping )
-  o.onNumbersAreEqual = _.numbersAreIdentical;
-  else if( o.strictNumbering && !o.strictTyping )
-  o.onNumbersAreEqual = _.numbersAreIdenticalNotStrictly;
-  else
-  o.onNumbersAreEqual = ( a, b, acc ) =>
-  {
-    return _.numbersAreEquivalent( a, b, ( acc === undefined || acc === null ) ? accuracy : acc );
-  }
-
-  if( o.onStringsAreEqual === null )
-  o.onStringsAreEqual = stringsAreIdentical;
-
-  if( o.onStringPreprocess === null )
-  if( o.strictString )
-  o.onStringPreprocess = stringsPreprocessNo;
-  else
-  o.onStringPreprocess = stringsPreprocessLose;
-
-  let it = _.look.head( _.equaler._equal, [ optionsFor( o ) ] );
-
-  _.assert( it.iterator.visitedContainer2 === null );
-
-  if( it.iterator.revisiting < 2 )
-  {
-    if( it.iterator.revisiting === 0 )
-    it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
-    else
-    it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
-  }
-
-  _.assert( Object.is( it.src2, o.src2 ) );
-  _.assert( Object.is( it.src, o.src ) );
-  _.assert( it.result === true );
-
+  let o = Self.optionsFromArguments( args );
+  o.Looker = o.Looker || routine.defaults.Looker || Self;
+  _.routineOptionsPreservingUndefines( routine, o );
+  o.Looker.optionsForm( routine, o );
+  let it = o.Looker.optionsToIteration( o );
   return it;
-
-  /* */
-
-  function stringsAreIdentical( a, b )
-  {
-    if( !_.strIs( a ) )
-    return false;
-    if( !_.strIs( b ) )
-    return false;
-    return a === b;
-  }
-
-  /* */
-
-  function stringsPreprocessLose( str )
-  {
-    return _.strLinesStrip( str );
-  }
-
-  /* */
-
-  function stringsPreprocessNo( str )
-  {
-    return str;
-  }
-
-  /* */
-
-  function optionsFor( o )
-  {
-    let o2 = o;
-    if( o2.Looker === null )
-    o2.Looker = Self;
-    return o2;
-  }
-
 }
 
 //
@@ -178,37 +160,12 @@ function _equal_head( routine, args )
 function _equalIt_body( it )
 {
   let it2 = _.look.body( it );
-
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( it2 === it );
-  _.assert( it.result === _.dont || _.boolIs( it.result ) );
-  _.assert( it.withImplicit === '' ^ it.strictTyping );
-
   return it;
 }
 
-var defaults = _equalIt_body.defaults = Object.create( _.look.defaults );
-
-defaults.Looker = null;
-defaults.src = null;
-defaults.src2 = null;
-defaults.srcEffective = null;
-defaults.srcEffective2 = null;
-defaults.containing = 0;
-defaults.strict = 1;
-defaults.revisiting = 1;
-defaults.strictTyping = null;
-defaults.strictNumbering = null;
-defaults.strictCycling = null;
-defaults.strictString = null;
-defaults.strictContainer = null;
-defaults.withImplicit = null;
-defaults.withCountable = 'countable';
-defaults.accuracy = 1e-7;
-defaults.recursive = Infinity;
-defaults.onNumbersAreEqual = null;
-defaults.onStringsAreEqual = null;
-defaults.onStringPreprocess = null;
+var defaults = _equalIt_body.defaults = Defaults;
 
 let _equalIt = _.routineUnite( _equal_head, _equalIt_body );
 
@@ -542,11 +499,11 @@ function entityDiff( src, src2, opts )
   if( equal )
   return false;
 
-  _.assert( !!opts.it ); // yyy
-  _.assert( opts.it.lastPath !== undefined );
-  let it = opts.it;
-  // let it = opts;
-  // _.assert( it.lastPath !== undefined );
+  // _.assert( !!opts.it ); // yyy
+  // _.assert( opts.it.lastPath !== undefined );
+  // let it = opts.it;
+  let it = opts;
+  _.assert( it.lastPath !== undefined );
 
   let result = _.entityDiffExplanation
   ({
@@ -581,8 +538,9 @@ function entityDiffExplanation( o )
     let src0 = _.select( o.srcs[ 0 ], o.path );
     let src1 = _.select( o.srcs[ 1 ], o.path );
 
-    // if( _.mapIs( src0 ) && _.mapIs( src1 ) ) /* xxx */
-    if( _.objectIs( src0 ) && _.objectIs( src1 ) )
+    // if( _.mapIs( src0 ) && _.mapIs( src1 ) )
+    // if( _.objectIs( src0 ) && _.objectIs( src1 ) )
+    if( _.aux.is( src0 ) && _.aux.is( src1 ) ) /* yyy */
     {
       o.srcs[ 0 ] = src0;
       o.srcs[ 1 ] = src1;
@@ -609,8 +567,10 @@ function entityDiffExplanation( o )
   if( _.strIs( o.srcs[ 1 ] ) )
   o.srcs[ 1 ] = o.onStringPreprocess( o.srcs[ 1 ] );
 
+  /* yyy */
   // if( _.mapIs( o.srcs[ 0 ] ) && _.mapIs( o.srcs[ 1 ] ) )
-  if( _.objectIs( o.srcs[ 0 ] ) && _.objectIs( o.srcs[ 1 ] ) )
+  // if( _.objectIs( o.srcs[ 0 ] ) && _.objectIs( o.srcs[ 1 ] ) )
+  if( _.aux.is( o.srcs[ 0 ] ) && _.aux.is( o.srcs[ 1 ] ) )
   {
     let protoGot = Object.getPrototypeOf( o.srcs[ 0 ] );
     let protoExpected = Object.getPrototypeOf( o.srcs[ 1 ] );
@@ -688,6 +648,8 @@ function entityDiffExplanation( o )
     return str;
   }
 
+  /* */
+
   function isEquivalentProto( proto1, proto2 )
   {
     if( proto1 === proto2 )
@@ -701,6 +663,8 @@ function entityDiffExplanation( o )
 
     return false;
   }
+
+  /* */
 
 }
 
@@ -718,8 +682,160 @@ defaults.strictString = 1; /* qqq : cover option strictString */
 defaults.onStringPreprocess = null
 
 // --
+// options
+// --
+
+function optionsFromArguments( args )
+{
+  let o = args[ 2 ] || Object.create( null );
+
+  /*
+    second argument should goes first to make contain work properly
+  */
+
+  o.src = args[ 1 ];
+  o.src2 = args[ 0 ];
+
+  _.assert( args.length === 1 || args.length === 2 || args.length === 3 );
+  _.assert( arguments.length === 1 );
+  _.assert( _.mapIs( o ) );
+
+  return o;
+}
+
+//
+
+function optionsForm( routine, o )
+{
+
+  _.assert( 0 <= o.revisiting && o.revisiting <= 2 );
+  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  _.assert
+  (
+    _.longHasAll( [ 0, false, 'all', 'any', 'only', 'none' ], o.containing )
+    , () => `Unknown value of option o.containing : ${o.containing}`
+    + `\nExpects any of [ ${[ 0, false, 'all', 'any', 'only', 'none' ].join( ' ' )} ]`
+  );
+
+  let accuracy = o.accuracy;
+
+  if( o.strictTyping === null )
+  o.strictTyping = o.strict;
+  if( o.strictNumbering === null )
+  o.strictNumbering = o.strict;
+  if( o.strictCycling === null )
+  o.strictCycling = o.strict;
+  if( o.strictString === null )
+  o.strictString = o.strict;
+  if( o.strictContainer === null )
+  o.strictContainer = o.strict;
+  if( o.withImplicit === null )
+  o.withImplicit = o.strictTyping ? 'aux' : '';
+
+  if( o.onNumbersAreEqual === null )
+  if( o.strictNumbering && o.strictTyping )
+  o.onNumbersAreEqual = _.numbersAreIdentical;
+  else if( o.strictNumbering && !o.strictTyping )
+  o.onNumbersAreEqual = _.numbersAreIdenticalNotStrictly;
+  else
+  o.onNumbersAreEqual = ( a, b, acc ) =>
+  {
+    return _.numbersAreEquivalent( a, b, ( acc === undefined || acc === null ) ? accuracy : acc );
+  }
+
+  if( o.onStringsAreEqual === null )
+  o.onStringsAreEqual = stringsAreIdentical;
+
+  if( o.onStringPreprocess === null )
+  if( o.strictString )
+  o.onStringPreprocess = stringsPreprocessNo;
+  else
+  o.onStringPreprocess = stringsPreprocessLose;
+
+  Parent.optionsForm.call( this, routine, o );
+
+  return o;
+
+  /* */
+
+  function stringsAreIdentical( a, b )
+  {
+    if( !_.strIs( a ) )
+    return false;
+    if( !_.strIs( b ) )
+    return false;
+    return a === b;
+  }
+
+  /* */
+
+  function stringsPreprocessLose( str )
+  {
+    return _.strLinesStrip( str );
+  }
+
+  /* */
+
+  function stringsPreprocessNo( str )
+  {
+    return str;
+  }
+
+}
+
+//
+
+function optionsToIteration( o )
+{
+  let it = Parent.optionsToIteration.call( this, o );
+
+  _.assert( Object.is( it.originalSrc2, it.src2 ) );
+
+  // _.assert( it.iterator.visitedContainer2 === null ); /* yyy : move to start */
+  //
+  // if( it.iterator.revisiting < 2 )
+  // {
+  //   if( it.iterator.revisiting === 0 )
+  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
+  //   else
+  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
+  // }
+
+  _.assert( Object.is( it.src2, o.src2 ) );
+  _.assert( Object.is( it.src, o.src ) );
+  _.assert( it.result === true );
+
+  return it;
+}
+
+// --
 // looker routines
 // --
+
+function start()
+{
+  let it = this;
+
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+  _.assert( it.iterator.visitedContainer2 === null );
+
+  if( it.iterator.revisiting < 2 )
+  {
+    if( it.iterator.revisiting === 0 )
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
+    else
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
+  }
+
+  Parent.start.apply( it, arguments );
+
+  _.assert( _.boolIs( it.result ) );
+  _.assert( it.withImplicit === '' ^ it.strictTyping );
+
+  return it;
+}
+
+//
 
 function choose( e, k )
 {
@@ -732,6 +848,20 @@ function choose( e, k )
   _.assert( _.objectIs( it.down ) );
 
   it.src2 = _.container.elementGet( it.srcEffective2, it.key );
+  it.originalSrc2 = it.src2;
+
+  return it;
+}
+
+//
+
+function chooseRoot( e )
+{
+  let it = this;
+
+  Parent.chooseRoot.apply( it, arguments );
+
+  it.originalSrc2 = it.src2;
 
   return it;
 }
@@ -779,19 +909,20 @@ function _iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  let containerType1 = _.container.typeOf( it.srcEffective );
-  if( containerType1 )
+  // let containerType1 = _.container.typeOf( it.srcEffective );
+  // if( containerType1 )
+  // {
+  //   it.type1 = _.equaler.containerNameToIdMap.custom;
+  //   it.containerType = containerType1;
+  //   it.iterable = _.equaler.containerNameToIdMap.custom;
+  // }
+  // else
+  if( _.mapIs( it.srcEffective ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.custom;
-    it.containerType = containerType1;
-    it.iterable = _.equaler.containerNameToIdMap.custom;
+    it.type1 = _.equaler.containerNameToIdMap.aux;
+    it.iterable = _.equaler.containerNameToIdMap.aux;
   }
-  else if( _.mapIs( it.srcEffective ) )
-  {
-    it.type1 = _.equaler.containerNameToIdMap.auxiliary;
-    it.iterable = _.equaler.containerNameToIdMap.auxiliary;
-  }
-  else if( _.entity.methodEqualOf( it.srcEffective ) && !_.auxiliary.is( it.srcEffective ) )
+  else if( _.entity.methodEqualOf( it.srcEffective ) && !_.aux.is( it.srcEffective ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.object;
     it.iterable = _.equaler.containerNameToIdMap.object;
@@ -816,33 +947,34 @@ function _iterableEval()
     it.type1 = 0;
     it.iterable = 0;
   }
-  else if( _.auxiliary.is( it.srcEffective ) )
+  else if( _.aux.is( it.srcEffective ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.auxiliary;
-    it.iterable = _.equaler.containerNameToIdMap.auxiliary;
+    it.type1 = _.equaler.containerNameToIdMap.aux;
+    it.iterable = _.equaler.containerNameToIdMap.aux;
   }
   else
   {
     it.type1 = _.equaler.containerNameToIdMap.object;
 
     if( it.containing === 'only' )
-    it.iterable = _.equaler.containerNameToIdMap.auxiliary;
+    it.iterable = _.equaler.containerNameToIdMap.aux;
 
     if( !it.iterable )
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
 
-  let containerType2 = _.container.typeOf( it.srcEffective2 );
-  if( containerType2 )
-  {
-    it.containerType = it.containerType || containerType2;
-    it.type2 = _.equaler.containerNameToIdMap.custom;
-    it.iterable = _.equaler.containerNameToIdMap.custom;
-  }
-  else if( _.entity.methodEqualOf( it.srcEffective2 ) && !_.auxiliary.is( it.srcEffective2 ) ) /* xxx */
+  // let containerType2 = _.container.typeOf( it.srcEffective2 );
+  // if( containerType2 )
+  // {
+  //   it.containerType = it.containerType || containerType2;
+  //   it.type2 = _.equaler.containerNameToIdMap.custom;
+  //   it.iterable = _.equaler.containerNameToIdMap.custom;
+  // }
+  // else
+  if( _.entity.methodEqualOf( it.srcEffective2 ) && !_.aux.is( it.srcEffective2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.object;
-    if( it.iterable !== _.equaler.containerNameToIdMap.custom )
+    // if( it.iterable !== _.equaler.containerNameToIdMap.custom )
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
   else if( it.isCountable( it.srcEffective2 ) )
@@ -857,9 +989,9 @@ function _iterableEval()
   {
     it.type2 = _.equaler.containerNameToIdMap.set;
   }
-  else if( _.auxiliary.is( it.srcEffective2 ) )
+  else if( _.aux.is( it.srcEffective2 ) )
   {
-    it.type2 = _.equaler.containerNameToIdMap.auxiliary;
+    it.type2 = _.equaler.containerNameToIdMap.aux;
   }
   else if( _.primitiveIs( it.srcEffective2 ) )
   {
@@ -869,9 +1001,9 @@ function _iterableEval()
   {
     it.type2 = _.equaler.containerNameToIdMap.object;
 
-    if( it.iterable !== _.equaler.containerNameToIdMap.custom )
+    // if( it.iterable !== _.equaler.containerNameToIdMap.custom )
     {
-      if( it.iterable !== _.equaler.containerNameToIdMap.auxiliary && it.iterable !== _.equaler.containerNameToIdMap.countable )
+      if( it.iterable !== _.equaler.containerNameToIdMap.aux && it.iterable !== _.equaler.containerNameToIdMap.countable )
       {
         it.iterable = _.equaler.containerNameToIdMap.object;
       }
@@ -995,7 +1127,7 @@ function stop( result )
     {
       let any =
       [
-        _.equaler.containerNameToIdMap.auxiliary,
+        _.equaler.containerNameToIdMap.aux,
         containerNameToIdMap.hashMap,
         containerNameToIdMap.set,
         containerNameToIdMap.object
@@ -1020,7 +1152,7 @@ function stop( result )
     {
       let any =
       [
-        _.equaler.containerNameToIdMap.auxiliary,
+        _.equaler.containerNameToIdMap.aux,
         containerNameToIdMap.hashMap,
         containerNameToIdMap.set,
         containerNameToIdMap.object
@@ -1071,7 +1203,7 @@ function equalUp()
   /* if containing mode then srcEffective2 could even don't have such entry */
 
   if( it.containing )
-  if( it.down && it.down.iterable === _.equaler.containerNameToIdMap.auxiliary )
+  if( it.down && it.down.iterable === _.equaler.containerNameToIdMap.aux )
   {
     if( !( it.key in it.down.srcEffective2 ) )
     {
@@ -1094,9 +1226,10 @@ function equalUp()
     if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) )
     return it.stop( false );
 
-    if( it.containerType && it.containerType._identicalTypes )
-    if( !it.containerType._identicalTypes( it.srcEffective, it.srcEffective2 ) )
-    return it.stop( false );
+    // yyy
+    // if( it.containerType && it.containerType._identicalTypes )
+    // if( !it.containerType._identicalTypes( it.srcEffective, it.srcEffective2 ) )
+    // return it.stop( false );
 
   }
   else
@@ -1255,23 +1388,23 @@ function secondCoerce()
     return true;
   }
 
-  if( it.containerType && it.containerType._coerce )
-  {
-    if( it.containerType._coerce( it ) )
-    return true;
-  }
+  // if( it.containerType && it.containerType._coerce )
+  // {
+  //   if( it.containerType._coerce( it ) )
+  //   return true;
+  // }
 
   return false;
 }
 
+// //
 //
-
-function equalCustoms()
-{
-  let it = this;
-  if( _.container.lengthOf( it.srcEffective ) !== _.container.lengthOf( it.srcEffective2 ) )
-  return it.stop( false );
-}
+// function equalCustoms()
+// {
+//   let it = this;
+//   if( _.container.lengthOf( it.srcEffective ) !== _.container.lengthOf( it.srcEffective2 ) )
+//   return it.stop( false );
+// }
 
 //
 
@@ -1488,8 +1621,8 @@ function equalAuxiliary()
   let it = this;
   let types =
   [
-    _.equaler.containerNameToIdMap.auxiliary,
-    _.equaler.containerNameToIdMap.custom,
+    _.equaler.containerNameToIdMap.aux,
+    // _.equaler.containerNameToIdMap.custom,
     _.equaler.containerNameToIdMap.object,
   ];
 
@@ -1503,12 +1636,12 @@ function equalAuxiliary()
 
     if( it.containing === 'only' )
     {
-      if( _.auxiliary.is( it.srcEffective ) && !_.auxiliary.is( it.srcEffective2 ) )
+      if( _.aux.is( it.srcEffective ) && !_.aux.is( it.srcEffective2 ) )
       return it.stop( true );
     }
     else
     {
-      if( !_.auxiliary.is( it.srcEffective ) && _.auxiliary.is( it.srcEffective2 ) )
+      if( !_.aux.is( it.srcEffective ) && _.aux.is( it.srcEffective2 ) )
       return it.stop( false );
     }
 
@@ -1559,8 +1692,9 @@ function equalObjects()
 
   _.assert
   (
-    it.iterable === _.equaler.containerNameToIdMap.custom
-    || it.iterable === _.equaler.containerNameToIdMap.object
+    // it.iterable === _.equaler.containerNameToIdMap.custom
+    // ||
+    it.iterable === _.equaler.containerNameToIdMap.object
   );
 
   if( it.srcEffective && _.routineIs( it.srcEffective[ equalAreSymbol ] ) )
@@ -1718,76 +1852,21 @@ function _objectAscend( src )
 }
 
 // --
-// declare looker
-// --
-
-let Equaler = Object.create( Parent );
-Equaler.constructor = function Equaler(){};
-
-let LookerExtension =
-{
-  Looker : Equaler,
-  choose,
-  effectiveEval,
-  iterableEval,
-  _iterableEval,
-  ascendEval,
-  visitPush,
-  visitPop,
-  visitUp,
-  visitDown,
-  stop,
-  downUpdate,
-  equalUp,
-  equalDown,
-  equalCycle,
-  equal,
-  secondCoerce,
-  equalCustoms,
-  equalSets,
-  equalCountable,
-  equalHashes,
-  equalAuxiliary,
-  equalObjects,
-  equalTerminals,
-  equalRegexps,
-  equalDates,
-  equalBuffers,
-  _objectAscend,
-}
-
-_.mapExtend( Equaler, LookerExtension );
-
-let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
-Iterator.visitedContainer2 = null;
-
-let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
-Iteration.result = true;
-Iteration.src2 = null;
-Iteration.srcEffective = null;
-Iteration.srcEffective2 = null;
-Iteration.type1 = null;
-Iteration.type2 = null;
-
-let IterationPreserve = Equaler.IterationPreserve = _.mapExtend( null, Equaler.IterationPreserve );
-IterationPreserve.src2 = null;
-IterationPreserve.srcEffective2 = null;
-
-// --
 // declare
 // --
 
-_.assert( !!_.looker.containerIdToNameMap[ 5 ] );
-_.assert( !_.looker.containerIdToNameMap[ 6 ] );
+_.assert( !!_.looker.containerIdToNameMap[ 4 ] );
+_.assert( !_.looker.containerIdToNameMap[ 5 ] );
 
+let last = _.looker.containerNameToIdMap.last;
 let equalAreSymbol = Symbol.for( 'equalAre' );
 let equalSecondCoerceSymbol = Symbol.for( 'equalSecondCoerce' );
 
 let containerNameToIdMap =
 {
   ... _.looker.containerNameToIdMap,
-  'object' : 6,
-  'last' : 6,
+  'object' : last+1,
+  'last' : last+1,
 }
 
 _.assert( containerNameToIdMap.hashMap >= 0 );
@@ -1795,23 +1874,23 @@ _.assert( containerNameToIdMap.hashMap >= 0 );
 let containerIdToNameMap =
 {
   ... _.looker.containerIdToNameMap,
-  6 : 'object',
+  [ last+1 ] : 'object',
 }
 
 let containerIdToAscendMap =
 {
   ... _.looker.containerIdToAscendMap,
-  6 : _objectAscend,
+  [ last+1 ] : _objectAscend,
 }
 
 let containerIdToEqual =
 {
   [ containerNameToIdMap.terminal ] : equalTerminals,
   [ containerNameToIdMap.countable ] : equalCountable,
-  [ containerNameToIdMap.auxiliary ] : equalAuxiliary,
+  [ containerNameToIdMap.aux ] : equalAuxiliary,
   [ containerNameToIdMap.hashMap ] : equalHashes,
   [ containerNameToIdMap.set ] : equalSets,
-  [ containerNameToIdMap.custom ] : equalCustoms,
+  // [ containerNameToIdMap.custom ] : equalCustoms,
   [ containerNameToIdMap.object ] : equalObjects,
 }
 

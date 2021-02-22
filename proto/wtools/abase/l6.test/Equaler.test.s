@@ -437,105 +437,105 @@ function containsLoose( test )
 
 }
 
+// //
 //
-
-function compareContainerType( test )
-{
-  try
-  {
-
-    let type = Object.create( null );
-    type.name = 'ContainerForTest';
-    type._while = _while;
-    type._elementGet = _elementGet;
-    type._elementSet = _elementSet;
-    type._lengthGet = _lengthGet;
-    type._is = _is;
-
-    _.container.typeDeclare( type );
-
-    test.description = 'entityEquivalent empty';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ] };
-    var src2 = { eSet, eGet, elements : [] };
-    test.identical( _.entityEquivalent( src1, src2 ), false );
-    test.identical( _.entityEquivalent( src2, src1 ), false );
-
-    test.description = 'entityIdentical empty';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ] };
-    var src2 = { eSet, eGet, elements : [] };
-    test.identical( _.entityIdentical( src1, src2 ), false );
-    test.identical( _.entityIdentical( src2, src1 ), false );
-
-    test.description = 'entityEquivalent identical';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
-    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    test.identical( _.entityEquivalent( src1, src2 ), true );
-    test.identical( _.entityEquivalent( src2, src1 ), true );
-
-    test.description = 'entityIdentical identical';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
-    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    test.identical( _.entityIdentical( src1, src2 ), true );
-    test.identical( _.entityIdentical( src2, src1 ), true );
-
-    _.container.typeUndeclare( 'ContainerForTest' );
-
-    test.description = 'entityEquivalent';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
-    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    test.identical( _.entityEquivalent( src1, src2 ), false );
-    test.identical( _.entityEquivalent( src2, src1 ), false );
-
-    test.description = 'entityIdentical';
-    var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
-    var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
-    test.identical( _.entityIdentical( src1, src2 ), false );
-    test.identical( _.entityIdentical( src2, src1 ), false );
-
-  }
-  catch( err )
-  {
-    _.container.typeUndeclare( 'ContainerForTest' );
-    throw err;
-  }
-
-  function _is( src )
-  {
-    return !!src && !!src.eGet;
-  }
-
-  function _elementSet( container, key, val )
-  {
-    return container.eSet( key, val );
-  }
-
-  function _elementGet( container, key )
-  {
-    return container.eGet( key );
-  }
-
-  function _lengthGet( container )
-  {
-    return container.elements.length;
-  }
-
-  function _while( container, onEach )
-  {
-    for( let k = 0; k < container.elements.length; k++ )
-    onEach( container.elements[ k ], k, container );
-  }
-
-  function eSet( k, v )
-  {
-    this.elements[ k ] = v;
-  }
-
-  function eGet( k )
-  {
-    return this.elements[ k ];
-  }
-
-}
+// function compareContainerType( test )
+// {
+//   try
+//   {
+//
+//     let type = Object.create( null );
+//     type.name = 'ContainerForTest';
+//     type._while = _while;
+//     type._elementGet = _elementGet;
+//     type._elementSet = _elementSet;
+//     type._lengthGet = _lengthGet;
+//     type._is = _is;
+//
+//     _.container.typeDeclare( type );
+//
+//     test.description = 'entityEquivalent empty';
+//     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ] };
+//     var src2 = { eSet, eGet, elements : [] };
+//     test.identical( _.entityEquivalent( src1, src2 ), false );
+//     test.identical( _.entityEquivalent( src2, src1 ), false );
+//
+//     test.description = 'entityIdentical empty';
+//     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ] };
+//     var src2 = { eSet, eGet, elements : [] };
+//     test.identical( _.entityIdentical( src1, src2 ), false );
+//     test.identical( _.entityIdentical( src2, src1 ), false );
+//
+//     test.description = 'entityEquivalent identical';
+//     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+//     var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+//     test.identical( _.entityEquivalent( src1, src2 ), true );
+//     test.identical( _.entityEquivalent( src2, src1 ), true );
+//
+//     test.description = 'entityIdentical identical';
+//     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+//     var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+//     test.identical( _.entityIdentical( src1, src2 ), true );
+//     test.identical( _.entityIdentical( src2, src1 ), true );
+//
+//     _.container.typeUndeclare( 'ContainerForTest' );
+//
+//     test.description = 'entityEquivalent';
+//     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+//     var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+//     test.identical( _.entityEquivalent( src1, src2 ), false );
+//     test.identical( _.entityEquivalent( src2, src1 ), false );
+//
+//     test.description = 'entityIdentical';
+//     var src1 = { eSet, eGet, elements : [ 1, 2, 3 ], field1 : 1 };
+//     var src2 = { eSet, eGet, elements : [ 1, 2, 3 ], field2 : 2 };
+//     test.identical( _.entityIdentical( src1, src2 ), false );
+//     test.identical( _.entityIdentical( src2, src1 ), false );
+//
+//   }
+//   catch( err )
+//   {
+//     _.container.typeUndeclare( 'ContainerForTest' );
+//     throw err;
+//   }
+//
+//   function _is( src )
+//   {
+//     return !!src && !!src.eGet;
+//   }
+//
+//   function _elementSet( container, key, val )
+//   {
+//     return container.eSet( key, val );
+//   }
+//
+//   function _elementGet( container, key )
+//   {
+//     return container.eGet( key );
+//   }
+//
+//   function _lengthGet( container )
+//   {
+//     return container.elements.length;
+//   }
+//
+//   function _while( container, onEach )
+//   {
+//     for( let k = 0; k < container.elements.length; k++ )
+//     onEach( container.elements[ k ], k, container );
+//   }
+//
+//   function eSet( k, v )
+//   {
+//     this.elements[ k ] = v;
+//   }
+//
+//   function eGet( k )
+//   {
+//     return this.elements[ k ];
+//   }
+//
+// }
 
 // --
 //
@@ -4752,7 +4752,7 @@ function compareNumber( test )
   test.eq( src1, src2 );
   test.eq( src2, src1 );
 
-  /* xxx qqq : improve diff of big ints */
+  /* qqq : improve diff of big ints */
 
   /* */
 
@@ -9358,8 +9358,8 @@ let Self =
     containsObjectWithIteratorAndMap,
     // containsObjectWithIteratorAndObjectWithIterator, /* qqq : implement */
     // containsObjectWithIteratorAndLongWithIterator, /* qqq : implement */
-    containsObjectWithEqualerAndIterator, /* yyy */
-    compareObjectWithIteratorAndEqual, /* yyy */
+    containsObjectWithEqualerAndIterator,
+    compareObjectWithIteratorAndEqual,
 
     comparePrimitiveAndNon,
     compareNull,
@@ -9382,7 +9382,7 @@ let Self =
     compareMapPrototypedComplementing,
     compareAuxiliaries, /* qqq : normalize other tests, using test compareAuxiliaries as example */
     containsAuxiliaries,
-    compareContainerType,
+    // compareContainerType, /* yyy */
 
     entityIdenticalCycled,
     entityIdenticalCycledWithOptions,
