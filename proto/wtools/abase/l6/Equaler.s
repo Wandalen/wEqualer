@@ -607,13 +607,13 @@ function entityDiffExplanation( o )
     }
   }
 
-  o.srcs[ 0 ] = _.toStr( o.srcs[ 0 ], { levels : o.levels, keyWrapper : '\'' } );
-  o.srcs[ 1 ] = _.toStr( o.srcs[ 1 ], { levels : o.levels, keyWrapper : '\'' } );
+  o.srcs[ 0 ] = _.entity.exportString( o.srcs[ 0 ], { levels : o.levels, keyWrapper : '\'' } );
+  o.srcs[ 1 ] = _.entity.exportString( o.srcs[ 1 ], { levels : o.levels, keyWrapper : '\'' } );
 
   o.srcs[ 0 ] = '  ' + _.strLinesIndentation( o.srcs[ 0 ], '  ' );
   o.srcs[ 1 ] = '  ' + _.strLinesIndentation( o.srcs[ 1 ], '  ' );
 
-  result += _.toStrSimple( o.name1 + ' :\n' + o.srcs[ 0 ] + '\n' + o.name2 + ' :\n' + o.srcs[ 1 ] );
+  result += _.entity.exportStringSimple( o.name1 + ' :\n' + o.srcs[ 0 ] + '\n' + o.name2 + ' :\n' + o.srcs[ 1 ] );
 
   /* */
 
@@ -1059,7 +1059,7 @@ function visitPop()
     _.assert
     (
       Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.src2 ),
-      () => `Top-most visit ${it.path} does not match ${_.strEntityShort( it.src2 )} <> ${_.strEntityShort
+      () => `Top-most visit ${it.path} does not match ${_.entity.exportStringShortFine( it.src2 )} <> ${_.entity.exportStringShortFine
       (
         it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ]
       )}`
@@ -1701,13 +1701,13 @@ function equalObjects()
   {
     _.assert( it.srcEffective[ equalAreSymbol ].length <= 1 );
     let r = it.srcEffective[ equalAreSymbol ]( it );
-    _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.strType( r )}` );
+    _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.entity.strType( r )}` );
   }
   else if( it.srcEffective2 && _.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
   {
     _.assert( it.srcEffective2[ equalAreSymbol ].length <= 1 );
     let r = it.srcEffective2[ equalAreSymbol ]( it );
-    _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.strType( r )}` );
+    _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.entity.strType( r )}` );
   }
   else if( _.regexpIs( it.srcEffective ) )
   {
