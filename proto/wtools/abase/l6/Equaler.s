@@ -1002,16 +1002,16 @@ function _iterableEval()
     it.type2 = _.equaler.containerNameToIdMap.object;
 
     // if( it.iterable !== _.equaler.containerNameToIdMap.custom )
+    // {
+    if( it.iterable !== _.equaler.containerNameToIdMap.aux && it.iterable !== _.equaler.containerNameToIdMap.countable )
     {
-      if( it.iterable !== _.equaler.containerNameToIdMap.aux && it.iterable !== _.equaler.containerNameToIdMap.countable )
-      {
-        it.iterable = _.equaler.containerNameToIdMap.object;
-      }
-      else if( !it.containing || it.containing === 'only' )
-      {
-        it.iterable = _.equaler.containerNameToIdMap.object;
-      }
+      it.iterable = _.equaler.containerNameToIdMap.object;
     }
+    else if( !it.containing || it.containing === 'only' )
+    {
+      it.iterable = _.equaler.containerNameToIdMap.object;
+    }
+    // }
 
   }
 
