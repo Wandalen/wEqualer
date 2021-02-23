@@ -812,15 +812,15 @@ function optionsToIteration( o )
 
   _.assert( Object.is( it.originalSrc2, it.src2 ) );
 
-  // _.assert( it.iterator.visitedContainer2 === null ); /* yyy : move to start */
-  //
-  // if( it.iterator.revisiting < 2 )
-  // {
-  //   if( it.iterator.revisiting === 0 )
-  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
-  //   else
-  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
-  // }
+  _.assert( it.iterator.visitedContainer2 === null ); /* yyy : move to start */
+
+  if( it.iterator.revisiting < 2 )
+  {
+    if( it.iterator.revisiting === 0 )
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
+    else
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
+  }
 
   _.assert( Object.is( it.src2, o.src2 ) );
   _.assert( Object.is( it.src, o.src ) );
@@ -838,15 +838,17 @@ function start()
   let it = this;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
-  _.assert( it.iterator.visitedContainer2 === null );
+  _.assert( it.iterator.revisiting >= 2 || !!it.iterator.visitedContainer2 );
 
-  if( it.iterator.revisiting < 2 )
-  {
-    if( it.iterator.revisiting === 0 )
-    it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
-    else
-    it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
-  }
+  // _.assert( it.iterator.visitedContainer2 === null );
+  //
+  // if( it.iterator.revisiting < 2 )
+  // {
+  //   if( it.iterator.revisiting === 0 )
+  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
+  //   else
+  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
+  // }
 
   Parent.start.apply( it, arguments );
 

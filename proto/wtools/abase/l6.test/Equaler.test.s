@@ -6,11 +6,9 @@
 if( typeof module !== 'undefined' )
 {
   let _ = require( '../../../wtools/Tools.s' );
-
-  _.include( 'wTesting' );
-  _.include( 'wStringer' );
-
   require( '../l6/Equaler.s' );
+  _.include( 'wStringer' );
+  _.include( 'wTesting' );
 }
 
 let _global = _global_;
@@ -1396,31 +1394,17 @@ function entityIdenticalSimple( test )
 
 //
 
-function entityIdenticalWithProviderExtractExperiment( test )
+/* qqq : write similar test( with dependency of module::wFiles ) in wCopyable */
+function entityIdenticalWithCopyable( test )
 {
-  _.include( 'wFiles' );
+
   test.case = 'two instances of provider Extract';
-  var provider1 = _.FileProvider.Extract();
-  var provider2 = _.FileProvider.Extract();
-  debugger;
+  var provider1 = _globals_.testing.wTools.FileProvider.Extract();
+  var provider2 = _globals_.testing.wTools.FileProvider.Extract();
   var got = _.entityIdentical( provider1, provider2 );
-  debugger;
   test.identical( got, false );
+
 }
-
-entityIdenticalWithProviderExtractExperiment.experimental = 1;
-entityIdenticalWithProviderExtractExperiment.description =
-`
-Test routine shows that routine 'start' of Equaler can be called more than 1 time.
-The reason of it is classes extension fields in Composes, Aggregates... The instances compares in
-module 'Copyable'.
-An instance of 'Equaler' has field 'visitedContainer2' and appends it to new iteration. Next is comparing in
-routine 'start'.
-https://github.com/Wandalen/wCopyable/blob/master/proto/wtools/abase/l7_mixin/Copyable.s#L912
-Routine 'equalAre' uses private subroutine directly.
-
-The assertion for field 'visitedContainer2' should be improved
-`;
 
 //
 
@@ -9369,7 +9353,7 @@ let Self =
     containsLoose,
 
     entityIdenticalSimple,
-    entityIdenticalWithProviderExtractExperiment,
+    entityIdenticalWithCopyable,
     entityIdenticalArgumentsArray,
     entityEquivalentArgumentsArray,
     entityIdenticalProto, /* qqq : merge and supplement test routines entityIdenticalProto and entityEquivalentProto */
