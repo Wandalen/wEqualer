@@ -1402,7 +1402,9 @@ function entityIdenticalWithProviderExtractExperiment( test )
   test.case = 'two instances of provider Extract';
   var provider1 = _.FileProvider.Extract();
   var provider2 = _.FileProvider.Extract();
+  debugger;
   var got = _.entityIdentical( provider1, provider2 );
+  debugger;
   test.identical( got, false );
 }
 
