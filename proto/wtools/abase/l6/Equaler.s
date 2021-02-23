@@ -80,6 +80,7 @@ Equaler.constructor = function Equaler(){};
 let LookerExtension =
 {
   Looker : Equaler,
+  head,
   optionsFromArguments,
   optionsForm,
   optionsToIteration,
@@ -138,21 +139,21 @@ IterationPreserve.srcEffective2 = null;
 
 function _equal_head( routine, args )
 {
-
-  if( args.length === 3 && _.looker.iterationIs( args[ 2 ] ) )
-  {
-    let it = args[ 2 ];
-    _.assert( it.src === args[ 1 ] );
-    _.assert( it.src2 === args[ 0 ] );
-    return it;
-  }
-
-  let o = Self.optionsFromArguments( args );
-  o.Looker = o.Looker || routine.defaults.Looker || Self;
-  _.routineOptionsPreservingUndefines( routine, o );
-  o.Looker.optionsForm( routine, o );
-  let it = o.Looker.optionsToIteration( o );
-  return it;
+  return Self.head( routine, args );
+  // if( args.length === 3 && _.looker.iterationIs( args[ 2 ] ) )
+  // {
+  //   let it = args[ 2 ];
+  //   _.assert( it.src === args[ 1 ] );
+  //   _.assert( it.src2 === args[ 0 ] );
+  //   return it;
+  // }
+  //
+  // let o = Self.optionsFromArguments( args );
+  // o.Looker = o.Looker || routine.defaults.Looker || Self;
+  // _.routineOptionsPreservingUndefines( routine, o );
+  // o.Looker.optionsForm( routine, o );
+  // let it = o.Looker.optionsToIteration( o );
+  // return it;
 }
 
 //
@@ -684,6 +685,26 @@ defaults.onStringPreprocess = null
 // --
 // options
 // --
+
+function head( routine, args )
+{
+  _.assert( arguments.length === 2 );
+  if( args.length === 3 && _.looker.iterationIs( args[ 2 ] ) )
+  {
+    let it = args[ 2 ];
+    _.assert( it.src === args[ 1 ] );
+    _.assert( it.src2 === args[ 0 ] );
+    return it;
+  }
+  let o = Self.optionsFromArguments( args );
+  o.Looker = o.Looker || routine.defaults.Looker || Self;
+  _.routineOptionsPreservingUndefines( routine, o );
+  o.Looker.optionsForm( routine, o );
+  let it = o.Looker.optionsToIteration( o );
+  return it;
+}
+
+//
 
 function optionsFromArguments( args )
 {
