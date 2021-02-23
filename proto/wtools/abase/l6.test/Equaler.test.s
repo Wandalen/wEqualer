@@ -1396,6 +1396,32 @@ function entityIdenticalSimple( test )
 
 //
 
+function entityIdenticalWithProviderExtractExperiment( test )
+{
+  _.include( 'wFiles' );
+  test.case = 'two instances of provider Extract';
+  var provider1 = _.FileProvider.Extract();
+  var provider2 = _.FileProvider.Extract();
+  var got = _.entityIdentical( provider1, provider2 );
+  test.identical( got, false );
+}
+
+entityIdenticalWithProviderExtractExperiment.experimental = 1;
+entityIdenticalWithProviderExtractExperiment.description =
+`
+Test routine shows that routine 'start' of Equaler can be called more than 1 time.
+The reason of it is classes extension fields in Composes, Aggregates... The instances compares in
+module 'Copyable'.
+An instance of 'Equaler' has field 'visitedContainer2' and appends it to new iteration. Next is comparing in
+routine 'start'.
+https://github.com/Wandalen/wCopyable/blob/master/proto/wtools/abase/l7_mixin/Copyable.s#L912
+Routine 'equalAre' uses private subroutine directly.
+
+The assertion for field 'visitedContainer2' should be improved
+`;
+
+//
+
 function entityIdenticalArgumentsArray( test )
 {
   test.case = 'src1 - empty arguments array, src2 - arguments array';
@@ -9341,6 +9367,7 @@ let Self =
     containsLoose,
 
     entityIdenticalSimple,
+    entityIdenticalWithProviderExtractExperiment,
     entityIdenticalArgumentsArray,
     entityEquivalentArgumentsArray,
     entityIdenticalProto, /* qqq : merge and supplement test routines entityIdenticalProto and entityEquivalentProto */
