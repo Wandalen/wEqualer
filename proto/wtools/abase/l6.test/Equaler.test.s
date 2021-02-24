@@ -1394,7 +1394,7 @@ function entityIdenticalSimple( test )
 
 //
 
-/* qqq : write similar test( with dependency of module::wFiles ) in wCopyable */
+/* aaa : write similar test( with dependency of module::wFiles ) in wCopyable */ /* Dmytro : added test routine `identicalWithEntityIsFileProvider` in module Copyable */
 function entityIdenticalWithCopyable( test )
 {
 
