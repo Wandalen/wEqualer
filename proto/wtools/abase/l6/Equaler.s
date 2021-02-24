@@ -48,7 +48,7 @@ _.assert( !!_.look );
 _.assert( !!_.select );
 
 // --
-// declare looker
+// relations
 // --
 
 let Defaults = _.mapExtend( null, _.look.defaults );
@@ -73,65 +73,6 @@ Defaults.recursive = Infinity;
 Defaults.onNumbersAreEqual = null;
 Defaults.onStringsAreEqual = null;
 Defaults.onStringPreprocess = null;
-
-let Equaler = Object.create( Parent );
-Equaler.constructor = function Equaler(){};
-
-let LookerExtension =
-{
-  Looker : Equaler,
-  head,
-  optionsFromArguments,
-  optionsForm,
-  optionsToIteration,
-  start,
-  choose,
-  chooseRoot,
-  effectiveEval,
-  iterableEval,
-  _iterableEval,
-  ascendEval,
-  visitPush,
-  visitPop,
-  visitUp,
-  visitDown,
-  stop,
-  downUpdate,
-  equalUp,
-  equalDown,
-  equalCycle,
-  equal,
-  secondCoerce,
-  // equalCustoms,
-  equalSets,
-  equalCountable,
-  equalHashes,
-  equalAuxiliary,
-  equalObjects,
-  equalTerminals,
-  equalRegexps,
-  equalDates,
-  equalBuffers,
-  _objectAscend,
-}
-
-_.mapExtend( Equaler, LookerExtension );
-
-let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
-Iterator.visitedContainer2 = null;
-
-let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
-Iteration.result = true;
-Iteration.srcEffective = null;
-Iteration.src2 = null;
-Iteration.originalSrc2 = null; /* qqq : cover the field */
-Iteration.srcEffective2 = null;
-Iteration.type1 = null;
-Iteration.type2 = null;
-
-let IterationPreserve = Equaler.IterationPreserve = _.mapExtend( null, Equaler.IterationPreserve );
-IterationPreserve.src2 = null;
-IterationPreserve.srcEffective2 = null;
 
 // --
 // routines
@@ -1411,23 +1352,8 @@ function secondCoerce()
     return true;
   }
 
-  // if( it.containerType && it.containerType._coerce )
-  // {
-  //   if( it.containerType._coerce( it ) )
-  //   return true;
-  // }
-
   return false;
 }
-
-// //
-//
-// function equalCustoms()
-// {
-//   let it = this;
-//   if( _.container.lengthOf( it.srcEffective ) !== _.container.lengthOf( it.srcEffective2 ) )
-//   return it.stop( false );
-// }
 
 //
 
@@ -1875,8 +1801,69 @@ function _objectAscend( src )
 }
 
 // --
-// declare
+// relations
 // --
+
+let Equaler = Object.create( Parent );
+Equaler.constructor = function Equaler(){};
+
+let LookerExtension =
+{
+  Looker : Equaler,
+  makeAndLook : _equalIt,
+  head,
+  optionsFromArguments,
+  optionsForm,
+  optionsToIteration,
+  start,
+  choose,
+  chooseRoot,
+  effectiveEval,
+  iterableEval,
+  _iterableEval,
+  ascendEval,
+  visitPush,
+  visitPop,
+  visitUp,
+  visitDown,
+  stop,
+  downUpdate,
+  equalUp,
+  equalDown,
+  equalCycle,
+  equal,
+  secondCoerce,
+  equalSets,
+  equalCountable,
+  equalHashes,
+  equalAuxiliary,
+  equalObjects,
+  equalTerminals,
+  equalRegexps,
+  equalDates,
+  equalBuffers,
+  _objectAscend,
+}
+
+_.mapExtend( Equaler, LookerExtension );
+
+let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
+Iterator.visitedContainer2 = null;
+
+let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
+Iteration.result = true;
+Iteration.srcEffective = null;
+Iteration.src2 = null;
+Iteration.originalSrc2 = null; /* qqq : cover the field */
+Iteration.srcEffective2 = null;
+Iteration.type1 = null;
+Iteration.type2 = null;
+
+let IterationPreserve = Equaler.IterationPreserve = _.mapExtend( null, Equaler.IterationPreserve );
+IterationPreserve.src2 = null;
+IterationPreserve.srcEffective2 = null;
+
+//
 
 _.assert( !!_.looker.containerIdToNameMap[ 4 ] );
 _.assert( !_.looker.containerIdToNameMap[ 5 ] );
@@ -1913,7 +1900,6 @@ let containerIdToEqual =
   [ containerNameToIdMap.aux ] : equalAuxiliary,
   [ containerNameToIdMap.hashMap ] : equalHashes,
   [ containerNameToIdMap.set ] : equalSets,
-  // [ containerNameToIdMap.custom ] : equalCustoms,
   [ containerNameToIdMap.object ] : equalObjects,
 }
 
