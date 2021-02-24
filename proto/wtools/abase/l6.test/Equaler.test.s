@@ -435,6 +435,86 @@ function containsLoose( test )
 
 }
 
+//
+
+function iteratorResult( test )
+{
+
+  /* */
+
+  test.case = 'control';
+
+  var src =
+  {
+    a : 'str',
+    b : [ 'str', { c : 13, d : [], e : {} } ],
+  }
+
+  var src2 =
+  {
+    a : 'str',
+    b : [ 'str', { c : 13, d : [], e : {} } ],
+  }
+
+  var got = _.equaler._equal( src, src2 );
+  test.identical( got, true );
+
+  var expected =
+  {
+    a : 'str',
+    b : [ 'str', { c : 13, d : [], e : {} } ],
+  }
+  test.identical( src, expected );
+
+  var expected =
+  {
+    a : 'str',
+    b : [ 'str', { c : 13, d : [], e : {} } ],
+  }
+  test.identical( src2, expected );
+
+  /* */
+
+  test.case = 'iterator.result';
+
+  var src =
+  {
+    a : 'str',
+    b : [ 'str', { c : 13, d : [], e : {} } ],
+  }
+
+  var src2 =
+  {
+    a : 'str',
+    b : [ 'str', { c : 13, d : [], e : {} } ],
+  }
+
+  var it = _.equaler._equal.head( _.equaler._equal, [ src, src2 ] );
+  var got = it.start();
+  test.true( got === it );
+  test.identical( it.result, true );
+  test.identical( src, expected );
+
+  var expected =
+  {
+    a : 'str',
+    b : [ 'str', { c : 13, d : [], e : {} } ],
+  }
+  test.identical( src, expected );
+
+  var expected =
+  {
+    a : 'str',
+    b : [ 'str', { c : 13, d : [], e : {} } ],
+  }
+  test.identical( src2, expected );
+
+  /* */
+
+}
+
+//
+
 // //
 //
 // function compareContainerType( test )
@@ -9351,6 +9431,7 @@ let Self =
     entityIdenticalLoose,
     entityEquivalentLoose,
     containsLoose,
+    iteratorResult,
 
     entityIdenticalSimple,
     entityIdenticalWithCopyable,
