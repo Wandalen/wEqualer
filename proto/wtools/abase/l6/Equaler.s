@@ -80,6 +80,7 @@ Equaler.constructor = function Equaler(){};
 let LookerExtension =
 {
   Looker : Equaler,
+  head,
   optionsFromArguments,
   optionsForm,
   optionsToIteration,
@@ -138,21 +139,21 @@ IterationPreserve.srcEffective2 = null;
 
 function _equal_head( routine, args )
 {
-
-  if( args.length === 3 && _.looker.iterationIs( args[ 2 ] ) )
-  {
-    let it = args[ 2 ];
-    _.assert( it.src === args[ 1 ] );
-    _.assert( it.src2 === args[ 0 ] );
-    return it;
-  }
-
-  let o = Self.optionsFromArguments( args );
-  o.Looker = o.Looker || routine.defaults.Looker || Self;
-  _.routineOptionsPreservingUndefines( routine, o );
-  o.Looker.optionsForm( routine, o );
-  let it = o.Looker.optionsToIteration( o );
-  return it;
+  return Self.head( routine, args );
+  // if( args.length === 3 && _.looker.iterationIs( args[ 2 ] ) )
+  // {
+  //   let it = args[ 2 ];
+  //   _.assert( it.src === args[ 1 ] );
+  //   _.assert( it.src2 === args[ 0 ] );
+  //   return it;
+  // }
+  //
+  // let o = Self.optionsFromArguments( args );
+  // o.Looker = o.Looker || routine.defaults.Looker || Self;
+  // _.routineOptionsPreservingUndefines( routine, o );
+  // o.Looker.optionsForm( routine, o );
+  // let it = o.Looker.optionsToIteration( o );
+  // return it;
 }
 
 //
@@ -685,6 +686,26 @@ defaults.onStringPreprocess = null
 // options
 // --
 
+function head( routine, args )
+{
+  _.assert( arguments.length === 2 );
+  if( args.length === 3 && _.looker.iterationIs( args[ 2 ] ) )
+  {
+    let it = args[ 2 ];
+    _.assert( it.src === args[ 1 ] );
+    _.assert( it.src2 === args[ 0 ] );
+    return it;
+  }
+  let o = Self.optionsFromArguments( args );
+  o.Looker = o.Looker || routine.defaults.Looker || Self;
+  _.routineOptionsPreservingUndefines( routine, o );
+  o.Looker.optionsForm( routine, o );
+  let it = o.Looker.optionsToIteration( o );
+  return it;
+}
+
+//
+
 function optionsFromArguments( args )
 {
   let o = args[ 2 ] || Object.create( null );
@@ -791,15 +812,15 @@ function optionsToIteration( o )
 
   _.assert( Object.is( it.originalSrc2, it.src2 ) );
 
-  // _.assert( it.iterator.visitedContainer2 === null ); /* yyy : move to start */
-  //
-  // if( it.iterator.revisiting < 2 )
-  // {
-  //   if( it.iterator.revisiting === 0 )
-  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
-  //   else
-  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
-  // }
+  _.assert( it.iterator.visitedContainer2 === null ); /* yyy : move to start */
+
+  if( it.iterator.revisiting < 2 )
+  {
+    if( it.iterator.revisiting === 0 )
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
+    else
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
+  }
 
   _.assert( Object.is( it.src2, o.src2 ) );
   _.assert( Object.is( it.src, o.src ) );
@@ -817,15 +838,17 @@ function start()
   let it = this;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
-  _.assert( it.iterator.visitedContainer2 === null );
+  _.assert( it.iterator.revisiting >= 2 || !!it.iterator.visitedContainer2 );
 
-  if( it.iterator.revisiting < 2 )
-  {
-    if( it.iterator.revisiting === 0 )
-    it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
-    else
-    it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
-  }
+  // _.assert( it.iterator.visitedContainer2 === null );
+  //
+  // if( it.iterator.revisiting < 2 )
+  // {
+  //   if( it.iterator.revisiting === 0 )
+  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
+  //   else
+  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
+  // }
 
   Parent.start.apply( it, arguments );
 

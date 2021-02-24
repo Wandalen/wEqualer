@@ -6,11 +6,9 @@
 if( typeof module !== 'undefined' )
 {
   let _ = require( '../../../wtools/Tools.s' );
-
-  _.include( 'wTesting' );
-  _.include( 'wStringer' );
-
   require( '../l6/Equaler.s' );
+  _.include( 'wStringer' );
+  _.include( 'wTesting' );
 }
 
 let _global = _global_;
@@ -1391,6 +1389,20 @@ function entityIdenticalSimple( test )
   test.identical( got, expected );
 
   /* qqq : add typed / raw / node / view buffers tests */
+
+}
+
+//
+
+/* qqq : write similar test( with dependency of module::wFiles ) in wCopyable */
+function entityIdenticalWithCopyable( test )
+{
+
+  test.case = 'two instances of provider Extract';
+  var provider1 = _globals_.testing.wTools.FileProvider.Extract();
+  var provider2 = _globals_.testing.wTools.FileProvider.Extract();
+  var got = _.entityIdentical( provider1, provider2 );
+  test.identical( got, false );
 
 }
 
@@ -9341,6 +9353,7 @@ let Self =
     containsLoose,
 
     entityIdenticalSimple,
+    entityIdenticalWithCopyable,
     entityIdenticalArgumentsArray,
     entityEquivalentArgumentsArray,
     entityIdenticalProto, /* qqq : merge and supplement test routines entityIdenticalProto and entityEquivalentProto */
