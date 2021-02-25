@@ -781,6 +781,7 @@ function perform()
   _.assert( arguments.length === 0, 'Expects no arguments' );
   _.assert( it.iterator.revisiting >= 2 || !!it.iterator.visitedContainer2 );
 
+  // xxx
   // _.assert( it.iterator.visitedContainer2 === null );
   //
   // if( it.iterator.revisiting < 2 )
@@ -1906,6 +1907,9 @@ let containerIdToEqual =
 let EqualerExtension =
 {
 
+  ... _.looker,
+
+  Equaler,
   _equalIt,
   _equal,
 
