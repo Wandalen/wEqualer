@@ -753,7 +753,7 @@ function optionsToIteration( o )
 
   _.assert( Object.is( it.originalSrc2, it.src2 ) );
 
-  _.assert( it.iterator.visitedContainer2 === null ); /* yyy : move to start */
+  _.assert( it.iterator.visitedContainer2 === null ); /* yyy : move to perform */
 
   if( it.iterator.revisiting < 2 )
   {
@@ -774,7 +774,7 @@ function optionsToIteration( o )
 // looker routines
 // --
 
-function start()
+function perform()
 {
   let it = this;
 
@@ -791,7 +791,7 @@ function start()
   //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
   // }
 
-  Parent.start.apply( it, arguments );
+  Parent.perform.apply( it, arguments );
 
   _.assert( _.boolIs( it.result ) );
   _.assert( it.withImplicit === '' ^ it.strictTyping );
@@ -1790,7 +1790,7 @@ function _objectAscend( src )
     for( let e of src )
     {
       let eit = it.iterationMake().choose( e, index );
-      eit.look();
+      eit.iterate();
       index += 1;
       if( !it.canSibling() )
       break;
@@ -1810,12 +1810,12 @@ Equaler.constructor = function Equaler(){};
 let LookerExtension =
 {
   Looker : Equaler,
-  makeAndLook : _equalIt,
+  performMaking : _equalIt,
   head,
   optionsFromArguments,
   optionsForm,
   optionsToIteration,
-  start,
+  perform,
   choose,
   chooseRoot,
   effectiveEval,

@@ -490,7 +490,7 @@ function iteratorResult( test )
   }
 
   var it = _.equaler._equal.head( _.equaler._equal, [ src, src2 ] );
-  var got = it.start();
+  var got = it.perform();
   test.true( got === it );
   test.identical( it.result, true );
   test.identical( src, expected );
