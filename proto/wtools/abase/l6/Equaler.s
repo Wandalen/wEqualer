@@ -774,11 +774,11 @@ function optionsToIteration( o )
 // looker routines
 // --
 
-function perform()
+function performBegin()
 {
   let it = this;
+  Parent.performBegin.apply( it, arguments );
 
-  _.assert( arguments.length === 0, 'Expects no arguments' );
   _.assert( it.iterator.revisiting >= 2 || !!it.iterator.visitedContainer2 );
 
   // xxx
@@ -792,11 +792,19 @@ function perform()
   //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
   // }
 
-  Parent.perform.apply( it, arguments );
+  return it;
+}
+
+//
+
+function performEnd()
+{
+  let it = this;
 
   _.assert( _.boolIs( it.result ) );
   _.assert( it.withImplicit === '' ^ it.strictTyping );
 
+  Parent.performEnd.apply( it, arguments );
   return it;
 }
 
@@ -1816,7 +1824,8 @@ let LookerExtension =
   optionsFromArguments,
   optionsForm,
   optionsToIteration,
-  perform,
+  performBegin,
+  performEnd,
   choose,
   chooseRoot,
   effectiveEval,
