@@ -81,20 +81,6 @@ Defaults.onStringPreprocess = null;
 function _equal_head( routine, args )
 {
   return Self.head( routine, args );
-  // if( args.length === 3 && _.looker.iterationIs( args[ 2 ] ) )
-  // {
-  //   let it = args[ 2 ];
-  //   _.assert( it.src === args[ 1 ] );
-  //   _.assert( it.src2 === args[ 0 ] );
-  //   return it;
-  // }
-  //
-  // let o = Self.optionsFromArguments( args );
-  // o.Looker = o.Looker || routine.defaults.Looker || Self;
-  // _.routineOptionsPreservingUndefines( routine, o );
-  // o.Looker.optionsForm( routine, o );
-  // let it = o.Looker.optionsToIteration( o );
-  // return it;
 }
 
 //
@@ -441,9 +427,6 @@ function entityDiff( src, src2, opts )
   if( equal )
   return false;
 
-  // _.assert( !!opts.it ); // yyy
-  // _.assert( opts.it.lastPath !== undefined );
-  // let it = opts.it;
   let it = opts;
   _.assert( it.lastPath !== undefined );
 
@@ -480,8 +463,6 @@ function entityDiffExplanation( o )
     let src0 = _.select( o.srcs[ 0 ], o.path );
     let src1 = _.select( o.srcs[ 1 ], o.path );
 
-    // if( _.mapIs( src0 ) && _.mapIs( src1 ) )
-    // if( _.objectIs( src0 ) && _.objectIs( src1 ) )
     if( _.aux.is( src0 ) && _.aux.is( src1 ) ) /* yyy */
     {
       o.srcs[ 0 ] = src0;
@@ -509,9 +490,6 @@ function entityDiffExplanation( o )
   if( _.strIs( o.srcs[ 1 ] ) )
   o.srcs[ 1 ] = o.onStringPreprocess( o.srcs[ 1 ] );
 
-  /* yyy */
-  // if( _.mapIs( o.srcs[ 0 ] ) && _.mapIs( o.srcs[ 1 ] ) )
-  // if( _.objectIs( o.srcs[ 0 ] ) && _.objectIs( o.srcs[ 1 ] ) )
   if( _.aux.is( o.srcs[ 0 ] ) && _.aux.is( o.srcs[ 1 ] ) )
   {
     let protoGot = Object.getPrototypeOf( o.srcs[ 0 ] );
@@ -752,17 +730,7 @@ function optionsToIteration( o )
   let it = Parent.optionsToIteration.call( this, o );
 
   _.assert( Object.is( it.originalSrc2, it.src2 ) );
-
-  _.assert( it.iterator.visitedContainer2 === null ); /* yyy : move to perform */
-
-  if( it.iterator.revisiting < 2 )
-  {
-    if( it.iterator.revisiting === 0 )
-    it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
-    else
-    it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
-  }
-
+  _.assert( it.iterator.visitedContainer2 === null );
   _.assert( Object.is( it.src2, o.src2 ) );
   _.assert( Object.is( it.src, o.src ) );
   _.assert( it.result === true );
@@ -779,18 +747,15 @@ function performBegin()
   let it = this;
   Parent.performBegin.apply( it, arguments );
 
+  _.assert( it.iterator.visitedContainer2 === null );
+  if( it.iterator.revisiting < 2 )
+  {
+    if( it.iterator.revisiting === 0 )
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
+    else
+    it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
+  }
   _.assert( it.iterator.revisiting >= 2 || !!it.iterator.visitedContainer2 );
-
-  // xxx
-  // _.assert( it.iterator.visitedContainer2 === null );
-  //
-  // if( it.iterator.revisiting < 2 )
-  // {
-  //   if( it.iterator.revisiting === 0 )
-  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Set );
-  //   else
-  //   it.iterator.visitedContainer2 = _.containerAdapter.from( new Array );
-  // }
 
   return it;
 }
@@ -882,14 +847,6 @@ function _iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  // let containerType1 = _.container.typeOf( it.srcEffective );
-  // if( containerType1 )
-  // {
-  //   it.type1 = _.equaler.containerNameToIdMap.custom;
-  //   it.containerType = containerType1;
-  //   it.iterable = _.equaler.containerNameToIdMap.custom;
-  // }
-  // else
   if( _.mapIs( it.srcEffective ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.aux;
@@ -936,18 +893,9 @@ function _iterableEval()
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
 
-  // let containerType2 = _.container.typeOf( it.srcEffective2 );
-  // if( containerType2 )
-  // {
-  //   it.containerType = it.containerType || containerType2;
-  //   it.type2 = _.equaler.containerNameToIdMap.custom;
-  //   it.iterable = _.equaler.containerNameToIdMap.custom;
-  // }
-  // else
   if( _.entity.methodEqualOf( it.srcEffective2 ) && !_.aux.is( it.srcEffective2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.object;
-    // if( it.iterable !== _.equaler.containerNameToIdMap.custom )
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
   else if( it.isCountable( it.srcEffective2 ) )
@@ -974,8 +922,6 @@ function _iterableEval()
   {
     it.type2 = _.equaler.containerNameToIdMap.object;
 
-    // if( it.iterable !== _.equaler.containerNameToIdMap.custom )
-    // {
     if( it.iterable !== _.equaler.containerNameToIdMap.aux && it.iterable !== _.equaler.containerNameToIdMap.countable )
     {
       it.iterable = _.equaler.containerNameToIdMap.object;
@@ -984,7 +930,6 @@ function _iterableEval()
     {
       it.iterable = _.equaler.containerNameToIdMap.object;
     }
-    // }
 
   }
 
@@ -1198,11 +1143,6 @@ function equalUp()
 
     if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) )
     return it.stop( false );
-
-    // yyy
-    // if( it.containerType && it.containerType._identicalTypes )
-    // if( !it.containerType._identicalTypes( it.srcEffective, it.srcEffective2 ) )
-    // return it.stop( false );
 
   }
   else
@@ -1580,7 +1520,6 @@ function equalAuxiliary()
   let types =
   [
     _.equaler.containerNameToIdMap.aux,
-    // _.equaler.containerNameToIdMap.custom,
     _.equaler.containerNameToIdMap.object,
   ];
 
@@ -1646,12 +1585,8 @@ function equalObjects()
 {
   let it = this;
 
-  _.debugger;
-
   _.assert
   (
-    // it.iterable === _.equaler.containerNameToIdMap.custom
-    // ||
     it.iterable === _.equaler.containerNameToIdMap.object
   );
 
@@ -1928,39 +1863,47 @@ let EqualerExtension =
   containerIdToEqual,
 
   identical : entityIdentical,
-  entityIdentical,
   notIdentical : entityNotIdentical,
-  entityNotIdentical,
   equivalent : entityEquivalent,
-  entityEquivalent,
   notEquivalent : entityNotEquivalent,
-  entityNotEquivalent,
 
   contains : entityContains,
-  entityContains,
   notContains : entityNotContains,
-  entityNotContains,
   containsAll : entityContainsAll,
-  entityContainsAll,
   notContainsAll : entityNotContainsAll,
-  entityNotContainsAll,
   containsAny : entityContainsAny,
-  entityContainsAny,
   notContainsAny : entityNotContainsAny,
-  entityNotContainsAny,
   containsOnly : entityContainsOnly,
-  entityContainsOnly,
   notContainsOnly : entityNotContainsOnly,
-  entityNotContainsOnly,
   containsNone : entityContainsNone,
-  entityContainsNone,
   notContainsNone : entityNotContainsNone,
-  entityNotContainsNone,
 
   diff : entityDiff,
-  entityDiff,
   diffExplanation : entityDiffExplanation, /* qqq : cover and extend */
-  entityDiffExplanation,
+
+}
+
+let EntityExtension =
+{
+
+  identical : entityIdentical,
+  notIdentical : entityNotIdentical,
+  equivalent : entityEquivalent,
+  notEquivalent : entityNotEquivalent,
+
+  contains : entityContains,
+  notContains : entityNotContains,
+  containsAll : entityContainsAll,
+  notContainsAll : entityNotContainsAll,
+  containsAny : entityContainsAny,
+  notContainsAny : entityNotContainsAny,
+  containsOnly : entityContainsOnly,
+  notContainsOnly : entityNotContainsOnly,
+  containsNone : entityContainsNone,
+  notContainsNone : entityNotContainsNone,
+
+  diff : entityDiff,
+  diffExplanation : entityDiffExplanation,
 
 }
 
@@ -2006,6 +1949,7 @@ let ToolsExtension =
 
 let Self = Equaler;
 _.mapSupplement( _.equaler, EqualerExtension );
+_.mapSupplement( _.entity, EntityExtension );
 _.mapSupplement( _, ToolsExtension );
 
 // --

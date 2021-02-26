@@ -1474,14 +1474,15 @@ function entityIdenticalSimple( test )
 
 //
 
-/* aaa : write similar test( with dependency of module::wFiles ) in wCopyable */ /* Dmytro : added test routine `identicalWithEntityIsFileProvider` in module Copyable */
 function entityIdenticalWithCopyable( test )
 {
 
   test.case = 'two instances of provider Extract';
   var provider1 = _globals_.testing.wTools.FileProvider.Extract();
   var provider2 = _globals_.testing.wTools.FileProvider.Extract();
+  debugger;
   var got = _.entityIdentical( provider1, provider2 );
+  debugger;
   test.identical( got, false );
 
 }
