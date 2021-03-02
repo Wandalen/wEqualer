@@ -1754,7 +1754,7 @@ Equaler.constructor = function Equaler(){};
 let LookerExtension =
 {
   Looker : Equaler,
-  performMaking : _equalIt,
+  exec : _equalIt,
   head,
   optionsFromArguments,
   optionsForm,
