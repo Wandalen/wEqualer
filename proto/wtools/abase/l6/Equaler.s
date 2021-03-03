@@ -729,7 +729,7 @@ function optionsToIteration( o )
 {
   let it = Parent.optionsToIteration.call( this, o );
 
-  _.assert( Object.is( it.originalSrc2, it.src2 ) );
+  // _.assert( Object.is( it.originalSrc2, it.src2 ) );
   _.assert( it.iterator.visitedContainer2 === null );
   _.assert( Object.is( it.src2, o.src2 ) );
   _.assert( Object.is( it.src, o.src ) );
@@ -746,6 +746,8 @@ function performBegin()
 {
   let it = this;
   Parent.performBegin.apply( it, arguments );
+  _.assert( Object.is( it.originalSrc, it.src ) );
+  _.assert( Object.is( it.originalSrc2, it.src2 ) );
 
   _.assert( it.iterator.visitedContainer2 === null );
   if( it.iterator.revisiting < 2 )
@@ -773,22 +775,40 @@ function performEnd()
   return it;
 }
 
+// //
+//
+// function choose( e, k )
+// {
+//   let it = this;
+//
+//   Parent.choose.apply( it, arguments );
+//
+//   _.assert( arguments.length === 2 );
+//   _.assert( it.level >= 0 );
+//   _.assert( _.objectIs( it.down ) );
+//
+//   it.src2 = _.container.elementGet( it.srcEffective2, it.key );
+//   it.originalSrc2 = it.src2;
+//
+//   return it;
+// }
 //
 
-function choose( e, k )
+//
+
+function chooseBegin( e, k )
 {
   let it = this;
-
-  Parent.choose.apply( it, arguments );
+  [ e, k ] = Parent.chooseBegin.apply( it, arguments );
 
   _.assert( arguments.length === 2 );
   _.assert( it.level >= 0 );
   _.assert( _.objectIs( it.down ) );
 
-  it.src2 = _.container.elementGet( it.srcEffective2, it.key );
+  it.src2 = _.container.elementGet( it.srcEffective2, k );
   it.originalSrc2 = it.src2;
 
-  return it;
+  return [ e, k ];
 }
 
 //
@@ -1761,7 +1781,7 @@ let LookerExtension =
   optionsToIteration,
   performBegin,
   performEnd,
-  choose,
+  chooseBegin,
   chooseRoot,
   effectiveEval,
   iterableEval,
