@@ -3893,7 +3893,7 @@ function containsObjectWithEqualerAndIterator( test )
 
   function _equalAre( it )
   {
-    if( _.longIdentical( it.srcEffective.elements2, it.srcEffective2.elements2 ) )
+    if( _.longIdentical( it./*srcEffective*/src.elements2, it./*srcEffective2*/src2.elements2 ) )
     {
       it.continue = false;
       it.result = true;
@@ -4042,21 +4042,21 @@ function compareObjectWithIteratorAndEqual( test )
 
     _.assert( arguments.length === 1 );
 
-    if( !it.srcEffective )
+    if( !it./*srcEffective*/src )
     return end( false );
-    if( !it.srcEffective2 )
+    if( !it./*srcEffective2*/src2 )
     return end( false );
-    if( !( it.srcEffective instanceof Obj1 ) )
+    if( !( it./*srcEffective*/src instanceof Obj1 ) )
     return end( false );
-    if( !( it.srcEffective2 instanceof Obj1 ) )
+    if( !( it./*srcEffective2*/src2 instanceof Obj1 ) )
     return end( false );
 
-    if( it.srcEffective.val === it.srcEffective2.val )
+    if( it./*srcEffective*/src.val === it./*srcEffective2*/src2.val )
     return end( true );
 
-    if( !( it.srcEffective.val instanceof Obj1 ) )
+    if( !( it./*srcEffective*/src.val instanceof Obj1 ) )
     return end( false );
-    if( !( it.srcEffective.val instanceof Obj1 ) )
+    if( !( it./*srcEffective*/src.val instanceof Obj1 ) )
     return end( false );
 
     function end( result )
@@ -6103,18 +6103,18 @@ function compareObjectsWithSecondCoerce( test )
   function _equalAre( it )
   {
     it.continue = false;
-    it.result = it.srcEffective.val === it.srcEffective2.val;
-    // return it.srcEffective.val === it.srcEffective2.val;
+    it.result = it./*srcEffective*/src.val === it./*srcEffective2*/src2.val;
+    // return it./*srcEffective*/src.val === it./*srcEffective2*/src2.val;
   }
 
   /* */
 
   function _equalSecondCoerceFromNumber( it )
   {
-    if( _.numberIs( it.srcEffective ) )
-    it.srcEffective = new FromArray( it.srcEffective, 0 );
-    if( _.numberIs( it.srcEffective2 ) )
-    it.srcEffective2 = new FromArray( it.srcEffective2, 0 );
+    if( _.numberIs( it./*srcEffective*/src ) )
+    it./*srcEffective*/src = new FromArray( it./*srcEffective*/src, 0 );
+    if( _.numberIs( it./*srcEffective2*/src2 ) )
+    it./*srcEffective2*/src2 = new FromArray( it./*srcEffective2*/src2, 0 );
     return true;
   }
 
@@ -6122,10 +6122,10 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalSecondCoerceFromArray( it )
   {
-    if( _.longIs( it.srcEffective ) )
-    it.srcEffective = new FromArray( it.srcEffective[ 0 ], 0 );
-    if( _.longIs( it.srcEffective2 ) )
-    it.srcEffective2 = new FromArray( it.srcEffective2[ 0 ], 0 );
+    if( _.longIs( it./*srcEffective*/src ) )
+    it./*srcEffective*/src = new FromArray( it./*srcEffective*/src[ 0 ], 0 );
+    if( _.longIs( it./*srcEffective2*/src2 ) )
+    it./*srcEffective2*/src2 = new FromArray( it./*srcEffective2*/src2[ 0 ], 0 );
     return true;
   }
 

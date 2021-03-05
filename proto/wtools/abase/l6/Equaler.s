@@ -56,8 +56,8 @@ let Defaults = _.mapExtend( null, _.look.defaults );
 Defaults.Looker = null;
 Defaults.src = null;
 Defaults.src2 = null;
-Defaults.srcEffective = null;
-Defaults.srcEffective2 = null;
+// Defaults./*srcEffective*/src = null;
+// Defaults./*srcEffective2*/src2 = null;
 Defaults.containing = 0;
 Defaults.strict = 1;
 Defaults.revisiting = 1;
@@ -731,8 +731,10 @@ function optionsToIteration( o )
 
   // _.assert( Object.is( it.originalSrc2, it.src2 ) );
   _.assert( it.iterator.visitedContainer2 === null );
-  _.assert( Object.is( it.src2, o.src2 ) );
-  _.assert( Object.is( it.src, o.src ) );
+  // _.assert( Object.is( it.src2, o.src2 ) );
+  // _.assert( Object.is( it.src, o.src ) );
+  _.assert( it.originalSrc === null );
+  _.assert( it.originalSrc2 === null );
   _.assert( it.result === true );
 
   return it;
@@ -746,10 +748,11 @@ function performBegin()
 {
   let it = this;
   Parent.performBegin.apply( it, arguments );
+
   _.assert( Object.is( it.originalSrc, it.src ) );
   _.assert( Object.is( it.originalSrc2, it.src2 ) );
-
   _.assert( it.iterator.visitedContainer2 === null );
+
   if( it.iterator.revisiting < 2 )
   {
     if( it.iterator.revisiting === 0 )
@@ -787,7 +790,7 @@ function performEnd()
 //   _.assert( it.level >= 0 );
 //   _.assert( _.objectIs( it.down ) );
 //
-//   it.src2 = _.container.elementGet( it.srcEffective2, it.key );
+//   it.src2 = _.container.elementGet( it./*srcEffective2*/src2, it.key );
 //   it.originalSrc2 = it.src2;
 //
 //   return it;
@@ -805,7 +808,7 @@ function chooseBegin( e, k )
   _.assert( it.level >= 0 );
   _.assert( _.objectIs( it.down ) );
 
-  it.src2 = _.container.elementGet( it.srcEffective2, k );
+  it.src2 = _.container.elementGet( it./*srcEffective2*/src2, k );
   it.originalSrc2 = it.src2;
 
   return [ e, k ];
@@ -821,27 +824,38 @@ function chooseRoot( e )
 
   it.originalSrc2 = it.src2;
 
+  if( it.containing === 'only' )
+  {
+    let x;
+    x = it.src;
+    it.src = it.src2;
+    it.src2 = x;
+    x = it.originalSrc;
+    it.originalSrc = it.originalSrc2;
+    it.originalSrc2 = x;
+  }
+
   return it;
 }
 
+// //
 //
-
-function effectiveEval()
-{
-  let it = this;
-
-  if( it.containing === 'only' )
-  {
-    it.srcEffective = it.src2;
-    it.srcEffective2 = it.src;
-  }
-  else
-  {
-    it.srcEffective = it.src;
-    it.srcEffective2 = it.src2;
-  }
-
-}
+// function effectiveEval()
+// {
+//   let it = this;
+//
+//   if( it.containing === 'only' )
+//   {
+//     it./*srcEffective*/src = it.src2;
+//     it./*srcEffective2*/src2 = it.src;
+//   }
+//   else
+//   {
+//     it./*srcEffective*/src = it.src;
+//     it./*srcEffective2*/src2 = it.src2;
+//   }
+//
+// }
 
 //
 
@@ -867,37 +881,37 @@ function _iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  if( _.mapIs( it.srcEffective ) )
+  if( _.mapIs( it./*srcEffective*/src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.aux;
     it.iterable = _.equaler.containerNameToIdMap.aux;
   }
-  else if( _.entity.methodEqualOf( it.srcEffective ) && !_.aux.is( it.srcEffective ) )
+  else if( _.entity.methodEqualOf( it./*srcEffective*/src ) && !_.aux.is( it./*srcEffective*/src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.object;
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
-  else if( _.hashMapLike( it.srcEffective ) )
+  else if( _.hashMapLike( it./*srcEffective*/src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.hashMap;
     it.iterable = _.equaler.containerNameToIdMap.hashMap
   }
-  else if( _.setLike( it.srcEffective ) )
+  else if( _.setLike( it./*srcEffective*/src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.set;
     it.iterable = _.equaler.containerNameToIdMap.set;
   }
-  else if( it.isCountable( it.srcEffective ) )
+  else if( it.isCountable( it./*srcEffective*/src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.countable;
     it.iterable = _.equaler.containerNameToIdMap.countable;
   }
-  else if( _.primitiveIs( it.srcEffective ) )
+  else if( _.primitiveIs( it./*srcEffective*/src ) )
   {
     it.type1 = 0;
     it.iterable = 0;
   }
-  else if( _.aux.is( it.srcEffective ) )
+  else if( _.aux.is( it./*srcEffective*/src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.aux;
     it.iterable = _.equaler.containerNameToIdMap.aux;
@@ -913,28 +927,28 @@ function _iterableEval()
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
 
-  if( _.entity.methodEqualOf( it.srcEffective2 ) && !_.aux.is( it.srcEffective2 ) )
+  if( _.entity.methodEqualOf( it./*srcEffective2*/src2 ) && !_.aux.is( it./*srcEffective2*/src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.object;
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
-  else if( it.isCountable( it.srcEffective2 ) )
+  else if( it.isCountable( it./*srcEffective2*/src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.countable;
   }
-  else if( _.hashMapLike( it.srcEffective2 ) )
+  else if( _.hashMapLike( it./*srcEffective2*/src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.hashMap;
   }
-  else if( _.setLike( it.srcEffective2 ) )
+  else if( _.setLike( it./*srcEffective2*/src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.set;
   }
-  else if( _.aux.is( it.srcEffective2 ) )
+  else if( _.aux.is( it./*srcEffective2*/src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.aux;
   }
-  else if( _.primitiveIs( it.srcEffective2 ) )
+  else if( _.primitiveIs( it./*srcEffective2*/src2 ) )
   {
     it.type2 = 0;
   }
@@ -977,7 +991,7 @@ function visitPush()
   if( it.iterator.visitedContainer2 )
   if( it.visitCounting && it.type2 )
   {
-    it.iterator.visitedContainer2.push( it.src2 );
+    it.iterator.visitedContainer2.push( it.originalSrc2 );
   }
 
   Parent.visitPush.apply( it, arguments );
@@ -996,13 +1010,13 @@ function visitPop()
     if( _.arrayIs( it.iterator.visitedContainer2.original ) )
     _.assert
     (
-      Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.src2 ),
-      () => `Top-most visit ${it.path} does not match ${_.entity.exportStringShort( it.src2 )} <> ${_.entity.exportStringShort
+      Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.originalSrc2 ),
+      () => `Top-most visit ${it.path} does not match ${_.entity.exportStringShort( it.originalSrc2 )} <> ${_.entity.exportStringShort
       (
         it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ]
       )}`
     );
-    it.iterator.visitedContainer2.pop( it.src2 );
+    it.iterator.visitedContainer2.pop( it.originalSrc2 );
   }
 
   Parent.visitPop.apply( it, arguments );
@@ -1138,12 +1152,12 @@ function equalUp()
   _.assert( it.ascending === true );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  /* if containing mode then srcEffective2 could even don't have such entry */
+  /* if containing mode then src2 could even don't have such entry */
 
   if( it.containing )
   if( it.down && it.down.iterable === _.equaler.containerNameToIdMap.aux )
   {
-    if( !( it.key in it.down.srcEffective2 ) )
+    if( !( it.key in it.down./*srcEffective2*/src2 ) )
     {
       return it.stop( false );
     }
@@ -1151,7 +1165,7 @@ function equalUp()
 
   /* */
 
-  if( Object.is( it.srcEffective, it.srcEffective2 ) )
+  if( Object.is( it./*srcEffective*/src, it./*srcEffective2*/src2 ) )
   {
     return it.stop( true );
   }
@@ -1161,7 +1175,7 @@ function equalUp()
   if( it.strictTyping )
   {
 
-    if( _ObjectToString.call( it.srcEffective ) !== _ObjectToString.call( it.srcEffective2 ) )
+    if( _ObjectToString.call( it./*srcEffective*/src ) !== _ObjectToString.call( it./*srcEffective2*/src2 ) )
     return it.stop( false );
 
   }
@@ -1171,12 +1185,12 @@ function equalUp()
     {
       if
       (
-        it.srcEffective === null
-        || it.srcEffective === undefined
-        || it.srcEffective2 === null
-        || it.srcEffective2 === undefined
+        it./*srcEffective*/src === null
+        || it./*srcEffective*/src === undefined
+        || it./*srcEffective2*/src2 === null
+        || it./*srcEffective2*/src2 === undefined
       )
-      return it.stop( it.srcEffective === it.srcEffective2 );
+      return it.stop( it./*srcEffective*/src === it./*srcEffective2*/src2 );
     }
   }
 
@@ -1218,12 +1232,12 @@ function equalCycle()
   if( it.strictCycling )
   {
     /* if opposite branch was cycled earlier */
-    if( it.down.srcEffective2 !== undefined )
+    if( it.down./*srcEffective2*/src2 !== undefined )
     if( it.iterator.visitedContainer2 )
     {
       if( _.arrayIs( it.iterator.visitedContainer2.original ) )
       {
-        let i = it.iterator.visitedContainer2.original.indexOf( it.down.srcEffective2 );
+        let i = it.iterator.visitedContainer2.original.indexOf( it.down./*srcEffective2*/src2 );
         if( 0 <= i && i <= it.iterator.visitedContainer2.original.length-2 )
         {
           it.result = false;
@@ -1234,7 +1248,7 @@ function equalCycle()
       else
       {
         /* qqq : cover revisiting : 0, ask how */
-        if( it.iterator.visitedContainer2 && it.iterator.visitedContainer2.has( it.down.srcEffective2 ) )
+        if( it.iterator.visitedContainer2 && it.iterator.visitedContainer2.has( it.down./*srcEffective2*/originalSrc2 ) )
         {
           it.result = false;
           it.iterator.continue = false;
@@ -1250,7 +1264,7 @@ function equalCycle()
         it.result = it
         .iterator
         .visitedContainer2
-        .original[ it.visitedContainer.original.indexOf( it.srcEffective ) ] === it.srcEffective2;
+        .original[ it.visitedContainer.original.indexOf( it./*srcEffective*/originalSrc ) ] === it./*srcEffective2*/originalSrc2;
       }
       if( !it.result )
       {
@@ -1270,7 +1284,7 @@ function equalCycle()
         _.assert( 0, 'not tested' ); /* qqq : cover */
         containing = 'all';
       }
-      it.result = it.equal( it.srcEffective2, it.srcEffective, { recursive : 0, containing } ) && it.result;
+      it.result = it.equal( it./*srcEffective2*/src2, it./*srcEffective*/src, { recursive : 0, containing } ) && it.result;
       if( !it.result )
       {
         it.iterator.continue = false;
@@ -1309,15 +1323,15 @@ function secondCoerce()
 {
   let it = this;
 
-  if( !_.primitiveIs( it.srcEffective ) && _.routineIs( it.srcEffective[ equalSecondCoerceSymbol ] ) )
+  if( !_.primitiveIs( it./*srcEffective*/src ) && _.routineIs( it./*srcEffective*/src[ equalSecondCoerceSymbol ] ) )
   {
-    it.srcEffective[ equalSecondCoerceSymbol ]( it );
+    it./*srcEffective*/src[ equalSecondCoerceSymbol ]( it );
     return true;
   }
 
-  if( !_.primitiveIs( it.srcEffective2 ) && _.routineIs( it.srcEffective2[ equalSecondCoerceSymbol ] ) )
+  if( !_.primitiveIs( it./*srcEffective2*/src2 ) && _.routineIs( it./*srcEffective2*/src2[ equalSecondCoerceSymbol ] ) )
   {
-    it.srcEffective2[ equalSecondCoerceSymbol ]( it );
+    it./*srcEffective2*/src2[ equalSecondCoerceSymbol ]( it );
     return true;
   }
 
@@ -1334,30 +1348,30 @@ function equalSets()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  if( !_.setLike( it.srcEffective2 ) )
+  if( !_.setLike( it./*srcEffective2*/src2 ) )
   return it.stop( false );
 
   if( it.containing )
   {
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      if( it.srcEffective.size > it.srcEffective2.size )
+      if( it./*srcEffective*/src.size > it./*srcEffective2*/src2.size )
       return it.stop( false );
     }
   }
   else
   {
-    if( it.srcEffective.size !== it.srcEffective2.size )
+    if( it./*srcEffective*/src.size !== it./*srcEffective2*/src2.size )
     return it.stop( false );
   }
 
-  _.assert( _.setLike( it.srcEffective ) );
-  _.assert( _.setLike( it.srcEffective2 ) );
+  _.assert( _.setLike( it./*srcEffective*/src ) );
+  _.assert( _.setLike( it./*srcEffective2*/src2 ) );
   _.assert( !it.containing, 'not implemented' );
 
-  for( let e of it.srcEffective )
+  for( let e of it./*srcEffective*/src )
   unpaired1.add( e );
-  for( let e of it.srcEffective2 )
+  for( let e of it./*srcEffective2*/src2 )
   unpaired2.add( e );
 
   for( let e of unpaired1 )
@@ -1409,16 +1423,16 @@ function equalCountable()
 {
   let it = this;
 
-  if( !it.srcEffective2 )
+  if( !it./*srcEffective2*/src2 )
   return it.stop( false );
 
   if( it.strictContainer )
   {
 
-    if( _.bufferAnyIs( it.srcEffective ) || _.bufferAnyIs( it.srcEffective2 ) )
+    if( _.bufferAnyIs( it./*srcEffective*/src ) || _.bufferAnyIs( it./*srcEffective2*/src2 ) )
     return it.equalBuffers();
 
-    if( !it.isCountable( it.srcEffective2 ) )
+    if( !it.isCountable( it./*srcEffective2*/src2 ) )
     return it.stop( false );
 
   }
@@ -1428,7 +1442,7 @@ function equalCountable()
     if( !it.type1 || !it.type2 )
     return it.stop( false );
 
-    if( !_.vectorLike( it.srcEffective2 ) && !_.entity.methodIteratorOf( it.srcEffective2 ) )
+    if( !_.vectorLike( it./*srcEffective2*/src2 ) && !_.entity.methodIteratorOf( it./*srcEffective2*/src2 ) )
     return it.stop( false );
 
   }
@@ -1437,13 +1451,13 @@ function equalCountable()
   {
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      if( _.container.lengthOf( it.srcEffective ) > _.container.lengthOf( it.srcEffective2 ) )
+      if( _.container.lengthOf( it./*srcEffective*/src ) > _.container.lengthOf( it./*srcEffective2*/src2 ) )
       return it.stop( false );
     }
   }
   else
   {
-    if( _.container.lengthOf( it.srcEffective ) !== _.container.lengthOf( it.srcEffective2 ) )
+    if( _.container.lengthOf( it./*srcEffective*/src ) !== _.container.lengthOf( it./*srcEffective2*/src2 ) )
     return it.stop( false );
   }
 
@@ -1459,30 +1473,31 @@ function equalHashes()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  if( !_.hashMapLike( it.srcEffective2 ) )
+  if( !_.hashMapLike( it./*srcEffective2*/src2 ) )
   return it.stop( false );
 
   if( it.containing )
   {
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      if( it.srcEffective.size > it.srcEffective2.size )
+      debugger;
+      if( it./*srcEffective*/src.size > it./*srcEffective2*/src2.size )
       return it.stop( false );
     }
   }
   else
   {
-    if( it.srcEffective.size !== it.srcEffective2.size )
+    if( it./*srcEffective*/src.size !== it./*srcEffective2*/src2.size )
     return it.stop( false );
   }
 
-  _.assert( _.hashMapLike( it.srcEffective ) );
-  _.assert( _.hashMapLike( it.srcEffective2 ) );
+  _.assert( _.hashMapLike( it./*srcEffective*/src ) );
+  _.assert( _.hashMapLike( it./*srcEffective2*/src2 ) );
   _.assert( !it.containing, 'not implemented' );
 
-  for( let [ k, e ] of it.srcEffective )
+  for( let [ k, e ] of it./*srcEffective*/src )
   unpaired1.set( k, e );
-  for( let [ k, e ] of it.srcEffective2 )
+  for( let [ k, e ] of it./*srcEffective2*/src2 )
   unpaired2.set( k, e );
 
   for( let [ k1, e1 ] of unpaired1 )
@@ -1553,20 +1568,21 @@ function equalAuxiliary()
 
     if( it.containing === 'only' )
     {
-      if( _.aux.is( it.srcEffective ) && !_.aux.is( it.srcEffective2 ) )
+      debugger;
+      if( _.aux.is( it./*srcEffective*/src ) && !_.aux.is( it./*srcEffective2*/src2 ) )
       return it.stop( true );
     }
     else
     {
-      if( !_.aux.is( it.srcEffective ) && _.aux.is( it.srcEffective2 ) )
+      if( !_.aux.is( it./*srcEffective*/src ) && _.aux.is( it./*srcEffective2*/src2 ) )
       return it.stop( false );
     }
 
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      if( it.type1 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.srcEffective[ equalAreSymbol ] ) || 'length' in it.srcEffective )
-      if( it.type2 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.srcEffective2[ equalAreSymbol ] ) || 'length' in it.srcEffective2 )
-      if( _.lengthOf( it.srcEffective ) > _.lengthOf( it.srcEffective2 ) )
+      if( it.type1 !== _.equaler.containerNameToIdMap.object || _.routineIs( it./*srcEffective*/src[ equalAreSymbol ] ) || 'length' in it./*srcEffective*/src )
+      if( it.type2 !== _.equaler.containerNameToIdMap.object || _.routineIs( it./*srcEffective2*/src2[ equalAreSymbol ] ) || 'length' in it./*srcEffective2*/src2 )
+      if( _.lengthOf( it./*srcEffective*/src ) > _.lengthOf( it./*srcEffective2*/src2 ) )
       return it.stop( false );
     }
 
@@ -1580,18 +1596,18 @@ function equalAuxiliary()
       there is no such check in contain branch because
       second argument of contain-comparison does not have to be object, but may be auxiliary to give true
       */
-      if( _.mapIs( it.srcEffective ) ^ _.mapIs( it.srcEffective2 ) )
+      if( _.mapIs( it./*srcEffective*/src ) ^ _.mapIs( it./*srcEffective2*/src2 ) )
       return it.stop( false );
-      if( _.mapKeys( it.srcEffective ).length !== _.mapKeys( it.srcEffective2 ).length )
+      if( _.mapKeys( it./*srcEffective*/src ).length !== _.mapKeys( it./*srcEffective2*/src2 ).length )
       return it.stop( false );
-      if( _.mapOnlyOwnKeys( it.srcEffective ).length !== _.mapOnlyOwnKeys( it.srcEffective2 ).length )
+      if( _.mapOnlyOwnKeys( it./*srcEffective*/src ).length !== _.mapOnlyOwnKeys( it./*srcEffective2*/src2 ).length )
       return it.stop( false );
     }
     else
     {
       if( !it.type1 || !it.type2 )
       return it.stop( false );
-      if( _.mapKeys( it.srcEffective ).length !== _.mapKeys( it.srcEffective2 ).length )
+      if( _.mapKeys( it./*srcEffective*/src ).length !== _.mapKeys( it./*srcEffective2*/src2 ).length )
       return it.stop( false );
     }
 
@@ -1610,33 +1626,33 @@ function equalObjects()
     it.iterable === _.equaler.containerNameToIdMap.object
   );
 
-  if( it.srcEffective && _.routineIs( it.srcEffective[ equalAreSymbol ] ) )
+  if( it./*srcEffective*/src && _.routineIs( it./*srcEffective*/src[ equalAreSymbol ] ) )
   {
-    _.assert( it.srcEffective[ equalAreSymbol ].length <= 1 );
-    let r = it.srcEffective[ equalAreSymbol ]( it );
+    _.assert( it./*srcEffective*/src[ equalAreSymbol ].length <= 1 );
+    let r = it./*srcEffective*/src[ equalAreSymbol ]( it );
     _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.entity.strType( r )}` );
   }
-  else if( it.srcEffective2 && _.routineIs( it.srcEffective2[ equalAreSymbol ] ) )
+  else if( it./*srcEffective2*/src2 && _.routineIs( it./*srcEffective2*/src2[ equalAreSymbol ] ) )
   {
-    _.assert( it.srcEffective2[ equalAreSymbol ].length <= 1 );
-    let r = it.srcEffective2[ equalAreSymbol ]( it );
+    _.assert( it./*srcEffective2*/src2[ equalAreSymbol ].length <= 1 );
+    let r = it./*srcEffective2*/src2[ equalAreSymbol ]( it );
     _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.entity.strType( r )}` );
   }
-  else if( _.regexpIs( it.srcEffective ) )
+  else if( _.regexpIs( it./*srcEffective*/src ) )
   {
     return it.equalRegexps();
   }
-  else if( _.dateIs( it.srcEffective ) )
+  else if( _.dateIs( it./*srcEffective*/src ) )
   {
     return it.equalDates();
   }
-  else if( _.bufferAnyIs( it.srcEffective ) )
+  else if( _.bufferAnyIs( it./*srcEffective*/src ) )
   {
     return it.equalBuffers();
   }
   else
   {
-    if( !_.entity.methodIteratorOf( it.srcEffective ) )
+    if( !_.entity.methodIteratorOf( it./*srcEffective*/src ) )
     return it.stop( false );
   }
 
@@ -1651,37 +1667,37 @@ function equalTerminals()
   if( it.type1 || it.type2 )
   return it.stop( false );
 
-  if( _.strIs( it.srcEffective ) )
+  if( _.strIs( it./*srcEffective*/src ) )
   {
-    if( !_.strIs( it.srcEffective2 ) )
+    if( !_.strIs( it./*srcEffective2*/src2 ) )
     return it.stop( false );
-    return it.stop( it.onStringsAreEqual( it.onStringPreprocess( it.srcEffective ), it.onStringPreprocess( it.srcEffective2 ) ) );
+    return it.stop( it.onStringsAreEqual( it.onStringPreprocess( it./*srcEffective*/src ), it.onStringPreprocess( it./*srcEffective2*/src2 ) ) );
   }
-  else if( it.strictTyping && ( _.boolIs( it.srcEffective ) || _.boolIs( it.srcEffective2 ) ) )
+  else if( it.strictTyping && ( _.boolIs( it./*srcEffective*/src ) || _.boolIs( it./*srcEffective2*/src2 ) ) )
   {
-    it.stop( it.srcEffective === it.srcEffective2 );
+    it.stop( it./*srcEffective*/src === it./*srcEffective2*/src2 );
   }
-  else if( !it.strictTyping && ( _.boolIs( it.srcEffective ) || _.boolIs( it.srcEffective2 ) ) )
+  else if( !it.strictTyping && ( _.boolIs( it./*srcEffective*/src ) || _.boolIs( it./*srcEffective2*/src2 ) ) )
   {
-    if( !_.boolLike( it.srcEffective ) || !_.boolLike( it.srcEffective2 ) )
+    if( !_.boolLike( it./*srcEffective*/src ) || !_.boolLike( it./*srcEffective2*/src2 ) )
     it.stop( false );
     else /* Yevhen : case 1 and true or false and 0 */
     it.stop
     (
-      ( _.boolLikeTrue( it.srcEffective ) && _.boolLikeTrue( it.srcEffective2 ) )
-      || ( _.boolLikeFalse( it.srcEffective ) && _.boolLikeFalse( it.srcEffective2 ) )
+      ( _.boolLikeTrue( it./*srcEffective*/src ) && _.boolLikeTrue( it./*srcEffective2*/src2 ) )
+      || ( _.boolLikeFalse( it./*srcEffective*/src ) && _.boolLikeFalse( it./*srcEffective2*/src2 ) )
     )
   }
-  else if( _.numberIs( it.srcEffective ) || _.bigIntIs( it.srcEffective ) )
+  else if( _.numberIs( it./*srcEffective*/src ) || _.bigIntIs( it./*srcEffective*/src ) )
   {
-    return it.stop( it.onNumbersAreEqual( it.srcEffective, it.srcEffective2 ) );
+    return it.stop( it.onNumbersAreEqual( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
   }
   else
   {
     if( it.strictTyping )
-    return it.stop( it.srcEffective === it.srcEffective2 );
+    return it.stop( it./*srcEffective*/src === it./*srcEffective2*/src2 );
     else
-    return it.stop( it.srcEffective === it.srcEffective2 );
+    return it.stop( it./*srcEffective*/src === it./*srcEffective2*/src2 );
   }
 
 }
@@ -1692,9 +1708,9 @@ function equalRegexps()
 {
   let it = this;
   if( it.strictTyping )
-  return it.stop( _.regexpIdentical( it.srcEffective, it.srcEffective2 ) );
+  return it.stop( _.regexpIdentical( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
   else
-  return it.stop( _.regexpEquivalent( it.srcEffective, it.srcEffective2 ) );
+  return it.stop( _.regexpEquivalent( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
 }
 
 //
@@ -1702,7 +1718,7 @@ function equalRegexps()
 function equalDates()
 {
   let it = this;
-  it.stop( _.datesAreIdentical( it.srcEffective, it.srcEffective2 ) );
+  it.stop( _.datesAreIdentical( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
 }
 
 //
@@ -1713,19 +1729,19 @@ function equalBuffers()
 
   if( it.strictNumbering && it.strictTyping )
   {
-    return it.stop( _.buffersAreIdentical( it.srcEffective, it.srcEffective2 ) );
+    return it.stop( _.buffersAreIdentical( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
   }
   else
   {
 
     if( it.strictTyping )
     {
-      return it.stop( _.buffersAreEquivalent( it.srcEffective, it.srcEffective2, it.strictNumbering ? 0 : it.accuracy ) );
+      return it.stop( _.buffersAreEquivalent( it./*srcEffective*/src, it./*srcEffective2*/src2, it.strictNumbering ? 0 : it.accuracy ) );
     }
     else
     {
-      let src1 = it.srcEffective;
-      let src2 = it.srcEffective2;
+      let src1 = it./*srcEffective*/src;
+      let src2 = it./*srcEffective2*/src2;
       if( !_.longIs( src1 ) && _.entity.methodIteratorOf( src1 ) )
       src1 = [ ... src1 ];
       if( !_.longIs( src2 ) && _.entity.methodIteratorOf( src2 ) )
@@ -1783,7 +1799,7 @@ let LookerExtension =
   performEnd,
   chooseBegin,
   chooseRoot,
-  effectiveEval,
+  // effectiveEval,
   iterableEval,
   _iterableEval,
   ascendEval,
@@ -1817,16 +1833,16 @@ Iterator.visitedContainer2 = null;
 
 let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
 Iteration.result = true;
-Iteration.srcEffective = null;
+// Iteration./*srcEffective*/src = null;
 Iteration.src2 = null;
 Iteration.originalSrc2 = null; /* qqq : cover the field */
-Iteration.srcEffective2 = null;
+// Iteration./*srcEffective2*/src2 = null;
 Iteration.type1 = null;
 Iteration.type2 = null;
 
 let IterationPreserve = Equaler.IterationPreserve = _.mapExtend( null, Equaler.IterationPreserve );
 IterationPreserve.src2 = null;
-IterationPreserve.srcEffective2 = null;
+// IterationPreserve./*srcEffective2*/src2 = null;
 
 //
 
