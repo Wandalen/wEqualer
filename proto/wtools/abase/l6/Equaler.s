@@ -56,8 +56,8 @@ let Defaults = _.mapExtend( null, _.look.defaults );
 Defaults.Looker = null;
 Defaults.src = null;
 Defaults.src2 = null;
-// Defaults./*srcEffective*/src = null;
-// Defaults./*srcEffective2*/src2 = null;
+// Defaults.src = null;
+// Defaults.src2 = null;
 Defaults.containing = 0;
 Defaults.strict = 1;
 Defaults.revisiting = 1;
@@ -790,7 +790,7 @@ function performEnd()
 //   _.assert( it.level >= 0 );
 //   _.assert( _.objectIs( it.down ) );
 //
-//   it.src2 = _.container.elementGet( it./*srcEffective2*/src2, it.key );
+//   it.src2 = _.container.elementGet( it.src2, it.key );
 //   it.originalSrc2 = it.src2;
 //
 //   return it;
@@ -808,7 +808,7 @@ function chooseBegin( e, k )
   _.assert( it.level >= 0 );
   _.assert( _.objectIs( it.down ) );
 
-  it.src2 = _.container.elementGet( it./*srcEffective2*/src2, k );
+  it.src2 = _.container.elementGet( it.src2, k );
   it.originalSrc2 = it.src2;
 
   return [ e, k ];
@@ -846,13 +846,13 @@ function chooseRoot( e )
 //
 //   if( it.containing === 'only' )
 //   {
-//     it./*srcEffective*/src = it.src2;
-//     it./*srcEffective2*/src2 = it.src;
+//     it.src = it.src2;
+//     it.src2 = it.src;
 //   }
 //   else
 //   {
-//     it./*srcEffective*/src = it.src;
-//     it./*srcEffective2*/src2 = it.src2;
+//     it.src = it.src;
+//     it.src2 = it.src2;
 //   }
 //
 // }
@@ -881,37 +881,37 @@ function _iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  if( _.mapIs( it./*srcEffective*/src ) )
+  if( _.mapIs( it.src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.aux;
     it.iterable = _.equaler.containerNameToIdMap.aux;
   }
-  else if( _.entity.methodEqualOf( it./*srcEffective*/src ) && !_.aux.is( it./*srcEffective*/src ) )
+  else if( _.entity.methodEqualOf( it.src ) && !_.aux.is( it.src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.object;
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
-  else if( _.hashMapLike( it./*srcEffective*/src ) )
+  else if( _.hashMapLike( it.src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.hashMap;
     it.iterable = _.equaler.containerNameToIdMap.hashMap
   }
-  else if( _.setLike( it./*srcEffective*/src ) )
+  else if( _.setLike( it.src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.set;
     it.iterable = _.equaler.containerNameToIdMap.set;
   }
-  else if( it.isCountable( it./*srcEffective*/src ) )
+  else if( it.isCountable( it.src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.countable;
     it.iterable = _.equaler.containerNameToIdMap.countable;
   }
-  else if( _.primitiveIs( it./*srcEffective*/src ) )
+  else if( _.primitiveIs( it.src ) )
   {
     it.type1 = 0;
     it.iterable = 0;
   }
-  else if( _.aux.is( it./*srcEffective*/src ) )
+  else if( _.aux.is( it.src ) )
   {
     it.type1 = _.equaler.containerNameToIdMap.aux;
     it.iterable = _.equaler.containerNameToIdMap.aux;
@@ -927,28 +927,28 @@ function _iterableEval()
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
 
-  if( _.entity.methodEqualOf( it./*srcEffective2*/src2 ) && !_.aux.is( it./*srcEffective2*/src2 ) )
+  if( _.entity.methodEqualOf( it.src2 ) && !_.aux.is( it.src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.object;
     it.iterable = _.equaler.containerNameToIdMap.object;
   }
-  else if( it.isCountable( it./*srcEffective2*/src2 ) )
+  else if( it.isCountable( it.src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.countable;
   }
-  else if( _.hashMapLike( it./*srcEffective2*/src2 ) )
+  else if( _.hashMapLike( it.src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.hashMap;
   }
-  else if( _.setLike( it./*srcEffective2*/src2 ) )
+  else if( _.setLike( it.src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.set;
   }
-  else if( _.aux.is( it./*srcEffective2*/src2 ) )
+  else if( _.aux.is( it.src2 ) )
   {
     it.type2 = _.equaler.containerNameToIdMap.aux;
   }
-  else if( _.primitiveIs( it./*srcEffective2*/src2 ) )
+  else if( _.primitiveIs( it.src2 ) )
   {
     it.type2 = 0;
   }
@@ -1011,7 +1011,8 @@ function visitPop()
     _.assert
     (
       Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.originalSrc2 ),
-      () => `Top-most visit ${it.path} does not match ${_.entity.exportStringShort( it.originalSrc2 )} <> ${_.entity.exportStringShort
+      () => `Top-most visit ${it.path} does not match`
+      + `${_.entity.exportStringShort( it.originalSrc2 )} <> ${_.entity.exportStringShort
       (
         it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ]
       )}`
@@ -1157,7 +1158,7 @@ function equalUp()
   if( it.containing )
   if( it.down && it.down.iterable === _.equaler.containerNameToIdMap.aux )
   {
-    if( !( it.key in it.down./*srcEffective2*/src2 ) )
+    if( !( it.key in it.down.src2 ) )
     {
       return it.stop( false );
     }
@@ -1165,7 +1166,7 @@ function equalUp()
 
   /* */
 
-  if( Object.is( it./*srcEffective*/src, it./*srcEffective2*/src2 ) )
+  if( Object.is( it.src, it.src2 ) )
   {
     return it.stop( true );
   }
@@ -1175,7 +1176,7 @@ function equalUp()
   if( it.strictTyping )
   {
 
-    if( _ObjectToString.call( it./*srcEffective*/src ) !== _ObjectToString.call( it./*srcEffective2*/src2 ) )
+    if( _ObjectToString.call( it.src ) !== _ObjectToString.call( it.src2 ) )
     return it.stop( false );
 
   }
@@ -1185,12 +1186,12 @@ function equalUp()
     {
       if
       (
-        it./*srcEffective*/src === null
-        || it./*srcEffective*/src === undefined
-        || it./*srcEffective2*/src2 === null
-        || it./*srcEffective2*/src2 === undefined
+        it.src === null
+        || it.src === undefined
+        || it.src2 === null
+        || it.src2 === undefined
       )
-      return it.stop( it./*srcEffective*/src === it./*srcEffective2*/src2 );
+      return it.stop( it.src === it.src2 );
     }
   }
 
@@ -1232,12 +1233,12 @@ function equalCycle()
   if( it.strictCycling )
   {
     /* if opposite branch was cycled earlier */
-    if( it.down./*srcEffective2*/src2 !== undefined )
+    if( it.down.src2 !== undefined )
     if( it.iterator.visitedContainer2 )
     {
       if( _.arrayIs( it.iterator.visitedContainer2.original ) )
       {
-        let i = it.iterator.visitedContainer2.original.indexOf( it.down./*srcEffective2*/src2 );
+        let i = it.iterator.visitedContainer2.original.indexOf( it.down.src2 );
         if( 0 <= i && i <= it.iterator.visitedContainer2.original.length-2 )
         {
           it.result = false;
@@ -1248,7 +1249,7 @@ function equalCycle()
       else
       {
         /* qqq : cover revisiting : 0, ask how */
-        if( it.iterator.visitedContainer2 && it.iterator.visitedContainer2.has( it.down./*srcEffective2*/originalSrc2 ) )
+        if( it.iterator.visitedContainer2 && it.iterator.visitedContainer2.has( it.down.originalSrc2 ) )
         {
           it.result = false;
           it.iterator.continue = false;
@@ -1264,7 +1265,7 @@ function equalCycle()
         it.result = it
         .iterator
         .visitedContainer2
-        .original[ it.visitedContainer.original.indexOf( it./*srcEffective*/originalSrc ) ] === it./*srcEffective2*/originalSrc2;
+        .original[ it.visitedContainer.original.indexOf( it.originalSrc ) ] === it.originalSrc2;
       }
       if( !it.result )
       {
@@ -1284,7 +1285,7 @@ function equalCycle()
         _.assert( 0, 'not tested' ); /* qqq : cover */
         containing = 'all';
       }
-      it.result = it.equal( it./*srcEffective2*/src2, it./*srcEffective*/src, { recursive : 0, containing } ) && it.result;
+      it.result = it.equal( it.src2, it.src, { recursive : 0, containing } ) && it.result;
       if( !it.result )
       {
         it.iterator.continue = false;
@@ -1323,15 +1324,15 @@ function secondCoerce()
 {
   let it = this;
 
-  if( !_.primitiveIs( it./*srcEffective*/src ) && _.routineIs( it./*srcEffective*/src[ equalSecondCoerceSymbol ] ) )
+  if( !_.primitiveIs( it.src ) && _.routineIs( it.src[ equalSecondCoerceSymbol ] ) )
   {
-    it./*srcEffective*/src[ equalSecondCoerceSymbol ]( it );
+    it.src[ equalSecondCoerceSymbol ]( it );
     return true;
   }
 
-  if( !_.primitiveIs( it./*srcEffective2*/src2 ) && _.routineIs( it./*srcEffective2*/src2[ equalSecondCoerceSymbol ] ) )
+  if( !_.primitiveIs( it.src2 ) && _.routineIs( it.src2[ equalSecondCoerceSymbol ] ) )
   {
-    it./*srcEffective2*/src2[ equalSecondCoerceSymbol ]( it );
+    it.src2[ equalSecondCoerceSymbol ]( it );
     return true;
   }
 
@@ -1348,30 +1349,30 @@ function equalSets()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  if( !_.setLike( it./*srcEffective2*/src2 ) )
+  if( !_.setLike( it.src2 ) )
   return it.stop( false );
 
   if( it.containing )
   {
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      if( it./*srcEffective*/src.size > it./*srcEffective2*/src2.size )
+      if( it.src.size > it.src2.size )
       return it.stop( false );
     }
   }
   else
   {
-    if( it./*srcEffective*/src.size !== it./*srcEffective2*/src2.size )
+    if( it.src.size !== it.src2.size )
     return it.stop( false );
   }
 
-  _.assert( _.setLike( it./*srcEffective*/src ) );
-  _.assert( _.setLike( it./*srcEffective2*/src2 ) );
+  _.assert( _.setLike( it.src ) );
+  _.assert( _.setLike( it.src2 ) );
   _.assert( !it.containing, 'not implemented' );
 
-  for( let e of it./*srcEffective*/src )
+  for( let e of it.src )
   unpaired1.add( e );
-  for( let e of it./*srcEffective2*/src2 )
+  for( let e of it.src2 )
   unpaired2.add( e );
 
   for( let e of unpaired1 )
@@ -1423,16 +1424,16 @@ function equalCountable()
 {
   let it = this;
 
-  if( !it./*srcEffective2*/src2 )
+  if( !it.src2 )
   return it.stop( false );
 
   if( it.strictContainer )
   {
 
-    if( _.bufferAnyIs( it./*srcEffective*/src ) || _.bufferAnyIs( it./*srcEffective2*/src2 ) )
+    if( _.bufferAnyIs( it.src ) || _.bufferAnyIs( it.src2 ) )
     return it.equalBuffers();
 
-    if( !it.isCountable( it./*srcEffective2*/src2 ) )
+    if( !it.isCountable( it.src2 ) )
     return it.stop( false );
 
   }
@@ -1442,7 +1443,7 @@ function equalCountable()
     if( !it.type1 || !it.type2 )
     return it.stop( false );
 
-    if( !_.vectorLike( it./*srcEffective2*/src2 ) && !_.entity.methodIteratorOf( it./*srcEffective2*/src2 ) )
+    if( !_.vectorLike( it.src2 ) && !_.entity.methodIteratorOf( it.src2 ) )
     return it.stop( false );
 
   }
@@ -1451,13 +1452,13 @@ function equalCountable()
   {
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      if( _.container.lengthOf( it./*srcEffective*/src ) > _.container.lengthOf( it./*srcEffective2*/src2 ) )
+      if( _.container.lengthOf( it.src ) > _.container.lengthOf( it.src2 ) )
       return it.stop( false );
     }
   }
   else
   {
-    if( _.container.lengthOf( it./*srcEffective*/src ) !== _.container.lengthOf( it./*srcEffective2*/src2 ) )
+    if( _.container.lengthOf( it.src ) !== _.container.lengthOf( it.src2 ) )
     return it.stop( false );
   }
 
@@ -1473,7 +1474,7 @@ function equalHashes()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  if( !_.hashMapLike( it./*srcEffective2*/src2 ) )
+  if( !_.hashMapLike( it.src2 ) )
   return it.stop( false );
 
   if( it.containing )
@@ -1481,23 +1482,23 @@ function equalHashes()
     if( it.containing === 'all' || it.containing === 'only' )
     {
       debugger;
-      if( it./*srcEffective*/src.size > it./*srcEffective2*/src2.size )
+      if( it.src.size > it.src2.size )
       return it.stop( false );
     }
   }
   else
   {
-    if( it./*srcEffective*/src.size !== it./*srcEffective2*/src2.size )
+    if( it.src.size !== it.src2.size )
     return it.stop( false );
   }
 
-  _.assert( _.hashMapLike( it./*srcEffective*/src ) );
-  _.assert( _.hashMapLike( it./*srcEffective2*/src2 ) );
+  _.assert( _.hashMapLike( it.src ) );
+  _.assert( _.hashMapLike( it.src2 ) );
   _.assert( !it.containing, 'not implemented' );
 
-  for( let [ k, e ] of it./*srcEffective*/src )
+  for( let [ k, e ] of it.src )
   unpaired1.set( k, e );
-  for( let [ k, e ] of it./*srcEffective2*/src2 )
+  for( let [ k, e ] of it.src2 )
   unpaired2.set( k, e );
 
   for( let [ k1, e1 ] of unpaired1 )
@@ -1569,20 +1570,20 @@ function equalAuxiliary()
     if( it.containing === 'only' )
     {
       debugger;
-      if( _.aux.is( it./*srcEffective*/src ) && !_.aux.is( it./*srcEffective2*/src2 ) )
+      if( _.aux.is( it.src ) && !_.aux.is( it.src2 ) )
       return it.stop( true );
     }
     else
     {
-      if( !_.aux.is( it./*srcEffective*/src ) && _.aux.is( it./*srcEffective2*/src2 ) )
+      if( !_.aux.is( it.src ) && _.aux.is( it.src2 ) )
       return it.stop( false );
     }
 
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      if( it.type1 !== _.equaler.containerNameToIdMap.object || _.routineIs( it./*srcEffective*/src[ equalAreSymbol ] ) || 'length' in it./*srcEffective*/src )
-      if( it.type2 !== _.equaler.containerNameToIdMap.object || _.routineIs( it./*srcEffective2*/src2[ equalAreSymbol ] ) || 'length' in it./*srcEffective2*/src2 )
-      if( _.lengthOf( it./*srcEffective*/src ) > _.lengthOf( it./*srcEffective2*/src2 ) )
+      if( it.type1 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.src[ equalAreSymbol ] ) || 'length' in it.src )
+      if( it.type2 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.src2[ equalAreSymbol ] ) || 'length' in it.src2 )
+      if( _.lengthOf( it.src ) > _.lengthOf( it.src2 ) )
       return it.stop( false );
     }
 
@@ -1596,18 +1597,18 @@ function equalAuxiliary()
       there is no such check in contain branch because
       second argument of contain-comparison does not have to be object, but may be auxiliary to give true
       */
-      if( _.mapIs( it./*srcEffective*/src ) ^ _.mapIs( it./*srcEffective2*/src2 ) )
+      if( _.mapIs( it.src ) ^ _.mapIs( it.src2 ) )
       return it.stop( false );
-      if( _.mapKeys( it./*srcEffective*/src ).length !== _.mapKeys( it./*srcEffective2*/src2 ).length )
+      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
       return it.stop( false );
-      if( _.mapOnlyOwnKeys( it./*srcEffective*/src ).length !== _.mapOnlyOwnKeys( it./*srcEffective2*/src2 ).length )
+      if( _.mapOnlyOwnKeys( it.src ).length !== _.mapOnlyOwnKeys( it.src2 ).length )
       return it.stop( false );
     }
     else
     {
       if( !it.type1 || !it.type2 )
       return it.stop( false );
-      if( _.mapKeys( it./*srcEffective*/src ).length !== _.mapKeys( it./*srcEffective2*/src2 ).length )
+      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
       return it.stop( false );
     }
 
@@ -1626,33 +1627,33 @@ function equalObjects()
     it.iterable === _.equaler.containerNameToIdMap.object
   );
 
-  if( it./*srcEffective*/src && _.routineIs( it./*srcEffective*/src[ equalAreSymbol ] ) )
+  if( it.src && _.routineIs( it.src[ equalAreSymbol ] ) )
   {
-    _.assert( it./*srcEffective*/src[ equalAreSymbol ].length <= 1 );
-    let r = it./*srcEffective*/src[ equalAreSymbol ]( it );
+    _.assert( it.src[ equalAreSymbol ].length <= 1 );
+    let r = it.src[ equalAreSymbol ]( it );
     _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.entity.strType( r )}` );
   }
-  else if( it./*srcEffective2*/src2 && _.routineIs( it./*srcEffective2*/src2[ equalAreSymbol ] ) )
+  else if( it.src2 && _.routineIs( it.src2[ equalAreSymbol ] ) )
   {
-    _.assert( it./*srcEffective2*/src2[ equalAreSymbol ].length <= 1 );
-    let r = it./*srcEffective2*/src2[ equalAreSymbol ]( it );
+    _.assert( it.src2[ equalAreSymbol ].length <= 1 );
+    let r = it.src2[ equalAreSymbol ]( it );
     _.assert( r === undefined, `Equalizer should return undefined, but it returned ${_.entity.strType( r )}` );
   }
-  else if( _.regexpIs( it./*srcEffective*/src ) )
+  else if( _.regexpIs( it.src ) )
   {
     return it.equalRegexps();
   }
-  else if( _.dateIs( it./*srcEffective*/src ) )
+  else if( _.dateIs( it.src ) )
   {
     return it.equalDates();
   }
-  else if( _.bufferAnyIs( it./*srcEffective*/src ) )
+  else if( _.bufferAnyIs( it.src ) )
   {
     return it.equalBuffers();
   }
   else
   {
-    if( !_.entity.methodIteratorOf( it./*srcEffective*/src ) )
+    if( !_.entity.methodIteratorOf( it.src ) )
     return it.stop( false );
   }
 
@@ -1667,37 +1668,37 @@ function equalTerminals()
   if( it.type1 || it.type2 )
   return it.stop( false );
 
-  if( _.strIs( it./*srcEffective*/src ) )
+  if( _.strIs( it.src ) )
   {
-    if( !_.strIs( it./*srcEffective2*/src2 ) )
+    if( !_.strIs( it.src2 ) )
     return it.stop( false );
-    return it.stop( it.onStringsAreEqual( it.onStringPreprocess( it./*srcEffective*/src ), it.onStringPreprocess( it./*srcEffective2*/src2 ) ) );
+    return it.stop( it.onStringsAreEqual( it.onStringPreprocess( it.src ), it.onStringPreprocess( it.src2 ) ) );
   }
-  else if( it.strictTyping && ( _.boolIs( it./*srcEffective*/src ) || _.boolIs( it./*srcEffective2*/src2 ) ) )
+  else if( it.strictTyping && ( _.boolIs( it.src ) || _.boolIs( it.src2 ) ) )
   {
-    it.stop( it./*srcEffective*/src === it./*srcEffective2*/src2 );
+    it.stop( it.src === it.src2 );
   }
-  else if( !it.strictTyping && ( _.boolIs( it./*srcEffective*/src ) || _.boolIs( it./*srcEffective2*/src2 ) ) )
+  else if( !it.strictTyping && ( _.boolIs( it.src ) || _.boolIs( it.src2 ) ) )
   {
-    if( !_.boolLike( it./*srcEffective*/src ) || !_.boolLike( it./*srcEffective2*/src2 ) )
+    if( !_.boolLike( it.src ) || !_.boolLike( it.src2 ) )
     it.stop( false );
     else /* Yevhen : case 1 and true or false and 0 */
     it.stop
     (
-      ( _.boolLikeTrue( it./*srcEffective*/src ) && _.boolLikeTrue( it./*srcEffective2*/src2 ) )
-      || ( _.boolLikeFalse( it./*srcEffective*/src ) && _.boolLikeFalse( it./*srcEffective2*/src2 ) )
+      ( _.boolLikeTrue( it.src ) && _.boolLikeTrue( it.src2 ) )
+      || ( _.boolLikeFalse( it.src ) && _.boolLikeFalse( it.src2 ) )
     )
   }
-  else if( _.numberIs( it./*srcEffective*/src ) || _.bigIntIs( it./*srcEffective*/src ) )
+  else if( _.numberIs( it.src ) || _.bigIntIs( it.src ) )
   {
-    return it.stop( it.onNumbersAreEqual( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
+    return it.stop( it.onNumbersAreEqual( it.src, it.src2 ) );
   }
   else
   {
     if( it.strictTyping )
-    return it.stop( it./*srcEffective*/src === it./*srcEffective2*/src2 );
+    return it.stop( it.src === it.src2 );
     else
-    return it.stop( it./*srcEffective*/src === it./*srcEffective2*/src2 );
+    return it.stop( it.src === it.src2 );
   }
 
 }
@@ -1708,9 +1709,9 @@ function equalRegexps()
 {
   let it = this;
   if( it.strictTyping )
-  return it.stop( _.regexpIdentical( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
+  return it.stop( _.regexpIdentical( it.src, it.src2 ) );
   else
-  return it.stop( _.regexpEquivalent( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
+  return it.stop( _.regexpEquivalent( it.src, it.src2 ) );
 }
 
 //
@@ -1718,7 +1719,7 @@ function equalRegexps()
 function equalDates()
 {
   let it = this;
-  it.stop( _.datesAreIdentical( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
+  it.stop( _.datesAreIdentical( it.src, it.src2 ) );
 }
 
 //
@@ -1729,19 +1730,19 @@ function equalBuffers()
 
   if( it.strictNumbering && it.strictTyping )
   {
-    return it.stop( _.buffersAreIdentical( it./*srcEffective*/src, it./*srcEffective2*/src2 ) );
+    return it.stop( _.buffersAreIdentical( it.src, it.src2 ) );
   }
   else
   {
 
     if( it.strictTyping )
     {
-      return it.stop( _.buffersAreEquivalent( it./*srcEffective*/src, it./*srcEffective2*/src2, it.strictNumbering ? 0 : it.accuracy ) );
+      return it.stop( _.buffersAreEquivalent( it.src, it.src2, it.strictNumbering ? 0 : it.accuracy ) );
     }
     else
     {
-      let src1 = it./*srcEffective*/src;
-      let src2 = it./*srcEffective2*/src2;
+      let src1 = it.src;
+      let src2 = it.src2;
       if( !_.longIs( src1 ) && _.entity.methodIteratorOf( src1 ) )
       src1 = [ ... src1 ];
       if( !_.longIs( src2 ) && _.entity.methodIteratorOf( src2 ) )
@@ -1833,16 +1834,16 @@ Iterator.visitedContainer2 = null;
 
 let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
 Iteration.result = true;
-// Iteration./*srcEffective*/src = null;
+// Iteration.src = null;
 Iteration.src2 = null;
 Iteration.originalSrc2 = null; /* qqq : cover the field */
-// Iteration./*srcEffective2*/src2 = null;
+// Iteration.src2 = null;
 Iteration.type1 = null;
 Iteration.type2 = null;
 
 let IterationPreserve = Equaler.IterationPreserve = _.mapExtend( null, Equaler.IterationPreserve );
 IterationPreserve.src2 = null;
-// IterationPreserve./*srcEffective2*/src2 = null;
+// IterationPreserve.src2 = null;
 
 //
 
