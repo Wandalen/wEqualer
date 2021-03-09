@@ -3735,6 +3735,114 @@ function entityEquivalentNotIdenticalComparison( test )
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
+
+  test.case = 'set and array';
+  var src1 = new Set([ 1, 2, 3 ]);
+  var src2 = [ 1, 2, 3 ];
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.equaler.identical( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
+
+  test.case = 'buffer typed and array';
+  var src1 = new F32x([ 1, 2, 3 ])
+  var src2 = [ 1, 2, 3 ];
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.equaler.identical( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
+
+  test.case = 'vectorLike and array';
+  var src1 = new countableConstructor({ elements : [ '1', '10' ], withIterator : 1, length : 2 });
+  var src2 = [ '1', '10' ];
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.equaler.identical( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
+
+  test.case = 'countable and array';
+  var src1 = new countableConstructor({ elements : [ '1', '10' ], withIterator : 1 });
+  var src2 = [ '1', '10' ];
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.equaler.identical( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
+
+  test.case = 'countable made and array';
+  var src1 = countableMake( null, { elements : [ '1', '10' ], withIterator : 1 } );
+  var src2 = [ '1', '10' ];
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.equaler.identical( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
+
+  test.case = `vector and array`;
+  var src1 = new countableConstructor({ elements : [ '1', '10' ], withIterator : 1, length : 2 });
+  var src2 = [ '1', '10' ];
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.equaler.identical( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
+
+  test.case = `argumentsArray and array`;
+  var src1 = _.argumentsArray.make([ '1', '10' ]);
+  var src2 = [ '1', '10' ];
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.equaler.identical( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
+
+  test.case = `argumentsArray and array`;
+  var src1 = _.argumentsArray.make([ '1', '10' ]);
+  var src2 = [ '1', '10' ];
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.equaler.identical( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
+
+  /* - */
+
+  function _iterate()
+  {
+
+    let iterator = Object.create( null );
+    iterator.next = next;
+    iterator.index = 0;
+    iterator.instance = this;
+    return iterator;
+
+    function next()
+    {
+      let result = Object.create( null );
+      result.done = this.index === this.instance.elements.length;
+      if( result.done )
+      return result;
+      result.value = this.instance.elements[ this.index ];
+      this.index += 1;
+      return result;
+    }
+
+  }
+
+  /* */
+
+  function countableConstructor( o )
+  {
+    return countableMake( this, o );
+  }
+
+  /* */
+
+  function countableMake( dst, o )
+  {
+    if( dst === null )
+    dst = Object.create( null );
+    _.mapExtend( dst, o );
+    if( o.withIterator )
+    dst[ Symbol.iterator ] = _iterate;
+    return dst;
+  }
+
 }
 
 //
