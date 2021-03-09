@@ -1423,7 +1423,6 @@ function equalSets()
 function equalCountable()
 {
   let it = this;
-  debugger;
   if( !it.src2 )
   return it.stop( false );
 
