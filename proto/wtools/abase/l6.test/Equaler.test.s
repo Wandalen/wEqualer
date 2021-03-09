@@ -3453,7 +3453,7 @@ function entityEquivalentComparison( test )
 
   test.case = 'interval & BufferTyped';
   var src1 = new F32x( 2 );
-  var src2 = new U8x( 3 );
+  var src2 = new U8x( 2 );
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
 
