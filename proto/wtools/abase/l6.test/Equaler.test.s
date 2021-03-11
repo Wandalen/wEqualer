@@ -9905,7 +9905,8 @@ function entityDiffLoose( test )
 - difference :
  *
 `
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  var stripper = /^(\s|\n|\0)+|(\s|\n|\0)+$/gm;
+  test.identical( _.strStrip({ src : got, stripper }), _.strStrip({ src : expected, stripper }) );
 
   /* */
 
@@ -10025,7 +10026,8 @@ function entityDiffLoose( test )
   { 'f' : [ routine f ] }
   - src2 :
   { 'f' : [ routine f ] }`
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  var stripper = /^(\s|\n|\0)+|(\s|\n|\0)+$/gm;
+  test.identical( _.strStrip({ src : got, stripper }), _.strStrip({ src : expected, stripper }) );
 
   /* */
 
@@ -10068,7 +10070,8 @@ function entityDiffLoose( test )
   {
   'some//key' : 'some//key*
   `
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  var stripper = /^(\s|\n|\0)+|(\s|\n|\0)+$/gm;
+  test.identical( _.strStrip({ src : got, stripper }), _.strStrip({ src : expected, stripper }) );
 
   /* - */
 
@@ -10160,7 +10163,8 @@ function entityDiffExplanationBasic( test )
     srcs,
     path : '/',
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  var stripper = /^(\s|\n|\0)+|(\s|\n|\0)+$/gm;
+  test.identical( _.strStrip({ src : got, stripper }), _.strStrip({ src : expected, stripper }) );
 
   /* */
 
@@ -10738,7 +10742,8 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  var stripper = /^(\s|\n|\0)+|(\s|\n|\0)+$/gm;
+  test.identical( _.strStrip({ src : got, stripper }), _.strStrip({ src : expected, stripper }) );
 
   /* */
 
@@ -10779,7 +10784,8 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  var stripper = /^(\s|\n|\0)+|(\s|\n|\0)+$/gm;
+  test.identical( _.strStrip({ src : got, stripper }), _.strStrip({ src : expected, stripper }) );
 
   /* - */
 
