@@ -1851,6 +1851,7 @@ function entityIdenticalBuffers( test )
 
 function entityEquivalentBuffers( test )
 {
+
   test.case = 'identical ArrayBuffer, simple';
   var src1 = new BufferRaw( 10 );
   var src2 = new BufferRaw( 10 );
@@ -2070,6 +2071,7 @@ function entityIdenticalSet( test )
 
 //
 
+/* qqq : extend for sets */
 function entityEquivalentSet( test )
 {
   function Constructor1()
@@ -2086,31 +2088,183 @@ function entityEquivalentSet( test )
   var src2 = new Set( [] );
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+
+  /* */
+
+  test.case = 'two trivial sets, second is not equivalent';
+  var expected = false;
+  var src1 =
+  {
+    set1 : new Set( [ 'a' ] ),
+    set2 : new Set( [ 1, 2, 3 ] )
+  };
+  var src2 =
+  {
+    set1 : new Set( [ 'a' ] ),
+    set2 : new Set( [ 1, 3 ] )
+  };
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
+  test.case = 'not equivalent, deep';
+  var expected = false;
+  var src1 =
+  {
+    set2 : new Set( [ 1, 2, [ 3 ] ] )
+  };
+  var src2 =
+  {
+    set2 : new Set( [ 1, 2, [ 4 ] ] )
+  };
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
+  test.case = 'not equivalent, two arrays';
+  var expected = false;
+  var src1 =
+  {
+    set2 : new Set( [ [ 1 ], [ 1 ] ] )
+  };
+  var src2 =
+  {
+    set2 : new Set( [ [ 1 ], [ 2 ] ] )
+  };
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
+  test.case = 'not equivalent, two arrays';
+  var expected = false;
+  var src1 =
+  {
+    set2 : new Set( [ [ 1 ], [ 1 ] ] )
+  };
+  var src2 =
+  {
+    set2 : new Set( [ [ 1 ], [ 1 ] ] )
+  };
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+
+  /* */
+
+  test.case = 'diff map, identical element, rearranged';
+  var expected = false;
+  var src1 =
+  {
+    set2 : new Set( [ { a : 2 }, 1 ] ),
+  };
+  var src2 =
+  {
+    set2 : new Set( [ 1, { a : 3 } ] ),
+  };
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
+  test.case = 'diff map, identical array, rearranged';
+  var expected = false;
+  var src1 =
+  {
+    set2 : new Set( [ { a : 2 }, [ 2 ] ] )
+  };
+  var src2 =
+  {
+    set2 : new Set( [ [ 2 ], { a : 3 } ] )
+  };
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
 
   test.case = 'sets are the same, simple';
   var src1 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
   var src2 = src1;
-  var expected = true;
   var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
 
   test.case = 'sets has duplicates, simple';
   var src1 = new Set( [ 1, { a : 3 }, 'str', '', null, null, [ 2 ], false, undefined, NaN, obj ] );
   var src2 = new Set( [ 1, [ 2 ], 'str', 'str', '', null, false, { a : 3 }, undefined, NaN, obj ] );
-  var expected = true;
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
 
   test.case = 'sets is not identical, simple';
   var src1 = new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] );
   var src2 = new Set( [ 1, [ 2 ], { a : 4 }, 'str', '', null, false, undefined, NaN, obj ] );
-  var expected = false;
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   test.case = 'two maps with identical sets';
-  var expected = true;
   var src1 =
   {
     set1 : new Set( [ '', null, false, undefined, NaN, obj, 1, [ 2 ], { a : 3 }, 'str' ] ),
@@ -2121,8 +2275,16 @@ function entityEquivalentSet( test )
     set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
     set2 : new Set( [ 1, '', null, [ 2 ], false, [ 2 ], { a : 3 }, 'str', undefined, NaN, obj ] )
   };
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+
+  /* */
 
   test.case = 'two maps with notIdentical sets';
   var expected = false;
@@ -2136,8 +2298,17 @@ function entityEquivalentSet( test )
     set1 : new Set( [ 1, [ 2 ], { a : 3 }, 'str', '', null, false, undefined, NaN, obj ] ),
     set2 : new Set( [ 1, '', null, [ 2 ], false, [ 2 ], { a : 3 }, 'str', undefined, NaN, obj ] )
   };
-  var got = _.entityEquivalent( src1, src2 );
-  test.identical( got, expected );
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
 }
 
 //
@@ -3893,7 +4064,7 @@ function containsObjectWithEqualerAndIterator( test )
 
   function _equalAre( it )
   {
-    if( _.longIdentical( it./*srcEffective*/src.elements2, it./*srcEffective2*/src2.elements2 ) )
+    if( _.longIdentical( it.src.elements2, it.src2.elements2 ) )
     {
       it.continue = false;
       it.result = true;
@@ -4042,21 +4213,21 @@ function compareObjectWithIteratorAndEqual( test )
 
     _.assert( arguments.length === 1 );
 
-    if( !it./*srcEffective*/src )
+    if( !it.src )
     return end( false );
-    if( !it./*srcEffective2*/src2 )
+    if( !it.src2 )
     return end( false );
-    if( !( it./*srcEffective*/src instanceof Obj1 ) )
+    if( !( it.src instanceof Obj1 ) )
     return end( false );
-    if( !( it./*srcEffective2*/src2 instanceof Obj1 ) )
+    if( !( it.src2 instanceof Obj1 ) )
     return end( false );
 
-    if( it./*srcEffective*/src.val === it./*srcEffective2*/src2.val )
+    if( it.src.val === it.src2.val )
     return end( true );
 
-    if( !( it./*srcEffective*/src.val instanceof Obj1 ) )
+    if( !( it.src.val instanceof Obj1 ) )
     return end( false );
-    if( !( it./*srcEffective*/src.val instanceof Obj1 ) )
+    if( !( it.src.val instanceof Obj1 ) )
     return end( false );
 
     function end( result )
@@ -6102,19 +6273,20 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalAre( it )
   {
+    debugger;
     it.continue = false;
-    it.result = it./*srcEffective*/src.val === it./*srcEffective2*/src2.val;
-    // return it./*srcEffective*/src.val === it./*srcEffective2*/src2.val;
+    it.result = it.src.val === it.src2.val;
   }
 
   /* */
 
   function _equalSecondCoerceFromNumber( it )
   {
-    if( _.numberIs( it./*srcEffective*/src ) )
-    it./*srcEffective*/src = new FromArray( it./*srcEffective*/src, 0 );
-    if( _.numberIs( it./*srcEffective2*/src2 ) )
-    it./*srcEffective2*/src2 = new FromArray( it./*srcEffective2*/src2, 0 );
+    debugger;
+    if( _.numberIs( it.src ) )
+    it.src = new FromArray( it.src, 0 );
+    if( _.numberIs( it.src2 ) )
+    it.src2 = new FromArray( it.src2, 0 );
     return true;
   }
 
@@ -6122,10 +6294,11 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalSecondCoerceFromArray( it )
   {
-    if( _.longIs( it./*srcEffective*/src ) )
-    it./*srcEffective*/src = new FromArray( it./*srcEffective*/src[ 0 ], 0 );
-    if( _.longIs( it./*srcEffective2*/src2 ) )
-    it./*srcEffective2*/src2 = new FromArray( it./*srcEffective2*/src2[ 0 ], 0 );
+    debugger;
+    if( _.longIs( it.src ) )
+    it.src = new FromArray( it.src[ 0 ], 0 );
+    if( _.longIs( it.src2 ) )
+    it.src2 = new FromArray( it.src2[ 0 ], 0 );
     return true;
   }
 
@@ -9434,6 +9607,7 @@ let Self =
     containsLoose,
     iteratorResult,
 
+    /* qqq : for Yevhen */
     entityIdenticalSimple,
     entityIdenticalWithCopyable,
     entityIdenticalArgumentsArray,

@@ -51,332 +51,331 @@ _.assert( !!_.select );
 // relations
 // --
 
-let Defaults = _.mapExtend( null, _.look.defaults );
-
-Defaults.Looker = null;
-Defaults.src = null;
-Defaults.src2 = null;
+// let Defaults = _.mapExtend( null, _.look.defaults );
+//
+// Defaults.Looker = null;
 // Defaults.src = null;
 // Defaults.src2 = null;
-Defaults.containing = 0;
-Defaults.strict = 1;
-Defaults.revisiting = 1;
-Defaults.strictTyping = null;
-Defaults.strictNumbering = null;
-Defaults.strictCycling = null;
-Defaults.strictString = null;
-Defaults.strictContainer = null;
-Defaults.withImplicit = null;
-Defaults.withCountable = 'countable';
-Defaults.accuracy = 1e-7;
-Defaults.recursive = Infinity;
-Defaults.onNumbersAreEqual = null;
-Defaults.onStringsAreEqual = null;
-Defaults.onStringPreprocess = null;
+// Defaults.containing = 0;
+// Defaults.strict = 1;
+// Defaults.revisiting = 1;
+// Defaults.strictTyping = null;
+// Defaults.strictNumbering = null;
+// Defaults.strictCycling = null;
+// Defaults.strictString = null;
+// Defaults.strictContainer = null;
+// Defaults.withImplicit = null;
+// Defaults.withCountable = 'countable';
+// Defaults.accuracy = 1e-7;
+// Defaults.recursive = Infinity;
+// Defaults.onNumbersAreEqual = null;
+// Defaults.onStringsAreEqual = null;
+// Defaults.onStringPreprocess = null;
+// Defaults.iterableEval = null;
 
 // --
 // routines
 // --
 
-function _equal_head( routine, args )
-{
-  return Self.head( routine, args );
-}
-
+// function _equal_head( routine, args )
+// {
+//   return routine.defaults.head( routine, args );
+// }
 //
-
-function _equalIt_body( it )
-{
-  let it2 = _.look.body( it );
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( it2 === it );
-  return it;
-}
-
-var defaults = _equalIt_body.defaults = Defaults;
-
-let _equalIt = _.routineUnite( _equal_head, _equalIt_body );
-
+// //
 //
-
-function _equal_body( it )
-{
-  it = _.equaler._equalIt.body( it );
-  return it.result === _.dont ? false : it.result;
-}
-
-_.routineExtend( _equal_body, _equalIt.body );
-
-let _equal = _.routineUnite( _equal_head, _equal_body );
-
+// function _equalIt_body( it )
+// {
+//   let it2 = _.look.body( it );
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//   _.assert( it2 === it );
+//   return it;
+// }
 //
-
-/**
- * Deep strict comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
- * Returns true if entities are identical.
- *
- * @param {*} src - Entity for comparison.
- * @param {*} src2 - Entity for comparison.
- * @param {wTools~entityEqualOptions} options - Comparsion options {@link wTools~entityEqualOptions}.
- * @param {boolean} [ options.strictTyping = true ] - Method uses strict equality mode( '===' ).
- * @returns {boolean} result - Returns true for identical entities.
- *
- * @example
- * //returns true
- * let src1 = { a : 1, b : { a : 1, b : 2 } };
- * let src2 = { a : 1, b : { a : 1, b : 2 } };
- * _.entityIdentical( src1, src2 ) ;
- *
- * @example
- * //returns false
- * let src1 = { a : '1', b : { a : 1, b : '2' } };
- * let src2 = { a : 1, b : { a : 1, b : 2 } };
- * _.entityIdentical( src1, src2 ) ;
- *
- * @function entityIdentical
- * @function identical
- * @throws {exception} If( arguments.length ) is not equal 2 or 3.
- * @throws {exception} If( options ) is extended by unknown property.
- * @namespace Tools
- * @module Tools/base/Equaler
-*/
-
-let entityIdentical = _.routineUnite( _equal_head, _equal_body );
-
-var defaults = entityIdentical.defaults;
-
-defaults.strict = 1;
-
+// // var defaults = _equalIt_body.defaults = Defaults;
+// //
+// // let _equalIt = _.routineUnite( _equal_head, _equalIt_body );
 //
-
-function entityNotIdentical( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityNotIdentical, arguments );
-  let result = _equal.body.call( this, it );
-  it.result = !it.result;
-  return !result;
-}
-
-_.routineExtend( entityNotIdentical, entityIdentical );
-
+// //
 //
-
-/**
- * Deep soft comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
- * By default uses own( onNumbersAreEqual ) routine to compare numbers using( options.accuracy ). Returns true if two numbers are NaN, strict equal or
- * ( a - b ) <= ( options.accuracy ). For example: '_.entityEquivalent( 1, 1.5, { accuracy : .5 } )' returns true.
- *
- * @param {*} src1 - Entity for comparison.
- * @param {*} src2 - Entity for comparison.
- * @param {wTools~entityEqualOptions} options - Comparsion options {@link wTools~entityEqualOptions}.
- * @param {boolean} [ options.strict = false ] - Method uses( '==' ) equality mode .
- * @param {number} [ options.accuracy = 1e-7 ] - Maximal distance between two numbers.
- * Example: If( options.accuracy ) is '1e-7' then 0.99999 and 1.0 are equivalent.
- * @returns {boolean} Returns true if entities are equivalent.
- *
- * @example
- * //returns true
- * _.entityEquivalent( 2, 2.1, { accuracy : .2 } );
- *
- * @example
- * //returns true
- * _.entityEquivalent( [ 1, 2, 3 ], [ 1.9, 2.9, 3.9 ], { accuracy : 0.9 } );
- *
- * @function entityEquivalent
- * @throws {exception} If( arguments.length ) is not equal 2 or 3.
- * @throws {exception} If( options ) is extended by unknown property.
- * @namespace Tools
- * @module Tools/base/Equaler
-*/
-
-let entityEquivalent = _.routineUnite( _equal_head, _equal_body );
-
-var defaults = entityEquivalent.defaults;
-
-defaults.strict = 0;
-
+// function _equal_body( it )
+// {
+//   it = _.equaler._equalIt.body( it );
+//   return it.result === _.dont ? false : it.result; /* xxx : remove */
+// }
 //
-
-function entityNotEquivalent( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityNotEquivalent, arguments );
-  let result = _equal.body.call( this, it );
-  it.result = !it.result;
-  return !result;
-}
-
-_.routineExtend( entityNotEquivalent, entityEquivalent );
-
+// // let _equal = _.routineUnite( _equal_head, _equal_body );
 //
-
-/**
- * Deep contain comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
- * Returns true if entity( src1 ) contains keys/values from entity( src2 ) or they are indentical.
- *
- * @param {*} src1 - Entity for comparison.
- * @param {*} src2 - Entity for comparison.
- * @param {wTools~entityEqualOptions} opts - Comparsion options {@link wTools~entityEqualOptions}.
- * @param {boolean} [ opts.strict = true ] - Method uses strict( '===' ) equality mode .
- * @param {boolean} [ opts.containing = true ] - Check if( src1 ) contains  keys/indexes and same appropriates values from( src2 ).
- * @returns {boolean} Returns boolean result of comparison.
- *
- * @example
- * //returns true
- * _.entityContains( [ 1, 2, 3 ], [ 1 ] );
- *
- * @example
- * //returns false
- * _.entityContains( [ 1, 2, 3 ], [ 1, 4 ] );
- *
- * @example
- * //returns true
- * _.entityContains( { a : 1, b : 2 }, { a : 1 , b : 2 }  );
- *
- * @function entityContains
- * @throws {exception} If( arguments.length ) is not equal 2 or 3.
- * @throws {exception} If( opts ) is extended by unknown property.
- * @namespace Tools
- * @module Tools/base/Equaler
-*/
-
-function entityContains( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityContains, arguments );
-  let result = _equal.body.call( this, it );
-  return result;
-}
-
-_.routineExtend( entityContains, _equal );
-
-var defaults = entityContains.defaults;
-
-defaults.containing = 'all';
-defaults.strict = 1;
-defaults.strictTyping = 0;
-defaults.strictNumbering = 0;
-defaults.strictString = 0;
-defaults.strictCycling = 1;
-defaults.strictContainer = 0; /* qqq : cover option strictContainer */
-
+// //
 //
-
-function entityNotContains( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityNotContains, arguments );
-  let result = _equal.body.call( this, it );
-  it.result = !it.result;
-  return !result;
-}
-
-_.routineExtend( entityNotContains, entityContains );
-
+// /**
+//  * Deep strict comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
+//  * Returns true if entities are identical.
+//  *
+//  * @param {*} src - Entity for comparison.
+//  * @param {*} src2 - Entity for comparison.
+//  * @param {wTools~entityEqualOptions} options - Comparsion options {@link wTools~entityEqualOptions}.
+//  * @param {boolean} [ options.strictTyping = true ] - Method uses strict equality mode( '===' ).
+//  * @returns {boolean} result - Returns true for identical entities.
+//  *
+//  * @example
+//  * //returns true
+//  * let src1 = { a : 1, b : { a : 1, b : 2 } };
+//  * let src2 = { a : 1, b : { a : 1, b : 2 } };
+//  * _.entityIdentical( src1, src2 ) ;
+//  *
+//  * @example
+//  * //returns false
+//  * let src1 = { a : '1', b : { a : 1, b : '2' } };
+//  * let src2 = { a : 1, b : { a : 1, b : 2 } };
+//  * _.entityIdentical( src1, src2 ) ;
+//  *
+//  * @function entityIdentical
+//  * @function identical
+//  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
+//  * @throws {exception} If( options ) is extended by unknown property.
+//  * @namespace Tools
+//  * @module Tools/base/Equaler
+// */
 //
-
-function entityContainsAll( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityContainsAll, arguments );
-  let result = _equal.body.call( this, it );
-  return result;
-}
-
-_.routineExtend( entityContainsAll, entityContains );
-
-var defaults = entityContainsAll.defaults;
-
-defaults.containing = 'all';
-
+// let entityIdentical = _.routineUnite( _equal_head, _equal_body );
+// var defaults = entityIdentical.defaults;
+// defaults.strict = 1;
 //
-
-function entityNotContainsAll( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityNotContainsAll, arguments );
-  let result = _equal.body.call( this, it );
-  it.result = !it.result;
-  return !result;
-}
-
-_.routineExtend( entityNotContainsAll, entityContainsAll );
-
+// //
 //
-
-function entityContainsAny( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityContainsAny, arguments );
-  let result = _equal.body.call( this, it );
-  return result;
-}
-
-_.routineExtend( entityContainsAny, entityContains );
-
-var defaults = entityContainsAny.defaults;
-
-defaults.containing = 'any';
-
+// function entityNotIdentical( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityNotIdentical, arguments );
+//   let result = _equal.body.call( this, it );
+//   it.result = !it.result;
+//   return !result;
+// }
 //
-
-function entityNotContainsAny( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityNotContainsAny, arguments );
-  let result = _equal.body.call( this, it );
-  it.result = !it.result;
-  return !result;
-}
-
-_.routineExtend( entityNotContainsAny, entityContainsAny );
-
+// _.routine.extend( entityNotIdentical, entityIdentical );
 //
-
-function entityContainsOnly( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityContainsOnly, arguments );
-  let result = _equal.body.call( this, it );
-  return result;
-}
-
-_.routineExtend( entityContainsOnly, entityContains );
-
-var defaults = entityContainsOnly.defaults;
-
-defaults.containing = 'only';
-
+// //
 //
-
-function entityNotContainsOnly( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityNotContainsOnly, arguments );
-  let result = _equal.body.call( this, it );
-  it.result = !it.result;
-  return !result;
-}
-
-_.routineExtend( entityNotContainsOnly, entityContainsOnly );
-
+// /**
+//  * Deep soft comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
+//  * By default uses own( onNumbersAreEqual ) routine to compare numbers using( options.accuracy ). Returns true if two numbers are NaN, strict equal or
+//  * ( a - b ) <= ( options.accuracy ). For example: '_.entityEquivalent( 1, 1.5, { accuracy : .5 } )' returns true.
+//  *
+//  * @param {*} src1 - Entity for comparison.
+//  * @param {*} src2 - Entity for comparison.
+//  * @param {wTools~entityEqualOptions} options - Comparsion options {@link wTools~entityEqualOptions}.
+//  * @param {boolean} [ options.strict = false ] - Method uses( '==' ) equality mode .
+//  * @param {number} [ options.accuracy = 1e-7 ] - Maximal distance between two numbers.
+//  * Example: If( options.accuracy ) is '1e-7' then 0.99999 and 1.0 are equivalent.
+//  * @returns {boolean} Returns true if entities are equivalent.
+//  *
+//  * @example
+//  * //returns true
+//  * _.entityEquivalent( 2, 2.1, { accuracy : .2 } );
+//  *
+//  * @example
+//  * //returns true
+//  * _.entityEquivalent( [ 1, 2, 3 ], [ 1.9, 2.9, 3.9 ], { accuracy : 0.9 } );
+//  *
+//  * @function entityEquivalent
+//  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
+//  * @throws {exception} If( options ) is extended by unknown property.
+//  * @namespace Tools
+//  * @module Tools/base/Equaler
+// */
 //
-
-function entityContainsNone( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityContainsNone, arguments );
-  let result = _equal.body.call( this, it );
-  return result;
-}
-
-_.routineExtend( entityContainsNone, entityContains );
-
-var defaults = entityContainsNone.defaults;
-
-defaults.containing = 'none';
-
+// let entityEquivalent = _.routineUnite( _equal_head, _equal_body );
 //
-
-function entityNotContainsNone( src, src2, opts )
-{
-  let it = _equal.head.call( this, entityNotContainsNone, arguments );
-  let result = _equal.body.call( this, it );
-  it.result = !it.result;
-  return !result;
-}
-
-_.routineExtend( entityNotContainsNone, entityContainsNone );
+// var defaults = entityEquivalent.defaults;
+//
+// defaults.strict = 0;
+//
+// // _.looker.adjust( entityEquivalent );
+// // defaults.Looker = Object.create( defaults.Looker );
+// // defaults.strict = 0;
+//
+// //
+//
+// function entityNotEquivalent( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityNotEquivalent, arguments );
+//   let result = _equal.body.call( this, it );
+//   it.result = !it.result;
+//   return !result;
+// }
+//
+// _.routine.extend( entityNotEquivalent, entityEquivalent );
+//
+// //
+//
+// /**
+//  * Deep contain comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
+//  * Returns true if entity( src1 ) contains keys/values from entity( src2 ) or they are indentical.
+//  *
+//  * @param {*} src1 - Entity for comparison.
+//  * @param {*} src2 - Entity for comparison.
+//  * @param {wTools~entityEqualOptions} opts - Comparsion options {@link wTools~entityEqualOptions}.
+//  * @param {boolean} [ opts.strict = true ] - Method uses strict( '===' ) equality mode .
+//  * @param {boolean} [ opts.containing = true ] - Check if( src1 ) contains  keys/indexes and same appropriates values from( src2 ).
+//  * @returns {boolean} Returns boolean result of comparison.
+//  *
+//  * @example
+//  * //returns true
+//  * _.entityContains( [ 1, 2, 3 ], [ 1 ] );
+//  *
+//  * @example
+//  * //returns false
+//  * _.entityContains( [ 1, 2, 3 ], [ 1, 4 ] );
+//  *
+//  * @example
+//  * //returns true
+//  * _.entityContains( { a : 1, b : 2 }, { a : 1 , b : 2 }  );
+//  *
+//  * @function entityContains
+//  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
+//  * @throws {exception} If( opts ) is extended by unknown property.
+//  * @namespace Tools
+//  * @module Tools/base/Equaler
+// */
+//
+// function entityContains( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityContains, arguments );
+//   let result = _equal.body.call( this, it );
+//   return result;
+// }
+//
+// _.routine.extend( entityContains, _equal );
+//
+// var defaults = entityContains.defaults;
+//
+// defaults.containing = 'all';
+// defaults.strict = 1;
+// defaults.strictTyping = 0;
+// defaults.strictNumbering = 0;
+// defaults.strictString = 0;
+// defaults.strictCycling = 1;
+// defaults.strictContainer = 0; /* qqq : cover option strictContainer */
+//
+// //
+//
+// function entityNotContains( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityNotContains, arguments );
+//   let result = _equal.body.call( this, it );
+//   it.result = !it.result;
+//   return !result;
+// }
+//
+// _.routine.extend( entityNotContains, entityContains );
+//
+// //
+//
+// function entityContainsAll( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityContainsAll, arguments );
+//   let result = _equal.body.call( this, it );
+//   return result;
+// }
+//
+// _.routine.extend( entityContainsAll, entityContains );
+//
+// var defaults = entityContainsAll.defaults;
+//
+// defaults.containing = 'all';
+//
+// //
+//
+// function entityNotContainsAll( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityNotContainsAll, arguments );
+//   let result = _equal.body.call( this, it );
+//   it.result = !it.result;
+//   return !result;
+// }
+//
+// _.routine.extend( entityNotContainsAll, entityContainsAll );
+//
+// //
+//
+// function entityContainsAny( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityContainsAny, arguments );
+//   let result = _equal.body.call( this, it );
+//   return result;
+// }
+//
+// _.routine.extend( entityContainsAny, entityContains );
+//
+// var defaults = entityContainsAny.defaults;
+//
+// defaults.containing = 'any';
+//
+// //
+//
+// function entityNotContainsAny( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityNotContainsAny, arguments );
+//   let result = _equal.body.call( this, it );
+//   it.result = !it.result;
+//   return !result;
+// }
+//
+// _.routine.extend( entityNotContainsAny, entityContainsAny );
+//
+// //
+//
+// function entityContainsOnly( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityContainsOnly, arguments );
+//   let result = _equal.body.call( this, it );
+//   return result;
+// }
+//
+// _.routine.extend( entityContainsOnly, entityContains );
+//
+// var defaults = entityContainsOnly.defaults;
+//
+// defaults.containing = 'only';
+//
+// //
+//
+// function entityNotContainsOnly( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityNotContainsOnly, arguments );
+//   let result = _equal.body.call( this, it );
+//   it.result = !it.result;
+//   return !result;
+// }
+//
+// _.routine.extend( entityNotContainsOnly, entityContainsOnly );
+//
+// //
+//
+// function entityContainsNone( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityContainsNone, arguments );
+//   let result = _equal.body.call( this, it );
+//   return result;
+// }
+//
+// _.routine.extend( entityContainsNone, entityContains );
+//
+// var defaults = entityContainsNone.defaults;
+//
+// defaults.containing = 'none';
+//
+// //
+//
+// function entityNotContainsNone( src, src2, opts )
+// {
+//   let it = _equal.head.call( this, entityNotContainsNone, arguments );
+//   let result = _equal.body.call( this, it );
+//   it.result = !it.result;
+//   return !result;
+// }
+//
+// _.routine.extend( entityNotContainsNone, entityContainsNone );
 
 //
 
@@ -498,8 +497,6 @@ function entityDiffExplanation( o )
     let srcOwn1 = _.property.onlyOwn( o.srcs[ 1 ] );
 
     let common = _.filter_( null, srcOwn0, ( e, k ) => _.entityIdentical( e, srcOwn1[ k ] ) ? e : undefined );
-    // o.srcs[ 0 ] = _.mapBut( o.srcs[ 0 ], common );
-    // o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
     o.srcs[ 0 ] = _.mapBut( srcOwn0, common );
     o.srcs[ 1 ] = _.mapBut( srcOwn1, common );
 
@@ -615,11 +612,18 @@ function head( routine, args )
     _.assert( it.src2 === args[ 0 ] );
     return it;
   }
-  let o = Self.optionsFromArguments( args );
-  o.Looker = o.Looker || routine.defaults.Looker || Self;
-  _.routineOptionsPreservingUndefines( routine, o );
-  o.Looker.optionsForm( routine, o );
-  let it = o.Looker.optionsToIteration( o );
+  _.assert( !!routine.defaults.Looker );
+  let o = routine.defaults.Looker.optionsFromArguments( args );
+  // o.Looker = o.Looker || routine.defaults.Looker || routine.defaults.Looker;
+
+  o.Looker = o.Looker || routine.defaults;
+
+  // _.routineOptionsPreservingUndefines( routine, o );
+  _.assertMapHasOnly( o, routine.defaults );
+  _.assert( routine.defaults === o.Looker );
+  _.assert( routine.defaults.withImplicit === null );
+  // o.Looker.optionsForm( routine, o );
+  let it = o.Looker.optionsToIteration( null, o );
   return it;
 }
 
@@ -648,7 +652,9 @@ function optionsFromArguments( args )
 function optionsForm( routine, o )
 {
 
+  _.assert( o.iteratorProper( o ) );
   _.assert( 0 <= o.revisiting && o.revisiting <= 2 );
+  _.assert( o.withImplicit !== undefined );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert
   (
@@ -725,14 +731,12 @@ function optionsForm( routine, o )
 
 //
 
-function optionsToIteration( o )
+function optionsToIteration( iterator, o )
 {
-  let it = Parent.optionsToIteration.call( this, o );
+  let it = Parent.optionsToIteration.call( this, iterator, o );
 
-  // _.assert( Object.is( it.originalSrc2, it.src2 ) );
+  _.assert( arguments.length === 2 );
   _.assert( it.iterator.visitedContainer2 === null );
-  // _.assert( Object.is( it.src2, o.src2 ) );
-  // _.assert( Object.is( it.src, o.src ) );
   _.assert( it.originalSrc === null );
   _.assert( it.originalSrc2 === null );
   _.assert( it.result === true );
@@ -749,8 +753,7 @@ function performBegin()
   let it = this;
   Parent.performBegin.apply( it, arguments );
 
-  _.assert( Object.is( it.originalSrc, it.src ) );
-  _.assert( Object.is( it.originalSrc2, it.src2 ) );
+  // _.assert( Object.is( it.originalSrc2, it.src2 ) );
   _.assert( it.iterator.visitedContainer2 === null );
 
   if( it.iterator.revisiting < 2 )
@@ -778,25 +781,6 @@ function performEnd()
   return it;
 }
 
-// //
-//
-// function choose( e, k )
-// {
-//   let it = this;
-//
-//   Parent.choose.apply( it, arguments );
-//
-//   _.assert( arguments.length === 2 );
-//   _.assert( it.level >= 0 );
-//   _.assert( _.objectIs( it.down ) );
-//
-//   it.src2 = _.container.elementGet( it.src2, it.key );
-//   it.originalSrc2 = it.src2;
-//
-//   return it;
-// }
-//
-
 //
 
 function chooseBegin( e, k )
@@ -820,7 +804,10 @@ function chooseRoot( e )
 {
   let it = this;
 
-  Parent.chooseRoot.apply( it, arguments );
+  _.assert( arguments.length === 1 );
+
+  it.src = e;
+  it.originalSrc = e;
 
   it.originalSrc2 = it.src2;
 
@@ -835,27 +822,25 @@ function chooseRoot( e )
     it.originalSrc2 = x;
   }
 
+  it.srcChanged(); /* yyy */
+
+  // Parent.chooseRoot.apply( it, arguments );
+  //
+  // it.originalSrc2 = it.src2;
+  //
+  // if( it.containing === 'only' )
+  // {
+  //   let x;
+  //   x = it.src;
+  //   it.src = it.src2;
+  //   it.src2 = x;
+  //   x = it.originalSrc;
+  //   it.originalSrc = it.originalSrc2;
+  //   it.originalSrc2 = x;
+  // }
+
   return it;
 }
-
-// //
-//
-// function effectiveEval()
-// {
-//   let it = this;
-//
-//   if( it.containing === 'only' )
-//   {
-//     it.src = it.src2;
-//     it.src2 = it.src;
-//   }
-//   else
-//   {
-//     it.src = it.src;
-//     it.src2 = it.src2;
-//   }
-//
-// }
 
 //
 
@@ -883,28 +868,28 @@ function _iterableEval()
 
   if( _.mapIs( it.src ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.aux;
-    it.iterable = _.equaler.containerNameToIdMap.aux;
+    it.type1 = it.containerNameToIdMap.aux;
+    it.iterable = it.containerNameToIdMap.aux;
   }
   else if( _.entity.methodEqualOf( it.src ) && !_.aux.is( it.src ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.object;
-    it.iterable = _.equaler.containerNameToIdMap.object;
+    it.type1 = it.containerNameToIdMap.object;
+    it.iterable = it.containerNameToIdMap.object;
   }
   else if( _.hashMapLike( it.src ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.hashMap;
-    it.iterable = _.equaler.containerNameToIdMap.hashMap
+    it.type1 = it.containerNameToIdMap.hashMap;
+    it.iterable = it.containerNameToIdMap.hashMap
   }
   else if( _.setLike( it.src ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.set;
-    it.iterable = _.equaler.containerNameToIdMap.set;
+    it.type1 = it.containerNameToIdMap.set;
+    it.iterable = it.containerNameToIdMap.set;
   }
   else if( it.isCountable( it.src ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.countable;
-    it.iterable = _.equaler.containerNameToIdMap.countable;
+    it.type1 = it.containerNameToIdMap.countable;
+    it.iterable = it.containerNameToIdMap.countable;
   }
   else if( _.primitiveIs( it.src ) )
   {
@@ -913,40 +898,40 @@ function _iterableEval()
   }
   else if( _.aux.is( it.src ) )
   {
-    it.type1 = _.equaler.containerNameToIdMap.aux;
-    it.iterable = _.equaler.containerNameToIdMap.aux;
+    it.type1 = it.containerNameToIdMap.aux;
+    it.iterable = it.containerNameToIdMap.aux;
   }
   else
   {
-    it.type1 = _.equaler.containerNameToIdMap.object;
+    it.type1 = it.containerNameToIdMap.object;
 
     if( it.containing === 'only' )
-    it.iterable = _.equaler.containerNameToIdMap.aux;
+    it.iterable = it.containerNameToIdMap.aux;
 
     if( !it.iterable )
-    it.iterable = _.equaler.containerNameToIdMap.object;
+    it.iterable = it.containerNameToIdMap.object;
   }
 
   if( _.entity.methodEqualOf( it.src2 ) && !_.aux.is( it.src2 ) )
   {
-    it.type2 = _.equaler.containerNameToIdMap.object;
-    it.iterable = _.equaler.containerNameToIdMap.object;
+    it.type2 = it.containerNameToIdMap.object;
+    it.iterable = it.containerNameToIdMap.object;
   }
   else if( it.isCountable( it.src2 ) )
   {
-    it.type2 = _.equaler.containerNameToIdMap.countable;
+    it.type2 = it.containerNameToIdMap.countable;
   }
   else if( _.hashMapLike( it.src2 ) )
   {
-    it.type2 = _.equaler.containerNameToIdMap.hashMap;
+    it.type2 = it.containerNameToIdMap.hashMap;
   }
   else if( _.setLike( it.src2 ) )
   {
-    it.type2 = _.equaler.containerNameToIdMap.set;
+    it.type2 = it.containerNameToIdMap.set;
   }
   else if( _.aux.is( it.src2 ) )
   {
-    it.type2 = _.equaler.containerNameToIdMap.aux;
+    it.type2 = it.containerNameToIdMap.aux;
   }
   else if( _.primitiveIs( it.src2 ) )
   {
@@ -954,15 +939,15 @@ function _iterableEval()
   }
   else
   {
-    it.type2 = _.equaler.containerNameToIdMap.object;
+    it.type2 = it.containerNameToIdMap.object;
 
-    if( it.iterable !== _.equaler.containerNameToIdMap.aux && it.iterable !== _.equaler.containerNameToIdMap.countable )
+    if( it.iterable !== it.containerNameToIdMap.aux && it.iterable !== it.containerNameToIdMap.countable )
     {
-      it.iterable = _.equaler.containerNameToIdMap.object;
+      it.iterable = it.containerNameToIdMap.object;
     }
     else if( !it.containing || it.containing === 'only' )
     {
-      it.iterable = _.equaler.containerNameToIdMap.object;
+      it.iterable = it.containerNameToIdMap.object;
     }
 
   }
@@ -971,16 +956,16 @@ function _iterableEval()
 
 //
 
-function ascendEval()
-{
-  let it = this;
-
-  _.assert( arguments.length === 0, 'Expects no arguments' );
-
-  it.ascendAct = _.equaler.containerIdToAscendMap[ it.iterable ];
-
-  _.assert( _.routineIs( it.ascendAct ) );
-}
+// function ascendEval()
+// {
+//   let it = this;
+//
+//   _.assert( arguments.length === 0, 'Expects no arguments' );
+//
+//   it.ascendAct = it.containerIdToAscendMap[ it.iterable ];
+//
+//   _.assert( _.routineIs( it.ascendAct ) );
+// }
 
 //
 
@@ -1080,7 +1065,7 @@ function stop( result )
     {
       let any =
       [
-        _.equaler.containerNameToIdMap.aux,
+        it.containerNameToIdMap.aux,
         containerNameToIdMap.hashMap,
         containerNameToIdMap.set,
         containerNameToIdMap.object
@@ -1105,7 +1090,7 @@ function stop( result )
     {
       let any =
       [
-        _.equaler.containerNameToIdMap.aux,
+        it.containerNameToIdMap.aux,
         containerNameToIdMap.hashMap,
         containerNameToIdMap.set,
         containerNameToIdMap.object
@@ -1156,7 +1141,7 @@ function equalUp()
   /* if containing mode then src2 could even don't have such entry */
 
   if( it.containing )
-  if( it.down && it.down.iterable === _.equaler.containerNameToIdMap.aux )
+  if( it.down && it.down.iterable === it.containerNameToIdMap.aux )
   {
     if( !( it.key in it.down.src2 ) )
     {
@@ -1197,7 +1182,7 @@ function equalUp()
 
   /* */
 
-  _.equaler.containerIdToEqual[ it.iterable ].call( it );
+  it.containerIdToEqual[ it.iterable ].call( it );
 
   it.equalCycle();
 
@@ -1285,7 +1270,7 @@ function equalCycle()
         _.assert( 0, 'not tested' ); /* qqq : cover */
         containing = 'all';
       }
-      it.result = it.equal( it.src2, it.src, { recursive : 0, containing } ) && it.result;
+      it.result = it.reperform( it.src2, it.src, { recursive : 0, containing } ) && it.result;
       if( !it.result )
       {
         it.iterator.continue = false;
@@ -1300,23 +1285,125 @@ function equalCycle()
 
 //
 
-function equal( src1, src2, o )
+// function reperform()
+// {
+//   let it = this;
+//
+//   _.assert( arguments.length === 1 );
+//   _.assert( it.selector !== null, () => `Iteration is not looked` );
+//   _.assert
+//   (
+//     it.iterationProper( it ),
+//     () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShort( it )}`
+//   );
+//
+//   let it2 = it.iterationMake();
+//   let args = _.longSlice( arguments );
+//   if( args.length === 1 && !_.objectIs( args[ 0 ] ) )
+//   args = [ it.src, args[ 0 ] ];
+//   let o = Self.optionsFromArguments( args );
+//   o.Looker = o.Looker || it.Looker || Self;
+//
+//   _.assert( _.mapIs( o ) );
+//   _.assertMapHasOnly( o, { src : null, selector : null, Looker : null }, 'Implemented only for options::selector' );
+//   _.assert( _.strIs( o.selector ) );
+//   _.assert( _.strIs( it2.iterator.selector ) );
+//
+//   it2.iterator.selector = it2.iterator.selector + _.strsShortest( it2.iterator.upToken ) + o.selector;
+//   // it2.iterator.prevSelectIteration = it;
+//   it2.iteratorSelectorChanged();
+//   it2.chooseRoot( it2.src );
+//   it2.iterate();
+//
+//   return it2.lastIt;
+// }
+
+//
+
+/* xxx : improve */
+function reperform()
 {
   let it = this;
 
-  _.assert( arguments.length === 2 || arguments.length === 3 );
-  _.assert( o === undefined || _.mapIs( o ) );
+  _.assert( arguments.length === 3 );
+  _.assert( it.selector !== null, () => `Iteration is not looked` );
+  _.assert
+  (
+    it.iterationProper( it ),
+    () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShort( it )}`
+  );
 
-  let o2 = _.mapOnly( it, _.equaler._equal.defaults );
+  // let it2 = it.iterationMake();
+  // let args = _.longSlice( arguments );
+  // if( args.length === 1 && !_.objectIs( args[ 0 ] ) )
+  // args = [ it.src, args[ 0 ] ];
+  // let o = Self.optionsFromArguments( args );
+  let o = arguments[ 2 ];
+  o.Looker = o.Looker || it.Looker || Self;
 
-  _.assert( o2.it === undefined || o2.it === null );
-  _.assert( o2.level === it.level );
+  o.src = arguments[ 0 ];
+  o.src2 = arguments[ 1 ];
 
-  if( o )
-  _.mapExtend( o2, o );
+  _.assert( _.mapIs( o ) );
+  _.assertMapHasOnly( o, o.Looker, 'Implemented only for options::selector' );
 
-  return _.equaler._equal( src1, src2, o2 );
+  // _.assert( _.strIs( o.selector ) );
+  // _.assert( _.strIs( it2.iterator.selector ) );
+
+  // it2.iterator.selector = it2.iterator.selector + _.strsShortest( it2.iterator.upToken ) + o.selector;
+  // it2.iteratorSelectorChanged();
+
+  // let it2 = it.iterationMake();
+  // it2.chooseRoot( it2.src );
+  // it2.iterate();
+
+  _.assert( it.iterator.continue === true );
+
+  /* xxx : move out */
+  let iterator2 = Object.create( it.iterator );
+  iterator2.iterator = iterator2;
+  iterator2.iterationPrototype = Object.create( iterator2 );
+  Object.assign( iterator2.iterationPrototype, iterator2.Looker.Iteration );
+  Object.preventExtensions( iterator2.iterationPrototype );
+
+  _.mapExtend( iterator2, o );
+  // debugger;
+  let it2 = iterator2.iteratorIterationMake();
+  _.assert( it2.iterator === iterator2 );
+  it2.src = o.src;
+  it2.src2 = o.src2;
+  it2.chooseRoot( o.src );
+  _.assert( it.Looker.iterationProper( it2 ) );
+
+  // if( _.mapIs( o.src ) && _.mapIs( o.src2 ) )
+  // debugger;
+  it2.iterate();
+  // it2.perform();
+
+  _.assert( it.iterator.continue === true );
+  // debugger;
+  return it2.result;
 }
+
+//
+
+// function reperform( src1, src2, o )
+// {
+//   let it = this;
+//
+//   _.assert( arguments.length === 2 || arguments.length === 3 );
+//   _.assert( o === undefined || _.mapIs( o ) );
+//
+//   let o2 = _.mapOnly( it, _.equaler._equal.defaults );
+//
+//   _.assert( o2.it === undefined || o2.it === null );
+//   _.assert( o2.level === it.level );
+//
+//   if( o )
+//   _.mapExtend( o2, o );
+//
+//   return _.equaler._equal( src1, src2, o2 );
+// }
 
 //
 
@@ -1386,7 +1473,7 @@ function equalSets()
     let found = false;
     for( let e2 of unpaired2 )
     {
-      if( equal( e1, e2 ) )
+      if( equal( e1, e2 ) ) /* xxx : improve? */
       {
         pairFound( e1, e2 );
         found = true;
@@ -1413,7 +1500,7 @@ function equalSets()
 
   function equal( e1, e2 )
   {
-    return it.equal( e1, e2, {} );
+    return it.reperform( e1, e2, {} );
   }
 
 }
@@ -1543,7 +1630,7 @@ function equalHashes()
 
   function equal( e1, e2 )
   {
-    return it.equal( e1, e2, {} );
+    return it.reperform( e1, e2, {} );
   }
 
 }
@@ -1555,8 +1642,8 @@ function equalAuxiliary()
   let it = this;
   let types =
   [
-    _.equaler.containerNameToIdMap.aux,
-    _.equaler.containerNameToIdMap.object,
+    it.containerNameToIdMap.aux,
+    it.containerNameToIdMap.object,
   ];
 
   _.assert( _.longHas( types, it.iterable ) );
@@ -1581,8 +1668,8 @@ function equalAuxiliary()
 
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      if( it.type1 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.src[ equalAreSymbol ] ) || 'length' in it.src )
-      if( it.type2 !== _.equaler.containerNameToIdMap.object || _.routineIs( it.src2[ equalAreSymbol ] ) || 'length' in it.src2 )
+      if( it.type1 !== it.containerNameToIdMap.object || _.routineIs( it.src[ equalAreSymbol ] ) || 'length' in it.src )
+      if( it.type2 !== it.containerNameToIdMap.object || _.routineIs( it.src2[ equalAreSymbol ] ) || 'length' in it.src2 )
       if( _.lengthOf( it.src ) > _.lengthOf( it.src2 ) )
       return it.stop( false );
     }
@@ -1624,7 +1711,7 @@ function equalObjects()
 
   _.assert
   (
-    it.iterable === _.equaler.containerNameToIdMap.object
+    it.iterable === it.containerNameToIdMap.object
   );
 
   if( it.src && _.routineIs( it.src[ equalAreSymbol ] ) )
@@ -1785,78 +1872,16 @@ function _objectAscend( src )
 // relations
 // --
 
-let Equaler = Object.create( Parent );
-Equaler.constructor = function Equaler(){};
+_.assert( !!_.looker.Looker.containerIdToNameMap[ 4 ] );
+_.assert( !_.looker.Looker.containerIdToNameMap[ 5 ] );
 
-let LookerExtension =
-{
-  Looker : Equaler,
-  exec : _equalIt,
-  head,
-  optionsFromArguments,
-  optionsForm,
-  optionsToIteration,
-  performBegin,
-  performEnd,
-  chooseBegin,
-  chooseRoot,
-  // effectiveEval,
-  iterableEval,
-  _iterableEval,
-  ascendEval,
-  visitPush,
-  visitPop,
-  visitUp,
-  visitDown,
-  stop,
-  downUpdate,
-  equalUp,
-  equalDown,
-  equalCycle,
-  equal,
-  secondCoerce,
-  equalSets,
-  equalCountable,
-  equalHashes,
-  equalAuxiliary,
-  equalObjects,
-  equalTerminals,
-  equalRegexps,
-  equalDates,
-  equalBuffers,
-  _objectAscend,
-}
-
-_.mapExtend( Equaler, LookerExtension );
-
-let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
-Iterator.visitedContainer2 = null;
-
-let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
-Iteration.result = true;
-// Iteration.src = null;
-Iteration.src2 = null;
-Iteration.originalSrc2 = null; /* qqq : cover the field */
-// Iteration.src2 = null;
-Iteration.type1 = null;
-Iteration.type2 = null;
-
-let IterationPreserve = Equaler.IterationPreserve = _.mapExtend( null, Equaler.IterationPreserve );
-IterationPreserve.src2 = null;
-// IterationPreserve.src2 = null;
-
-//
-
-_.assert( !!_.looker.containerIdToNameMap[ 4 ] );
-_.assert( !_.looker.containerIdToNameMap[ 5 ] );
-
-let last = _.looker.containerNameToIdMap.last;
+let last = _.looker.Looker.containerNameToIdMap.last;
 let equalAreSymbol = Symbol.for( 'equalAre' );
 let equalSecondCoerceSymbol = Symbol.for( 'equalSecondCoerce' );
 
 let containerNameToIdMap =
 {
-  ... _.looker.containerNameToIdMap,
+  ... _.looker.Looker.containerNameToIdMap,
   'object' : last+1,
   'last' : last+1,
 }
@@ -1865,13 +1890,13 @@ _.assert( containerNameToIdMap.hashMap >= 0 );
 
 let containerIdToNameMap =
 {
-  ... _.looker.containerIdToNameMap,
+  ... _.looker.Looker.containerIdToNameMap,
   [ last+1 ] : 'object',
 }
 
 let containerIdToAscendMap =
 {
-  ... _.looker.containerIdToAscendMap,
+  ... _.looker.Looker.containerIdToAscendMap,
   [ last+1 ] : _objectAscend,
 }
 
@@ -1885,6 +1910,459 @@ let containerIdToEqual =
   [ containerNameToIdMap.object ] : equalObjects,
 }
 
+//
+
+// let Equaler = Object.create( Parent );
+// Equaler.constructor = function Equaler(){};
+
+let LookerExtension =
+{
+
+  constructor : function Equaler(){},
+  // Looker : Equaler,
+  // exec : _equalIt,
+  head,
+  optionsFromArguments,
+  optionsForm,
+  optionsToIteration,
+  performBegin,
+  performEnd,
+  chooseBegin,
+  chooseRoot,
+  // effectiveEval,
+  iterableEval,
+  _iterableEval, /* xxx */
+  // ascendEval,
+  visitPush,
+  visitPop,
+  visitUp,
+  visitDown,
+  stop,
+  downUpdate,
+  equalUp,
+  equalDown,
+  equalCycle,
+  reperform, /* xxx */
+  secondCoerce,
+  equalSets,
+  equalCountable,
+  equalHashes,
+  equalAuxiliary,
+  equalObjects,
+  equalTerminals,
+  equalRegexps,
+  equalDates,
+  equalBuffers,
+  _objectAscend,
+
+  // feilds
+
+  containerNameToIdMap,
+  containerIdToNameMap,
+  containerIdToAscendMap,
+  containerIdToEqual,
+
+}
+
+// _.mapExtend( Equaler, LookerExtension );
+
+// let Iterator = Equaler.Iterator = _.mapExtend( null, Equaler.Iterator );
+let Iterator =
+{
+
+  //
+
+  visitedContainer2 : null,
+
+  // defaults fields
+
+  src : null,
+  src2 : null,
+  containing : 0,
+  strict : 1,
+  revisiting : 1,
+  strictTyping : null,
+  strictNumbering : null,
+  strictCycling : null,
+  strictString : null,
+  strictContainer : null,
+  withImplicit : null,
+  withCountable : 'countable',
+  accuracy : 1e-7,
+  recursive : Infinity,
+  onNumbersAreEqual : null,
+  onStringsAreEqual : null,
+  onStringPreprocess : null,
+
+}
+
+// Iterator.visitedContainer2 = null;
+// _.mapSupplement( Iterator, Defaults );
+// debugger;
+// _.mapExtend( Equaler, Iterator );
+// debugger;
+
+// let Iteration = Equaler.Iteration = _.mapExtend( null, Equaler.Iteration );
+let Iteration = Object.create( null );
+Iteration.result = true;
+// Iteration.src2 = null;
+Iteration.originalSrc2 = null; /* qqq : cover the field */
+Iteration.type1 = null;
+Iteration.type2 = null;
+
+// let IterationPreserve = Equaler.IterationPreserve = _.mapExtend( null, Equaler.IterationPreserve );
+let IterationPreserve = Object.create( null );
+IterationPreserve.src2 = null;
+
+const Equaler = _.looker.classDefine
+({
+  name : 'Equaler',
+  parent : _.looker.Looker,
+  // defaults : Defaults,
+  looker : LookerExtension,
+  iterator : Iterator,
+  iteration : Iteration,
+  iterationPreserve : IterationPreserve,
+});
+
+// --
+//
+// --
+
+function _equal_head( routine, args )
+{
+  return routine.defaults.head( routine, args );
+}
+
+//
+
+function _equalIt_body( it )
+{
+  let it2 = _.look.body( it );
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( it2 === it );
+  return it;
+}
+
+// var defaults = _equalIt_body.defaults = Defaults;
+
+_equalIt_body.defaults = Equaler;
+
+let _equalIt = _.routine.uniteReplacing( _equal_head, _equalIt_body );
+// let _equalIt = _.routineUnite({ head : _equal_head, body : _equalIt_body, strategy : 'replacing' });
+// let _equalIt = _.routineUnite( _equal_head, _equalIt_body );
+
+_.assert( _equalIt_body.defaults === Equaler );
+_.assert( _equalIt.body.defaults === Equaler );
+_.assert( _equalIt.defaults === Equaler ); /* xxx : uncomment? */
+
+//
+
+function _equal_body( it )
+{
+  it = _.equaler._equalIt.body( it );
+  return it.result === _.dont ? false : it.result; /* xxx : remove */
+}
+
+_equal_body.defaults = Equaler;
+
+// let _equal = _.routineUnite( _equal_head, _equal_body );
+// let _equal = _.routineUnite({ head : _equal_head, body : _equal_body, strategy : 'replacing' });
+let _equal = _.routine.uniteReplacing( _equal_head, _equal_body );
+
+//
+
+/**
+ * Deep strict comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
+ * Returns true if entities are identical.
+ *
+ * @param {*} src - Entity for comparison.
+ * @param {*} src2 - Entity for comparison.
+ * @param {wTools~entityEqualOptions} options - Comparsion options {@link wTools~entityEqualOptions}.
+ * @param {boolean} [ options.strictTyping = true ] - Method uses strict equality mode( '===' ).
+ * @returns {boolean} result - Returns true for identical entities.
+ *
+ * @example
+ * //returns true
+ * let src1 = { a : 1, b : { a : 1, b : 2 } };
+ * let src2 = { a : 1, b : { a : 1, b : 2 } };
+ * _.entityIdentical( src1, src2 ) ;
+ *
+ * @example
+ * //returns false
+ * let src1 = { a : '1', b : { a : 1, b : '2' } };
+ * let src2 = { a : 1, b : { a : 1, b : 2 } };
+ * _.entityIdentical( src1, src2 ) ;
+ *
+ * @function entityIdentical
+ * @function identical
+ * @throws {exception} If( arguments.length ) is not equal 2 or 3.
+ * @throws {exception} If( options ) is extended by unknown property.
+ * @namespace Tools
+ * @module Tools/base/Equaler
+*/
+
+// let entityIdentical = _.routineUnite( _equal_head, _equal_body );
+// let entityIdentical = _.routineUnite({ head : _equal_head, body : _equal_body, strategy : 'inheriting' });
+let entityIdentical = _.routine.uniteInheriting( _equal_head, _equal_body );
+var defaults = entityIdentical.defaults;
+defaults.strict = 1;
+defaults.Looker = defaults;
+
+//
+
+function entityNotIdentical( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotIdentical, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routine.extendReplacing( entityNotIdentical, entityIdentical ); /* xxx : linking strategy */
+
+//
+
+/**
+ * Deep soft comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
+ * By default uses own( onNumbersAreEqual ) routine to compare numbers using( options.accuracy ). Returns true if two numbers are NaN, strict equal or
+ * ( a - b ) <= ( options.accuracy ). For example: '_.entityEquivalent( 1, 1.5, { accuracy : .5 } )' returns true.
+ *
+ * @param {*} src1 - Entity for comparison.
+ * @param {*} src2 - Entity for comparison.
+ * @param {wTools~entityEqualOptions} options - Comparsion options {@link wTools~entityEqualOptions}.
+ * @param {boolean} [ options.strict = false ] - Method uses( '==' ) equality mode .
+ * @param {number} [ options.accuracy = 1e-7 ] - Maximal distance between two numbers.
+ * Example: If( options.accuracy ) is '1e-7' then 0.99999 and 1.0 are equivalent.
+ * @returns {boolean} Returns true if entities are equivalent.
+ *
+ * @example
+ * //returns true
+ * _.entityEquivalent( 2, 2.1, { accuracy : .2 } );
+ *
+ * @example
+ * //returns true
+ * _.entityEquivalent( [ 1, 2, 3 ], [ 1.9, 2.9, 3.9 ], { accuracy : 0.9 } );
+ *
+ * @function entityEquivalent
+ * @throws {exception} If( arguments.length ) is not equal 2 or 3.
+ * @throws {exception} If( options ) is extended by unknown property.
+ * @namespace Tools
+ * @module Tools/base/Equaler
+*/
+
+// let entityEquivalent = _.routineUnite( _equal_head, _equal_body );
+// let entityEquivalent = _.routineUnite({ head : _equal_head, body : _equal_body, strategy : 'inheriting' });
+let entityEquivalent = _.routine.uniteInheriting( _equal_head, _equal_body );
+
+var defaults = entityEquivalent.defaults;
+defaults.strict = 0;
+defaults.Looker = defaults;
+
+// _.looker.adjust( entityEquivalent );
+// defaults.Looker = Object.create( defaults.Looker );
+// defaults.strict = 0;
+
+//
+
+function entityNotEquivalent( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotEquivalent, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routine.extendReplacing( entityNotEquivalent, entityEquivalent );
+
+//
+
+/**
+ * Deep contain comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
+ * Returns true if entity( src1 ) contains keys/values from entity( src2 ) or they are indentical.
+ *
+ * @param {*} src1 - Entity for comparison.
+ * @param {*} src2 - Entity for comparison.
+ * @param {wTools~entityEqualOptions} opts - Comparsion options {@link wTools~entityEqualOptions}.
+ * @param {boolean} [ opts.strict = true ] - Method uses strict( '===' ) equality mode .
+ * @param {boolean} [ opts.containing = true ] - Check if( src1 ) contains  keys/indexes and same appropriates values from( src2 ).
+ * @returns {boolean} Returns boolean result of comparison.
+ *
+ * @example
+ * //returns true
+ * _.entityContains( [ 1, 2, 3 ], [ 1 ] );
+ *
+ * @example
+ * //returns false
+ * _.entityContains( [ 1, 2, 3 ], [ 1, 4 ] );
+ *
+ * @example
+ * //returns true
+ * _.entityContains( { a : 1, b : 2 }, { a : 1 , b : 2 }  );
+ *
+ * @function entityContains
+ * @throws {exception} If( arguments.length ) is not equal 2 or 3.
+ * @throws {exception} If( opts ) is extended by unknown property.
+ * @namespace Tools
+ * @module Tools/base/Equaler
+*/
+
+function entityContains( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityContains, arguments );
+  let result = _equal.body.call( this, it );
+  return result;
+}
+
+_.routine.extendInheriting( entityContains, _equal );
+
+var defaults = entityContains.defaults;
+defaults.containing = 'all';
+defaults.strict = 1;
+defaults.strictTyping = 0;
+defaults.strictNumbering = 0;
+defaults.strictString = 0;
+defaults.strictCycling = 1;
+defaults.strictContainer = 0; /* qqq : cover option strictContainer */
+defaults.Looker = defaults;
+
+_.assert( entityContains.defaults.containing === 'all' );
+
+//
+
+function entityNotContains( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContains, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routine.extendReplacing( entityNotContains, entityContains );
+
+//
+
+function entityContainsAll( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityContainsAll, arguments );
+  let result = _equal.body.call( this, it );
+  return result;
+}
+
+_.routine.extendInheriting( entityContainsAll, entityContains );
+
+var defaults = entityContainsAll.defaults;
+defaults.containing = 'all';
+defaults.Looker = defaults;
+
+//
+
+function entityNotContainsAll( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContainsAll, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routine.extendReplacing( entityNotContainsAll, entityContainsAll );
+
+//
+
+function entityContainsAny( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityContainsAny, arguments );
+  let result = _equal.body.call( this, it );
+  return result;
+}
+
+_.assert( entityContains.defaults.containing === 'all' );
+
+_.routine.extendInheriting( entityContainsAny, entityContains );
+
+var defaults = entityContainsAny.defaults;
+defaults.containing = 'any';
+defaults.Looker = defaults;
+
+_.assert( entityContains.defaults !== entityContainsAny.defaults );
+_.assert( entityContains.defaults.containing === 'all' );
+
+//
+
+function entityNotContainsAny( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContainsAny, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routine.extendReplacing( entityNotContainsAny, entityContainsAny );
+
+//
+
+function entityContainsOnly( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityContainsOnly, arguments );
+  let result = _equal.body.call( this, it );
+  return result;
+}
+
+_.routine.extendInheriting( entityContainsOnly, entityContains );
+
+var defaults = entityContainsOnly.defaults;
+defaults.containing = 'only';
+defaults.Looker = defaults;
+
+//
+
+function entityNotContainsOnly( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContainsOnly, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routine.extendReplacing( entityNotContainsOnly, entityContainsOnly );
+
+//
+
+function entityContainsNone( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityContainsNone, arguments );
+  let result = _equal.body.call( this, it );
+  return result;
+}
+
+_.routine.extendInheriting( entityContainsNone, entityContains );
+
+var defaults = entityContainsNone.defaults;
+defaults.containing = 'none';
+defaults.Looker = defaults;
+
+//
+
+function entityNotContainsNone( src, src2, opts )
+{
+  let it = _equal.head.call( this, entityNotContainsNone, arguments );
+  let result = _equal.body.call( this, it );
+  it.result = !it.result;
+  return !result;
+}
+
+_.routine.extendReplacing( entityNotContainsNone, entityContainsNone );
+
+_.assert( entityContains.defaults.containing === 'all' );
+_.assert( entityContainsNone.defaults.containing === 'none' );
+_.assert( entityNotContainsNone.defaults.containing === 'none' );
+
+// --
+//
+// --
+
+Equaler.exec = _equalIt;
+
 let EqualerExtension =
 {
 
@@ -1894,10 +2372,10 @@ let EqualerExtension =
   _equalIt,
   _equal,
 
-  containerNameToIdMap,
-  containerIdToNameMap,
-  containerIdToAscendMap,
-  containerIdToEqual,
+  // containerNameToIdMap,
+  // containerIdToNameMap,
+  // containerIdToAscendMap,
+  // containerIdToEqual,
 
   identical : entityIdentical,
   notIdentical : entityNotIdentical,
