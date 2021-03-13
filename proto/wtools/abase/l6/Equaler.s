@@ -488,15 +488,14 @@ function chooseBegin( e, k )
 
 //
 
-function chooseRoot( e )
+function chooseRoot()
 {
   let it = this;
 
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 0 );
 
-  it.src = e;
-  it.originalSrc = e;
-
+  // it.src = e;
+  it.originalSrc = it.src;
   it.originalSrc2 = it.src2;
 
   if( it.containing === 'only' )
@@ -510,7 +509,8 @@ function chooseRoot( e )
     it.originalSrc2 = x;
   }
 
-  it.srcChanged(); /* yyy */
+  it.srcChanged();
+  it.revisitedEval( it.originalSrc );
 
   return it;
 }
@@ -1016,7 +1016,7 @@ function reperform()
   _.assert( it2.iterator === iterator2 );
   it2.src = o.src;
   it2.src2 = o.src2;
-  it2.chooseRoot( o.src );
+  it2.chooseRoot();
   _.assert( it.Looker.iterationProper( it2 ) );
 
   it2.iterate();
@@ -2049,6 +2049,12 @@ let Self = Equaler;
 _.mapExtend( _.equaler, EqualerExtension );
 _.mapExtend( _.entity, EntityExtension );
 _.mapExtend( _, ToolsExtension );
+
+/* xxx :
+class looker should not have properties
+  - dst and related
+  - result and related
+*/
 
 // --
 // export
