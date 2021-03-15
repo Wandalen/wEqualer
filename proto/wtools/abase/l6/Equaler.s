@@ -978,11 +978,12 @@ function equalCycle()
 //
 
 /* xxx0 : improve */
+/* xxx : cover */
 function reperform()
 {
   let it = this;
 
-  _.assert( arguments.length === 3 );
+  _.assert( arguments.length === 2 || arguments.length === 3 );
   _.assert( it.selector !== null, () => `Iteration is not looked` );
   _.assert
   (
@@ -990,7 +991,7 @@ function reperform()
     () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShort( it )}`
   );
 
-  let o = arguments[ 2 ];
+  let o = arguments[ 2 ] || Object.create( null );
   o.Looker = o.Looker || it.Looker || Self;
 
   o.src = arguments[ 0 ];
