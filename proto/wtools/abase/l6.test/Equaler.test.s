@@ -1520,9 +1520,7 @@ function entityIdenticalWithCopyable( test )
   test.case = 'two instances of provider Extract';
   var provider1 = _globals_.testing.wTools.FileProvider.Extract();
   var provider2 = _globals_.testing.wTools.FileProvider.Extract();
-  debugger;
   var got = _.entityIdentical( provider1, provider2 );
-  debugger;
   test.identical( got, false );
 
 }
@@ -7888,7 +7886,6 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalAre( it )
   {
-    debugger;
     it.continue = false;
     it.result = it.src.val === it.src2.val;
   }
@@ -7897,7 +7894,6 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalSecondCoerceFromNumber( it )
   {
-    debugger;
     if( _.numberIs( it.src ) )
     it.src = new FromArray( it.src, 0 );
     if( _.numberIs( it.src2 ) )
@@ -7909,7 +7905,6 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalSecondCoerceFromArray( it )
   {
-    debugger;
     if( _.longIs( it.src ) )
     it.src = new FromArray( it.src[ 0 ], 0 );
     if( _.longIs( it.src2 ) )
@@ -9935,7 +9930,6 @@ function entityDiffLoose( test )
 
   test.case = 'undefined - null';
 
-  debugger;
   var got = _.entityDiff( undefined, null );
   var expected =
 `
@@ -9946,7 +9940,6 @@ function entityDiffLoose( test )
 - difference :
  *
 `
-  debugger;
   test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */

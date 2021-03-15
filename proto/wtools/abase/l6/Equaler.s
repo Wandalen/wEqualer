@@ -48,8 +48,8 @@ _.assert( !!_.select );
 
 let Prime = Object.create( null );
 
-Prime.src = null;
-Prime.src2 = null;
+// Prime.src = undefined;
+Prime.src2 = undefined;
 Prime.containing = 0;
 Prime.strict = 1;
 Prime.revisiting = 1;
@@ -338,58 +338,71 @@ function optionsFromArguments( args )
 
 //
 
-function optionsForm( routine, o )
+function optionsToIteration( iterator, o )
 {
+  let it = Parent.optionsToIteration.call( this, iterator, o );
 
-  _.assert( o.iteratorProper( o ) );
-  _.assert( 0 <= o.revisiting && o.revisiting <= 2 );
-  _.assert( o.withImplicit !== undefined );
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  _.assert( arguments.length === 2 );
+  _.assert( it.iterator.visitedContainer2 === null );
+  _.assert( it.originalSrc === null );
+  _.assert( it.originalSrc2 === null );
+  _.assert( it.result === true );
+
+  return it;
+}
+
+//
+
+function iteratorInitEnd( iterator )
+{
+  let looker = this;
+
+  _.assert( iterator.iteratorProper( iterator ) );
+  _.assert( 0 <= iterator.revisiting && iterator.revisiting <= 2 );
+  _.assert( iterator.withImplicit !== undefined );
   _.assert
   (
-    _.longHasAll( [ 0, false, 'all', 'any', 'only', 'none' ], o.containing )
-    , () => `Unknown value of option o.containing : ${o.containing}`
+    _.longHasAll( [ 0, false, 'all', 'any', 'only', 'none' ], iterator.containing )
+    , () => `Unknown value of option iterator.containing : ${iterator.containing}`
     + `\nExpects any of [ ${[ 0, false, 'all', 'any', 'only', 'none' ].join( ' ' )} ]`
   );
 
-  let accuracy = o.accuracy;
+  let accuracy = iterator.accuracy;
 
-  if( o.strictTyping === null )
-  o.strictTyping = o.strict;
-  if( o.strictNumbering === null )
-  o.strictNumbering = o.strict;
-  if( o.strictCycling === null )
-  o.strictCycling = o.strict;
-  if( o.strictString === null )
-  o.strictString = o.strict;
-  if( o.strictContainer === null )
-  o.strictContainer = o.strict;
-  if( o.withImplicit === null )
-  o.withImplicit = o.strictTyping ? 'aux' : '';
+  if( iterator.strictTyping === null )
+  iterator.strictTyping = iterator.strict;
+  if( iterator.strictNumbering === null )
+  iterator.strictNumbering = iterator.strict;
+  if( iterator.strictCycling === null )
+  iterator.strictCycling = iterator.strict;
+  if( iterator.strictString === null )
+  iterator.strictString = iterator.strict;
+  if( iterator.strictContainer === null )
+  iterator.strictContainer = iterator.strict;
+  if( iterator.withImplicit === null )
+  iterator.withImplicit = iterator.strictTyping ? 'aux' : '';
 
-  if( o.onNumbersAreEqual === null )
-  if( o.strictNumbering && o.strictTyping )
-  o.onNumbersAreEqual = _.numbersAreIdentical;
-  else if( o.strictNumbering && !o.strictTyping )
-  o.onNumbersAreEqual = _.numbersAreIdenticalNotStrictly;
+  if( iterator.onNumbersAreEqual === null )
+  if( iterator.strictNumbering && iterator.strictTyping )
+  iterator.onNumbersAreEqual = _.numbersAreIdentical;
+  else if( iterator.strictNumbering && !iterator.strictTyping )
+  iterator.onNumbersAreEqual = _.numbersAreIdenticalNotStrictly;
   else
-  o.onNumbersAreEqual = ( a, b, acc ) =>
+  iterator.onNumbersAreEqual = ( a, b, acc ) =>
   {
     return _.numbersAreEquivalent( a, b, ( acc === undefined || acc === null ) ? accuracy : acc );
   }
 
-  if( o.onStringsAreEqual === null )
-  o.onStringsAreEqual = stringsAreIdentical;
+  if( iterator.onStringsAreEqual === null )
+  iterator.onStringsAreEqual = stringsAreIdentical;
 
-  if( o.onStringPreprocess === null )
-  if( o.strictString )
-  o.onStringPreprocess = stringsPreprocessNo;
+  if( iterator.onStringPreprocess === null )
+  if( iterator.strictString )
+  iterator.onStringPreprocess = stringsPreprocessNo;
   else
-  o.onStringPreprocess = stringsPreprocessLose;
+  iterator.onStringPreprocess = stringsPreprocessLose;
 
-  Parent.optionsForm.call( this, routine, o );
-
-  return o;
+  return Parent.iteratorInitEnd.call( this, iterator );
 
   /* */
 
@@ -416,21 +429,6 @@ function optionsForm( routine, o )
     return str;
   }
 
-}
-
-//
-
-function optionsToIteration( iterator, o )
-{
-  let it = Parent.optionsToIteration.call( this, iterator, o );
-
-  _.assert( arguments.length === 2 );
-  _.assert( it.iterator.visitedContainer2 === null );
-  _.assert( it.originalSrc === null );
-  _.assert( it.originalSrc2 === null );
-  _.assert( it.result === true );
-
-  return it;
 }
 
 // --
@@ -523,8 +521,12 @@ function iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  it._iterableEval();
-  if( it.secondCoerce() )
+  // yyy
+  // it._iterableEval();
+  // if( it.secondCoerce() )
+  // it._iterableEval();
+
+  it.secondCoerce();
   it._iterableEval();
 
   _.assert( it.iterable >= 0 );
@@ -714,9 +716,6 @@ function stop( result )
 
   _.assert( arguments.length === 1 );
   _.assert( _.boolIs( result ) );
-
-  if( !result )
-  _.debugger;
 
   if( it.containing )
   {
@@ -936,8 +935,6 @@ function equalCycle()
         it.iterator.continue = false;
         it.continue = false;
       }
-      if( _global_.debugger )
-      debugger;
     }
   }
 
@@ -980,7 +977,7 @@ function equalCycle()
 
 //
 
-/* xxx : improve */
+/* xxx0 : improve */
 function reperform()
 {
   let it = this;
@@ -1004,7 +1001,7 @@ function reperform()
 
   _.assert( it.iterator.continue === true );
 
-  /* xxx : move out */
+  /* xxx0 : move out */
   let iterator2 = Object.create( it.iterator );
   iterator2.iterator = iterator2;
   iterator2.iterationPrototype = Object.create( iterator2 );
@@ -1093,7 +1090,7 @@ function equalSets()
     let found = false;
     for( let e2 of unpaired2 )
     {
-      if( equal( e1, e2 ) ) /* xxx : improve? */
+      if( equal( e1, e2 ) ) /* xxx0 : improve? */
       {
         pairFound( e1, e2 );
         found = true;
@@ -1188,7 +1185,6 @@ function equalHashes()
   {
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      debugger;
       if( it.src.size > it.src2.size )
       return it.stop( false );
     }
@@ -1276,7 +1272,6 @@ function equalAuxiliary()
 
     if( it.containing === 'only' )
     {
-      debugger;
       if( _.aux.is( it.src ) && !_.aux.is( it.src2 ) )
       return it.stop( true );
     }
@@ -1538,14 +1533,14 @@ let LookerExtension =
   constructor : function Equaler(){},
   head,
   optionsFromArguments,
-  optionsForm,
   optionsToIteration,
+  iteratorInitEnd,
   performBegin,
   performEnd,
   chooseBegin,
   chooseRoot,
   iterableEval,
-  _iterableEval, /* xxx : remove? */
+  _iterableEval,
   visitPush,
   visitPop,
   visitUp,
@@ -1555,7 +1550,7 @@ let LookerExtension =
   equalUp,
   equalDown,
   equalCycle,
-  reperform, /* xxx : improve */
+  reperform, /* xxx0 : improve */
   secondCoerce,
   equalSets,
   equalCountable,
@@ -1586,8 +1581,8 @@ let Iterator =
 
   // defaults fields
 
-  src : null,
-  src2 : null,
+  src : undefined,
+  src2 : undefined,
   containing : 0,
   strict : 1,
   revisiting : 1,
@@ -1613,7 +1608,7 @@ Iteration.type1 = null;
 Iteration.type2 = null;
 
 let IterationPreserve = Object.create( null );
-IterationPreserve.src2 = null;
+IterationPreserve.src2 = undefined;
 
 const Equaler = _.looker.classDefine
 ({
@@ -1625,6 +1620,10 @@ const Equaler = _.looker.classDefine
   iteration : Iteration,
   iterationPreserve : IterationPreserve,
 });
+
+_.assert( !_.property.has( Equaler.Iteration, 'src2' ) && Equaler.Iteration.src2 === undefined );
+_.assert( _.property.has( Equaler.IterationPreserve, 'src2' ) && Equaler.IterationPreserve.src2 === undefined );
+_.assert( _.property.has( Equaler, 'src2' ) && Equaler.src2 === undefined );
 
 // --
 //
@@ -2050,10 +2049,11 @@ _.mapExtend( _.equaler, EqualerExtension );
 _.mapExtend( _.entity, EntityExtension );
 _.mapExtend( _, ToolsExtension );
 
-/* xxx :
+/* xxx0 :
 class looker should not have properties
   - dst and related
   - result and related
+  - onUp2, onDown2
 */
 
 // --
