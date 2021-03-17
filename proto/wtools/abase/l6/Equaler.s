@@ -469,19 +469,21 @@ function performEnd()
 
 //
 
-function chooseBegin( e, k )
+function chooseBegin( e, k, exists )
 {
   let it = this;
-  [ e, k ] = Parent.chooseBegin.apply( it, arguments );
+  // let exists;
 
-  _.assert( arguments.length === 2 );
+  [ e, k, exists ] = Parent.chooseBegin.apply( it, arguments );
+
+  _.assert( arguments.length === 3 );
   _.assert( it.level >= 0 );
   _.assert( _.objectIs( it.down ) );
 
-  it.src2 = _.container.elementGet( it.src2, k );
+  [ it.src2, k, exists ] = _.container.elementGet( it.src2, k );
   it.originalSrc2 = it.src2;
 
-  return [ e, k ];
+  return [ e, k, exists ];
 }
 
 //
@@ -1473,7 +1475,7 @@ function _objectAscend( src )
     let index = 0;
     for( let e of src )
     {
-      let eit = it.iterationMake().choose( e, index );
+      let eit = it.iterationMake().choose( e, index, true );
       eit.iterate();
       index += 1;
       if( !it.canSibling() )
