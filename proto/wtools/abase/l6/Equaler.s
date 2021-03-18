@@ -42,6 +42,8 @@ _.assert( !!_realGlobal_ );
 _.assert( !!_.look );
 _.assert( !!_.select );
 
+/* qqq : write nice example for readme */
+
 // --
 // relations
 // --
