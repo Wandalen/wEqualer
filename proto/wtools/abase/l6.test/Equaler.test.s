@@ -9938,7 +9938,7 @@ function entityDiffLoose( test )
 - src2 :
   null
 - difference :
-  *
+ *
 `
   test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
@@ -10054,11 +10054,9 @@ function entityDiffLoose( test )
 
   var got = _.entityDiff( src1, src2 );
   var expected =
-`
-at /f
-- src1 :
-  { 'f' : [ routine f ] }
-- src2 :
+  `
+  at /f
+  - src1 :
   { 'f' : [ routine f ] }
   - src2 :
   { 'f' : [ routine f ] }`
@@ -10085,23 +10083,23 @@ at /f
 
   var got = _.entityDiff( src1, src2 );
   var expected =
-`
-at /"some//key"
-- src1 :
+  `
+  at /"some//key"
+  - src1 :
   {
-    'some//key' : 'some//key', 
-    'some/key' : 'some/key', 
-    'some..key' : 'some..key', 
-    'some.key' : 'some.key'
+  'some//key' : 'some//key',
+  'some/key' : 'some/key',
+  'some..key' : 'some..key',
+  'some.key' : 'some.key'
   }
-- src2 :
+  - src2 :
   {
-    'some//key' : 'some//key2', 
-    'some/key' : 'some/key2', 
-    'some..key' : 'some..key2', 
-    'some.key' : 'some.key2'
+  'some//key' : 'some//key2',
+  'some/key' : 'some/key2',
+  'some..key' : 'some..key2',
+  'some.key' : 'some.key2'
   }
-- difference :
+  - difference :
   {
   'some//key' : 'some//key*
   `
@@ -10181,11 +10179,11 @@ function entityDiffExplanationBasic( test )
 
   var expected =
 `- got :
-  ''
+''
 - expected :
-  'str'
+'str'
 - difference :
-  '*
+'*
 `
 
   var srcs = [ '', 'str' ]
@@ -10743,18 +10741,18 @@ function entityDiffExplanationMap( test )
   var expected =
 `- got :
   {
-    'constructor' : [ routine Object ], 
-    '__defineGetter__' : [ routine __defineGetter__ ], 
-    '__defineSetter__' : [ routine __defineSetter__ ], 
-    'hasOwnProperty' : [ routine hasOwnProperty ], 
-    '__lookupGetter__' : [ routine __lookupGetter__ ], 
-    '__lookupSetter__' : [ routine __lookupSetter__ ], 
-    'isPrototypeOf' : [ routine isPrototypeOf ], 
-    'propertyIsEnumerable' : [ routine propertyIsEnumerable ], 
-    'toString' : [ routine toString ], 
-    'valueOf' : [ routine valueOf ], 
-    '__proto__' : {}, 
-    'toLocaleString' : [ routine toLocaleString ]
+  'constructor' : [ routine Object ],
+  '__defineGetter__' : [ routine __defineGetter__ ],
+  '__defineSetter__' : [ routine __defineSetter__ ],
+  'hasOwnProperty' : [ routine hasOwnProperty ],
+  '__lookupGetter__' : [ routine __lookupGetter__ ],
+  '__lookupSetter__' : [ routine __lookupSetter__ ],
+  'isPrototypeOf' : [ routine isPrototypeOf ],
+  'propertyIsEnumerable' : [ routine propertyIsEnumerable ],
+  'toString' : [ routine toString ],
+  'valueOf' : [ routine valueOf ],
+  '__proto__' : {},
+  'toLocaleString' : [ routine toLocaleString ]
   }
 - expected :
   {}
@@ -10786,18 +10784,18 @@ function entityDiffExplanationMap( test )
   {}
 - expected :
   {
-    'constructor' : [ routine Object ], 
-    '__defineGetter__' : [ routine __defineGetter__ ], 
-    '__defineSetter__' : [ routine __defineSetter__ ], 
-    'hasOwnProperty' : [ routine hasOwnProperty ], 
-    '__lookupGetter__' : [ routine __lookupGetter__ ], 
-    '__lookupSetter__' : [ routine __lookupSetter__ ], 
-    'isPrototypeOf' : [ routine isPrototypeOf ], 
-    'propertyIsEnumerable' : [ routine propertyIsEnumerable ], 
-    'toString' : [ routine toString ], 
-    'valueOf' : [ routine valueOf ], 
-    '__proto__' : {}, 
-    'toLocaleString' : [ routine toLocaleString ]
+  'constructor' : [ routine Object ],
+  '__defineGetter__' : [ routine __defineGetter__ ],
+  '__defineSetter__' : [ routine __defineSetter__ ],
+  'hasOwnProperty' : [ routine hasOwnProperty ],
+  '__lookupGetter__' : [ routine __lookupGetter__ ],
+  '__lookupSetter__' : [ routine __lookupSetter__ ],
+  'isPrototypeOf' : [ routine isPrototypeOf ],
+  'propertyIsEnumerable' : [ routine propertyIsEnumerable ],
+  'toString' : [ routine toString ],
+  'valueOf' : [ routine valueOf ],
+  '__proto__' : {},
+  'toLocaleString' : [ routine toLocaleString ]
   }
 - difference :
   {*
