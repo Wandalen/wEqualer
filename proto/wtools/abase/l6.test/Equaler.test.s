@@ -515,6 +515,46 @@ function iteratorResult( test )
 
 //
 
+function head( test )
+{
+
+  act({ method : '_equal' });
+  act({ method : 'identical' });
+  act({ method : 'notIdentical' });
+  act({ method : 'equivalent' });
+  act({ method : 'notEquivalent' });
+
+  act({ method : 'contains' });
+  act({ method : 'notContains' });
+  act({ method : 'containsAll' });
+  act({ method : 'notContainsAll' });
+  act({ method : 'containsAny' });
+  act({ method : 'notContainsAny' });
+  act({ method : 'containsOnly' });
+  act({ method : 'notContainsOnly' });
+  act({ method : 'containsNone' });
+  act({ method : 'notContainsNone' });
+
+  function act( env )
+  {
+
+    /* */
+
+    test.case = `${_.entity.exportStringSolo( env )}, basic`;
+    var src = 1;
+    var src2 = 2;
+    var it = _.equaler[ env.method ].head( _.equaler[ env.method ], [ src, src2 ] );
+    test.true( it.iterationProper( it ) );
+    test.true( _.equaler.iterationIs( it ) );
+
+    /* */
+
+  }
+
+}
+
+//
+
 // //
 //
 // function compareContainerType( test )
@@ -1480,9 +1520,7 @@ function entityIdenticalWithCopyable( test )
   test.case = 'two instances of provider Extract';
   var provider1 = _globals_.testing.wTools.FileProvider.Extract();
   var provider2 = _globals_.testing.wTools.FileProvider.Extract();
-  debugger;
   var got = _.entityIdentical( provider1, provider2 );
-  debugger;
   test.identical( got, false );
 
 }
@@ -7848,7 +7886,6 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalAre( it )
   {
-    debugger;
     it.continue = false;
     it.result = it.src.val === it.src2.val;
   }
@@ -7857,7 +7894,6 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalSecondCoerceFromNumber( it )
   {
-    debugger;
     if( _.numberIs( it.src ) )
     it.src = new FromArray( it.src, 0 );
     if( _.numberIs( it.src2 ) )
@@ -7869,7 +7905,6 @@ function compareObjectsWithSecondCoerce( test )
 
   function _equalSecondCoerceFromArray( it )
   {
-    debugger;
     if( _.longIs( it.src ) )
     it.src = new FromArray( it.src[ 0 ], 0 );
     if( _.longIs( it.src2 ) )
@@ -9905,7 +9940,7 @@ function entityDiffLoose( test )
 - difference :
   *
 `
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -9921,7 +9956,7 @@ function entityDiffLoose( test )
 - difference :
   *
 `
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -9962,7 +9997,7 @@ function entityDiffLoose( test )
   'ab*
 `;
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -9977,7 +10012,7 @@ function entityDiffLoose( test )
   [ 1, 2, 4 ]
 - difference :
   [ 1, 2, *`;
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -9996,7 +10031,7 @@ function entityDiffLoose( test )
   {}
 - difference :
   {*`
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10025,8 +10060,9 @@ at /f
   { 'f' : [ routine f ] }
 - src2 :
   { 'f' : [ routine f ] }
-`
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  - src2 :
+  { 'f' : [ routine f ] }`
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10067,9 +10103,9 @@ at /"some//key"
   }
 - difference :
   {
-    'some//key' : 'some//key*
-`
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  'some//key' : 'some//key*
+  `
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* - */
 
@@ -10137,7 +10173,7 @@ function entityDiffExplanationBasic( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10161,7 +10197,7 @@ function entityDiffExplanationBasic( test )
     srcs,
     path : '/',
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10367,7 +10403,7 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10408,7 +10444,7 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10450,7 +10486,7 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10495,7 +10531,7 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10533,7 +10569,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10576,7 +10612,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10614,7 +10650,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10654,7 +10690,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10698,7 +10734,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10739,7 +10775,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10780,7 +10816,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* - */
 
@@ -10849,7 +10885,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10883,7 +10919,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10918,7 +10954,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10950,7 +10986,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -10982,7 +11018,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -11017,7 +11053,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -11055,7 +11091,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -11092,7 +11128,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -11123,7 +11159,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
   /* */
 
@@ -11154,7 +11190,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
 
 }
 
@@ -11182,6 +11218,7 @@ let Self =
     entityEquivalentLoose,
     containsLoose,
     iteratorResult,
+    head,
 
     /* qqq : for Yevhen */
     entityIdenticalSimple,
