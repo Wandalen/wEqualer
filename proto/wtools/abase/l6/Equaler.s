@@ -33,7 +33,7 @@ if( typeof module !== 'undefined' )
 
 const _global = _global_;
 const _ = _global_.wTools;
-let Parent = _.looker.Looker;
+const Parent = _.looker.Looker;
 const _ObjectToString = Object.prototype.toString;
 
 _.equaler = _.equaler || Object.create( _.looker );
@@ -663,7 +663,7 @@ function visitPop()
     (
       Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.originalSrc2 ),
       () => `Top-most visit ${it.path} does not match`
-      + `${_.entity.exportStringShort( it.originalSrc2 )} <> ${_.entity.exportStringShort
+      + `${_.entity.exportStringShallow( it.originalSrc2 )} <> ${_.entity.exportStringShallow
       (
         it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ]
       )}`
@@ -960,7 +960,7 @@ function equalCycle()
 //   _.assert
 //   (
 //     it.iterationProper( it ),
-//     () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShort( it )}`
+//     () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShallow( it )}`
 //   );
 //
 //   let it2 = it.iterationMake();
@@ -997,7 +997,7 @@ function reperform()
   _.assert
   (
     it.iterationProper( it ),
-    () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShort( it )}`
+    () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShallow( it )}`
   );
 
   let o = arguments[ 2 ] || Object.create( null );
