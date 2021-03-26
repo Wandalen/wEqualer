@@ -11,8 +11,15 @@ if( typeof module !== 'undefined' )
   _.include( 'wTesting' );
 }
 
-let _global = _global_;
-let _ = _global_.wTools;
+const _global = _global_;
+const _ = _global_.wTools;
+const __ = _globals_.testing.wTools;
+
+// /* qqq xxx : make working */
+// var 'this is some\n   text\n'
+// var exp = `some text`;
+// _.contains( op.output, exp );
+// test.contains( op.output, exp );
 
 // --
 // tests
@@ -1518,8 +1525,8 @@ function entityIdenticalWithCopyable( test )
 {
 
   test.case = 'two instances of provider Extract';
-  var provider1 = _globals_.testing.wTools.FileProvider.Extract();
-  var provider2 = _globals_.testing.wTools.FileProvider.Extract();
+  var provider1 = __.FileProvider.Extract();
+  var provider2 = __.FileProvider.Extract();
   var got = _.entityIdentical( provider1, provider2 );
   test.identical( got, false );
 
@@ -5712,8 +5719,8 @@ function compareObjectWithIteratorAndEqual( test )
 
   Object.setPrototypeOf( Obj1.prototype, null );
   Obj1.prototype = Object.create( null );
-  Obj1.prototype[ _.entity.equalAreSymbol ] = equalAre;
-  Obj1.prototype[ _.entity.iteratorSymbol ] = iterate;
+  Obj1.prototype[ _.class.equalAreSymbol ] = equalAre;
+  Obj1.prototype[ _.class.iteratorSymbol ] = iterate;
   Obj1.prototype.constructor = Obj1;
 
   /* */
@@ -11196,7 +11203,7 @@ function entityDiffExplanationMapDiffProto( test )
 // declare
 // --
 
-let Self =
+const Proto =
 {
 
   name : 'Tools.l6.Equaler',
@@ -11286,7 +11293,7 @@ let Self =
 
 }
 
-Self = wTestSuite( Self );
+const Self = wTestSuite( Proto );
 if( typeof module !== 'undefined' && !module.parent )
 wTester.test( Self.name );
 

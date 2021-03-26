@@ -31,10 +31,10 @@ if( typeof module !== 'undefined' )
 
 }
 
-let _global = _global_;
-let _ = _global_.wTools;
+const _global = _global_;
+const _ = _global_.wTools;
 let Parent = _.looker.Looker;
-let _ObjectToString = Object.prototype.toString;
+const _ObjectToString = Object.prototype.toString;
 
 _.equaler = _.equaler || Object.create( _.looker );
 
@@ -191,8 +191,8 @@ function entityDiffExplanation( o )
     let srcOwn1 = _.property.onlyOwn( o.srcs[ 1 ] );
 
     let common = _.filter_( null, srcOwn0, ( e, k ) => _.entityIdentical( e, srcOwn1[ k ] ) ? e : undefined );
-    o.srcs[ 0 ] = _.mapBut( srcOwn0, common );
-    o.srcs[ 1 ] = _.mapBut( srcOwn1, common );
+    o.srcs[ 0 ] = _.mapBut_( null, srcOwn0, common );
+    o.srcs[ 1 ] = _.mapBut_( null, srcOwn1, common );
 
     if( _.mapIsEmpty( o.srcs[ 0 ] ) && _.mapIsEmpty( o.srcs[ 1 ] ) )
     {
@@ -311,7 +311,7 @@ function head( routine, args )
 
   o.Looker = o.Looker || routine.defaults;
 
-  _.assertMapHasOnly( o, routine.defaults );
+  _.map.assertHasOnly( o, routine.defaults );
   _.assert( routine.defaults === o.Looker );
   _.assert( routine.defaults.withImplicit === null );
   let it = o.Looker.optionsToIteration( null, o );
@@ -550,7 +550,7 @@ function _iterableEval()
     it.type1 = it.containerNameToIdMap.aux;
     it.iterable = it.containerNameToIdMap.aux;
   }
-  else if( _.entity.methodEqualOf( it.src ) && !_.aux.is( it.src ) )
+  else if( _.class.methodEqualOf( it.src ) && !_.aux.is( it.src ) )
   {
     it.type1 = it.containerNameToIdMap.object;
     it.iterable = it.containerNameToIdMap.object;
@@ -591,7 +591,7 @@ function _iterableEval()
     it.iterable = it.containerNameToIdMap.object;
   }
 
-  if( _.entity.methodEqualOf( it.src2 ) && !_.aux.is( it.src2 ) )
+  if( _.class.methodEqualOf( it.src2 ) && !_.aux.is( it.src2 ) )
   {
     it.type2 = it.containerNameToIdMap.object;
     it.iterable = it.containerNameToIdMap.object;
@@ -746,7 +746,9 @@ function stop( result )
             it.down.continue = false;
           }
         }
-        return result;
+        return;
+        // yyy
+        // return result;
       }
     }
     else if( it.containing === 'none' )
@@ -767,7 +769,9 @@ function stop( result )
           it.iterator.continue = false;
           it.continue = false;
         }
-        return result;
+        return;
+        // yyy
+        // return result;
       }
     }
 
@@ -778,7 +782,8 @@ function stop( result )
   it.iterator.continue = false;
   it.continue = false;
 
-  return result;
+  // yyy
+  // return result;
 }
 
 //
@@ -966,7 +971,7 @@ function equalCycle()
 //   o.Looker = o.Looker || it.Looker || Self;
 //
 //   _.assert( _.mapIs( o ) );
-//   _.assertMapHasOnly( o, { src : null, selector : null, Looker : null }, 'Implemented only for options::selector' );
+//   _.map.assertHasOnly( o, { src : null, selector : null, Looker : null }, 'Implemented only for options::selector' );
 //   _.assert( _.strIs( o.selector ) );
 //   _.assert( _.strIs( it2.iterator.selector ) );
 //
@@ -1002,7 +1007,7 @@ function reperform()
   o.src2 = arguments[ 1 ];
 
   _.assert( _.mapIs( o ) );
-  _.assertMapHasOnly( o, o.Looker, 'Implemented only for options::selector' );
+  _.map.assertHasOnly( o, o.Looker, 'Implemented only for options::selector' );
 
   _.assert( it.iterator.continue === true );
 
@@ -1152,7 +1157,7 @@ function equalCountable()
     if( !it.type1 || !it.type2 )
     return it.stop( false );
 
-    if( !_.vectorLike( it.src2 ) && !_.entity.methodIteratorOf( it.src2 ) )
+    if( !_.vectorLike( it.src2 ) && !_.class.methodIteratorOf( it.src2 ) )
     return it.stop( false );
 
   }
@@ -1360,7 +1365,7 @@ function equalObjects()
   }
   else
   {
-    if( !_.entity.methodIteratorOf( it.src ) )
+    if( !_.class.methodIteratorOf( it.src ) )
     return it.stop( false );
   }
 
@@ -1450,9 +1455,9 @@ function equalBuffers()
     {
       let src1 = it.src;
       let src2 = it.src2;
-      if( !_.longIs( src1 ) && _.entity.methodIteratorOf( src1 ) )
+      if( !_.longIs( src1 ) && _.class.methodIteratorOf( src1 ) )
       src1 = [ ... src1 ];
-      if( !_.longIs( src2 ) && _.entity.methodIteratorOf( src2 ) )
+      if( !_.longIs( src2 ) && _.class.methodIteratorOf( src2 ) )
       src2 = [ ... src2 ];
       return it.stop( _.buffersAreEquivalent( src1, src2, it.strictNumbering ? 0 : it.accuracy ) );
     }
@@ -1471,7 +1476,7 @@ function _objectAscend( src )
   _.assert( it.continue === true );
   _.assert( arguments.length === 1 );
 
-  if( _.entity.methodIteratorOf( src ) )
+  if( _.class.methodIteratorOf( src ) )
   {
 
     let index = 0;
@@ -2049,7 +2054,7 @@ let ToolsExtension =
 
 }
 
-let Self = Equaler;
+const Self = Equaler;
 _.mapExtend( _.equaler, EqualerExtension );
 _.mapExtend( _.entity, EntityExtension );
 _.mapExtend( _, ToolsExtension );
