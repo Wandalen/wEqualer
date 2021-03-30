@@ -1,13 +1,14 @@
 {
   "name": "wequaler",
-  "version": "0.5.244",
+  "version": "0.5.245",
   "description": "Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
   "license": "MIT",
   "main": "proto/wtools/abase/l6/Equaler.s",
   "files": [
     "proto/wtools/abase/l6",
-    "proto/wtools/Tools.s"
+    "proto/wtools/Tools.s",
+    "proto/node_modules"
   ],
   "scripts": {
     "test": "wtest .run 'proto/**' rapidity:-3",
@@ -27,8 +28,7 @@
   },
   "devDependencies": {
     "eslint": "7.1.0",
-    "wTesting": "delta",
-    "wequaler": "file:."
+    "wTesting": "delta"
   },
   "keywords": [
     "wTools"
