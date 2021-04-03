@@ -1,36 +1,18 @@
 {
-  "name": "wequaler",
-  "version": "0.5.246",
-  "description": "Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
-  "license": "MIT",
-  "main": "proto/wtools/abase/l6/Equaler.s",
-  "files": [
-    "proto/wtools/abase/l6",
-    "proto/wtools/Tools.s",
-    "proto/node_modules"
-  ],
-  "scripts": {
-    "test": "wtest .run 'proto/**' rapidity:-3",
-    "docgen": "wdocgen proto"
+  "name" : "wequaler",
+  "version" : "0.5.247",
+  "description" : "Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.",
+  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
+  "license" : "MIT",
+  "main" : "/pro/module/wEqualer/proto/node_modules/wequaler",
+  "files" : [ "proto/wtools/abase/l6", "proto/wtools/Tools.s", "proto/node_modules" ],
+  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
+  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wEqualer.git" },
+  "bugs" :
+  {
+    "url" : "https://github.com/Wandalen/wEqualer/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Wandalen/wEqualer.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Wandalen/wEqualer/issues"
-  },
-  "dependencies": {
-    "wTools": "delta",
-    "wlooker": "delta",
-    "wselector": "delta"
-  },
-  "devDependencies": {
-    "eslint": "7.1.0",
-    "wTesting": "delta"
-  },
-  "keywords": [
-    "wTools"
-  ]
+  "dependencies" : { "wTools" : "delta", "wlooker" : "delta", "wselector" : "delta" },
+  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "delta" },
+  "keywords" : [ "wTools" ]
 }
