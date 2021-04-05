@@ -83,8 +83,8 @@ path:
       raw: compiled
       content: prime
   npm.proto.entry:
-    - /pro/module/wEqualer/proto/wtools/abase/l6/Equaler.s
-    - /pro/module/wEqualer/proto/node_modules/wequaler
+    - proto/wtools/abase/l6/Equaler.s
+    - proto/node_modules/wequaler
 reflector:
   reflect.proto:
     inherit: predefined.*
