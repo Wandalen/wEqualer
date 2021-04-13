@@ -9124,8 +9124,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = true;
   var got = _.entityIdentical( [ 1, 3 ], [ 1, 3 ], opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/0', '/1' ] );
-  test.identical( onDownPaths, [ '/0', '/1', '/' ] );
+  test.identical( onUpPaths, [ '/', '/#0', '/#1' ] );
+  test.identical( onDownPaths, [ '/#0', '/#1', '/' ] );
 
   clean();
   var expected = false;
@@ -9145,8 +9145,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = false;
   var got = _.entityIdentical( [ [ 1, 2 ] ], [ [ 1, 2, 3 ] ], opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/0' ] );
-  test.identical( onDownPaths, [ '/0', '/' ] );
+  test.identical( onUpPaths, [ '/', '/#0' ] );
+  test.identical( onDownPaths, [ '/#0', '/' ] );
 
   /* */
 
@@ -9202,8 +9202,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = true;
   var got = _.entityIdentical( src1, src2, opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/onScalar', '/name', '/takingArguments', '/takingArguments/0', '/takingArguments/1' ] );
-  test.identical( onDownPaths, [ '/onScalar', '/name', '/takingArguments/0', '/takingArguments/1', '/takingArguments', '/' ] );
+  test.identical( onUpPaths, [ '/', '/onScalar', '/name', '/takingArguments', '/takingArguments/#0', '/takingArguments/#1' ] );
+  test.identical( onDownPaths, [ '/onScalar', '/name', '/takingArguments/#0', '/takingArguments/#1', '/takingArguments', '/' ] );
 
   // var onScalar = function(){};
   var src1 =
@@ -9236,8 +9236,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = true;
   var got = _.entityIdentical( a, b, opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/a', '/a/0', '/b', '/b/c', '/b/c/0', '/b/c/0/d', '/b/c/0/e', '/b/c/0/e/0', '/b/c/0/e/1' ] );
-  test.identical( onDownPaths, [ '/a/0', '/a', '/b/c/0/d', '/b/c/0/e/0', '/b/c/0/e/1', '/b/c/0/e', '/b/c/0', '/b/c', '/b', '/' ] );
+  test.identical( onUpPaths, [ '/', '/a', '/a/#0', '/b', '/b/c', '/b/c/#0', '/b/c/#0/d', '/b/c/#0/e', '/b/c/#0/e/#0', '/b/c/#0/e/#1' ] );
+  test.identical( onDownPaths, [ '/a/#0', '/a', '/b/c/#0/d', '/b/c/#0/e/#0', '/b/c/#0/e/#1', '/b/c/#0/e', '/b/c/#0', '/b/c', '/b', '/' ] );
 
   clean();
   var a = { e : [ 1, 3 ] }
@@ -9245,8 +9245,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = false;
   var got = _.entityIdentical( a, b, opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/e', '/e/0', '/e/1' ] );
-  test.identical( onDownPaths, [ '/e/0', '/e/1', '/e', '/' ] );
+  test.identical( onUpPaths, [ '/', '/e', '/e/#0', '/e/#1' ] );
+  test.identical( onDownPaths, [ '/e/#0', '/e/#1', '/e', '/' ] );
 
   clean();
   var a = { e : [ 1, 3, 4 ] }
@@ -9254,8 +9254,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = false;
   var got = _.entityIdentical( a, b, opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/e', '/e/0', '/e/1' ] );
-  test.identical( onDownPaths, [ '/e/0', '/e/1', '/e', '/' ] );
+  test.identical( onUpPaths, [ '/', '/e', '/e/#0', '/e/#1' ] );
+  test.identical( onDownPaths, [ '/e/#0', '/e/#1', '/e', '/' ] );
 
   clean();
   var a = { a : [ 1 ], b : { c : [ { d : 1, e : [ 1, 3 ] } ] } }
@@ -9263,8 +9263,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = false;
   var got = _.entityIdentical( a, b, opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/a', '/a/0', '/b', '/b/c', '/b/c/0', '/b/c/0/d', '/b/c/0/e', '/b/c/0/e/0', '/b/c/0/e/1' ] );
-  test.identical( onDownPaths, [ '/a/0', '/a', '/b/c/0/d', '/b/c/0/e/0', '/b/c/0/e/1', '/b/c/0/e', '/b/c/0', '/b/c', '/b', '/' ] );
+  test.identical( onUpPaths, [ '/', '/a', '/a/#0', '/b', '/b/c', '/b/c/#0', '/b/c/#0/d', '/b/c/#0/e', '/b/c/#0/e/#0', '/b/c/#0/e/#1' ] );
+  test.identical( onDownPaths, [ '/a/#0', '/a', '/b/c/#0/d', '/b/c/#0/e/#0', '/b/c/#0/e/#1', '/b/c/#0/e', '/b/c/#0', '/b/c', '/b', '/' ] );
 
   /* */
 
@@ -9345,8 +9345,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = true;
   var got = _.entityIdentical( a, b, opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/0', '/Instances/0/f1', '/Instances/0/Instances' ] );
-  test.identical( onDownPaths, [ '/f1', '/Instances/0/f1', '/Instances/0/Instances', '/Instances/0', '/Instances', '/' ] );
+  test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/#0', '/Instances/#0/f1', '/Instances/#0/Instances' ] );
+  test.identical( onDownPaths, [ '/f1', '/Instances/#0/f1', '/Instances/#0/Instances', '/Instances/#0', '/Instances', '/' ] );
 
   /* */
 
@@ -9367,8 +9367,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = false;
   var got = _.entityIdentical( a, b, opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/0', '/Instances/0/f1', '/Instances/0/Instances' ] );
-  test.identical( onDownPaths, [ '/f1', '/Instances/0/f1', '/Instances/0/Instances', '/Instances/0', '/Instances', '/' ] );
+  test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/#0', '/Instances/#0/f1', '/Instances/#0/Instances' ] );
+  test.identical( onDownPaths, [ '/f1', '/Instances/#0/f1', '/Instances/#0/Instances', '/Instances/#0', '/Instances', '/' ] );
 
   /* */
 
@@ -9389,8 +9389,8 @@ function entityIdenticalCycledWithOptions( test )
   var expected = false;
   var got = _.entityIdentical( a, b, opt );
   test.identical( got, expected );
-  test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/0' ] );
-  test.identical( onDownPaths, [ '/f1', '/Instances/0', '/Instances', '/' ] );
+  test.identical( onUpPaths, [ '/', '/f1', '/Instances', '/Instances/#0' ] );
+  test.identical( onDownPaths, [ '/f1', '/Instances/#0', '/Instances', '/' ] );
 
   /* - */
 
@@ -9931,8 +9931,6 @@ function compareNonRecursive( test )
 function entityDiffLoose( test )
 {
 
-  // test.identical( got, {} );
-
   /* */
 
   test.case = 'undefined - null';
@@ -9947,7 +9945,7 @@ function entityDiffLoose( test )
 - difference :
  *
 `
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -9963,7 +9961,7 @@ function entityDiffLoose( test )
 - difference :
   *
 `
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10004,7 +10002,7 @@ function entityDiffLoose( test )
   'ab*
 `;
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10012,14 +10010,14 @@ function entityDiffLoose( test )
 
   var got = _.entityDiff( [ 1, 2, 3 ], [ 1, 2, 4 ] );
   var expected =
-`at /2
+`at /#2
 - src1 :
   [ 1, 2, 3 ]
 - src2 :
   [ 1, 2, 4 ]
 - difference :
   [ 1, 2, *`;
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10038,7 +10036,7 @@ function entityDiffLoose( test )
   {}
 - difference :
   {*`
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10067,7 +10065,7 @@ function entityDiffLoose( test )
   { 'f' : [ routine f ] }
   - src2 :
   { 'f' : [ routine f ] }`
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10110,7 +10108,7 @@ function entityDiffLoose( test )
   {
   'some//key' : 'some//key*
   `
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* - */
 
@@ -10178,7 +10176,7 @@ function entityDiffExplanationBasic( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10202,7 +10200,7 @@ function entityDiffExplanationBasic( test )
     srcs,
     path : '/',
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10371,6 +10369,9 @@ cd'
 
 function entityDiffExplanationMap( test )
 {
+
+  /* */
+
   test.case = '1 el in got, 2 el in exp, got[0] = expected[0],';
 
   var expected =
@@ -10408,7 +10409,7 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10449,7 +10450,7 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10491,7 +10492,7 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10536,7 +10537,7 @@ function entityDiffExplanationMap( test )
     path : '/MultipleExports/in',
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10574,7 +10575,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10617,7 +10618,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10655,7 +10656,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10695,7 +10696,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10739,7 +10740,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10780,7 +10781,7 @@ function entityDiffExplanationMap( test )
     srcs,
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10819,9 +10820,97 @@ function entityDiffExplanationMap( test )
     name1 : '- got',
     name2 : '- expected',
     srcs,
+  });
+  test.equivalent( got, expected );
+
+  /* */
+
+// xxx : uncomment after fix of _.mapBut_
+//   test.case = 'with empty key in path';
+//
+//   var srcs =
+//   [
+//     { a : 1, '' : 1 },
+//     { a : 1, '' : 2 },
+//   ]
+//
+//   var it = _.identical.head( _.identical, [ srcs[ 0 ], srcs[ 1 ] ] );
+//   var iterator = it.iterator;
+//
+//   it.perform();
+//   test.identical( iterator.lastIt.path, '/""' );
+//
+//   var expected =
+// `
+// at /""
+// - got :
+// 1
+// - expected :
+// 2
+// `
+//   var got = _.entityDiffExplanation
+//   ({
+//     name1 : '- got',
+//     name2 : '- expected',
+//     srcs,
+//     path : iterator.lastIt.path,
+//   });
+//   test.equivalent( got, expected );
+
+  /* - */
+
+  function func1(){};
+
+  function func2(){};
+
+  async function func3a(){}
+
+}
+
+//
+
+function entityDiffExplanationLong( test )
+{
+
+  /* */
+
+  test.case = 'with ordinal in path';
+
+  var srcs =
+  [
+    [
+      { val : 1 }
+    ],
+    [
+      { val : 2 }
+    ],
+  ]
+
+  var it = _.identical.head( _.identical, [ srcs[ 0 ], srcs[ 1 ] ] );
+  var iterator = it.iterator;
+
+  it.perform();
+  test.identical( iterator.lastIt.path, '/#0/val' );
+
+  var expected =
+`
+at /#0/val
+- got :
+{ 'val' : 1 }
+- expected :
+{ 'val' : 2 }
+- difference :
+{ 'val' : *
+`
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : iterator.lastIt.path,
     accuracy : null,
   });
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* - */
 
@@ -10837,6 +10926,7 @@ function entityDiffExplanationMap( test )
 
 function entityDiffExplanationMapDiffProto( test )
 {
+
   /*
   Cases when maps' fields are identical:
 
@@ -10890,7 +10980,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10924,7 +11014,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10959,7 +11049,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -10991,7 +11081,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -11023,7 +11113,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -11058,7 +11148,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -11096,7 +11186,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -11133,7 +11223,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -11164,7 +11254,7 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
 
   /* */
 
@@ -11195,7 +11285,9 @@ function entityDiffExplanationMapDiffProto( test )
     accuracy : null,
   });
 
-  test.identical( _.strLinesStrip( got ), _.strLinesStrip( expected ) );
+  test.equivalent( got, expected );
+
+  /* */
 
 }
 
@@ -11285,6 +11377,7 @@ const Proto =
     entityDiffExplanationBasic,
     entityDiffExplanationString,
     entityDiffExplanationMap,
+    entityDiffExplanationLong,
     entityDiffExplanationMapDiffProto
 
     /* qqq : research: what should be covered in the first place */
