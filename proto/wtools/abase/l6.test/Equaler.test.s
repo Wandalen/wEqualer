@@ -5899,6 +5899,15 @@ function compareObjectWithIteratorAndEqual( test )
 
 function containsStrictStringSpacing( test )
 {
+
+  test.case = '2 empty strings';
+  var got = _.contains( '', '', { strictStringSpacing : 0 } );
+  test.true( got );
+
+  test.case = 'non-empty and empty string';
+  var got = _.contains( 'abc', '', { strictStringSpacing : 0 } );
+  test.true( got );
+
   test.case = 'substr is within';
   var got = _.contains( 'string', 'str', { strictStringSpacing : 0 } );
   test.true( got );
