@@ -402,6 +402,9 @@ function iteratorInitEnd( iterator )
   else
   iterator.onStringPreprocess = stringsPreprocessLose;
 
+  if( !iterator.strictStringSpacing )
+  iterator.onStringPreprocess = stringsPreprocessRemoveSpaces;
+
   return Parent.iteratorInitEnd.call( this, iterator );
 
   /* */
@@ -427,6 +430,13 @@ function iteratorInitEnd( iterator )
   function stringsPreprocessNo( str )
   {
     return str;
+  }
+
+  /* */
+
+  function stringsPreprocessRemoveSpaces( str )
+  {
+    return str.split( '\n' ).map( ( el ) => el.trim() ).join( '' );
   }
 
 }
@@ -1817,6 +1827,7 @@ defaults.strict = 1;
 defaults.strictTyping = 0;
 defaults.strictNumbering = 0;
 defaults.strictString = 0;
+defaults.strictStringSpacing = 1;
 defaults.strictCycling = 1;
 defaults.strictContainer = 0; /* qqq : cover option strictContainer */
 defaults.Looker = defaults;

@@ -5894,6 +5894,37 @@ function compareObjectWithIteratorAndEqual( test )
 
 }
 
+//
+
+
+function containsStrictStringSpacing( test )
+{
+  test.case = 'str is within';
+  var expected = true;
+  var got = _.contains( 'string', 'str', { strictStringSpacing : 0 } );
+  test.identical( got, expected );
+
+  test.case = 'str is within';
+  var expected = false;
+  var got = _.contains( 'string', 'abc', { strictStringSpacing : 0 } );
+  test.identical( got, expected );
+
+  test.case = 'str is within with linebreak';
+  var expected = true;
+  var got = _.contains( 'st\nri\nng', 'stri', { strictStringSpacing : 0 } );
+  test.identical( got, expected );
+
+  test.case = 'str is within with linebreak and whitespaces 1';
+  var expected = true;
+  var got = _.contains( 'st  \nri  \nng', 'stri', { strictStringSpacing : 0 } );
+  test.identical( got, expected );
+
+  test.case = 'str is within with linebreak and whitespaces 2';
+  var expected = true;
+  var got = _.contains( '  s \t\n t \t \n\nr \n i  \nng', 'stri', { strictStringSpacing : 0 } );
+  test.identical( got, expected );
+}
+
 // --
 //
 // --
@@ -11343,6 +11374,8 @@ const Proto =
     // containsObjectWithIteratorAndLongWithIterator, /* qqq : implement */
     containsObjectWithEqualerAndIterator,
     compareObjectWithIteratorAndEqual,
+
+    containsStrictStringSpacing,
 
     comparePrimitiveAndNon,
     compareNull,
