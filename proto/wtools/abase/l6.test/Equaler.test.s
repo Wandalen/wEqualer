@@ -10918,15 +10918,7 @@ function entityDiffExplanationLong( test )
 
   test.case = 'with ordinal in path';
 
-  var srcs =
-  [
-    [
-      { val : 1 }
-    ],
-    [
-      { val : 2 }
-    ],
-  ]
+  var srcs = [ [ { val : 1 } ], [ { val : 2 } ] ]
 
   var it = _.identical.head( _.identical, [ srcs[ 0 ], srcs[ 1 ] ] );
   var iterator = it.iterator;
