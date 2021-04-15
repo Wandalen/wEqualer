@@ -394,15 +394,19 @@ function iteratorInitEnd( iterator )
   }
 
   if( iterator.onStringsAreEqual === null )
+  if( iterator.containing === 'all' )
+  iterator.onStringsAreEqual = stringContains;
+  else
   iterator.onStringsAreEqual = stringsAreIdentical;
 
   if( iterator.onStringPreprocess === null )
   if( iterator.strictString )
   iterator.onStringPreprocess = stringsPreprocessNo;
-  else
+  // else
+  // iterator.onStringPreprocess = stringsPreprocessLose;
+  else if( iterator.strictStringSpacing )
   iterator.onStringPreprocess = stringsPreprocessLose;
-
-  if( !iterator.strictStringSpacing )
+  else
   iterator.onStringPreprocess = stringsPreprocessRemoveSpaces;
 
   return Parent.iteratorInitEnd.call( this, iterator );
@@ -416,6 +420,18 @@ function iteratorInitEnd( iterator )
     if( !_.strIs( b ) )
     return false;
     return a === b;
+  }
+
+  /* */
+
+  function stringContains( a, b )
+  {
+    if( !_.strIs( a ) )
+    return false;
+    if( !_.strIs( b ) )
+    return false;
+
+    return a === b || _.strHas( b, a ); /* b is the first argument */
   }
 
   /* */
@@ -436,7 +452,12 @@ function iteratorInitEnd( iterator )
 
   function stringsPreprocessRemoveSpaces( str )
   {
-    return str.split( '\n' ).map( ( el ) => el.trim() ).join( '' );
+    let result = str
+    .split( '\n' )
+    .map( ( el ) => el.trim() )
+    .join( '' );
+
+    return result;
   }
 
 }

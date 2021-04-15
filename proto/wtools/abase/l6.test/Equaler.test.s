@@ -5899,30 +5899,41 @@ function compareObjectWithIteratorAndEqual( test )
 
 function containsStrictStringSpacing( test )
 {
-  test.case = 'str is within';
-  var expected = true;
+  test.case = 'substr is within';
   var got = _.contains( 'string', 'str', { strictStringSpacing : 0 } );
-  test.identical( got, expected );
+  test.true( got );
 
-  test.case = 'str is within';
-  var expected = false;
+  test.case = 'substr is not within';
   var got = _.contains( 'string', 'abc', { strictStringSpacing : 0 } );
-  test.identical( got, expected );
+  test.false( got );
 
-  test.case = 'str is within with linebreak';
-  var expected = true;
+  test.case = 'substr is within with linebreak';
   var got = _.contains( 'st\nri\nng', 'stri', { strictStringSpacing : 0 } );
-  test.identical( got, expected );
+  test.true( got );
 
-  test.case = 'str is within with linebreak and whitespaces 1';
-  var expected = true;
+  test.case = 'substr is not within with linebreak';
+  var got = _.contains( 's t\nr i\nng', 'stri', { strictStringSpacing : 0 } );
+  test.false( got );
+
+  test.case = 'substr is within, with linebreak and whitespaces';
   var got = _.contains( 'st  \nri  \nng', 'stri', { strictStringSpacing : 0 } );
-  test.identical( got, expected );
+  test.true( got );
 
-  test.case = 'str is within with linebreak and whitespaces 2';
-  var expected = true;
+  test.case = 'substr is within, with linebreak and whitespaces from both sides';
+  var got = _.contains( '   st  \n   ri  \nng', 'stri', { strictStringSpacing : 0 } );
+  test.true( got );
+
+  test.case = 'substr is within, with linebreak and whitespaces from both sides 2';
   var got = _.contains( '  s \t\n t \t \n\nr \n i  \nng', 'stri', { strictStringSpacing : 0 } );
-  test.identical( got, expected );
+  test.true( got );
+
+  test.case = 'substr is within, with linebreak and whitespaces from both sides 2';
+  var got = _.contains( '  s abc \t\n t \t \n\nr \n i  \nng', 'stri', { strictStringSpacing : 0 } );
+  test.false( got );
+
+  test.case = 'initial example';
+  var got = _.contains( 'this is some\n   text\n', 'some text', { strictStringSpacing : 0 } );
+  test.false( got );
 }
 
 // --
