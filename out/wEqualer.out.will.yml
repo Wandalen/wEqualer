@@ -3,14 +3,14 @@ root:
   - wEqualer.out
 consistency:
   wEqualer.out.will.yml: &ref_0
-    hash: 71a0995d9f585231f8604c7005eacc7a
-    size: 38822
+    hash: d80d93a56d2196db6879dedffbc63212
+    size: 39180
   ../.ex.will.yml: &ref_1
     hash: 5a350403a4d139a420a57eaec7c3ce80
     size: 1900
   ../.im.will.yml: &ref_2
-    hash: c2c654e747112fb711ae0228ee060aec
-    size: 5174
+    hash: ab76c5dba686e39588f0e358ef4d442e
+    size: 5075
 module:
   wEqualer.out:
     about:
@@ -65,7 +65,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ../
+        path: ..
       repository:
         path: 'git+https:///github.com/Wandalen/wEqualer.git'
       origins:
@@ -146,6 +146,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - ../proto/wtools/abase/l6/Equaler.s
+          - ../proto/node_modules/wequaler
       exported.dir.proto.export:
         criterion:
           generated: 1
@@ -160,8 +164,10 @@ module:
         path:
           - ../proto
           - ../proto/Integration.test.ss
+          - ../proto/node_modules
+          - ../proto/node_modules/Tools
+          - ../proto/node_modules/wequaler
           - ../proto/wtools
-          - ../proto/wtools/Tools.s
           - ../proto/wtools/abase
           - ../proto/wtools/abase/l6
           - ../proto/wtools/abase/l6/Equaler.s
@@ -869,7 +875,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ./
+        path: .
       repository:
         path: 'git+https:///github.com/Wandalen/wEqualer.git'
       origins:
@@ -950,6 +956,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - proto/wtools/abase/l6/Equaler.s
+          - proto/node_modules/wequaler
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -1516,6 +1526,6 @@ module:
         hash: 5a350403a4d139a420a57eaec7c3ce80
         size: 1900
       ../.im.will.yml:
-        hash: c2c654e747112fb711ae0228ee060aec
-        size: 5174
+        hash: ab76c5dba686e39588f0e358ef4d442e
+        size: 5075
       wEqualer.out.will.yml: *ref_0
