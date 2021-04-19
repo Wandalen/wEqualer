@@ -4216,7 +4216,7 @@ function containsSimple( test ) /* qqq : extend the test routien by other contai
   var got = _.contains( '', 'abc' );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.contains( 'abc', '' );
   test.identical( got, expected );
 
@@ -5943,6 +5943,12 @@ function containsStrictStringSpacing( test )
   test.case = 'initial example';
   var got = _.contains( 'this is some\n   text\n', 'some text', { strictStringSpacing : 0 } );
   test.false( got );
+
+  /*  */
+
+  test.case = 'object with string fields, one with spaces, strictString: 0';
+  var got = _.contains( { a : 'a\nb\nc\nd' }, { a : '  a  \n  b  \n  c \n         d ' }, { strictString : 0 } );
+  test.false( got );
 }
 
 // --
@@ -6760,7 +6766,7 @@ function compareString( test )
   test.identical( _.entityEquivalent( src1, src2 ), false );
   test.identical( _.entityEquivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
-  test.identical( _.contains( src2, src1 ), false );
+  test.identical( _.contains( src2, src1 ), true );
   test.nil( src1, src2 );
   test.nil( src2, src1 );
   test.neq( src1, src2 );

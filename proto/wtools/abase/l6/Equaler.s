@@ -377,6 +377,8 @@ function iteratorInitEnd( iterator )
   iterator.strictCycling = iterator.strict;
   if( iterator.strictString === null )
   iterator.strictString = iterator.strict;
+  if( iterator.strictStringSpacing === null )
+  iterator.strictStringSpacing = iterator.strict;
   if( iterator.strictContainer === null )
   iterator.strictContainer = iterator.strict;
   if( iterator.withImplicit === null )
@@ -393,21 +395,42 @@ function iteratorInitEnd( iterator )
     return _.numbersAreEquivalent( a, b, ( acc === undefined || acc === null ) ? accuracy : acc );
   }
 
-  if( iterator.onStringsAreEqual === null )
-  if( iterator.containing === 'all' )
-  iterator.onStringsAreEqual = stringContains;
-  else
-  iterator.onStringsAreEqual = stringsAreIdentical;
+  if( _.primitiveIs( iterator.src ) && _.primitiveIs( iterator.src2 ) ) /* set up string comparison for strings */
+  {
+    if( iterator.onStringsAreEqual === null )
+    {
+      if( iterator.containing === 'all' )
+      iterator.onStringsAreEqual = stringContains;
+      else
+      iterator.onStringsAreEqual = stringsAreIdentical;
+    }
+    if( iterator.onStringPreprocess === null )
+    {
+      if( iterator.strictString )
+      iterator.onStringPreprocess = stringsPreprocessNo;
+      else if( iterator.strictStringSpacing )
+      iterator.onStringPreprocess = stringsPreprocessLose;
+      else
+      iterator.onStringPreprocess = stringsPreprocessRemoveSpaces;
+    }
+  }
+  else /* set up string comparison for aux fields */
+  {
+    if( iterator.onStringsAreEqual === null )
+    iterator.onStringsAreEqual = stringsAreIdentical;
+    if( iterator.onStringPreprocess === null )
+    iterator.onStringPreprocess = stringsPreprocessNo;
+  }
 
-  if( iterator.onStringPreprocess === null )
-  if( iterator.strictString )
-  iterator.onStringPreprocess = stringsPreprocessNo;
-  // else
+  /* original */
+
+  // if( iterator.onStringsAreEqual === null )
+  // iterator.onStringsAreEqual = stringsAreIdentical;
+
+  // if( iterator.onStringPreprocess === null )
+  // if( iterator.strictString )
+  // iterator.onStringPreprocess = stringsPreprocessNo;
   // iterator.onStringPreprocess = stringsPreprocessLose;
-  else if( iterator.strictStringSpacing )
-  iterator.onStringPreprocess = stringsPreprocessLose;
-  else
-  iterator.onStringPreprocess = stringsPreprocessRemoveSpaces;
 
   return Parent.iteratorInitEnd.call( this, iterator );
 
@@ -431,7 +454,7 @@ function iteratorInitEnd( iterator )
     if( !_.strIs( b ) )
     return false;
 
-    return a === b || _.strHas( b, a ); /* b is the first argument */
+    return a === b || _.strHas( b, a );
   }
 
   /* */
