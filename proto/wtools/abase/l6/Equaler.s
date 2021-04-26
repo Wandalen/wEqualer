@@ -50,7 +50,6 @@ _.assert( !!_.select );
 
 let Prime = Object.create( null );
 
-// Prime.src = undefined;
 Prime.src2 = undefined;
 Prime.containing = 0;
 Prime.strict = 1;
@@ -70,7 +69,7 @@ Prime.onStringPreprocess = null;
 Prime.iterableEval = null;
 
 // --
-// routines
+// implementation
 // --
 
 /**
@@ -139,7 +138,7 @@ function entityDiffExplanation( o )
   let result = '';
   let isDiffProto = false;
 
-  o = _.routineOptions( entityDiffExplanation, arguments );
+  o = _.routine.options_( entityDiffExplanation, arguments );
   _.assert( _.arrayIs( o.srcs ) );
   _.assert( o.srcs.length === 2 );
   _.assert( arguments.length === 1 );
@@ -187,14 +186,14 @@ function entityDiffExplanation( o )
   {
     let protoGot = Object.getPrototypeOf( o.srcs[ 0 ] );
     let protoExpected = Object.getPrototypeOf( o.srcs[ 1 ] );
-    let srcOwn0 = _.property.onlyOwn( o.srcs[ 0 ] );
-    let srcOwn1 = _.property.onlyOwn( o.srcs[ 1 ] );
+    let srcOwn0 = _.props.onlyOwn( o.srcs[ 0 ] );
+    let srcOwn1 = _.props.onlyOwn( o.srcs[ 1 ] );
 
     let common = _.filter_( null, srcOwn0, ( e, k ) => _.entityIdentical( e, srcOwn1[ k ] ) ? e : undefined );
     o.srcs[ 0 ] = _.mapBut_( null, srcOwn0, common );
     o.srcs[ 1 ] = _.mapBut_( null, srcOwn1, common );
 
-    if( _.mapIsEmpty( o.srcs[ 0 ] ) && _.mapIsEmpty( o.srcs[ 1 ] ) )
+    if( _.map.isEmpty( o.srcs[ 0 ] ) && _.map.isEmpty( o.srcs[ 1 ] ) )
     {
       if( !isEquivalentProto( protoGot, protoExpected ) )
       {
@@ -384,13 +383,13 @@ function iteratorInitEnd( iterator )
 
   if( iterator.onNumbersAreEqual === null )
   if( iterator.strictNumbering && iterator.strictTyping )
-  iterator.onNumbersAreEqual = _.numbersAreIdentical;
+  iterator.onNumbersAreEqual = _.number.identicalStrictly;
   else if( iterator.strictNumbering && !iterator.strictTyping )
-  iterator.onNumbersAreEqual = _.numbersAreIdenticalNotStrictly;
+  iterator.onNumbersAreEqual = _.number.identical;
   else
   iterator.onNumbersAreEqual = ( a, b, acc ) =>
   {
-    return _.numbersAreEquivalent( a, b, ( acc === undefined || acc === null ) ? accuracy : acc );
+    return _.number.equivalent( a, b, ( acc === undefined || acc === null ) ? accuracy : acc );
   }
 
   if( iterator.onStringsAreEqual === null )
@@ -472,7 +471,6 @@ function performEnd()
 function chooseBegin( e, k, exists )
 {
   let it = this;
-  // let exists;
 
   [ e, k, exists ] = Parent.chooseBegin.apply( it, arguments );
 
@@ -480,7 +478,7 @@ function chooseBegin( e, k, exists )
   _.assert( it.level >= 0 );
   _.assert( _.objectIs( it.down ) );
 
-  [ it.src2, k, exists ] = _.container.elementGet( it.src2, k );
+  [ it.src2, k, exists ] = _.container.elementWithImplicit( it.src2, k ); /* xxx : use maybe functor */
   it.originalSrc2 = it.src2;
 
   return [ e, k, exists ];
@@ -494,7 +492,6 @@ function chooseRoot()
 
   _.assert( arguments.length === 0 );
 
-  // it.src = e;
   it.originalSrc = it.src;
   it.originalSrc2 = it.src2;
 
@@ -594,6 +591,12 @@ function _iterableEval()
     it.type2 = it.ContainerNameToIdMap.object;
     it.iterable = it.ContainerNameToIdMap.object;
   }
+  else if( _.setLike( it.src2 ) )
+  {
+    it.type2 = it.ContainerNameToIdMap.set;
+    if( it.iterable === it.ContainerNameToIdMap.countable ) /* yyy */
+    it.iterable = it.ContainerNameToIdMap.set;
+  }
   else if( it.isCountable( it.src2 ) )
   {
     it.type2 = it.ContainerNameToIdMap.countable;
@@ -601,10 +604,6 @@ function _iterableEval()
   else if( _.hashMapLike( it.src2 ) )
   {
     it.type2 = it.ContainerNameToIdMap.hashMap;
-  }
-  else if( _.setLike( it.src2 ) )
-  {
-    it.type2 = it.ContainerNameToIdMap.set;
   }
   else if( _.aux.is( it.src2 ) )
   {
@@ -1016,7 +1015,7 @@ function reperform()
   Object.assign( iterator2.iterationPrototype, iterator2.Looker.Iteration );
   Object.preventExtensions( iterator2.iterationPrototype );
 
-  _.mapExtend( iterator2, o );
+  _.props.extend( iterator2, o );
   let it2 = iterator2.iteratorIterationMake();
   _.assert( it2.iterator === iterator2 );
   it2.src = o.src;
@@ -1061,8 +1060,25 @@ function equalSets()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  if( !_.setLike( it.src2 ) )
-  return it.stop( false );
+  if( it.strictTyping )
+  {
+    if( it.type1 !== it.ContainerNameToIdMap.set || it.type2 !== it.ContainerNameToIdMap.set )
+    return it.stop( false );
+  }
+  else
+  {
+
+    if( it.type1 !== it.ContainerNameToIdMap.set )
+    it.src = new Set([ ... it.src ]);
+
+    if( it.type2 !== it.ContainerNameToIdMap.set )
+    it.src2 = new Set([ ... it.src2 ]);
+
+  }
+
+  // debugger;
+  // if( !_.setLike( it.src2 ) )
+  // return it.stop( false );
 
   if( it.containing )
   {
@@ -1293,7 +1309,7 @@ function equalAuxiliary()
     {
       if( it.type1 !== it.ContainerNameToIdMap.object || _.routineIs( it.src[ equalAreSymbol ] ) || 'length' in it.src )
       if( it.type2 !== it.ContainerNameToIdMap.object || _.routineIs( it.src2[ equalAreSymbol ] ) || 'length' in it.src2 )
-      if( _.lengthOf( it.src ) > _.lengthOf( it.src2 ) )
+      if( _.entity.lengthOf( it.src ) > _.entity.lengthOf( it.src2 ) )
       return it.stop( false );
     }
 
@@ -1309,16 +1325,16 @@ function equalAuxiliary()
       */
       if( _.mapIs( it.src ) ^ _.mapIs( it.src2 ) )
       return it.stop( false );
-      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
+      if( _.props.keys( it.src ).length !== _.props.keys( it.src2 ).length )
       return it.stop( false );
-      if( _.mapOnlyOwnKeys( it.src ).length !== _.mapOnlyOwnKeys( it.src2 ).length )
+      if( _.props.onlyOwnKeys( it.src ).length !== _.props.onlyOwnKeys( it.src2 ).length )
       return it.stop( false );
     }
     else
     {
       if( !it.type1 || !it.type2 )
       return it.stop( false );
-      if( _.mapKeys( it.src ).length !== _.mapKeys( it.src2 ).length )
+      if( _.props.keys( it.src ).length !== _.props.keys( it.src2 ).length )
       return it.stop( false );
     }
 
@@ -1629,9 +1645,9 @@ const Equaler = _.looker.classDefine
   iterationPreserve : IterationPreserve,
 });
 
-_.assert( !_.property.has( Equaler.Iteration, 'src2' ) && Equaler.Iteration.src2 === undefined );
-_.assert( _.property.has( Equaler.IterationPreserve, 'src2' ) && Equaler.IterationPreserve.src2 === undefined );
-_.assert( _.property.has( Equaler, 'src2' ) && Equaler.src2 === undefined );
+_.assert( !_.props.has( Equaler.Iteration, 'src2' ) && Equaler.Iteration.src2 === undefined );
+_.assert( _.props.has( Equaler.IterationPreserve, 'src2' ) && Equaler.IterationPreserve.src2 === undefined );
+_.assert( _.props.has( Equaler, 'src2' ) && Equaler.src2 === undefined );
 
 // --
 //
@@ -2053,12 +2069,13 @@ let ToolsExtension =
 }
 
 const Self = Equaler;
-_.mapExtend( _.equaler, EqualerExtension );
-_.mapExtend( _.entity, EntityExtension );
-_.mapExtend( _, ToolsExtension );
+_.props.extend( _.equaler, EqualerExtension );
+_.props.extend( _.entity, EntityExtension );
+_.props.extend( _, ToolsExtension );
 
-/* xxx0 :
+/* xxx
 class looker should not have properties
+add asserts into declare
   - dst and related
   - result and related
   - onUp2, onDown2

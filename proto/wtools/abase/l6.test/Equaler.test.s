@@ -235,7 +235,7 @@ function entityIdenticalLoose( test )
   test.identical( got, true );
 
   test.case = 'mismatch types : no strict';
-  var got = _.entityIdentical( strX1, strX1, _.mapExtend( null, options ) );
+  var got = _.entityIdentical( strX1, strX1, _.props.extend( null, options ) );
   test.identical( got, true );
 
   test.case = 'entities is two non empty same strings';
@@ -245,7 +245,7 @@ function entityIdenticalLoose( test )
   test.case = 'string and object';
   var strX3 = '0';
   var strY3 = new String( '0' );
-  var got = _.entityIdentical( strX3, strY3, _.mapExtend( null, options ) );
+  var got = _.entityIdentical( strX3, strY3, _.props.extend( null, options ) );
   test.identical( got, false );
 
   /* array tests */
@@ -312,15 +312,15 @@ function entityEquivalentLoose( test )
   /* numbers test */
 
   test.case = 'identical numbers';
-  var got = _.entityEquivalent( x1, y1, _.mapExtend( null, options ) );
+  var got = _.entityEquivalent( x1, y1, _.props.extend( null, options ) );
   test.identical( got, true );
 
   test.case = ' practically equivalent numbers';
-  var got = _.entityEquivalent( x2, y2, _.mapExtend( null, options ) );
+  var got = _.entityEquivalent( x2, y2, _.props.extend( null, options ) );
   test.identical( got, true );
 
   test.case = ' not equivalent numbers';
-  var got = _.entityEquivalent( x3, y3, _.mapExtend( null, options ) );
+  var got = _.entityEquivalent( x3, y3, _.props.extend( null, options ) );
   test.identical( got, false );
 
   if( !Config.debug )
@@ -1537,26 +1537,26 @@ function entityIdenticalWithCopyable( test )
 function entityIdenticalArgumentsArray( test )
 {
   test.case = 'src1 - empty arguments array, src2 - arguments array';
-  var src1 = _.argumentsArrayMake( [] );
-  var src2 = _.argumentsArrayMake( [] );
+  var src1 = _.argumentsArray.make( [] );
+  var src2 = _.argumentsArray.make( [] );
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, true );
 
   test.case = 'src1 - empty array, src2 - arguments array';
   var src1 = [];
-  var src2 = _.argumentsArrayMake( [] );
+  var src2 = _.argumentsArray.make( [] );
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, false );
 
   test.case = 'src1 - arguments array, src2 - arguments array';
-  var src1 = _.argumentsArrayMake( [ 1, 2, 3 ] );
-  var src2 = _.argumentsArrayMake( [ 1, 2, 3 ] );
+  var src1 = _.argumentsArray.make( [ 1, 2, 3 ] );
+  var src2 = _.argumentsArray.make( [ 1, 2, 3 ] );
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, true );
 
   test.case = 'src1 - array, src2 - arguments array';
   var src1 = [ 1, 2, 3 ];
-  var src2 = _.argumentsArrayMake( [ 1, 2, 3 ] );
+  var src2 = _.argumentsArray.make( [ 1, 2, 3 ] );
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, false );
 }
@@ -1566,26 +1566,26 @@ function entityIdenticalArgumentsArray( test )
 function entityEquivalentArgumentsArray( test )
 {
   test.case = 'src1 - empty arguments array, src2 - arguments array';
-  var src1 = _.argumentsArrayMake( [] );
-  var src2 = _.argumentsArrayMake( [] );
+  var src1 = _.argumentsArray.make( [] );
+  var src2 = _.argumentsArray.make( [] );
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, true );
 
   test.case = 'src1 - empty array, src2 - arguments array';
   var src1 = [];
-  var src2 = _.argumentsArrayMake( [] );
+  var src2 = _.argumentsArray.make( [] );
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, true );
 
   test.case = 'src1 - arguments array, src2 - arguments array';
-  var src1 = _.argumentsArrayMake( [ 1, 2, 3 ] );
-  var src2 = _.argumentsArrayMake( [ 1, 2, 3 ] );
+  var src1 = _.argumentsArray.make( [ 1, 2, 3 ] );
+  var src2 = _.argumentsArray.make( [ 1, 2, 3 ] );
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, true );
 
   test.case = 'src1 - array, src2 - arguments array';
   var src1 = [ 1, 2, 3 ];
-  var src2 = _.argumentsArrayMake( [ 1, 2, 3 ] );
+  var src2 = _.argumentsArray.make( [ 1, 2, 3 ] );
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, true );
 }
@@ -1620,7 +1620,7 @@ function entityIdenticalProto( test )
 
   test.case = 'pure map and proto';
   var expected = false;
-  var src1 = _.mapExtend( null, { a : 1 } );
+  var src1 = _.props.extend( null, { a : 1 } );
   var src2 = { a : 1 };
   src2 = Object.setPrototypeOf( {}, src2 );
   var got = _.entityIdentical( src1, src2 );
@@ -1629,7 +1629,7 @@ function entityIdenticalProto( test )
   test.case = 'proto and pure map';
   var expected = false;
   var src1 = { a : 1 };
-  var src2 = _.mapExtend( null, { a : 1 } );
+  var src2 = _.props.extend( null, { a : 1 } );
   src1 = Object.setPrototypeOf( {}, src1 );
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
@@ -1637,14 +1637,14 @@ function entityIdenticalProto( test )
   test.case = 'map and pure proto';
   var expected = false;
   var src1 = { a : 1 };
-  var src2 = _.mapExtend( null, { a : 1 } );
+  var src2 = _.props.extend( null, { a : 1 } );
   src2 = Object.setPrototypeOf( {}, src2 );
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'pure proto and map';
   var expected = false;
-  var src1 = _.mapExtend( null, { a : 1 } );
+  var src1 = _.props.extend( null, { a : 1 } );
   var src2 = { a : 1 };
   src1 = Object.setPrototypeOf( {}, src1 );
   var got = _.entityIdentical( src1, src2 );
@@ -1700,7 +1700,7 @@ function entityEquivalentProto( test )
 
   test.case = 'pure map and proto';
   var expected = true;
-  var src1 = _.mapExtend( null, { a : 1 } );
+  var src1 = _.props.extend( null, { a : 1 } );
   var src2 = { a : 1 };
   src2 = Object.setPrototypeOf( {}, src2 );
   test.true( !_.entityIdentical( src1, src2 ) );
@@ -1715,7 +1715,7 @@ function entityEquivalentProto( test )
   test.case = 'proto and pure map';
   var expected = true;
   var src1 = { a : 1 };
-  var src2 = _.mapExtend( null, { a : 1 } );
+  var src2 = _.props.extend( null, { a : 1 } );
   src1 = Object.setPrototypeOf( {}, src1 );
   test.true( !_.entityIdentical( src1, src2 ) );
   test.true( !_.entityIdentical( src2, src1 ) );
@@ -1729,7 +1729,7 @@ function entityEquivalentProto( test )
   test.case = 'map and pure proto';
   var expected = true;
   var src1 = { a : 1 };
-  var src2 = _.mapExtend( null, { a : 1 } );
+  var src2 = _.props.extend( null, { a : 1 } );
   src2 = Object.setPrototypeOf( {}, src2 );
   test.true( !_.entityIdentical( src1, src2 ) );
   test.true( !_.entityIdentical( src2, src1 ) );
@@ -1742,7 +1742,7 @@ function entityEquivalentProto( test )
 
   test.case = 'pure proto and map';
   var expected = true;
-  var src1 = _.mapExtend( null, { a : 1 } );
+  var src1 = _.props.extend( null, { a : 1 } );
   var src2 = { a : 1 };
   src1 = Object.setPrototypeOf( {}, src1 );
   test.true( !_.entityIdentical( src1, src2 ) );
@@ -2560,8 +2560,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'unroll';
-  var src1 = _.unrollMake([ 2, 3, 4 ]);
-  var src2 = _.unrollMake([ 2, 3, 4 ]);
+  var src1 = _.unroll.make([ 2, 3, 4 ]);
+  var src2 = _.unroll.make([ 2, 3, 4 ]);
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
@@ -2572,8 +2572,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'long & longLike';
-  var src1 = _.longMake([ 1, 2 ]);
-  var src2 = _.longMake([ 1, 2 ]);
+  var src1 = _.long.make([ 1, 2 ]);
+  var src2 = _.long.make([ 1, 2 ]);
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
@@ -2734,14 +2734,14 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'propertyTransformer & filter';
-  var src1 = _.property.filter[ 'dstAndSrcOwn' ];
-  var src2 = _.property.filter[ 'dstAndSrcOwn' ];
+  var src1 = _.props.filter[ 'dstAndSrcOwn' ];
+  var src2 = _.props.filter[ 'dstAndSrcOwn' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'propertyTransformer & mapper';
-  var src1 = _.property.mapper[ 'assigning' ];
-  var src2 = _.property.mapper[ 'assigning' ];
+  var src1 = _.props.mapper[ 'assigning' ];
+  var src2 = _.props.mapper[ 'assigning' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
@@ -2885,8 +2885,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = 'unroll';
-  var src1 = _.unrollMake([ 2, 3, 4, 5 ]);
-  var src2 = _.unrollMake([ 2, 3, 4 ]);
+  var src1 = _.unroll.make([ 2, 3, 4, 5 ]);
+  var src2 = _.unroll.make([ 2, 3, 4 ]);
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
@@ -3033,14 +3033,14 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = 'propertyTransformer & filter';
-  var src1 = _.property.filter[ 'dstAndSrcOwn' ];
-  var src2 = _.property.filter[ 'dstNotHasOrSrcNotNull' ];
+  var src1 = _.props.filter[ 'dstAndSrcOwn' ];
+  var src2 = _.props.filter[ 'dstNotHasOrSrcNotNull' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = 'propertyTransformer & mapper';
-  var src1 = _.property.mapper[ 'assigning' ];
-  var src2 = _.property.mapper[ 'removing' ];
+  var src1 = _.props.mapper[ 'assigning' ];
+  var src2 = _.props.mapper[ 'removing' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
@@ -3101,8 +3101,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'long & longLike';
-  var src1 = _.longMake([ 1, 2, [ 5 ] ]);
-  var src2 = _.longMake([ 1, 2, [ 5 ] ]);
+  var src1 = _.long.make([ 1, 2, [ 5 ] ]);
+  var src2 = _.long.make([ 1, 2, [ 5 ] ]);
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
@@ -3175,7 +3175,7 @@ function entityIdenticalComparison( test )
   {
     if( dst === null )
     dst = Object.create( null );
-    _.mapExtend( dst, o );
+    _.props.extend( dst, o );
     if( o.withIterator )
     dst[ Symbol.iterator ] = _iterate;
     return dst;
@@ -3258,8 +3258,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'unroll';
-  var src1 = _.unrollMake([ 2, 3, 4 ]);
-  var src2 = _.unrollMake([ 2, 3, 4 ]);
+  var src1 = _.unroll.make([ 2, 3, 4 ]);
+  var src2 = _.unroll.make([ 2, 3, 4 ]);
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
@@ -3270,8 +3270,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'long & longLike';
-  var src1 = _.longMake([ 1, 2 ]);
-  var src2 = _.longMake([ 1, 2 ]);
+  var src1 = _.long.make([ 1, 2 ]);
+  var src2 = _.long.make([ 1, 2 ]);
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
@@ -3432,14 +3432,14 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'propertyTransformer & filter';
-  var src1 = _.property.filter[ 'dstAndSrcOwn' ];
-  var src2 = _.property.filter[ 'dstAndSrcOwn' ];
+  var src1 = _.props.filter[ 'dstAndSrcOwn' ];
+  var src2 = _.props.filter[ 'dstAndSrcOwn' ];
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'propertyTransformer & mapper';
-  var src1 = _.property.mapper[ 'assigning' ];
-  var src2 = _.property.mapper[ 'assigning' ];
+  var src1 = _.props.mapper[ 'assigning' ];
+  var src2 = _.props.mapper[ 'assigning' ];
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
@@ -3570,8 +3570,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'unroll';
-  var src1 = _.unrollMake([ 2, 3, 4, 5 ]);
-  var src2 = _.unrollMake([ 2, 3, 4 ]);
+  var src1 = _.unroll.make([ 2, 3, 4, 5 ]);
+  var src2 = _.unroll.make([ 2, 3, 4 ]);
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
@@ -3712,14 +3712,14 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'propertyTransformer & filter';
-  var src1 = _.property.filter[ 'dstAndSrcOwn' ];
-  var src2 = _.property.filter[ 'dstNotHasOrSrcNotNull' ];
+  var src1 = _.props.filter[ 'dstAndSrcOwn' ];
+  var src2 = _.props.filter[ 'dstNotHasOrSrcNotNull' ];
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'propertyTransformer & mapper';
-  var src1 = _.property.mapper[ 'assigning' ];
-  var src2 = _.property.mapper[ 'removing' ];
+  var src1 = _.props.mapper[ 'assigning' ];
+  var src2 = _.props.mapper[ 'removing' ];
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
@@ -3780,8 +3780,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'long & longLike';
-  var src1 = _.longMake([ 1, 2, [ 5 ] ]);
-  var src2 = _.longMake([ 1, 2, [ 5 ] ]);
+  var src1 = _.long.make([ 1, 2, [ 5 ] ]);
+  var src2 = _.long.make([ 1, 2, [ 5 ] ]);
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
@@ -3854,7 +3854,7 @@ function entityEquivalentComparison( test )
   {
     if( dst === null )
     dst = Object.create( null );
-    _.mapExtend( dst, o );
+    _.props.extend( dst, o );
     if( o.withIterator )
     dst[ Symbol.iterator ] = _iterate;
     return dst;
@@ -3965,7 +3965,7 @@ function entityEquivalentNotIdenticalComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'set and array';
-  var src1 = new Set([ 1, 2, 3 ]);
+  var src1 = new Set([ 3, 2, 1 ]);
   var src2 = [ 1, 2, 3 ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
@@ -3979,6 +3979,7 @@ function entityEquivalentNotIdenticalComparison( test )
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
+  /* qqq : for Yevhen : bad */
 
   test.case = 'vectorLike and array';
   var src1 = new countableConstructor({ elements : [ '1', '10' ], withIterator : 1, length : 2 });
@@ -4065,7 +4066,7 @@ function entityEquivalentNotIdenticalComparison( test )
   {
     if( dst === null )
     dst = Object.create( null );
-    _.mapExtend( dst, o );
+    _.props.extend( dst, o );
     if( o.withIterator )
     dst[ Symbol.iterator ] = _iterate;
     return dst;
@@ -5415,7 +5416,7 @@ function containsObject( test )
 
   function Obj1( o )
   {
-    _.mapExtend( this, o );
+    _.props.extend( this, o );
     return this;
   }
 
@@ -5532,7 +5533,7 @@ function containsObjectWithIteratorAndMap( test )
 
   function Obj1( o )
   {
-    _.mapExtend( this, o );
+    _.props.extend( this, o );
     this[ Symbol.iterator ] = _iterate;
     return this;
   }
@@ -5684,7 +5685,7 @@ function containsObjectWithEqualerAndIterator( test )
 
   function _equalAre( it )
   {
-    if( _.longIdentical( it.src.elements2, it.src2.elements2 ) )
+    if( _.long.identical( it.src.elements2, it.src2.elements2 ) )
     {
       it.continue = false;
       it.result = true;
@@ -5700,7 +5701,7 @@ function containsObjectWithEqualerAndIterator( test )
 
   function Obj1( o )
   {
-    _.mapExtend( this, o );
+    _.props.extend( this, o );
     if( o.withIterator )
     this[ Symbol.iterator ] = _iterate;
     if( o.withEqualer )
@@ -6947,7 +6948,7 @@ function compareSameInstance( test )
 
   /* */
 
-  test.case = 'hashmap';
+  test.case = 'hashMap';
   var src1 = new HashMap();
   var src2 = src1;
   test.identical( _.entityIdentical( src1, src2 ), true );
@@ -7039,7 +7040,7 @@ function compareSameInstance( test )
 
   function Obj1( o )
   {
-    _.mapExtend( this, o );
+    _.props.extend( this, o );
     return this;
   }
 
@@ -8202,7 +8203,7 @@ function compareMapPrototypedComplementing( test )
   src1.a = 'abc';
   src1.b = undefined;
   var screenMap = { a : 13, b : 77, c : 3, d : 'name' };
-  var got = _.mapOnlyComplementing_( src1, screenMap );
+  var got = _.mapOnlyComplementing_( src1, src1, screenMap );
   var src2 = Object.create( { d : 'name', c : 33 } );
   src2.a = 'abc';
   src2.b = undefined;
@@ -8219,7 +8220,7 @@ function compareMapPrototypedComplementing( test )
   test.equivalent( src2, src1 );
 
   test.true( got === src1 );
-  test.identical( _.property.onlyExplicit( src1, { onlyEnumerable : 1 } ), { a : 'abc', b : undefined, c : 33, d : 'name' } );
+  test.identical( _.props.onlyExplicit( src1, { onlyEnumerable : 1 } ), { a : 'abc', b : undefined, c : 33, d : 'name' } );
   test.identical( screenMap, { a : 13, b : 77, c : 3, d : 'name' } );
 
   /* */
@@ -8884,6 +8885,141 @@ function containsAuxiliaries( test )
   test.containsAny( src2, src1 );
   test.notContainsOnly( src1, src2 );
   test.notContainsOnly( src2, src1 );
+
+}
+
+//
+
+function compareSet( test )
+{
+
+  /* */
+
+  test.case = 'identical flat sets';
+  var src1 = new Set([ 3, 2, 1 ]);
+  var src2 = new Set([ 1, 2, 3 ]);
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+
+  /* */
+
+  test.case = 'not identical flat sets. same length';
+  var src1 = new Set([ 3, 2, 1 ]);
+  var src2 = new Set([ 1, 2, 4 ]);
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
+  test.case = 'not identical flat sets. diff length';
+  var src1 = new Set([ 3, 2, 1 ]);
+  var src2 = new Set([ 1, 2 ]);
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
+  test.case = 'identical deep sets';
+  var src1 = new Set([ 3, [ 2 ], [ 1 ] ]);
+  var src2 = new Set([ [ 1 ], [ 2 ], 3 ]);
+  test.true( _.identical( src1, src2 ) );
+  test.true( _.identical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.il( src1, src2 );
+  test.il( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+
+  /* */
+
+  test.case = 'not identical deep sets';
+  var src1 = new Set([ 3, [ 2, 1 ], [ 1 ] ]);
+  var src2 = new Set([ [ 1 ], [ 2 ], 3 ]);
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
+  test.case = 'equivalent flat set and array';
+  var src1 = new Set([ 3, 2, 1 ]);
+  var src2 = [ 1, 3, 2 ];
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.eq( src1, src2 );
+  test.eq( src2, src1 );
+
+  /* */
+
+  test.case = 'not identical flat set and array. same length';
+  var src1 = new Set([ 3, 2, 1 ]);
+  var src2 = [ 1, 2, 4 ];
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
+  test.case = 'not identical flat set and array. diff length';
+  var src1 = new Set([ 3, 2, 1 ]);
+  var src2 = [ 1, 2 ];
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
+
+  test.case = 'not identical flat set and array. diff length';
+  var src1 = new Set([ 3, 2, 1 ]);
+  var src2 = [ 1, 2, 3, 4 ];
+  test.true( _.notIdentical( src1, src2 ) );
+  test.true( _.notIdentical( src2, src1 ) );
+  test.true( _.notEquivalent( src1, src2 ) );
+  test.true( _.notEquivalent( src2, src1 ) );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
+
+  /* */
 
 }
 
@@ -10744,7 +10880,7 @@ function entityDiffExplanationMap( test )
 
   /* */
 
-  test.case = 'got : _.property.onlyExplicit({}), expected : {}, without path';
+  test.case = 'got : _.props.onlyExplicit({}), expected : {}, without path';
 
   var expected =
 `- got :
@@ -10770,7 +10906,7 @@ function entityDiffExplanationMap( test )
 
   var srcs =
   [
-    _.property.onlyExplicit({}),
+    _.props.onlyExplicit({}),
     {},
   ]
 
@@ -10785,7 +10921,7 @@ function entityDiffExplanationMap( test )
 
   /* */
 
-  test.case = 'got : {}, expected : _.property.onlyExplicit({}), without path';
+  test.case = 'got : {}, expected : _.props.onlyExplicit({}), without path';
 
   var expected =
 `- got :
@@ -10812,7 +10948,7 @@ function entityDiffExplanationMap( test )
   var srcs =
   [
     {},
-    _.property.onlyExplicit({})
+    _.props.onlyExplicit({})
   ]
 
   var got = _.entityDiffExplanation
@@ -10825,37 +10961,38 @@ function entityDiffExplanationMap( test )
 
   /* */
 
-// xxx : uncomment after fix of _.mapBut_
-//   test.case = 'with empty key in path';
-//
-//   var srcs =
-//   [
-//     { a : 1, '' : 1 },
-//     { a : 1, '' : 2 },
-//   ]
-//
-//   var it = _.identical.head( _.identical, [ srcs[ 0 ], srcs[ 1 ] ] );
-//   var iterator = it.iterator;
-//
-//   it.perform();
-//   test.identical( iterator.lastIt.path, '/""' );
-//
-//   var expected =
-// `
-// at /""
-// - got :
-// 1
-// - expected :
-// 2
-// `
-//   var got = _.entityDiffExplanation
-//   ({
-//     name1 : '- got',
-//     name2 : '- expected',
-//     srcs,
-//     path : iterator.lastIt.path,
-//   });
-//   test.equivalent( got, expected );
+  test.case = 'with empty key in path';
+
+  var srcs =
+  [
+    { a : 1, '' : 1 },
+    { a : 1, '' : 2 },
+  ]
+
+  var it = _.identical.head( _.identical, [ srcs[ 0 ], srcs[ 1 ] ] );
+  var iterator = it.iterator;
+
+  it.perform();
+  test.identical( iterator.lastIt.path, '/""' );
+
+  var expected =
+`
+at /""
+- got :
+{ '' : 1 }
+- expected :
+{ '' : 2 }
+- difference :
+{ '' : *
+`
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs,
+    path : iterator.lastIt.path,
+  });
+  test.equivalent( got, expected );
 
   /* - */
 
@@ -11365,6 +11502,7 @@ const Proto =
     compareMapPrototypedComplementing,
     compareAuxiliaries, /* qqq : normalize other tests, using test compareAuxiliaries as example */
     containsAuxiliaries,
+    compareSet,
     // compareContainerType, /* yyy */
 
     entityIdenticalCycled,
