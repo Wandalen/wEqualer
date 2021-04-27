@@ -10965,8 +10965,8 @@ function entityDiffExplanationMap( test )
 
   var srcs =
   [
-    { a : 1, '' : 1 },
-    { a : 1, '' : 2 },
+    { 'a' : 1, '' : 1 },
+    { 'a' : 1, '' : 2 },
   ]
 
   var it = _.identical.head( _.identical, [ srcs[ 0 ], srcs[ 1 ] ] );
@@ -11015,12 +11015,8 @@ function entityDiffExplanationLong( test )
 
   var srcs =
   [
-    [
-      { val : 1 }
-    ],
-    [
-      { val : 2 }
-    ],
+    [ { val : 1 } ],
+    [ { val : 2 } ],
   ]
 
   var it = _.identical.head( _.identical, [ srcs[ 0 ], srcs[ 1 ] ] );

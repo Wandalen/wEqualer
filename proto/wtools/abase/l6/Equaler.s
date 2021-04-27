@@ -383,14 +383,24 @@ function iteratorInitEnd( iterator )
 
   if( iterator.onNumbersAreEqual === null )
   if( iterator.strictNumbering && iterator.strictTyping )
-  iterator.onNumbersAreEqual = _.number.identicalStrictly;
+  iterator.onNumbersAreEqual = _.number.identicalShallowStrictly.bind( _.number ); /* Dmytro : callbacks should be binded to namespace, bind should bind original routine, not alias */
   else if( iterator.strictNumbering && !iterator.strictTyping )
-  iterator.onNumbersAreEqual = _.number.identical;
+  iterator.onNumbersAreEqual = _.number.identicalShallow.bind( _.number );
   else
   iterator.onNumbersAreEqual = ( a, b, acc ) =>
   {
     return _.number.equivalent( a, b, ( acc === undefined || acc === null ) ? accuracy : acc );
   }
+  // if( iterator.onNumbersAreEqual === null )
+  // if( iterator.strictNumbering && iterator.strictTyping )
+  // iterator.onNumbersAreEqual = _.number.identicalStrictly;
+  // else if( iterator.strictNumbering && !iterator.strictTyping )
+  // iterator.onNumbersAreEqual = _.number.identical;
+  // else
+  // iterator.onNumbersAreEqual = ( a, b, acc ) =>
+  // {
+  //   return _.number.equivalent( a, b, ( acc === undefined || acc === null ) ? accuracy : acc );
+  // }
 
   if( iterator.onStringsAreEqual === null )
   iterator.onStringsAreEqual = stringsAreIdentical;
