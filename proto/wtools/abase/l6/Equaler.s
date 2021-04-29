@@ -486,7 +486,7 @@ function chooseBegin( e, k, exists )
 
   _.assert( arguments.length === 3 );
   _.assert( it.level >= 0 );
-  _.assert( _.objectIs( it.down ) );
+  _.assert( _.object.isBasic( it.down ) );
 
   [ it.src2, k, exists ] = _.container.elementWithImplicit( it.src2, k ); /* xxx : use maybe functor */
   it.originalSrc2 = it.src2;
@@ -972,7 +972,7 @@ function equalCycle()
 //
 //   let it2 = it.iterationMake();
 //   let args = _.longSlice( arguments );
-//   if( args.length === 1 && !_.objectIs( args[ 0 ] ) )
+//   if( args.length === 1 && !_.object.isBasic( args[ 0 ] ) )
 //   args = [ it.src, args[ 0 ] ];
 //   let o = Self.optionsFromArguments( args );
 //   o.Looker = o.Looker || it.Looker || Self;
