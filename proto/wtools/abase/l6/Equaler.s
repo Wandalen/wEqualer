@@ -458,12 +458,7 @@ function iteratorInitEnd( iterator )
 
   function stringContains( a, b )
   {
-    if( !_.strIs( a ) )
-    return false;
-    if( !_.strIs( b ) )
-    return false;
-
-    return a === b || _.strHas( b, a );
+    return _.strHas( b, a );
   }
 
   /* */
