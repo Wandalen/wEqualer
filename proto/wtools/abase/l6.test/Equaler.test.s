@@ -2578,8 +2578,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = `object countable - non empty, non-vector, not same array`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
@@ -2596,8 +2596,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = `object countable - non empty, non-vector`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
@@ -2891,8 +2891,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = `object countable - non empty, non-vector, not same array`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '4' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '4' ], withIterator : 1 } );
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
@@ -2909,8 +2909,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = `object countable - non empty, non-vector`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '4' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '4' ], withIterator : 1 } );
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
@@ -3276,8 +3276,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = `object countable - non empty, non-vector, not same array`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
@@ -3294,8 +3294,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = `object countable - non empty, non-vector`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
@@ -3576,8 +3576,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = `object countable - non empty, non-vector, not same array`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '4' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '4' ], withIterator : 1 } );
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
@@ -3594,8 +3594,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = `object countable - non empty, non-vector`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '2', '4' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
+  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '4' ], withIterator : 1 } );
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
@@ -3998,7 +3998,7 @@ function entityEquivalentNotIdenticalComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'countable made and array';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ elements : [ '1', '10' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '10' ], withIterator : 1 } );
   var src2 = [ '1', '10' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );

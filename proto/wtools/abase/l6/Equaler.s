@@ -223,7 +223,7 @@ function entityDiffExplanation( o )
   o.srcs[ 0 ] = '  ' + _.strLinesIndentation( o.srcs[ 0 ], '  ' );
   o.srcs[ 1 ] = '  ' + _.strLinesIndentation( o.srcs[ 1 ], '  ' );
 
-  result += _.entity.exportStringSimple( o.name1 + ' :\n' + o.srcs[ 0 ] + '\n' + o.name2 + ' :\n' + o.srcs[ 1 ] );
+  result += _.entity.exportStringDiagnosticShallow/*exportStringSimple*/( o.name1 + ' :\n' + o.srcs[ 0 ] + '\n' + o.name2 + ' :\n' + o.srcs[ 1 ] );
 
   /* */
 
