@@ -223,7 +223,7 @@ function entityDiffExplanation( o )
   o.srcs[ 0 ] = '  ' + _.strLinesIndentation( o.srcs[ 0 ], '  ' );
   o.srcs[ 1 ] = '  ' + _.strLinesIndentation( o.srcs[ 1 ], '  ' );
 
-  result += _.entity.exportStringSimple( o.name1 + ' :\n' + o.srcs[ 0 ] + '\n' + o.name2 + ' :\n' + o.srcs[ 1 ] );
+  result += _.entity.exportStringDiagnosticShallow/*exportStringSimple*/( o.name1 + ' :\n' + o.srcs[ 0 ] + '\n' + o.name2 + ' :\n' + o.srcs[ 1 ] );
 
   /* */
 
@@ -540,7 +540,7 @@ function chooseBegin( e, k, exists )
 
   _.assert( arguments.length === 3 );
   _.assert( it.level >= 0 );
-  _.assert( _.objectIs( it.down ) );
+  _.assert( _.object.isBasic( it.down ) );
 
   [ it.src2, k, exists ] = _.container.elementWithImplicit( it.src2, k ); /* xxx : use maybe functor */
   it.originalSrc2 = it.src2;
@@ -724,7 +724,7 @@ function visitPop()
     (
       Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.originalSrc2 ),
       () => `Top-most visit ${it.path} does not match`
-      + `${_.entity.exportStringShallow( it.originalSrc2 )} <> ${_.entity.exportStringShallow
+      + `${_.entity.exportStringDiagnosticShallow( it.originalSrc2 )} <> ${_.entity.exportStringDiagnosticShallow
       (
         it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ]
       )}`
@@ -1021,12 +1021,12 @@ function equalCycle()
 //   _.assert
 //   (
 //     it.iterationProper( it ),
-//     () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShallow( it )}`
+//     () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringDiagnosticShallow( it )}`
 //   );
 //
 //   let it2 = it.iterationMake();
 //   let args = _.longSlice( arguments );
-//   if( args.length === 1 && !_.objectIs( args[ 0 ] ) )
+//   if( args.length === 1 && !_.object.isBasic( args[ 0 ] ) )
 //   args = [ it.src, args[ 0 ] ];
 //   let o = Self.optionsFromArguments( args );
 //   o.Looker = o.Looker || it.Looker || Self;
@@ -1058,7 +1058,7 @@ function reperform()
   _.assert
   (
     it.iterationProper( it ),
-    () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShallow( it )}`
+    () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringDiagnosticShallow( it )}`
   );
 
   let o = arguments[ 2 ] || Object.create( null );
