@@ -670,7 +670,7 @@ function visitPop()
     (
       Object.is( it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ], it.originalSrc2 ),
       () => `Top-most visit ${it.path} does not match`
-      + `${_.entity.exportStringShallow( it.originalSrc2 )} <> ${_.entity.exportStringShallow
+      + `${_.entity.exportStringDiagnosticShallow( it.originalSrc2 )} <> ${_.entity.exportStringDiagnosticShallow
       (
         it.iterator.visitedContainer2.original[ it.iterator.visitedContainer2.original.length-1 ]
       )}`
@@ -967,7 +967,7 @@ function equalCycle()
 //   _.assert
 //   (
 //     it.iterationProper( it ),
-//     () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShallow( it )}`
+//     () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringDiagnosticShallow( it )}`
 //   );
 //
 //   let it2 = it.iterationMake();
@@ -1004,7 +1004,7 @@ function reperform()
   _.assert
   (
     it.iterationProper( it ),
-    () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringShallow( it )}`
+    () => `Expects iteration of ${Self.constructor.name} but got ${_.entity.exportStringDiagnosticShallow( it )}`
   );
 
   let o = arguments[ 2 ] || Object.create( null );
