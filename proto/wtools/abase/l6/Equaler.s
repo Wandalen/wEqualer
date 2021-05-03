@@ -478,20 +478,27 @@ function performEnd()
 
 //
 
-function chooseBegin( e, k, exists )
+// function chooseBegin( e, k, exists )
+function chooseBegin()
 {
   let it = this;
+  let e = arguments[ 0 ];
+  let k = arguments[ 1 ];
+  let c = arguments[ 2 ];
+  let exists = arguments[ 3 ];
 
-  [ e, k, exists ] = Parent.chooseBegin.apply( it, arguments );
+  [ e, k, c, exists ] = Parent.chooseBegin.apply( it, arguments );
 
-  _.assert( arguments.length === 3 );
+  _.assert( arguments.length === 4 );
   _.assert( it.level >= 0 );
   _.assert( _.object.isBasic( it.down ) );
 
-  [ it.src2, k, exists ] = _.container.elementWithImplicit( it.src2, k ); /* xxx : use maybe functor */
+  _.debugger;
+  let k2, exists2;
+  [ it.src2, k2, exists2 ] = _.entity.elementWithImplicit( it.src2, k ); /* xxx : use maybe functor */
   it.originalSrc2 = it.src2;
 
-  return [ e, k, exists ];
+  return [ e, k, c, exists ];
 }
 
 //
@@ -549,6 +556,8 @@ function _iterableEval()
   it.iterable = null;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
+
+  _.debugger;
 
   if( _.mapIs( it.src ) )
   {
@@ -727,6 +736,7 @@ function stop( result )
 
   _.assert( arguments.length === 1 );
   _.assert( _.boolIs( result ) );
+  _.debugger;
 
   if( it.containing )
   {
@@ -1358,6 +1368,8 @@ function equalObjects()
 {
   let it = this;
 
+  _.debugger;
+
   _.assert
   (
     it.iterable === it.ContainerNameToIdMap.object
@@ -1503,12 +1515,12 @@ function _objectAscend( src )
   if( _.class.methodIteratorOf( src ) )
   {
 
-    let index = 0;
+    let c = 0;
     for( let e of src )
     {
-      let eit = it.iterationMake().choose( e, index, true );
+      let eit = it.iterationMake().choose( e, c, c, true );
       eit.iterate();
-      index += 1;
+      c += 1;
       if( !it.canSibling() )
       break;
     }
@@ -1584,7 +1596,7 @@ let LookerExtension =
   equalUp,
   equalDown,
   equalCycle,
-  reperform, /* xxx0 : improve */
+  reperform, /* xxx : improve */
   secondCoerce,
   equalSets,
   equalCountable,
@@ -1729,7 +1741,7 @@ let _equal = _.routine.uniteReplacing( _equal_head, _equal_body );
  * @throws {exception} If( options ) is extended by unknown property.
  * @namespace Tools
  * @module Tools/base/Equaler
-*/
+ */
 
 let entityIdentical = _.routine.uniteInheriting( _equal_head, _equal_body );
 var defaults = entityIdentical.defaults;

@@ -2370,29 +2370,29 @@ function entityIdenticalHashMap( test )
   /* */
 
   test.case = 'empty maps, sample';
-  var src1 = new Map();
-  var src2 = new Map();
+  var src1 = new HashMap();
+  var src2 = new HashMap();
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'maps are the same, simple';
-  var src1 = new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src1 = new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
   var src2 = src1;
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'maps has duplicates, simple';
-  var src1 = new Map( [ [ 'one', 1 ], [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
-  var src2 = new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src1 = new HashMap( [ [ 'one', 1 ], [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src2 = new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'maps is not identical, simple';
-  var src1 = new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
-  var src2 = new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 0 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src1 = new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src2 = new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 0 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
@@ -2400,13 +2400,13 @@ function entityIdenticalHashMap( test )
   test.case = 'two maps with identical maps';
   var src1 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'str', 'str' ], [ 'empty', '' ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
+    map1 : new HashMap( [ [ 'one', 1 ], [ 'str', 'str' ], [ 'empty', '' ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new HashMap( [ [ 'one', 1 ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
   };
   var src2 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ], [ 'one', 1 ], [ 'array', [ 2 ] ] ] )
+    map1 : new HashMap( [ [ 'one', 1 ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new HashMap( [ [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ], [ 'one', 1 ], [ 'array', [ 2 ] ] ] )
   };
   var expected = true;
   var got = _.entityIdentical( src1, src2 );
@@ -2415,13 +2415,13 @@ function entityIdenticalHashMap( test )
   test.case = 'two maps with notIdentical maps';
   var src1 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
+    map1 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
   };
   var src1 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 1 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
+    map1 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 1 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
   };
   var expected = false;
   var got = _.entityIdentical( src1, src2 );
@@ -2440,29 +2440,29 @@ function entityEquivalentHashMap( test )
   var obj = new Constructor1();
 
   test.case = 'empty maps, sample, entityEquivalent';
-  var src1 = new Map( [] );
-  var src2 = new Map( [] );
+  var src1 = new HashMap( [] );
+  var src2 = new HashMap( [] );
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'maps are the same, simple, entityEquivalent';
-  var src1 = new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src1 = new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
   var src2 = src1;
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'maps has duplicates, simple, entityEquivalent';
-  var src1 = new Map( [ [ 'one', 1 ], [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
-  var src2 = new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src1 = new HashMap( [ [ 'one', 1 ], [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src2 = new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, expected );
 
   test.case = 'maps is not identical, simple, entityEquivalent';
-  var src1 = new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
-  var src2 = new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 0 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src1 = new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
+  var src2 = new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 0 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] );
   var expected = false;
   var got = _.entityEquivalent( src1, src2 );
   test.identical( got, expected );
@@ -2470,13 +2470,13 @@ function entityEquivalentHashMap( test )
   test.case = 'two maps with identical maps, entityEquivalent';
   var src1 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map1 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
   };
   var src2 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map1 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
   };
   var expected = true;
   var got = _.entityEquivalent( src1, src2 );
@@ -2485,13 +2485,13 @@ function entityEquivalentHashMap( test )
   test.case = 'two maps with notIdentical maps, entityEquivalent';
   var src1 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
+    map1 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
   };
   var src1 =
   {
-    map1 : new Map( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
-    map2 : new Map( [ [ 'one', 1 ], [ 'array', [ 1 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
+    map1 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 2 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] ),
+    map2 : new HashMap( [ [ 'one', 1 ], [ 'array', [ 1 ] ], [ 'map', { a : 3 } ], [ 'str', 'str' ], [ 'empty', '' ], [ 'null', null ], [ 'bool', false ], [ 'undefined', undefined ], [ 'NaN', NaN ], [ 'obj', obj ] ] )
   };
   var expected = false;
   var got = _.entityEquivalent( src1, src2 );
@@ -2578,27 +2578,27 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = `object countable - non empty, non-vector, not same array`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  test.identical( _.entity.identicalShallow( src1, src2 ), true );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'vector & vectorLike';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1, length : 2 });
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1, length : 2 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });
+  var src2 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'countable & countableLike';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1 });
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1 });
+  var src2 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1 });
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = `object countable - non empty, non-vector`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  test.identical( _.entity.identicalShallow( src1, src2 ), true );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'Global & GlobalReal';
@@ -2674,8 +2674,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'BufferNode';
-  var src1 = new BufferNode( 'str' );
-  var src2 = new BufferNode( 'str' );
+  var src1 = BufferNode.from( 'str' );
+  var src2 = BufferNode.from( 'str' );
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
@@ -2891,34 +2891,34 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = `object countable - non empty, non-vector, not same array`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '4' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '4' ], countable : 1 } );
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = 'vector & vectorLike';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1, length : 2 });
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '11' ], withIterator : 1, length : 2 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });
+  var src2 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '11' ], countable : 1, length : 2 });
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = 'countable & countableLike';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1 });
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '11' ], withIterator : 1 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1 });
+  var src2 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '11' ], countable : 1 });
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = `object countable - non empty, non-vector`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '4' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '4' ], countable : 1 } );
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = 'Object & ObjectLike & Container & ContainerLike';
   var src1 = { [ Symbol.iterator ] : 1 };
   var src2 = { [ Symbol.iterator ] : 1 };
-  test.identical( _.entity.identicalShallow( src1, src2 ), false );
-  test.identical( _.equaler.identical( src1, src2 ), false );
+  test.identical( _.entity.identicalShallow( src1, src2 ), true );
+  test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'Object & ObjectLike & auxiliary & auxiliaryPrototyped & auxiliaryPolluted';
   var src1 = { a : 1 };
@@ -2953,8 +2953,10 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = 'BufferNode';
-  var src1 = new BufferNode( 'str' );
-  var src2 = new BufferNode( 'str2' );
+  // var src1 = BufferNode.from( 'str' );
+  // var src2 = BufferNode.from( 'str2' );
+  var src1 = BufferNode.from( 'str' );
+  var src2 = BufferNode.from( 'str2' );
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
@@ -3176,7 +3178,7 @@ function entityIdenticalComparison( test )
   //   if( dst === null )
   //   dst = Object.create( null );
   //   _.props.extend( dst, o );
-  //   if( o.withIterator )
+  //   if( o.countable )
   //   dst[ Symbol.iterator ] = _iterate;
   //   return dst;
   // }
@@ -3242,8 +3244,8 @@ function entityEquivalentComparison( test )
   test.case = 'regexp & objectLike & constructible & constructibleLike, same source, diff flags';
   var src1 = /hello/g;
   var src2 = /hello/i;
-  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
-  test.identical( _.equaler.equivalent( src1, src2 ), true );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'ArgumentsArray & arrayLike';
   var src1 = _.argumentsArray.make();
@@ -3276,27 +3278,27 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = `object countable - non empty, non-vector, not same array`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'vector & vectorLike';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1, length : 2 });
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1, length : 2 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });
+  var src2 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'countable & countableLike';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1 });
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1 });
+  var src2 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1 });
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = `object countable - non empty, non-vector`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'Global & GlobalReal';
@@ -3372,8 +3374,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'BufferNode';
-  var src1 = new BufferNode( 'str' );
-  var src2 = new BufferNode( 'str' );
+  var src1 = BufferNode.from( 'str' );
+  var src2 = BufferNode.from( 'str' );
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
@@ -3576,34 +3578,34 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = `object countable - non empty, non-vector, not same array`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '4' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '4' ], countable : 1 } );
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'vector & vectorLike';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1, length : 2 });
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '11' ], withIterator : 1, length : 2 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });
+  var src2 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '11' ], countable : 1, length : 2 });
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'countable & countableLike';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1 });
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '11' ], withIterator : 1 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1 });
+  var src2 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '11' ], countable : 1 });
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = `object countable - non empty, non-vector`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '3' ], withIterator : 1 } );
-  var src2 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '2', '4' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
+  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '4' ], countable : 1 } );
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'Object & ObjectLike & Container & ContainerLike';
   var src1 = { [ Symbol.iterator ] : 1 };
   var src2 = { [ Symbol.iterator ] : 1 };
-  test.identical( _.entity.equivalentShallow( src1, src2 ), false );
-  test.identical( _.equaler.equivalent( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'Object & ObjectLike & auxiliary & auxiliaryPrototyped & auxiliaryPolluted';
   var src1 = { a : 1 };
@@ -3638,8 +3640,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'BufferNode';
-  var src1 = new BufferNode( 'str' );
-  var src2 = new BufferNode( 'str2' );
+  var src1 = BufferNode.from( 'str' );
+  var src2 = BufferNode.from( 'str2' );
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
@@ -3855,7 +3857,7 @@ function entityEquivalentComparison( test )
   //   if( dst === null )
   //   dst = Object.create( null );
   //   _.props.extend( dst, o );
-  //   if( o.withIterator )
+  //   if( o.countable )
   //   dst[ Symbol.iterator ] = _iterate;
   //   return dst;
   // }
@@ -3936,9 +3938,9 @@ function entityEquivalentNotIdenticalComparison( test )
   var src1 = /hello/g;
   var src2 = /hello/i;
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
-  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
-  test.identical( _.equaler.equivalent( src1, src2 ), true );
+  test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'one string with whitespaces';
   var src1 = 'hello';
@@ -3982,7 +3984,7 @@ function entityEquivalentNotIdenticalComparison( test )
   /* qqq : for Yevhen : bad */
 
   test.case = 'vectorLike and array';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1, length : 2 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });
   var src2 = [ '1', '10' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
@@ -3990,7 +3992,7 @@ function entityEquivalentNotIdenticalComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'countable and array';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1 });
   var src2 = [ '1', '10' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
@@ -3998,15 +4000,15 @@ function entityEquivalentNotIdenticalComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'countable made and array';
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 0, elements : [ '1', '10' ], withIterator : 1 } );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '10' ], countable : 1 } );
   var src2 = [ '1', '10' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
-  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
-  test.identical( _.equaler.equivalent( src1, src2 ), true );
+  test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = `vector and array`;
-  var src1 = __.diagnostic.objectMake({ /* ttt */ new : 1, elements : [ '1', '10' ], withIterator : 1, length : 2 });
+  var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });
   var src2 = [ '1', '10' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
@@ -4067,7 +4069,7 @@ function entityEquivalentNotIdenticalComparison( test )
   //   if( dst === null )
   //   dst = Object.create( null );
   //   _.props.extend( dst, o );
-  //   if( o.withIterator )
+  //   if( o.countable )
   //   dst[ Symbol.iterator ] = _iterate;
   //   return dst;
   // }
@@ -4075,6 +4077,9 @@ function entityEquivalentNotIdenticalComparison( test )
 }
 
 //
+
+/* qqq : rewrite all tests with src \n routines( src ). ask
+*/
 
 function containsSimple( test ) /* qqq : extend the test routien by other contains* checks ( containsAll, containsAny... ), not increasing number of test cases */
 {
@@ -4273,7 +4278,7 @@ function containsSimple( test ) /* qqq : extend the test routien by other contai
   var got = _.contains( '', new F32x( 3 ) );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.contains( '', /(?:)/ );
   test.identical( got, expected );
 
@@ -4337,7 +4342,7 @@ function containsSimple( test ) /* qqq : extend the test routien by other contai
   var got = _.contains( 'abc', new F32x( 3 ) );
   test.identical( got, expected );
 
-  var expected = false;
+  var expected = true;
   var got = _.contains( 'abc', /abc/ );
   test.identical( got, expected );
 
@@ -4369,11 +4374,11 @@ function containsSimple( test ) /* qqq : extend the test routien by other contai
   var got = _.contains( /abc/i, /abc/i );
   test.identical( got, expected );
 
-  var expected = true;
+  var expected = false;
   var got = _.contains( /abc/i, /abc/ );
   test.identical( got, expected );
 
-  var expected = true;
+  var expected = false;
   var got = _.contains( /abc/i, /abc/yi );
   test.identical( got, expected );
 
@@ -4484,6 +4489,8 @@ function containsSimple( test ) /* qqq : extend the test routien by other contai
   var expected = true;
   var got = _.contains( /abc/, { ignoreCase : false, lastIndex : 0 } );
   test.identical( got, expected );
+
+  debugger; return; xxx
 
   var expected = false;
   var got = _.contains( /abc/, [ /abc/ ] );
@@ -5552,8 +5559,8 @@ function containsObjectWithEqualerAndIterator( test )
 
   test.case = 'iterating:1 equaling:0';
 
-  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withIterator : 1 });
-  var src2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withIterator : 1 });
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], countable : 1 });
+  var src2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], countable : 1 });
   test.identical( _.entityIdentical( src1, src2 ), true );
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
@@ -5586,8 +5593,8 @@ function containsObjectWithEqualerAndIterator( test )
   test.identical( _.containsNone( src1, src2 ), false );
   test.identical( _.containsNone( src2, src1 ), false );
 
-  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], withIterator : 1, withEqualer : 1 });
-  var src2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], withIterator : 1, withEqualer : 1 });
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 2 ], countable : 1, withEqualer : 1 });
+  var src2 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 1, 3 ], countable : 1, withEqualer : 1 });
   test.identical( _.entityIdentical( src1, src2 ), false );
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
@@ -5607,8 +5614,8 @@ function containsObjectWithEqualerAndIterator( test )
 
   test.case = 'iterating:0 equaling:1';
 
-  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withIterator : 1 });
-  var src2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withIterator : 1 });
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], countable : 1 });
+  var src2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], countable : 1 });
   test.identical( _.entityIdentical( src1, src2 ), false );
   test.identical( _.entityIdentical( src2, src1 ), false );
   test.identical( _.entityEquivalent( src1, src2 ), false );
@@ -5641,8 +5648,8 @@ function containsObjectWithEqualerAndIterator( test )
   test.identical( _.containsNone( src1, src2 ), true );
   test.identical( _.containsNone( src2, src1 ), true );
 
-  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], withIterator : 1, withEqualer : 1 });
-  var src2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], withIterator : 1, withEqualer : 1 });
+  var src1 = new Obj1({ elements : [ 0, 1 ], elements2 : [ 2, 3 ], countable : 1, withEqualer : 1 });
+  var src2 = new Obj1({ elements : [ 0, 2 ], elements2 : [ 2, 3 ], countable : 1, withEqualer : 1 });
   test.identical( _.entityIdentical( src1, src2 ), true );
   test.identical( _.entityIdentical( src2, src1 ), true );
   test.identical( _.entityEquivalent( src1, src2 ), true );
@@ -5703,7 +5710,7 @@ function containsObjectWithEqualerAndIterator( test )
   function Obj1( o )
   {
     _.props.extend( this, o );
-    if( o.withIterator )
+    if( o.countable )
     this[ Symbol.iterator ] = _iterate;
     if( o.withEqualer )
     this[ Symbol.for( 'equalAre' ) ] = _equalAre;
@@ -6309,10 +6316,10 @@ function compareRegexp( test )
   var src2 = /some \n regexp/;
   test.identical( _.entityIdentical( src1, src2 ), false );
   test.identical( _.entityIdentical( src2, src1 ), false );
-  test.identical( _.entityEquivalent( src1, src2 ), true );
-  test.identical( _.entityEquivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
+  test.identical( _.entityEquivalent( src1, src2 ), false );
+  test.identical( _.entityEquivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
 
   /* */
 
