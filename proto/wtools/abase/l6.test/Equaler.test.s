@@ -6470,6 +6470,81 @@ this is
 
 //
 
+function compareStringOptionStrictString( test )
+{
+
+  test.case = 'empty and non-empty';
+  var src1 = '';
+  var src2 = 'x';
+  test.true( !_.contains( src1, src2 ) );
+  test.true( !_.contains( src2, src1 ) );
+  test.true( !_.equivalent( src1, src2 ) );
+  test.true( !_.equivalent( src2, src1 ) );
+
+  test.case = '2 empty strings';
+  var src1 = '';
+  var src2 = '';
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.identical( src1, src2, { strictString : 0 } ) );
+  test.true( _.identical( src2, src1, { strictString : 0 } ) );
+
+  test.case = 'empty string and space';
+  var src1 = '';
+  var src2 = '  ';
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.identical( src1, src2, { strictString : 0 } ) );
+  test.true( _.identical( src2, src1, { strictString : 0 } ) );
+
+  test.case = 'empty string and space and nl';
+  var src1 = '';
+  var src2 = '  \n  ';
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.identical( src1, src2, { strictString : 0 } ) );
+  test.true( _.identical( src2, src1, { strictString : 0 } ) );
+
+  test.case = 'single line';
+  var src1 = ' abc ';
+  var src2 = 'abc';
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.identical( src1, src2, { strictString : 0 } ) );
+  test.true( _.identical( src2, src1, { strictString : 0 } ) );
+
+  test.case = 'not-prefixed by nl';
+  var src1 = ' abc \n\n def ';
+  var src2 = 'abc\ndef';
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.identical( src1, src2, { strictString : 0 } ) );
+  test.true( _.identical( src2, src1, { strictString : 0 } ) );
+
+  test.case = 'prefixed by nl';
+  var src1 = '\n abc \n\n def \n';
+  var src2 = 'abc\ndef';
+  test.true( _.contains( src1, src2 ) );
+  test.true( _.contains( src2, src1 ) );
+  test.true( _.equivalent( src1, src2 ) );
+  test.true( _.equivalent( src2, src1 ) );
+  test.true( _.identical( src1, src2, { strictString : 0 } ) );
+  test.true( _.identical( src2, src1, { strictString : 0 } ) );
+
+}
+
+//
+
 function compareNumber( test )
 {
 
@@ -11480,8 +11555,7 @@ const Proto =
     containsMap,
     containsObject,
     containsObjectWithIteratorAndMap,
-    // containsObjectWithIteratorAndObjectWithIterator, /* qqq : implement */
-    // containsObjectWithIteratorAndLongWithIterator, /* qqq : implement */
+    // containsCountable, /* qqq : implement */
     containsObjectWithEqualerAndIterator,
     compareObjectWithIteratorAndEqual,
 
@@ -11494,6 +11568,7 @@ const Proto =
     compareRegexp,
     compareString,
     compareString2,
+    compareStringOptionStrictString,
     compareNumber,
     compareBool,
     compareSameInstance,
