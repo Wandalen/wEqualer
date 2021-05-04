@@ -3981,7 +3981,7 @@ function entityEquivalentNotIdenticalComparison( test )
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
-  /* qqq : for Yevhen : bad */
+  /* qqq : for junior : bad */
 
   test.case = 'vectorLike and array';
   var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });
@@ -11533,7 +11533,7 @@ const Proto =
     iteratorResult,
     head,
 
-    /* qqq : for Yevhen */
+    /* qqq : for junior */
     entityIdenticalSimple,
     entityIdenticalWithCopyable,
     entityIdenticalArgumentsArray,
