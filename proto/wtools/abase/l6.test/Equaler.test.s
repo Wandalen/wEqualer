@@ -2734,8 +2734,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'propertyTransformer & filter';
-  var src1 = _.props.filter[ 'dstAndSrcOwn' ];
-  var src2 = _.props.filter[ 'dstAndSrcOwn' ];
+  var src1 = _.props.condition[ 'dstAndSrcOwn' ];
+  var src2 = _.props.condition[ 'dstAndSrcOwn' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
@@ -3035,8 +3035,8 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), false );
 
   test.case = 'propertyTransformer & filter';
-  var src1 = _.props.filter[ 'dstAndSrcOwn' ];
-  var src2 = _.props.filter[ 'dstNotHasOrSrcNotNull' ];
+  var src1 = _.props.condition[ 'dstAndSrcOwn' ];
+  var src2 = _.props.condition[ 'dstNotHasOrSrcNotNull' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
   test.identical( _.equaler.identical( src1, src2 ), false );
 
@@ -3434,8 +3434,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'propertyTransformer & filter';
-  var src1 = _.props.filter[ 'dstAndSrcOwn' ];
-  var src2 = _.props.filter[ 'dstAndSrcOwn' ];
+  var src1 = _.props.condition[ 'dstAndSrcOwn' ];
+  var src2 = _.props.condition[ 'dstAndSrcOwn' ];
   test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
@@ -3714,8 +3714,8 @@ function entityEquivalentComparison( test )
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
   test.case = 'propertyTransformer & filter';
-  var src1 = _.props.filter[ 'dstAndSrcOwn' ];
-  var src2 = _.props.filter[ 'dstNotHasOrSrcNotNull' ];
+  var src1 = _.props.condition[ 'dstAndSrcOwn' ];
+  var src2 = _.props.condition[ 'dstNotHasOrSrcNotNull' ];
   test.identical( _.entity.equivalentShallow( src1, src2 ), false );
   test.identical( _.equaler.equivalent( src1, src2 ), false );
 
