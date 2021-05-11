@@ -246,7 +246,7 @@ function entityDiffExplanation( o )
 
   function stringsPreprocessLose( str )
   {
-    return _.strLinesStrip( str );
+    return _.str.lines.strip( str );
   }
 
   /* */
@@ -428,7 +428,7 @@ function iteratorInitEnd( iterator )
 
   function stringsPreprocessLose( str )
   {
-    return _.strLinesStrip( str );
+    return _.str.lines.strip( str );
   }
 
   /* */
