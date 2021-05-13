@@ -2,12 +2,9 @@ format: outwillfile-2.0
 root:
   - wEqualer.out
 consistency:
-  ../.ex.will.yml: &ref_0
-    hash: 5a350403a4d139a420a57eaec7c3ce80
-    size: 1900
-  ../.im.will.yml: &ref_1
-    hash: ab76c5dba686e39588f0e358ef4d442e
-    size: 5075
+  ../will.yml: &ref_0
+    hash: b7af2e6be9330a09b53a2af46b05d2cd
+    size: 6747
 module:
   wEqualer.out:
     about:
@@ -20,18 +17,18 @@ module:
         avoid manually work and cherry picking.
       enabled: 1
       version: 0.6.0
-      interpreters: &ref_2
+      license: MIT
+      npm.name: wequaler
+      author: Kostiantyn Wandalen <wanalen@01.school>
+      keywords: &ref_1
+        - wTools
+      contributors: &ref_2
+        - Kostiantyn Wandalen <wanalen@01.school>
+      interpreters: &ref_3
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
-        - wTools
-      license: MIT
-      author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: &ref_4
-        - Kostiantyn Wandalen <wanalen@01.school>
-      npm.name: wequaler
-      npm.scripts: &ref_5
+      npm.scripts: &ref_4
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -46,15 +43,11 @@ module:
       module.original.willfiles:
         criterion:
           predefined: 1
-        path:
-          - ../.ex.will.yml
-          - ../.im.will.yml
+        path: ../will.yml
       module.peer.willfiles:
         criterion:
           predefined: 1
-        path:
-          - ../.ex.will.yml
-          - ../.im.will.yml
+        path: ../will.yml
       module.peer.in:
         criterion:
           predefined: 1
@@ -177,11 +170,11 @@ module:
         path: 'npm:///wTools'
         autoExporting: 0
         enabled: 0
-      wLooker:
+      wlooker:
         path: 'npm:///wlooker'
         autoExporting: 0
         enabled: 0
-      wSelector:
+      wselector:
         path: 'npm:///wselector'
         autoExporting: 0
         enabled: 0
@@ -798,8 +791,7 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      ../will.yml: *ref_0
   ../:
     about:
       name: wEqualer
@@ -811,26 +803,22 @@ module:
         avoid manually work and cherry picking.
       enabled: 1
       version: 0.6.0
-      interpreters: *ref_2
-      keywords: *ref_3
       license: MIT
-      author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: *ref_4
       npm.name: wequaler
-      npm.scripts: *ref_5
+      author: Kostiantyn Wandalen <wanalen@01.school>
+      keywords: *ref_1
+      contributors: *ref_2
+      interpreters: *ref_3
+      npm.scripts: *ref_4
     path:
       module.willfiles:
         criterion:
           predefined: 1
-        path:
-          - .ex.will.yml
-          - .im.will.yml
+        path: will.yml
       module.original.willfiles:
         criterion:
           predefined: 1
-        path:
-          - .ex.will.yml
-          - .im.will.yml
+        path: will.yml
       module.peer.willfiles:
         criterion:
           predefined: 1
@@ -936,11 +924,11 @@ module:
         path: 'npm:///wTools'
         autoExporting: 0
         enabled: 0
-      wLooker:
+      wlooker:
         path: 'npm:///wlooker'
         autoExporting: 0
         enabled: 0
-      wSelector:
+      wselector:
         path: 'npm:///wselector'
         autoExporting: 0
         enabled: 0
@@ -1493,9 +1481,6 @@ module:
           - 'build::release'
           - 'build::npm'
     consistency:
-      ../.ex.will.yml:
-        hash: 5a350403a4d139a420a57eaec7c3ce80
-        size: 1900
-      ../.im.will.yml:
-        hash: ab76c5dba686e39588f0e358ef4d442e
-        size: 5075
+      ../will.yml:
+        hash: b7af2e6be9330a09b53a2af46b05d2cd
+        size: 6747
