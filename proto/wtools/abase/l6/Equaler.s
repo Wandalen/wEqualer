@@ -478,7 +478,6 @@ function performEnd()
 
 //
 
-// function chooseBegin( e, k, exists )
 function chooseBegin()
 {
   let it = this;
@@ -489,9 +488,9 @@ function chooseBegin()
 
   [ e, k, c, exists ] = Parent.chooseBegin.apply( it, arguments );
 
-  _.assert( arguments.length === 4 );
-  _.assert( it.level >= 0 );
-  _.assert( _.object.isBasic( it.down ) );
+  // _.assert( arguments.length === 4 );
+  // _.assert( it.level >= 0 );
+  // _.assert( _.object.isBasic( it.down ) );
 
   _.debugger;
   let k2, exists2;
@@ -537,11 +536,6 @@ function iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  // yyy
-  // it._iterableEval();
-  // if( it.secondCoerce() )
-  // it._iterableEval();
-
   it.secondCoerce();
   it._iterableEval();
 
@@ -557,32 +551,32 @@ function _iterableEval()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  _.debugger;
+  /* xxx : custom */
 
   if( _.mapIs( it.src ) )
   {
-    it.type1 = it.ContainerNameToIdMap.aux;
-    it.iterable = it.ContainerNameToIdMap.aux;
+    it.type1 = it.ContainerType.aux;
+    it.iterable = it.ContainerType.aux;
   }
   else if( _.class.methodEqualOf( it.src ) && !_.aux.is( it.src ) )
   {
-    it.type1 = it.ContainerNameToIdMap.object;
-    it.iterable = it.ContainerNameToIdMap.object;
+    it.type1 = it.ContainerType.object;
+    it.iterable = it.ContainerType.object;
   }
   else if( _.hashMapLike( it.src ) )
   {
-    it.type1 = it.ContainerNameToIdMap.hashMap;
-    it.iterable = it.ContainerNameToIdMap.hashMap
+    it.type1 = it.ContainerType.hashMap;
+    it.iterable = it.ContainerType.hashMap
   }
   else if( _.setLike( it.src ) )
   {
-    it.type1 = it.ContainerNameToIdMap.set;
-    it.iterable = it.ContainerNameToIdMap.set;
+    it.type1 = it.ContainerType.set;
+    it.iterable = it.ContainerType.set;
   }
   else if( it.isCountable( it.src ) )
   {
-    it.type1 = it.ContainerNameToIdMap.countable;
-    it.iterable = it.ContainerNameToIdMap.countable;
+    it.type1 = it.ContainerType.countable;
+    it.iterable = it.ContainerType.countable;
   }
   else if( _.primitiveIs( it.src ) )
   {
@@ -591,42 +585,42 @@ function _iterableEval()
   }
   else if( _.aux.is( it.src ) )
   {
-    it.type1 = it.ContainerNameToIdMap.aux;
-    it.iterable = it.ContainerNameToIdMap.aux;
+    it.type1 = it.ContainerType.aux;
+    it.iterable = it.ContainerType.aux;
   }
   else
   {
-    it.type1 = it.ContainerNameToIdMap.object;
+    it.type1 = it.ContainerType.object;
 
     if( it.containing === 'only' )
-    it.iterable = it.ContainerNameToIdMap.aux;
+    it.iterable = it.ContainerType.aux;
 
     if( !it.iterable )
-    it.iterable = it.ContainerNameToIdMap.object;
+    it.iterable = it.ContainerType.object;
   }
 
   if( _.class.methodEqualOf( it.src2 ) && !_.aux.is( it.src2 ) )
   {
-    it.type2 = it.ContainerNameToIdMap.object;
-    it.iterable = it.ContainerNameToIdMap.object;
+    it.type2 = it.ContainerType.object;
+    it.iterable = it.ContainerType.object;
   }
   else if( _.setLike( it.src2 ) )
   {
-    it.type2 = it.ContainerNameToIdMap.set;
-    if( it.iterable === it.ContainerNameToIdMap.countable ) /* yyy */
-    it.iterable = it.ContainerNameToIdMap.set;
+    it.type2 = it.ContainerType.set;
+    if( it.iterable === it.ContainerType.countable ) /* yyy */
+    it.iterable = it.ContainerType.set;
   }
   else if( it.isCountable( it.src2 ) )
   {
-    it.type2 = it.ContainerNameToIdMap.countable;
+    it.type2 = it.ContainerType.countable;
   }
   else if( _.hashMapLike( it.src2 ) )
   {
-    it.type2 = it.ContainerNameToIdMap.hashMap;
+    it.type2 = it.ContainerType.hashMap;
   }
   else if( _.aux.is( it.src2 ) )
   {
-    it.type2 = it.ContainerNameToIdMap.aux;
+    it.type2 = it.ContainerType.aux;
   }
   else if( _.primitiveIs( it.src2 ) )
   {
@@ -634,15 +628,15 @@ function _iterableEval()
   }
   else
   {
-    it.type2 = it.ContainerNameToIdMap.object;
+    it.type2 = it.ContainerType.object;
 
-    if( it.iterable !== it.ContainerNameToIdMap.aux && it.iterable !== it.ContainerNameToIdMap.countable )
+    if( it.iterable !== it.ContainerType.aux && it.iterable !== it.ContainerType.countable )
     {
-      it.iterable = it.ContainerNameToIdMap.object;
+      it.iterable = it.ContainerType.object;
     }
     else if( !it.containing || it.containing === 'only' )
     {
-      it.iterable = it.ContainerNameToIdMap.object;
+      it.iterable = it.ContainerType.object;
     }
 
   }
@@ -745,10 +739,10 @@ function stop( result )
     {
       let any =
       [
-        it.ContainerNameToIdMap.aux,
-        ContainerNameToIdMap.hashMap,
-        ContainerNameToIdMap.set,
-        ContainerNameToIdMap.object
+        it.ContainerType.aux,
+        ContainerType.hashMap,
+        ContainerType.set,
+        ContainerType.object
       ];
       if( it.down && _.longHasAny( any, it.down.iterable ) )
       {
@@ -772,10 +766,10 @@ function stop( result )
     {
       let any =
       [
-        it.ContainerNameToIdMap.aux,
-        ContainerNameToIdMap.hashMap,
-        ContainerNameToIdMap.set,
-        ContainerNameToIdMap.object
+        it.ContainerType.aux,
+        ContainerType.hashMap,
+        ContainerType.set,
+        ContainerType.object
       ];
       if( it.down && _.longHasAny( any, it.down.iterable ) )
       {
@@ -826,7 +820,7 @@ function equalUp()
   /* if containing mode then src2 could even don't have such entry */
 
   if( it.containing )
-  if( it.down && it.down.iterable === it.ContainerNameToIdMap.aux )
+  if( it.down && it.down.iterable === it.ContainerType.aux )
   {
     if( !( it.key in it.down.src2 ) )
     {
@@ -1082,16 +1076,16 @@ function equalSets()
 
   if( it.strictTyping )
   {
-    if( it.type1 !== it.ContainerNameToIdMap.set || it.type2 !== it.ContainerNameToIdMap.set )
+    if( it.type1 !== it.ContainerType.set || it.type2 !== it.ContainerType.set )
     return it.stop( false );
   }
   else
   {
 
-    if( it.type1 !== it.ContainerNameToIdMap.set )
+    if( it.type1 !== it.ContainerType.set )
     it.src = new Set([ ... it.src ]);
 
-    if( it.type2 !== it.ContainerNameToIdMap.set )
+    if( it.type2 !== it.ContainerType.set )
     it.src2 = new Set([ ... it.src2 ]);
 
   }
@@ -1302,8 +1296,8 @@ function equalAuxiliary()
   let it = this;
   let types =
   [
-    it.ContainerNameToIdMap.aux,
-    it.ContainerNameToIdMap.object,
+    it.ContainerType.aux,
+    it.ContainerType.object,
   ];
 
   _.assert( _.longHas( types, it.iterable ) );
@@ -1327,8 +1321,8 @@ function equalAuxiliary()
 
     if( it.containing === 'all' || it.containing === 'only' )
     {
-      if( it.type1 !== it.ContainerNameToIdMap.object || _.routineIs( it.src[ equalAreSymbol ] ) || 'length' in it.src )
-      if( it.type2 !== it.ContainerNameToIdMap.object || _.routineIs( it.src2[ equalAreSymbol ] ) || 'length' in it.src2 )
+      if( it.type1 !== it.ContainerType.object || _.routineIs( it.src[ equalAreSymbol ] ) || 'length' in it.src )
+      if( it.type2 !== it.ContainerType.object || _.routineIs( it.src2[ equalAreSymbol ] ) || 'length' in it.src2 )
       if( _.entity.lengthOf( it.src ) > _.entity.lengthOf( it.src2 ) )
       return it.stop( false );
     }
@@ -1372,7 +1366,7 @@ function equalObjects()
 
   _.assert
   (
-    it.iterable === it.ContainerNameToIdMap.object
+    it.iterable === it.ContainerType.object
   );
 
   if( it.src && _.routineIs( it.src[ equalAreSymbol ] ) )
@@ -1533,42 +1527,43 @@ function _objectAscend( src )
 // relations
 // --
 
-_.assert( !!_.looker.Looker.ContainerIdToNameMap[ 4 ] );
-_.assert( !_.looker.Looker.ContainerIdToNameMap[ 5 ] );
+_.assert( !!_.looker.Looker.ContainerTypeToName[ 5 ] );
+_.assert( !_.looker.Looker.ContainerTypeToName[ 6 ] );
 
-let last = _.looker.Looker.ContainerNameToIdMap.last;
+let last = _.looker.Looker.ContainerType.last;
 let equalAreSymbol = Symbol.for( 'equalAre' );
 let equalSecondCoerceSymbol = Symbol.for( 'equalSecondCoerce' );
 
-let ContainerNameToIdMap =
+let ContainerType =
 {
-  ... _.looker.Looker.ContainerNameToIdMap,
+  ... _.looker.Looker.ContainerType,
   'object' : last+1,
   'last' : last+1,
 }
 
-_.assert( ContainerNameToIdMap.hashMap >= 0 );
+_.assert( ContainerType.hashMap >= 0 );
 
-let ContainerIdToNameMap =
-{
-  ... _.looker.Looker.ContainerIdToNameMap,
-  [ last+1 ] : 'object',
-}
+let ContainerTypeToName =
+[
+  ... _.looker.Looker.ContainerTypeToName,
+  'object',
+]
 
-let ContainerIdToAscendMap =
-{
-  ... _.looker.Looker.ContainerIdToAscendMap,
-  [ last+1 ] : _objectAscend,
-}
+let ContainerTypeToAscend =
+[
+  ... _.looker.Looker.ContainerTypeToAscend,
+  _objectAscend,
+]
 
+/* xxx : custom */
 let containerIdToEqual =
 {
-  [ ContainerNameToIdMap.terminal ] : equalTerminals,
-  [ ContainerNameToIdMap.countable ] : equalCountable,
-  [ ContainerNameToIdMap.aux ] : equalAuxiliary,
-  [ ContainerNameToIdMap.hashMap ] : equalHashes,
-  [ ContainerNameToIdMap.set ] : equalSets,
-  [ ContainerNameToIdMap.object ] : equalObjects,
+  [ ContainerType.terminal ] : equalTerminals,
+  [ ContainerType.countable ] : equalCountable,
+  [ ContainerType.aux ] : equalAuxiliary,
+  [ ContainerType.hashMap ] : equalHashes,
+  [ ContainerType.set ] : equalSets,
+  [ ContainerType.object ] : equalObjects,
 }
 
 //
@@ -1611,9 +1606,9 @@ let LookerExtension =
 
   // feilds
 
-  ContainerNameToIdMap,
-  ContainerIdToNameMap,
-  ContainerIdToAscendMap,
+  ContainerType,
+  ContainerTypeToName,
+  ContainerTypeToAscend,
   containerIdToEqual,
 
 }
