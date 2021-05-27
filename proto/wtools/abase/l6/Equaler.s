@@ -1663,7 +1663,8 @@ const Equaler = _.looker.classDefine
   iterationPreserve : IterationPreserve,
 });
 
-_.assert( !_.props.has( Equaler.Iteration, 'src2' ) && Equaler.Iteration.src2 === undefined );
+// _.assert( !_.props.has( Equaler.Iteration, 'src2' ) && Equaler.Iteration.src2 === undefined );
+_.assert( !_.props.has( Equaler.Iteration, 'src2' ) || Equaler.Iteration.src2 === undefined );
 _.assert( _.props.has( Equaler.IterationPreserve, 'src2' ) && Equaler.IterationPreserve.src2 === undefined );
 _.assert( _.props.has( Equaler, 'src2' ) && Equaler.src2 === undefined );
 
