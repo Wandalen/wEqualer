@@ -303,15 +303,15 @@ function head( routine, args )
     _.assert( it.src2 === args[ 0 ] );
     return it;
   }
-  _.assert( !!routine.defaults.Looker );
-  let o = routine.defaults.Looker.optionsFromArguments( args );
+  _.assert( !!routine.defaults.Seeker );
+  let o = routine.defaults.Seeker.optionsFromArguments( args );
 
-  o.Looker = o.Looker || routine.defaults;
+  o.Seeker = o.Seeker || routine.defaults;
 
   _.map.assertHasOnly( o, routine.defaults );
-  _.assert( routine.defaults === o.Looker );
+  _.assert( routine.defaults === o.Seeker );
   _.assert( routine.defaults.withImplicit === null );
-  let it = o.Looker.optionsToIteration( null, o );
+  let it = o.Seeker.optionsToIteration( null, o );
   return it;
 }
 
@@ -979,10 +979,10 @@ function equalCycle()
 //   if( args.length === 1 && !_.object.isBasic( args[ 0 ] ) )
 //   args = [ it.src, args[ 0 ] ];
 //   let o = Self.optionsFromArguments( args );
-//   o.Looker = o.Looker || it.Looker || Self;
+//   o.Seeker = o.Seeker || it.Seeker || Self;
 //
 //   _.assert( _.mapIs( o ) );
-//   _.map.assertHasOnly( o, { src : null, selector : null, Looker : null }, 'Implemented only for options::selector' );
+//   _.map.assertHasOnly( o, { src : null, selector : null, Seeker : null }, 'Implemented only for options::selector' );
 //   _.assert( _.strIs( o.selector ) );
 //   _.assert( _.strIs( it2.iterator.selector ) );
 //
@@ -1012,13 +1012,13 @@ function reperform()
   );
 
   let o = arguments[ 2 ] || Object.create( null );
-  o.Looker = o.Looker || it.Looker || Self;
+  o.Seeker = o.Seeker || it.Seeker || Self;
 
   o.src = arguments[ 0 ];
   o.src2 = arguments[ 1 ];
 
   _.assert( _.mapIs( o ) );
-  _.map.assertHasOnly( o, o.Looker, 'Implemented only for options::selector' );
+  _.map.assertHasOnly( o, o.Seeker, 'Implemented only for options::selector' );
 
   _.assert( it.iterator.continue === true );
 
@@ -1026,7 +1026,8 @@ function reperform()
   let iterator2 = Object.create( it.iterator );
   iterator2.iterator = iterator2;
   iterator2.iterationPrototype = Object.create( iterator2 );
-  Object.assign( iterator2.iterationPrototype, iterator2.Looker.Iteration );
+  iterator2.firstIterationPrototype = Object.create( iterator2.iterationPrototype );
+  Object.assign( iterator2.iterationPrototype, iterator2.Seeker.Iteration );
   Object.preventExtensions( iterator2.iterationPrototype );
 
   _.props.extend( iterator2, o );
@@ -1035,7 +1036,7 @@ function reperform()
   it2.src = o.src;
   it2.src2 = o.src2;
   it2.chooseRoot();
-  _.assert( it.Looker.iterationProper( it2 ) );
+  _.assert( it.Seeker.iterationProper( it2 ) );
 
   it2.iterate();
 
@@ -1656,7 +1657,7 @@ const Equaler = _.looker.classDefine
   name : 'Equaler',
   parent : _.looker.Looker,
   prime : Prime,
-  looker : LookerExtension,
+  seeker : LookerExtension,
   iterator : Iterator,
   iteration : Iteration,
   iterationPreserve : IterationPreserve,
@@ -1741,7 +1742,7 @@ let _equal = _.routine.uniteReplacing( _equal_head, _equal_body );
 let entityIdentical = _.routine.uniteInheriting( _equal_head, _equal_body );
 var defaults = entityIdentical.defaults;
 defaults.strict = 1;
-defaults.Looker = defaults;
+defaults.Seeker = defaults;
 
 //
 
@@ -1789,7 +1790,7 @@ let entityEquivalent = _.routine.uniteInheriting( _equal_head, _equal_body );
 
 var defaults = entityEquivalent.defaults;
 defaults.strict = 0;
-defaults.Looker = defaults;
+defaults.Seeker = defaults;
 
 //
 
@@ -1852,7 +1853,7 @@ defaults.strictNumbering = 0;
 defaults.strictString = 0;
 defaults.strictCycling = 1;
 defaults.strictContainer = 0; /* qqq : cover option strictContainer */
-defaults.Looker = defaults;
+defaults.Seeker = defaults;
 
 _.assert( entityContains.defaults.containing === 'all' );
 
@@ -1881,7 +1882,7 @@ _.routine.extendInheriting( entityContainsAll, entityContains );
 
 var defaults = entityContainsAll.defaults;
 defaults.containing = 'all';
-defaults.Looker = defaults;
+defaults.Seeker = defaults;
 
 //
 
@@ -1910,7 +1911,7 @@ _.routine.extendInheriting( entityContainsAny, entityContains );
 
 var defaults = entityContainsAny.defaults;
 defaults.containing = 'any';
-defaults.Looker = defaults;
+defaults.Seeker = defaults;
 
 _.assert( entityContains.defaults !== entityContainsAny.defaults );
 _.assert( entityContains.defaults.containing === 'all' );
@@ -1940,7 +1941,7 @@ _.routine.extendInheriting( entityContainsOnly, entityContains );
 
 var defaults = entityContainsOnly.defaults;
 defaults.containing = 'only';
-defaults.Looker = defaults;
+defaults.Seeker = defaults;
 
 //
 
@@ -1967,7 +1968,7 @@ _.routine.extendInheriting( entityContainsNone, entityContains );
 
 var defaults = entityContainsNone.defaults;
 defaults.containing = 'none';
-defaults.Looker = defaults;
+defaults.Seeker = defaults;
 
 //
 
