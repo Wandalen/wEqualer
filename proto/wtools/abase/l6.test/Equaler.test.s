@@ -4490,8 +4490,6 @@ function containsSimple( test ) /* qqq : extend the test routien by other contai
   var got = _.contains( /abc/, { ignoreCase : false, lastIndex : 0 } );
   test.identical( got, expected );
 
-  debugger; return; xxx
-
   var expected = false;
   var got = _.contains( /abc/, [ /abc/ ] );
   test.identical( got, expected );
