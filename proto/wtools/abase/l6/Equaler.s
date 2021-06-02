@@ -470,7 +470,7 @@ function performEnd()
   let it = this;
 
   _.assert( _.boolIs( it.result ) );
-  _.assert( it.withImplicit === '' ^ it.strictTyping );
+  _.assert( ( it.withImplicit === '' ) === ( !it.strictTyping ) );
 
   Parent.performEnd.apply( it, arguments );
   return it;
@@ -2088,8 +2088,8 @@ let ToolsExtension =
 }
 
 const Self = Equaler;
-_.props.extend( _.equaler, EqualerExtension );
-_.props.extend( _.entity, EntityExtension );
+/* _.props.extend */Object.assign( _.equaler, EqualerExtension );
+/* _.props.extend */Object.assign( _.entity, EntityExtension );
 _.props.extend( _, ToolsExtension );
 
 /* xxx
