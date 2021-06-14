@@ -2578,9 +2578,9 @@ function entityIdenticalComparison( test )
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = `object countable - non empty, non-vector, not same array`;
-  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
-  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
-  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 });
+  var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 });
+  test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'vector & vectorLike';
@@ -2598,7 +2598,7 @@ function entityIdenticalComparison( test )
   test.case = `object countable - non empty, non-vector`;
   var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
   var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
-  test.identical( _.entity.identicalShallow( src1, src2 ), false );
+  test.identical( _.entity.identicalShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), true );
 
   test.case = 'Global & GlobalReal';
@@ -3280,7 +3280,7 @@ function entityEquivalentComparison( test )
   test.case = `object countable - non empty, non-vector, not same array`;
   var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
   var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
-  test.identical( _.entity.equivalentShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'vector & vectorLike';
@@ -3298,7 +3298,7 @@ function entityEquivalentComparison( test )
   test.case = `object countable - non empty, non-vector`;
   var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
   var src2 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '2', '3' ], countable : 1 } );
-  test.identical( _.entity.equivalentShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = 'Global & GlobalReal';
@@ -4003,9 +4003,9 @@ function entityEquivalentNotIdenticalComparison( test )
   var src1 = __.diagnostic.objectMake({ new : 0, elements : [ '1', '10' ], countable : 1 } );
   var src2 = [ '1', '10' ];
   test.identical( _.entity.identicalShallow( src1, src2 ), false );
-  test.identical( _.entity.equivalentShallow( src1, src2 ), false );
+  test.identical( _.entity.equivalentShallow( src1, src2 ), true );
   test.identical( _.equaler.identical( src1, src2 ), false );
-  test.identical( _.equaler.equivalent( src1, src2 ), false );
+  test.identical( _.equaler.equivalent( src1, src2 ), true );
 
   test.case = `vector and array`;
   var src1 = __.diagnostic.objectMake({ new : 1, elements : [ '1', '10' ], countable : 1, length : 2 });

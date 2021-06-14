@@ -493,6 +493,7 @@ function chooseBegin()
   // _.assert( _.object.isBasic( it.down ) );
 
   _.debugger;
+
   let k2, exists2;
   [ it.src2, k2, exists2 ] = _.entity.elementWithImplicit( it.src2, k ); /* xxx : use maybe functor */
   it.originalSrc2 = it.src2;
@@ -550,15 +551,11 @@ function _iterableEval()
   it.iterable = null;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
+  _.debugger;
 
-  /* xxx : custom */
+  /* xxx : handle custom type */
 
-  if( _.mapIs( it.src ) )
-  {
-    it.type1 = it.ContainerType.aux;
-    it.iterable = it.ContainerType.aux;
-  }
-  else if( _.class.methodEqualOf( it.src ) && !_.aux.is( it.src ) )
+  if( _.class.methodEqualOf( it.src ) && !_.aux.is( it.src ) )
   {
     it.type1 = it.ContainerType.object;
     it.iterable = it.ContainerType.object;
@@ -604,6 +601,10 @@ function _iterableEval()
     it.type2 = it.ContainerType.object;
     it.iterable = it.ContainerType.object;
   }
+  else if( _.hashMapLike( it.src2 ) )
+  {
+    it.type2 = it.ContainerType.hashMap;
+  }
   else if( _.setLike( it.src2 ) )
   {
     it.type2 = it.ContainerType.set;
@@ -613,10 +614,6 @@ function _iterableEval()
   else if( it.isCountable( it.src2 ) )
   {
     it.type2 = it.ContainerType.countable;
-  }
-  else if( _.hashMapLike( it.src2 ) )
-  {
-    it.type2 = it.ContainerType.hashMap;
   }
   else if( _.aux.is( it.src2 ) )
   {
@@ -758,8 +755,6 @@ function stop( result )
           }
         }
         return;
-        // yyy
-        // return result;
       }
     }
     else if( it.containing === 'none' )
@@ -781,8 +776,6 @@ function stop( result )
           it.continue = false;
         }
         return;
-        // yyy
-        // return result;
       }
     }
 
@@ -793,8 +786,6 @@ function stop( result )
   it.iterator.continue = false;
   it.continue = false;
 
-  // yyy
-  // return result;
 }
 
 //
@@ -1550,9 +1541,9 @@ let ContainerTypeToName =
   'object',
 ]
 
-let ContainerTypeToAscend =
+let Ascend =
 [
-  ... _.looker.Looker.ContainerTypeToAscend,
+  ... _.looker.Looker.Ascend,
   _objectAscend,
 ]
 
@@ -1609,7 +1600,7 @@ let LookerExtension =
 
   ContainerType,
   ContainerTypeToName,
-  ContainerTypeToAscend,
+  Ascend,
   containerIdToEqual,
 
 }
@@ -1663,7 +1654,6 @@ const Equaler = _.looker.classDefine
   iterationPreserve : IterationPreserve,
 });
 
-// _.assert( !_.props.has( Equaler.Iteration, 'src2' ) && Equaler.Iteration.src2 === undefined );
 _.assert( !_.props.has( Equaler.Iteration, 'src2' ) || Equaler.Iteration.src2 === undefined );
 _.assert( _.props.has( Equaler.IterationPreserve, 'src2' ) && Equaler.IterationPreserve.src2 === undefined );
 _.assert( _.props.has( Equaler, 'src2' ) && Equaler.src2 === undefined );
@@ -1701,7 +1691,6 @@ function _equal_body( it )
 {
   it = _.equaler._equalIt.body( it );
   return it.result;
-  // return it.result === _.dont ? false : it.result; /* yyy : remove */
 }
 
 _equal_body.defaults = Equaler;
