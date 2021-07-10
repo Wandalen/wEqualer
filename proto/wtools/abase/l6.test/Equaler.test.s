@@ -1137,7 +1137,9 @@ function entityIdenticalSimple( test )
   test.case = 'Date - Date';
 
   var expected = true;
-  var got = _.entityIdentical( new Date(), new Date() );
+  var src1 = new Date();
+  var src2 = new Date( src1 );
+  var got = _.entityIdentical( src1, src2 );
   test.identical( got, expected );
 
   var expected = false;
@@ -4582,7 +4584,9 @@ function containsSimple( test ) /* qqq : extend the test routien by other contai
   test.case = 'Date - Date';
 
   var expected = true;
-  var got = _.contains( new Date(), new Date() );
+  var src1 = new Date();
+  var src2 = new Date( src1 );
+  var got = _.contains( src1, src2 );
   test.identical( got, expected );
 
   var expected = false;
