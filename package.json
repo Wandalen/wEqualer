@@ -1,6 +1,6 @@
 {
   "name": "wequaler",
-  "version": "0.5.292",
+  "version": "0.5.293",
   "description": "Collection of cross-platform routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
   "license": "MIT",
@@ -23,12 +23,12 @@
     "url": "https://github.com/Wandalen/wEqualer/issues"
   },
   "dependencies": {
-    "wTools": "stable",
-    "wselector": "stable",
-    "wlooker": "stable"
+    "wTools": "latest",
+    "wselector": "latest",
+    "wlooker": "latest"
   },
   "devDependencies": {
-    "wTesting": "stable",
+    "wTesting": "latest",
     "eslint": "7.1.0"
   },
   "keywords": [
