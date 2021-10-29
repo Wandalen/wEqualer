@@ -3,8 +3,8 @@ root:
   - wEqualer.out
 consistency:
   ../will.yml: &ref_0
-    hash: b7af2e6be9330a09b53a2af46b05d2cd
-    size: 6747
+    hash: 51a13f18cf73903ec558e3ffc2dbd540
+    size: 6606
 module:
   wEqualer.out:
     about:
@@ -377,9 +377,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -715,12 +712,6 @@ module:
           - 'step::doc.export'
         criterion:
           content: doc
-          export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
           export: 1
       export:
         steps:
@@ -1080,9 +1071,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -1419,12 +1407,6 @@ module:
         criterion:
           content: doc
           export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
-          export: 1
       export:
         steps:
           - 'build::proto.export'
@@ -1482,5 +1464,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: b7af2e6be9330a09b53a2af46b05d2cd
-        size: 6747
+        hash: 51a13f18cf73903ec558e3ffc2dbd540
+        size: 6606
