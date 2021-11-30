@@ -19,11 +19,11 @@ module:
       version: 0.6.0
       license: MIT
       npm.name: wequaler
-      author: Kostiantyn Wandalen <wanalen@01.school>
+      author: Kostiantyn Wandalen <wandalen@obox.systems>
       keywords: &ref_1
         - wTools
       contributors: &ref_2
-        - Kostiantyn Wandalen <wanalen@01.school>
+        - Kostiantyn Wandalen <wandalen@obox.systems>
       interpreters: &ref_3
         - njs >= 10.0.0
         - chrome >= 60.0.0
@@ -796,7 +796,7 @@ module:
       version: 0.6.0
       license: MIT
       npm.name: wequaler
-      author: Kostiantyn Wandalen <wanalen@01.school>
+      author: Kostiantyn Wandalen <wandalen@obox.systems>
       keywords: *ref_1
       contributors: *ref_2
       interpreters: *ref_3
