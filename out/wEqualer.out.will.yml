@@ -3,8 +3,8 @@ root:
   - wEqualer.out
 consistency:
   ../will.yml: &ref_0
-    hash: 51a13f18cf73903ec558e3ffc2dbd540
-    size: 6606
+    hash: 9867ad902f50b87579469f45df56ae89
+    size: 6614
 module:
   wEqualer.out:
     about:
@@ -1464,5 +1464,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 51a13f18cf73903ec558e3ffc2dbd540
-        size: 6606
+        hash: 9867ad902f50b87579469f45df56ae89
+        size: 6614
